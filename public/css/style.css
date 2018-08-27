@@ -1,0 +1,16 @@
+.list-group-item:hover{
+	background-color: #f7f7f7 !important;
+}
+h6, .seleccionador{
+	cursor: pointer;
+}
+
+.coti {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  
+}
+.coti-item {
+    flex: 0 0 auto !important;
+}
