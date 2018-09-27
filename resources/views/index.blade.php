@@ -106,6 +106,7 @@
         $("#marcasul").on('click','.seleccionador',function(e){
             $(".marca").removeClass("active");
             cambiarL("#v-pills-Marca-tab", "#v-pills-Modelo-tab", e);
+            $()
         });
         $('#descripcion').on('click','.seleccionador', function(e){
             console.log(e.target.id);
@@ -249,6 +250,9 @@
                         $(from).text("Marca: "+$("#"+e.target.id).text());
                         $('li.datos-modal#datosm_3').text("Marca: "+$("#"+e.target.id).text());
                         marca = $("#"+e.target.id).text();
+                        // Desactivo el tab de descripción hasta que de nuevo diga el modelo que quiere seleccionar
+                        $('#v-pills-Descripcion-tab').addClass("disabled");
+                        $('#v-pills-Descripcion-tab').text("Descripcion: ");
                         console.log(marca);
                         break;
 
@@ -333,6 +337,8 @@
         // Api getDescripcion
         function getDescripcion(marca,modelo) {
             // body...
+            $('#descripcion').empty();
+            $('#descripcion').append('<div class="loader"></div>')
             $.ajax({
                 url: `{{ url('/modelos') }}/${marca}/${modelo}`,
                 type: 'GET',
@@ -342,7 +348,17 @@
                         // console.log(res.descripcion[i]);
                         $('#descripcion').append(`<li id="5_${res.descripcion[i]['CAMIS']}" class="list-group-item text-center descripcion seleccionador" >Submarca: ${res.descripcion[i]['cTipo']} | version: ${res.descripcion[i]['cVersion']} </li>`)
                     }                
+                },
+                error:function(err){
+                    console.log(err.responseJSON);
+                    $('#descripcion').empty();
+                    $('#descripcion').append(
+                        `<div class="alert alert-danger" role="alert">
+                            ${err.responseJSON.message}
+                        </div>`
+                    );
                 }
+
             })
         }
 
