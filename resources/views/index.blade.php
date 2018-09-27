@@ -32,12 +32,31 @@
     <script>
 
         //DAUTO
-        var uso, tipo, marca, modelo;
+        var uso, tipo, marca, modelo,descripcion;
         //PERSONA
         var cp, nombre, ap, am, celular, correo, sexo, nacimiento;
 
+        function sendCotizacion(){
+            console.log(uso);
+            console.log(tipo);
+            console.log(marca);
+            console.log(modelo);
+            console.log(descripcion);
+            console.log(cp);
+            console.log(nombre);
+            console.log(ap);
+            console.log(am);
+            console.log(celular);
+            console.log(correo);
+            console.log(sexo);
+            console.log(nacimiento);
+            // $.ajax()
+
+        }
+
         function cambiarEdad(a){
             $('li.datos-modal#datosm_8').text("Nacimiento: "+$("#valorEdad").val());
+            nacimiento = $("#valorEdad").val();
         }
 
         /*$('#8_2').click(function(e){
@@ -87,12 +106,14 @@
         $("#marcasul").on('click','.seleccionador',function(e){
             $(".marca").removeClass("active");
             cambiarL("#v-pills-Marca-tab", "#v-pills-Modelo-tab", e);
-            console.log(e)
+        });
+        $('#descripcion').on('click','.seleccionador', function(e){
+            console.log(e.target.id);
+            $(".descripcion").removeClass('active');
+            cambiarL("#v-pills-Descripcion-tab", "#v-pills-CP-tab", e);
         });
         $(".seleccionador").click(function(e) {
-            console.log("click");
             var temp = e.target.id.slice(0,1);
-            console.log(e.target);
             switch(temp){
                 case "1":
                     $(this).siblings().removeClass("active");
@@ -101,20 +122,22 @@
                 case "2":
                     $(this).siblings().removeClass("active");
                     cambiarL("#v-pills-Tipo-tab", "#v-pills-Marca-tab",e);
-                    getMarcas()
+                    getMarcas();
                     break;
-                case "3":
-                   $(".marca").removeClass("active");
-                    cambiarL("#v-pills-Marca-tab", "#v-pills-Modelo-tab", e);
-                    console.log(e)
-                    //$("#"+e.target.id+".carta-marca").addClass("border border-primary");
-                    break;
+                // case "3":
+                //    $(".marca").removeClass("active");
+                //     cambiarL("#v-pills-Marca-tab", "#v-pills-Modelo-tab", e);
+                //     console.log(e);
+                //     //$("#"+e.target.id+".carta-marca").addClass("border border-primary");
+                //     break;
                 case "4":
+                    $(".modelo").removeClass('active');
                     cambiarL("#v-pills-Modelo-tab", "#v-pills-Descripcion-tab", e);
+                    // console.log(e);
                     break;
-                case "5":
-                    cambiarL("#v-pills-Descripcion-tab", "#v-pills-CP-tab", e);
-                    break;
+                // case "5":
+                //     cambiarL("#v-pills-Descripcion-tab", "#v-pills-CP-tab", e);
+                //     break;
                 case "6":
                     cambiarL("#v-pills-CP-tab", "#v-pills-Nombre-tab", e);
                     break;
@@ -208,7 +231,7 @@
         }
 
         function cambiarL(from, to, e){
-            if(from != "#v-pills-Descripcion-tab"){
+            // if(from != "#v-pills-Descripcion-tab"){
                 switch(from){
                     case '#v-pills-Uso-tab':
                         $(from).text("Uso: "+$("#"+e.target.id).text());
@@ -230,9 +253,20 @@
                         break;
 
                     case '#v-pills-Modelo-tab':
-                        console.log($(from).text("Modelo: "+$("#marcasul#"+e.target.id).text()));
+                        $(from).text("Modelo: "+$("#"+e.target.id).text());
                         $('li.datos-modal#datosm_4').text("Modelo: "+$("#"+e.target.id).text());
                         modelo = $("#"+e.target.id).text();
+                        // console.log(modelo);
+                        getDescripcion(marca,modelo);
+                        break;
+
+                    case '#v-pills-Descripcion-tab':
+                        console.log(e);
+                        $(from).text("Descripcion: "+$("#"+e.target.id).text());
+                        $('li.datos-modal#datosm_5').text("Descripcion: "+$("#"+e.target.id).text());
+                        descripcion = e.target.id.slice(2,e.target.id.length);
+                        // console.log(descripcion);
+                        // console.log(modelo);
                         break;
 
                     case '#v-pills-CP-tab':
@@ -254,7 +288,7 @@
                         var edad=Math.floor((hoy-fecha_nac) / (365.25 * 24 * 60 * 60 * 1000));
                         $(from).text("Edad: "+edad+' años');
                         $('li.datos-modal#datosm_8').text("Edad: "+edad+' años');
-                          nacimiento = $("#valorEdad").val();
+                          nacimiento = fecha_nac;
                         break;
                     case '#v-pills-Nombre-tab':
                         $(from).text("Nombre: "+$("#valorNombre").val());
@@ -274,7 +308,7 @@
                         correo = $("#valorCorreo").val();
                         break;
                 }
-            }
+            // }
             $(to).removeClass("disabled");
             $(to).click();
             $("#"+e.target.id).addClass("active");
@@ -295,5 +329,22 @@
                 }
             });
         }
+
+        // Api getDescripcion
+        function getDescripcion(marca,modelo) {
+            // body...
+            $.ajax({
+                url: `{{ url('/modelos') }}/${marca}/${modelo}`,
+                type: 'GET',
+                success: function(res){
+                    $('#descripcion').empty();
+                    for (var i = res.descripcion.length - 1; i >= 0; i--) {
+                        // console.log(res.descripcion[i]);
+                        $('#descripcion').append(`<li id="5_${res.descripcion[i]['CAMIS']}" class="list-group-item text-center descripcion seleccionador" >Submarca: ${res.descripcion[i]['cTipo']} | version: ${res.descripcion[i]['cVersion']} </li>`)
+                    }                
+                }
+            })
+        }
+
     </script>
 @endsection

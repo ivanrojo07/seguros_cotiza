@@ -75,6 +75,7 @@
                         <div class="card-body">
                             {{-- <div class="row"> --}}
                                 <ul class="list-group list-group-flush" id="marcasul" style="overflow:auto;resize: false; height:380px;">
+                                    <div class="loader"></div>
                                 </ul>
                             {{-- </div> --}}
                         </div>
@@ -88,84 +89,11 @@
                             Modelo
                         </div>
                         <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li id="4_1" class="list-group-item seleccionador">
-                                    <h6 id="4_1" class="card-subtitle mt-2 text-muted text-center">2019</h6>
-                                </li>
-                                <li id="4_2" class="list-group-item seleccionador">
-                                    <h6 id="4_2" class="card-subtitle mt-2 text-muted text-center">2018</h6>
-                                </li>
-                                <li id="4_3" class="list-group-item seleccionador">
-                                    <h6 id="4_3" class="card-subtitle mt-2 text-muted text-center">2017</h6>
-                                </li>
-                                <li id="4_4" class="list-group-item seleccionador">
-                                    <h6 id="4_4" class="card-subtitle mt-2 text-muted text-center">2016</h6>
-                                </li>
-                                <li id="4_5" class="list-group-item seleccionador">
-                                    <h6 id="4_5" class="card-subtitle mt-2 text-muted text-center">2015</h6>
-                                </li>
-                                <li id="4_6" class="list-group-item seleccionador">
-                                    <h6 id="4_6" class="card-subtitle mt-2 text-muted text-center">2014</h6>
-                                </li>
-                                <li id="4_7" class="list-group-item seleccionador">
-                                    <h6 id="4_7" class="card-subtitle mt-2 text-muted text-center">2013</h6>
-                                </li>
-                                <li id="4_8" class="list-group-item seleccionador">
-                                    <h6 id="4_8" class="card-subtitle mt-2 text-muted text-center">2012</h6>
-                                </li>
-                                <li id="4_9" class="list-group-item seleccionador">
-                                    <h6 id="4_9" class="card-subtitle mt-2 text-muted text-center">2011</h6>
-                                </li>
-                                <li id="4_10" class="list-group-item seleccionador">
-                                    <h6 id="4_10"class="card-subtitle mt-2 text-muted text-center">2010</h6>
-                                </li>
-                                <li id="4_11" class="list-group-item seleccionador">
-                                    <h6 id="4_11"class="card-subtitle mt-2 text-muted text-center">2009</h6>
-                                </li>
-                                <li id="4_12" class="list-group-item seleccionador">
-                                    <h6 id="4_12"class="card-subtitle mt-2 text-muted text-center">2008</h6>
-                                </li>
-                                <li id="4_13" class="list-group-item seleccionador">
-                                    <h6 id="4_13"class="card-subtitle mt-2 text-muted text-center">2007</h6>
-                                </li>
-                                <li id="4_14" class="list-group-item seleccionador">
-                                    <h6 id="4_14"class="card-subtitle mt-2 text-muted text-center">2006</h6>
-                                </li>
-                                <li id="4_15" class="list-group-item seleccionador">
-                                    <h6 id="4_15"class="card-subtitle mt-2 text-muted text-center">2005</h6>
-                                </li>
-                                <li id="4_16" class="list-group-item seleccionador">
-                                    <h6 id="4_16"class="card-subtitle mt-2 text-muted text-center">2004</h6>
-                                </li>
-                                <li id="4_17" class="list-group-item seleccionador">
-                                    <h6 id="4_17"class="card-subtitle mt-2 text-muted text-center">2003</h6>
-                                </li>
-                                <li id="4_18" class="list-group-item seleccionador">
-                                    <h6 id="4_18"class="card-subtitle mt-2 text-muted text-center">2002</h6>
-                                </li>
-                                <li id="4_19" class="list-group-item seleccionador">
-                                    <h6 id="4_19"class="card-subtitle mt-2 text-muted text-center">2001</h6>
-                                </li>
-                                <li id="4_20" class="list-group-item seleccionador">
-                                    <h6 id="4_20"class="card-subtitle mt-2 text-muted text-center">2000</h6>
-                                </li>
-                                <li id="4_21" class="list-group-item seleccionador">
-                                    <h6 id="4_21"class="card-subtitle mt-2 text-muted text-center">1999</h6>
-                                </li>
-                                <li id="4_22" class="list-group-item seleccionador">
-                                    <h6 id="4_22"class="card-subtitle mt-2 text-muted text-center">1998</h6>
-                                </li>
-                                <li id="4_23" class="list-group-item seleccionador">
-                                    <h6 id="4_23"class="card-subtitle mt-2 text-muted text-center">1997</h6>
-                                </li>
-                                <li id="4_24" class="list-group-item seleccionador">
-                                    <h6 id="4_24"class="card-subtitle mt-2 text-muted text-center">1996</h6>
-                                </li>
+                            <ul class="list-group list-group-flush" style="overflow:auto;resize: false; height:380px;">
+                                @for ($i = date('Y')+1; $i >= 1990; $i--)
+                                <li id="4_{{$i-1990}}" class="list-group-item text-center modelo seleccionador">{{$i}}</li>
+                                @endfor
                             </ul>
-                                    
-
-
-                        
                         </div>
                     </div>  
                 </div>
@@ -178,15 +106,12 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                            	<select class="form-control" id="_id_descripcion" rows="3" multiple>
-                            		<option value="Modelo_1">Modelo 1</option>
-                            		<option value="Modelo_2">Modelo 2</option>
-                            		<option value="Modelo_3">Modelo 3</option>
-                            		<option value="Modelo_4">Modelo 4</option>
-                            	</select>
+                            	<ul class="list-group list-group-flush" id="descripcion" style="overflow:auto;resize: false; height:380px;">
+                                    <div class="loader"></div>
+                            	</ul>
                                 {{-- <textarea class="form-control" id="_id_descripcion" rows="3"></textarea> --}}
                             </div>
-                            <button type="button" id="5_1" class="btn btn-primary seleccionador">Siguiente</button>
+                            {{-- <button type="button" id="5_1" class="btn btn-primary seleccionador">Siguiente</button> --}}
                         </div>
                     </div>  
                 </div>
@@ -287,11 +212,11 @@
                             <div class="row">
                                 <div class="col-12 d-none d-sm-block">
                                     <!--Botón escritorio-->
-                                    <button type="button" id="8_1" class="btn btn-primary seleccionador">Siguiente</button>
+                                    <button type="button" id="8_1" onclick="sendCotizacion()" class="btn btn-primary seleccionador">Siguiente</button>
                                 </div>
                                 <div class="col-12 d-block d-sm-none">
                                     <!--Botón celular -->
-                                    <button id="modalizador" type="button" class="btn btn-primary seleccionador">Siguiente</button>
+                                    <button id="modalizador" type="button" id="8_1" onclick="sendCotizacion()" class="btn btn-primary seleccionador">Siguiente</button>
                                 </div>
                             </div>
 
@@ -304,7 +229,8 @@
                                         <li class="list-group-item datos-modal" id="datosm_1">Uso:</li>
                                         <li class="list-group-item datos-modal" id="datosm_2">Tipo:</li>
                                         <li class="list-group-item datos-modal" id="datosm_3">Marca:</li>
-                                        <li class="list-group-item datos-modal" id="datosm_4">Modelo</li>
+                                        <li class="list-group-item datos-modal" id="datosm_4">Modelo:</li>
+                                        <li class="list-group-item datos-modal" id="datosm_5">Descripción:</li>
                                         <li class="list-group-item datos-modal" id="datosm_6">C.P:</li>
                                         <li class="list-group-item datos-modal" id="datosm_e">Nombre:</li>
                                         <li class="list-group-item datos-modal" id="datosm_f">Celular:</li>

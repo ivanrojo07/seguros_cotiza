@@ -18,3 +18,4 @@ Route::get('/', function () {
 
 Route::get('/marcas',"WebServiceController@getMarcas");
 Route::get('/modelos/{marca}/{modelo}',"WebServiceController@getModelos");
+Route::get('/tarifas','WebServiceController@getTarifas');
