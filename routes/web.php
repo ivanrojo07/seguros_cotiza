@@ -16,6 +16,4 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/marcas',"WebServiceController@getMarcas");
-Route::get('/modelos/{marca}/{modelo}',"WebServiceController@getModelos");
-Route::get('/tarifas','WebServiceController@getTarifas');
+

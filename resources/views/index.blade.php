@@ -109,7 +109,7 @@
             $()
         });
         $('#descripcion').on('click','.seleccionador', function(e){
-            console.log(e.target.id);
+            // console.log(e.target.id);
             $(".descripcion").removeClass('active');
             cambiarL("#v-pills-Descripcion-tab", "#v-pills-CP-tab", e);
         });
@@ -246,14 +246,14 @@
                         break;
 
                     case '#v-pills-Marca-tab':
-                        console.log(from);
+                        // console.log(from);
                         $(from).text("Marca: "+$("#"+e.target.id).text());
                         $('li.datos-modal#datosm_3').text("Marca: "+$("#"+e.target.id).text());
                         marca = $("#"+e.target.id).text();
                         // Desactivo el tab de descripción hasta que de nuevo diga el modelo que quiere seleccionar
                         $('#v-pills-Descripcion-tab').addClass("disabled");
                         $('#v-pills-Descripcion-tab').text("Descripcion: ");
-                        console.log(marca);
+                        // console.log(marca);
                         break;
 
                     case '#v-pills-Modelo-tab':
@@ -265,7 +265,7 @@
                         break;
 
                     case '#v-pills-Descripcion-tab':
-                        console.log(e);
+                        // console.log(e);
                         $(from).text("Descripcion: "+$("#"+e.target.id).text());
                         $('li.datos-modal#datosm_5').text("Descripcion: "+$("#"+e.target.id).text());
                         descripcion = e.target.id.slice(2,e.target.id.length);
@@ -321,7 +321,7 @@
         // Api getMarcas
         function getMarcas(){
             $.ajax({
-                url: "{{ url('/marcas') }}",
+                url: "{{ url('/api/marcas') }}",
                 type:"GET",
                 success: function(res){
                     // console.log(res);
@@ -340,7 +340,7 @@
             $('#descripcion').empty();
             $('#descripcion').append('<div class="loader"></div>')
             $.ajax({
-                url: `{{ url('/modelos') }}/${marca}/${modelo}`,
+                url: `{{ url('/api/modelos') }}/${marca}/${modelo}`,
                 type: 'GET',
                 success: function(res){
                     $('#descripcion').empty();
@@ -350,7 +350,7 @@
                     }                
                 },
                 error:function(err){
-                    console.log(err.responseJSON);
+                    // console.log(err.responseJSON);
                     $('#descripcion').empty();
                     $('#descripcion').append(
                         `<div class="alert alert-danger" role="alert">
