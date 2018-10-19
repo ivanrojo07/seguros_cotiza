@@ -19,6 +19,7 @@
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
+                <cotizacion v-bind:cliente="cliente"></cotizacion>
                 @include('pasos.paso1')
                 @include('pasos.paso2')
                 @include('pasos.paso3')

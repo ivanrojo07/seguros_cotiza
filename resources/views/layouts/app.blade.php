@@ -12,8 +12,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
         <!--BOOTSTRAP.CSS-->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <!--BOOTSTRAP.JS-->
-        <script src="{{ asset('js/app.js') }}"></script>
+        
         <!--FONT-AWESOME.CSS-->
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <!--STYLE-->
@@ -88,7 +87,7 @@
         </div>
 
         <!--CONTENIDO-->
-        <div class="contenido p-0 m-0"> 
+        <div id="app" class="contenido p-0 m-0"> 
             @yield('content')
         </div>
 
@@ -100,9 +99,9 @@
             </div>
             <div class="col-12 col-sm-4">
                 <p class="font-weight-bold text-center">
-                <i class="fa fa-clock-o" style="font-size:36px"></i>
-                Horario de Atención:
-            </p>
+                    <i class="fa fa-clock-o" style="font-size:36px"></i>
+                    Horario de Atención:
+                </p>
                 <p class="text-center">Lun–Vie: 10am–6pm</p>
             </div>
             <div class="col-12 col-sm-4">
@@ -119,5 +118,7 @@
         </div>
 
     </body>
+    <!--BOOTSTRAP.JS-->
+        <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
 </html>

@@ -15,8 +15,27 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('cotizacion', require('./components/CotizacionComponent.vue'));
+const app = new Vue({
+    el: '#app',
+    data:{
+    	cliente: {
+    		"cotizacion":null,
+    		'uso_auto':'',
+    		'marca_auto':"",
+	    	'modelo_auto':"",
+	    	'descripcion_auto':"",
+	    	'clave_amis':"",
+	    	'cp':"",
+	    	'nombre':"",
+	    	'appaterno':"",
+	    	'apmaterno':"",
+	    	'telefono':"",
+	    	'email':"",
+	    	'sexo':"",
+	    	'f_nac':""
+    	},
 
-// const app = new Vue({
-//     el: '#app'
-// });
+    },
+});
