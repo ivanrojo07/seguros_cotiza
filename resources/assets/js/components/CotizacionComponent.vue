@@ -4,16 +4,16 @@
     		<div class="row m-0 p-1 no-gutters">
     			<div class="col-sm-6 d-none d-sm-block p-2">
     				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		              <a class="nav-link active" id="v-pills-Uso-tab" data-toggle="pill" href="#v-pills-Uso" role="tab" aria-controls="v-pills-Uso" aria-selected="true">Uso: {{cliente.uso_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-Modelo-tab" data-toggle="pill" href="#v-pills-Modelo" role="tab" aria-controls="v-pills-Modelo" aria-selected="false">Modelo: {{cliente.modelo_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion" role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:{{cliente.descripcion_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-CP-tab" data-toggle="pill" href="#v-pills-CP" role="tab" aria-controls="v-pills-CP" aria-selected="false">CP: {{cliente.cp}}</a>
-		              <a class="nav-link disabled" id="v-pills-Nombre-tab" data-toggle="pill" href="#v-pills-Nombre" role="tab" aria-controls="v-pills-Nombre" aria-selected="false">Nombre: {{cliente.nombre}} {{cliente.appaterno}} {{cliente.apmaterno}}</a>
-		              <a class="nav-link disabled" id="v-pills-Celular-tab" data-toggle="pill" href="#v-pills-Celular" role="tab" aria-controls="v-pills-Celular" aria-selected="false">Celular: {{cliente.telefono}}</a>
-		              <a class="nav-link disabled" id="v-pills-Correo-tab" data-toggle="pill" href="#v-pills-Correo" role="tab" aria-controls="v-pills-Correo" aria-selected="false">Correo: {{cliente.email}}</a>
-		              <a class="nav-link disabled" id="v-pills-Sexo-tab" data-toggle="pill" href="#v-pills-Sexo" role="tab" aria-controls="v-pills-Sexo" aria-selected="false">Sexo: {{cliente.sexo}}</a>
-		              <a class="nav-link disabled" id="v-pills-Edad-tab" data-toggle="pill" href="#v-pills-Edad" role="tab" aria-controls="v-pills-Edad" aria-selected="false">Nacimiento: {{cliente.f_nac}}</a>
+		              <a class="nav-link active" id="v-pills-Uso-tab" @click="showPill('v-pills-Uso')"  data-toggle="pill" href="#v-pills-Uso" role="tab" aria-controls="v-pills-Uso" aria-selected="true">Uso: {{cliente.uso_auto}}</a>
+		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" @click="showPill('v-pills-Marca')" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto}}</a>
+		              <a class="nav-link disabled" id="v-pills-Modelo-tab" data-toggle="pill" @click="showPill('v-pills-Modelo')"  href="#v-pills-Modelo" role="tab" aria-controls="v-pills-Modelo" aria-selected="false">Modelo: {{cliente.modelo_auto}}</a>
+		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion" @click="showPill('v-pills-Descripcion')"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:{{cliente.descripcion_auto}}</a>
+		              <a class="nav-link disabled" id="v-pills-CP-tab" data-toggle="pill" @click="showPill('v-pills-CP')"  href="#v-pills-CP" role="tab" aria-controls="v-pills-CP" aria-selected="false">CP: {{cliente.cp}}</a>
+		              <a class="nav-link disabled" id="v-pills-Nombre-tab" data-toggle="pill" href="#v-pills-Nombre" @click="showPill('v-pills-Nombre')"  role="tab" aria-controls="v-pills-Nombre" aria-selected="false">Nombre: {{cliente.nombre}} {{cliente.appaterno}} {{cliente.apmaterno}}</a>
+		              <a class="nav-link disabled" id="v-pills-Celular-tab" data-toggle="pill" @click="showPill('v-pills-Celular')"  href="#v-pills-Celular" role="tab" aria-controls="v-pills-Celular" aria-selected="false">Celular: {{cliente.telefono}}</a>
+		              <a class="nav-link disabled" id="v-pills-Correo-tab" data-toggle="pill" href="#v-pills-Correo" @click="showPill('v-pills-Correo')"  role="tab" aria-controls="v-pills-Correo" aria-selected="false">Correo: {{cliente.email}}</a>
+		              <a class="nav-link disabled" id="v-pills-Sexo-tab" data-toggle="pill" @click="showPill('v-pills-Sexo')"  href="#v-pills-Sexo" role="tab" aria-controls="v-pills-Sexo" aria-selected="false">Sexo: {{cliente.sexo}}</a>
+		              <a class="nav-link disabled" id="v-pills-Nacimiento-tab" data-toggle="pill" @click="showPill('v-pills-Nacimiento')"  href="#v-pills-Nacimiento" role="tab" aria-controls="v-pills-Nacimiento" aria-selected="false">Nacimiento: {{cliente.f_nac}}</a>
 		            </div>
     			</div>
     			<div class="col col-sm-6 p-2 my-auto">
@@ -43,24 +43,106 @@
     								</div>
     							</div>
     						</div>
-    						 <!--MARCA-->
-			                <div class="tab-pane fade" id="v-pills-Marca" role="tabpanel" aria-labelledby="v-pills-Marca-tab">
-			                    <div class="card p-0">
-			                        <div class="card-header">
-			                            Marca
-			                        </div>
-			                        <div class="card-body">
-			                            {{-- <div class="row"> --}}
-			                                <ul class="list-group list-group-flush" id="marcasul" style="overflow:auto;resize: false; height:380px;">
-			                                    <div class="loader"></div>
-			                                </ul>
-			                            {{-- </div> --}}
-			                        </div>
-			                    </div>
-			                </div>
-
     					</div>
-    					
+						 <!--MARCA-->
+		                <div class="tab-pane fade" v-show="marca" id="v-pills-Marca" role="tabpanel" aria-albelledby="v-pills-Marca-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Marca
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+		                 <!--MODELO-->
+		                <div class="tab-pane fade" v-show="modelo" id="v-pills-Modelo" role="tabpanel" aria-albelledby="v-pills-Modelo-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Modelo
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+		                  <!--Descripcion-->
+		                <div class="tab-pane fade" v-show="descripcion" id="v-pills-Descripcion" role="tabpanel" aria-albelledby="v-pills-Descripcion-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Descripcion
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+		                <!--CP-->
+		                <div class="tab-pane fade" v-show="cp" id="v-pills-CP" role="tabpanel" aria-albelledby="v-pills-CP-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            CP
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+		                <!--Nombre-->
+		                <div class="tab-pane fade" v-show="nombre" id="v-pills-Nombre" role="tabpanel" aria-albelledby="v-pills-Nombre-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Nombre
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+		                <!--Celular-->
+		                <div class="tab-pane fade" v-show="celular" id="v-pills-Celular" role="tabpanel" aria-albelledby="v-pills-Celular-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Celular
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+		                <!--Correo-->
+		                <div class="tab-pane fade" v-show="correo" id="v-pills-Correo" role="tabpanel" aria-albelledby="v-pills-Correo-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Correo
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+		                <!--Sexo-->
+		                <div class="tab-pane fade" v-show="sexo" id="v-pills-Sexo" role="tabpanel" aria-albelledby="v-pills-Sexo-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Sexo
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
+						<!--Nacimiento-->
+		                <div class="tab-pane fade" v-show="nac" id="v-pills-Nacimiento" role="tabpanel" aria-albelledby="v-pills-Nacimiento-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Nacimiento
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                        </div>
+		                    </div>
+		                </div>
     				</div>
     			</div>
     		</div>
@@ -80,6 +162,26 @@
     		return{
     			// cliente: this.cliente
     			marcas: [],
+    			pills:['v-pills-Uso','v-pills-Marca','v-pills-Modelo','v-pills-Descripcion','v-pills-CP','v-pills-Nombre','v-pills-Celular','v-pills-Correo','v-pills-Sexo','v-pills-Nacimiento'],
+    			uso: true,
+    			marca: false,
+    			modelo: false,
+    			descripcion:false,
+    			cp:false,
+    			nombre:false,
+    			celular:false,
+    			correo:false,
+    			sexo:false,
+    			nac: false,
+
+    		}
+    	},
+    	watch:{
+    		'cliente.uso_auto': function(newValue,oldValue){
+    			if (newValue != "") {
+    				this.marca = true;
+    				this.showPill('v-pills-Marca');
+    			}
     		}
     	},
     	created(){
@@ -99,7 +201,18 @@
     			}).catch(error=>{
     				console.log('error',error);
     			})
-    		}
+    		},
+    		showPill(etiqueta){
+    			console.log(`#${etiqueta}`);
+    			this.pills.forEach(function(pill){
+    				if(pill == etiqueta){
+    					$(`#${pill}`).addClass('show active');
+    				}
+    				else{
+    					$(`#${pill}`).removeClass('show active');	
+    				}
+    			});
+    		},
     	},
         mounted() {
             console.log('Component mounted.')

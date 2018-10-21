@@ -67,45 +67,126 @@ class WebServiceController extends Controller
       try {
         // dd($this->clientCotiza->__getLastResponse());
         $xmlstr =<<<XML
-  <Movimientos>
-  <Movimiento TipoMovimiento="2" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="12345678">
-    <DatosVehiculo >
-      <ClaveAmis>05818</ClaveAmis>
-      <Modelo>2009</Modelo>
+<Movimientos>
+  <Movimiento TipoMovimiento="2" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
+    <DatosAsegurado NoAsegurado="">
+      <Nombre/>
+      <Direccion/>
+      <Colonia/>
+      <Poblacion/>
+      <Estado>9</Estado>
+      <CodigoPostal>06000</CodigoPostal>
+      <NoEmpleado/>
+      <Agrupador/>
+      <ConsideracionesAdicionalesDA NoConsideracion="40">
+        <TipoRegla>1</TipoRegla>
+        <ValorRegla>1</ValorRegla>
+      </ConsideracionesAdicionalesDA>
+      <ConsideracionesAdicionalesDA NoConsideracion="40">
+        <TipoRegla>2</TipoRegla>
+        <ValorRegla>2</ValorRegla>
+      </ConsideracionesAdicionalesDA>
+      <ConsideracionesAdicionalesDA NoConsideracion="40">
+        <TipoRegla>3</TipoRegla>
+        <ValorRegla>MEXICO</ValorRegla>
+      </ConsideracionesAdicionalesDA>
+      <ConsideracionesAdicionalesDA NoConsideracion="40">
+        <TipoRegla>4</TipoRegla>
+        <ValorRegla>NOMBRE2</ValorRegla>
+      </ConsideracionesAdicionalesDA>
+      <ConsideracionesAdicionalesDA NoConsideracion="40">
+        <TipoRegla>5</TipoRegla>
+        <ValorRegla>APELLIDOP2</ValorRegla>
+      </ConsideracionesAdicionalesDA>
+      <ConsideracionesAdicionalesDA NoConsideracion="40">
+        <TipoRegla>6</TipoRegla>
+        <ValorRegla>APELLIDOM2</ValorRegla>
+      </ConsideracionesAdicionalesDA>
+    </DatosAsegurado>
+    <DatosVehiculo NoInciso="1">
+      <ClaveAmis>2789</ClaveAmis>
+      <Modelo>2018</Modelo>
       <DescripcionVehiculo/>
       <Uso>1</Uso>
       <Servicio>1</Servicio>
       <Paquete>1</Paquete>
-      <Coberturas NoCobertura="01">
+      <Motor/>
+      <Serie/>
+      <Coberturas NoCobertura="1">
         <SumaAsegurada>0</SumaAsegurada>
-        <TipoSuma>1</TipoSuma>
+        <TipoSuma>0</TipoSuma>
         <Deducible>5</Deducible>
         <Prima>0</Prima>
       </Coberturas>
-      <Coberturas NoCobertura="03">
+      <Coberturas NoCobertura="3">
         <SumaAsegurada>0</SumaAsegurada>
-        <TipoSuma>1</TipoSuma>
+        <TipoSuma>0</TipoSuma>
         <Deducible>10</Deducible>
         <Prima>0</Prima>
       </Coberturas>
-      <Coberturas NoCobertura="04">
-        <SumaAsegurada>0</SumaAsegurada>
-        <TipoSuma>1</TipoSuma>
-        <Deducible/>
+      <Coberturas NoCobertura="4">
+        <SumaAsegurada>2000000</SumaAsegurada>
+        <TipoSuma>0</TipoSuma>
+        <Deducible>0</Deducible>
         <Prima>0</Prima>
       </Coberturas>
-      <Coberturas NoCobertura="05">
-        <SumaAsegurada>0</SumaAsegurada>
+      <Coberturas NoCobertura="5">
+        <SumaAsegurada>250000</SumaAsegurada>
         <TipoSuma>0</TipoSuma>
+        <Deducible>0</Deducible>
+        <Prima>0</Prima>
+      </Coberturas>
+      <Coberturas NoCobertura="7">
+        <SumaAsegurada/>
+        <TipoSuma>0</TipoSuma>
+        <Deducible>0</Deducible>
+        <Prima>0</Prima>
+      </Coberturas>
+      <Coberturas NoCobertura="6">
+        <SumaAsegurada>100000</SumaAsegurada>
+        <TipoSuma>0</TipoSuma>
+        <Deducible>0</Deducible>
+        <Prima>0</Prima>
+      </Coberturas>
+      <Coberturas NoCobertura="14">
+        <SumaAsegurada>90</SumaAsegurada>
+        <TipoSuma>0</TipoSuma>
+        <Deducible>0</Deducible>
+        <Prima>0</Prima>
+      </Coberturas>
+      <Coberturas NoCobertura="47">
+        <SumaAsegurada>1000000</SumaAsegurada>
+        <TipoSuma>14</TipoSuma>
         <Deducible>0</Deducible>
         <Prima>0</Prima>
       </Coberturas>
     </DatosVehiculo>
     <DatosGenerales>
+      <FechaEmision>2018-10-19</FechaEmision>
+      <FechaInicio>2018-10-19</FechaInicio>
+      <FechaTermino>2019-10-19</FechaTermino>
+      <Moneda>0</Moneda>
+      <Agente>74285</Agente>
+      <FormaPago>C</FormaPago>
+      <TarifaValores>LINEA</TarifaValores>
+      <TarifaCuotas>LINEA</TarifaCuotas>
+      <TarifaDerechos>LINEA</TarifaDerechos>
+      <Plazo/>
+      <Agencia/>
+      <Contrato/>
+      <PorcentajeDescuento>20</PorcentajeDescuento>
+      <ConsideracionesAdicionalesDG NoConsideracion="1">
+        <TipoRegla>1</TipoRegla>
+        <ValorRegla>2</ValorRegla>
+      </ConsideracionesAdicionalesDG>
+      <ConsideracionesAdicionalesDG NoConsideracion="4">
+        <TipoRegla>1</TipoRegla>
+        <ValorRegla>1</ValorRegla>
+      </ConsideracionesAdicionalesDG>
     </DatosGenerales>
     <Primas>
       <PrimaNeta/>
-      <Derecho>340</Derecho>
+      <Derecho>500</Derecho>
       <Recargo/>
       <Impuesto/>
       <PrimaTotal/>
@@ -118,7 +199,10 @@ XML;
         // $xml = simplexml_load_file($xmlstr);
         // dd($xmlstr);
         // var_dump($this->clientCotiza->__getFunctions());  
-        dd($this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlstr)));
+        $client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlstr));
+        $xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
+        $response = json_decode(json_encode($xml), true);
+        dd($response);
         // dd($this->clientCotiza->__getLastResponse()); 
       } catch (SoapFault $fault) {
         trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);

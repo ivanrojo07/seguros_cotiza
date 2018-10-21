@@ -47553,14 +47553,117 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['cliente'],
 	data: function data() {
 		return {
 			// cliente: this.cliente
-			marcas: []
+			marcas: [],
+			pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
+			uso: true,
+			marca: false,
+			modelo: false,
+			descripcion: false,
+			cp: false,
+			nombre: false,
+			celular: false,
+			correo: false,
+			sexo: false,
+			nac: false
+
 		};
+	},
+
+	watch: {
+		'cliente.uso_auto': function clienteUso_auto(newValue, oldValue) {
+			if (newValue != "") {
+				this.marca = true;
+				this.showPill('v-pills-Marca');
+			}
+		}
 	},
 	created: function created() {
 		this.getMarcas();
@@ -47580,6 +47683,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				_this.marcas = res.data.marcas;
 			}).catch(function (error) {
 				console.log('error', error);
+			});
+		},
+		showPill: function showPill(etiqueta) {
+			console.log('#' + etiqueta);
+			this.pills.forEach(function (pill) {
+				if (pill == etiqueta) {
+					$('#' + pill).addClass('show active');
+				} else {
+					$('#' + pill).removeClass('show active');
+				}
 			});
 		}
 	},
@@ -47622,6 +47735,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Uso",
                     "aria-selected": "true"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Uso")
+                    }
                   }
                 },
                 [_vm._v("Uso: " + _vm._s(_vm.cliente.uso_auto))]
@@ -47638,6 +47756,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Marca",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Marca")
+                    }
                   }
                 },
                 [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto))]
@@ -47654,6 +47777,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Modelo",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Modelo")
+                    }
                   }
                 },
                 [_vm._v("Modelo: " + _vm._s(_vm.cliente.modelo_auto))]
@@ -47670,6 +47798,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Descripcion",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Descripcion")
+                    }
                   }
                 },
                 [_vm._v("Descripción:" + _vm._s(_vm.cliente.descripcion_auto))]
@@ -47686,6 +47819,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-CP",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-CP")
+                    }
                   }
                 },
                 [_vm._v("CP: " + _vm._s(_vm.cliente.cp))]
@@ -47702,6 +47840,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Nombre",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Nombre")
+                    }
                   }
                 },
                 [
@@ -47727,6 +47870,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Celular",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Celular")
+                    }
                   }
                 },
                 [_vm._v("Celular: " + _vm._s(_vm.cliente.telefono))]
@@ -47743,6 +47891,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Correo",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Correo")
+                    }
                   }
                 },
                 [_vm._v("Correo: " + _vm._s(_vm.cliente.email))]
@@ -47759,6 +47912,11 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Sexo",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Sexo")
+                    }
                   }
                 },
                 [_vm._v("Sexo: " + _vm._s(_vm.cliente.sexo))]
@@ -47769,12 +47927,17 @@ var render = function() {
                 {
                   staticClass: "nav-link disabled",
                   attrs: {
-                    id: "v-pills-Edad-tab",
+                    id: "v-pills-Nacimiento-tab",
                     "data-toggle": "pill",
-                    href: "#v-pills-Edad",
+                    href: "#v-pills-Nacimiento",
                     role: "tab",
-                    "aria-controls": "v-pills-Edad",
+                    "aria-controls": "v-pills-Nacimiento",
                     "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showPill("v-pills-Nacimiento")
+                    }
                   }
                 },
                 [_vm._v("Nacimiento: " + _vm._s(_vm.cliente.f_nac))]
@@ -47929,10 +48092,197 @@ var render = function() {
                         ])
                       ])
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(0)
+                  ])
                 ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.marca,
+                      expression: "marca"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Marca",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Marca-tab"
+                  }
+                },
+                [_vm._m(0)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.modelo,
+                      expression: "modelo"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Modelo",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Modelo-tab"
+                  }
+                },
+                [_vm._m(1)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.descripcion,
+                      expression: "descripcion"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Descripcion",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Descripcion-tab"
+                  }
+                },
+                [_vm._m(2)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.cp,
+                      expression: "cp"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-CP",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-CP-tab"
+                  }
+                },
+                [_vm._m(3)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.nombre,
+                      expression: "nombre"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Nombre",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Nombre-tab"
+                  }
+                },
+                [_vm._m(4)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.celular,
+                      expression: "celular"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Celular",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Celular-tab"
+                  }
+                },
+                [_vm._m(5)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.correo,
+                      expression: "correo"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Correo",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Correo-tab"
+                  }
+                },
+                [_vm._m(6)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.sexo,
+                      expression: "sexo"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Sexo",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Sexo-tab"
+                  }
+                },
+                [_vm._m(7)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.nac,
+                      expression: "nac"
+                    }
+                  ],
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "v-pills-Nacimiento",
+                    role: "tabpanel",
+                    "aria-albelledby": "v-pills-Nacimiento-tab"
+                  }
+                },
+                [_vm._m(8)]
               )
             ]
           )
@@ -47948,48 +48298,127 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "tab-pane fade",
-        attrs: {
-          id: "v-pills-Marca",
-          role: "tabpanel",
-          "aria-labelledby": "v-pills-Marca-tab"
-        }
-      },
-      [
-        _c("div", { staticClass: "card p-0" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v(
-              "\n\t\t\t                            Marca\n\t\t\t                        "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm._v("\n\t\t\t                            {{-- "),
-            _c("div", { staticClass: "row" }, [
-              _vm._v(" --}}\n\t\t\t                                "),
-              _c(
-                "ul",
-                {
-                  staticClass: "list-group list-group-flush",
-                  staticStyle: {
-                    overflow: "auto",
-                    resize: "false",
-                    height: "380px"
-                  },
-                  attrs: { id: "marcasul" }
-                },
-                [_c("div", { staticClass: "loader" })]
-              ),
-              _vm._v("\n\t\t\t                            {{-- ")
-            ]),
-            _vm._v(" --}}\n\t\t\t                        ")
-          ])
-        ])
-      ]
-    )
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Marca\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Modelo\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Descripcion\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            CP\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Nombre\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Celular\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Correo\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Sexo\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-0" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n\t\t                            Nacimiento\n\t\t                        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" })
+    ])
   }
 ]
 render._withStripped = true
