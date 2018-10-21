@@ -47635,6 +47635,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['cliente'],
@@ -47661,7 +47663,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		'cliente.uso_auto': function clienteUso_auto(newValue, oldValue) {
 			if (newValue != "") {
 				this.marca = true;
-				this.showPill('v-pills-Marca');
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Marca-tab').removeClass('disabled');
+				// $('#v-pills-Marca-tab').addClass('disabled');
+				$('#v-pills-Marca-tab').click();
+			}
+		},
+		'cliente.marca_auto': function clienteMarca_auto(newValue, oldValue) {
+			if (newValue != "") {
+				this.modelo = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Modelo-tab').removeClass('disabled');
+				// $('#v-pills-Modelo-tab').addClass('disabled');
+				$('#v-pills-Modelo-tab').click();
 			}
 		}
 	},
@@ -47756,11 +47770,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Marca",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Marca")
-                    }
                   }
                 },
                 [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto))]
@@ -47777,11 +47786,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Modelo",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Modelo")
-                    }
                   }
                 },
                 [_vm._v("Modelo: " + _vm._s(_vm.cliente.modelo_auto))]
@@ -47798,11 +47802,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Descripcion",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Descripcion")
-                    }
                   }
                 },
                 [_vm._v("Descripción:" + _vm._s(_vm.cliente.descripcion_auto))]
@@ -47819,11 +47818,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-CP",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-CP")
-                    }
                   }
                 },
                 [_vm._v("CP: " + _vm._s(_vm.cliente.cp))]
@@ -47840,11 +47834,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Nombre",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Nombre")
-                    }
                   }
                 },
                 [
@@ -47870,11 +47859,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Celular",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Celular")
-                    }
                   }
                 },
                 [_vm._v("Celular: " + _vm._s(_vm.cliente.telefono))]
@@ -47891,11 +47875,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Correo",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Correo")
-                    }
                   }
                 },
                 [_vm._v("Correo: " + _vm._s(_vm.cliente.email))]
@@ -47912,11 +47891,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Sexo",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Sexo")
-                    }
                   }
                 },
                 [_vm._v("Sexo: " + _vm._s(_vm.cliente.sexo))]
@@ -47933,11 +47907,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Nacimiento",
                     "aria-selected": "false"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Nacimiento")
-                    }
                   }
                 },
                 [_vm._v("Nacimiento: " + _vm._s(_vm.cliente.f_nac))]
@@ -48114,7 +48083,63 @@ var render = function() {
                     "aria-albelledby": "v-pills-Marca-tab"
                   }
                 },
-                [_vm._m(0)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Marca\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.marca_auto,
+                              expression: "cliente.marca_auto"
+                            }
+                          ],
+                          staticClass: "list-group list-group-flush",
+                          attrs: { size: "3" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.cliente,
+                                "marca_auto",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.marcas, function(marca) {
+                          return _c(
+                            "option",
+                            {
+                              staticClass:
+                                "list-group-item text-center text-dark seleccionador",
+                              domProps: { value: marca.cMarcaLarga }
+                            },
+                            [_vm._v(_vm._s(marca.cMarcaLarga))]
+                          )
+                        })
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48135,7 +48160,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-Modelo-tab"
                   }
                 },
-                [_vm._m(1)]
+                [_vm._m(0)]
               ),
               _vm._v(" "),
               _c(
@@ -48156,7 +48181,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-Descripcion-tab"
                   }
                 },
-                [_vm._m(2)]
+                [_vm._m(1)]
               ),
               _vm._v(" "),
               _c(
@@ -48177,7 +48202,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-CP-tab"
                   }
                 },
-                [_vm._m(3)]
+                [_vm._m(2)]
               ),
               _vm._v(" "),
               _c(
@@ -48198,7 +48223,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-Nombre-tab"
                   }
                 },
-                [_vm._m(4)]
+                [_vm._m(3)]
               ),
               _vm._v(" "),
               _c(
@@ -48219,7 +48244,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-Celular-tab"
                   }
                 },
-                [_vm._m(5)]
+                [_vm._m(4)]
               ),
               _vm._v(" "),
               _c(
@@ -48240,7 +48265,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-Correo-tab"
                   }
                 },
-                [_vm._m(6)]
+                [_vm._m(5)]
               ),
               _vm._v(" "),
               _c(
@@ -48261,7 +48286,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-Sexo-tab"
                   }
                 },
-                [_vm._m(7)]
+                [_vm._m(6)]
               ),
               _vm._v(" "),
               _c(
@@ -48282,7 +48307,7 @@ var render = function() {
                     "aria-albelledby": "v-pills-Nacimiento-tab"
                   }
                 },
-                [_vm._m(8)]
+                [_vm._m(7)]
               )
             ]
           )
@@ -48294,20 +48319,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Marca\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
