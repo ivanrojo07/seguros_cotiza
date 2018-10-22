@@ -197,7 +197,76 @@
     				// $('#v-pills-Modelo-tab').addClass('disabled');
     				$('#v-pills-Modelo-tab').click();
     			}
-    		}
+    		},
+    		'cliente.modelo_auto':function(newV,oldV){
+    			if (newV != "") {
+    				this.descripcion = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Descripcion-tab').removeClass('disabled');
+    				// $('#v-pills-Descripcion-tab').addClass('disabled');
+    				$('#v-pills-Descripcion-tab').click();
+    			}
+    		},
+    		'cliente.descripcion_auto':function(newV,oldV){
+    			if (newV != "") {
+    				this.cp = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-CP-tab').removeClass('disabled');
+    				// $('#v-pills-CP-tab').addClass('disabled');
+    				$('#v-pills-CP-tab').click();
+    			}
+    		},
+    		'cliente.cp':function (newV,oldV) {
+    			// body...
+    			if (newV != "") {
+    				this.nombre = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Nombre-tab').removeClass('disabled');
+    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				$('#v-pills-Nombre-tab').click();
+    			}
+    		},
+    		'cliente.nombre':function (newV,oldV) {
+    			// body...
+    			if (newV != "") {
+    				this.celular = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Celular-tab').removeClass('disabled');
+    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				$('#v-pills-Celular-tab').click();
+    			}
+    		},
+    		'cliente.celular':function (newV,oldV) {
+    			// body...
+    			if (newV != "") {
+    				this.correo = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Correo-tab').removeClass('disabled');
+    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				$('#v-pills-Correo-tab').click();
+    			}
+    		},
+    		'cliente.correo':function (newV,oldV) {
+    			// body...
+    			if (newV != "") {
+    				this.sexo = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Sexo-tab').removeClass('disabled');
+    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				$('#v-pills-Sexo-tab').click();
+    			}
+    		},
+    		'cliente.sexo':function (newV,oldV) {
+    			// body...
+    			if (newV != "") {
+    				this.nac = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Nacimiento-tab').removeClass('disabled');
+    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				$('#v-pills-Nacimiento-tab').click();
+    			}
+    		},
+
     	},
     	created(){
     		this.getMarcas();

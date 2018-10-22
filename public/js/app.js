@@ -47644,6 +47644,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			// cliente: this.cliente
 			marcas: [],
+			descripciones: [],
 			pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
 			uso: true,
 			marca: false,
@@ -47677,7 +47678,76 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				// $('#v-pills-Modelo-tab').addClass('disabled');
 				$('#v-pills-Modelo-tab').click();
 			}
+		},
+		'cliente.modelo_auto': function clienteModelo_auto(newV, oldV) {
+			if (newV != "") {
+				this.descripcion = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Descripcion-tab').removeClass('disabled');
+				// $('#v-pills-Descripcion-tab').addClass('disabled');
+				$('#v-pills-Descripcion-tab').click();
+			}
+		},
+		'cliente.descripcion_auto': function clienteDescripcion_auto(newV, oldV) {
+			if (newV != "") {
+				this.cp = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-CP-tab').removeClass('disabled');
+				// $('#v-pills-CP-tab').addClass('disabled');
+				$('#v-pills-CP-tab').click();
+			}
+		},
+		'cliente.cp': function clienteCp(newV, oldV) {
+			// body...
+			if (newV != "") {
+				this.nombre = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Nombre-tab').removeClass('disabled');
+				// $('#v-pills-Nombre-tab').addClass('disabled');
+				$('#v-pills-Nombre-tab').click();
+			}
+		},
+		'cliente.nombre': function clienteNombre(newV, oldV) {
+			// body...
+			if (newV != "") {
+				this.celular = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Celular-tab').removeClass('disabled');
+				// $('#v-pills-Nombre-tab').addClass('disabled');
+				$('#v-pills-Celular-tab').click();
+			}
+		},
+		'cliente.celular': function clienteCelular(newV, oldV) {
+			// body...
+			if (newV != "") {
+				this.correo = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Correo-tab').removeClass('disabled');
+				// $('#v-pills-Nombre-tab').addClass('disabled');
+				$('#v-pills-Correo-tab').click();
+			}
+		},
+		'cliente.correo': function clienteCorreo(newV, oldV) {
+			// body...
+			if (newV != "") {
+				this.sexo = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Sexo-tab').removeClass('disabled');
+				// $('#v-pills-Nombre-tab').addClass('disabled');
+				$('#v-pills-Sexo-tab').click();
+			}
+		},
+		'cliente.sexo': function clienteSexo(newV, oldV) {
+			// body...
+			if (newV != "") {
+				this.nac = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Nacimiento-tab').removeClass('disabled');
+				// $('#v-pills-Nombre-tab').addClass('disabled');
+				$('#v-pills-Nacimiento-tab').click();
+			}
 		}
+
 	},
 	created: function created() {
 		this.getMarcas();
@@ -47707,6 +47777,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				} else {
 					$('#' + pill).removeClass('show active');
 				}
+			});
+		},
+		getDescripciones: function getDescripciones(modelo, marca) {
+			var url = './api/modelos/' + marca + '/' + modelo;
+			axios.get(url).then(function (res) {
+				console.log('getDescripciones res', res);
+			}).catch(function (err) {
+				console.log('getDescripciones err', err);
 			});
 		}
 	},
