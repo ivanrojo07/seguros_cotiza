@@ -15,12 +15,13 @@ class CreateClienteTable extends Migration
     {
         Schema::create('cliente', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('cotizacion')->unique();
+            $table->string('cotizacion')->unique()->nullable();
             $table->string('uso_auto');
             $table->string('marca_auto');
             $table->integer('modelo_auto');
-            $table->string('descripción_auto');
-            $table->string('clave_amis');
+            $table->string('descripcion_auto');
+            $table->string('tipo_auto');
+            $table->string('c_amis');
             $table->string('cp');
             $table->string('nombre');
             $table->string('appaterno');

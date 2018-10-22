@@ -26,7 +26,6 @@ const app = new Vue({
     		'marca_auto':"",
 	    	'modelo_auto':"",
 	    	'descripcion_auto':"",
-	    	'clave_amis':"",
 	    	'cp':"",
 	    	'nombre':"",
 	    	'appaterno':"",

@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/marcas',"WebServiceController@getMarcas");
 Route::get('/modelos/{marca}/{modelo}',"WebServiceController@getModelos");
 Route::get('/tarifas','WebServiceController@getTarifas');
+Route::post('/cotizacion','ClienteController@store');

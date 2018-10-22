@@ -1,13 +1,34 @@
 <template>
     <div class="container">
+
+    	<!-- Modal con número de cotización -->
+    	<div class="modal fade bd-example-modal-sm" id="cotizar" tabindex="-1" role="dialog" aria-labelledby="cotizar" aria-hidden="true">
+		  	<div class="modal-dialog modal-sm">
+		    	<div class="modal-content">
+			     	<div class="modal-header">
+			        	<h5 class="modal-title" id="exampleModalLabel">Cotización:</h5>
+			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          	<span aria-hidden="true">&times;</span>
+			        	</button>
+			      	</div>
+		      		<div class="modal-body">
+		          		<div class="form-group">
+		            		<label for="recipient-name" class="col-form-label">Tu cotización se guardo en nuestro sistema con el folio: {{cliente.cotizacion}}</label>
+		            	</div>
+		        	</div>
+	      		</div>
+	    	</div>
+  		</div>
+  		<!-- fin de modal -->
+  		<!-- Crear cotización -->
     	<div class="tab-pane">
     		<div class="row m-0 p-1 no-gutters">
     			<div class="col-sm-6 d-none d-sm-block p-2">
     				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		              <a class="nav-link active" id="v-pills-Uso-tab" @click="showPill('v-pills-Uso')"  data-toggle="pill" href="#v-pills-Uso" role="tab" aria-controls="v-pills-Uso" aria-selected="true">Uso: {{cliente.uso_auto}}</a>
+		              <a class="nav-link active" id="v-pills-Uso-tab"  data-toggle="pill" href="#v-pills-Uso" role="tab" aria-controls="v-pills-Uso" aria-selected="true">Uso: {{cliente.uso_auto}}</a>
 		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto}}</a>
 		              <a class="nav-link disabled" id="v-pills-Modelo-tab" data-toggle="pill"  href="#v-pills-Modelo" role="tab" aria-controls="v-pills-Modelo" aria-selected="false">Modelo: {{cliente.modelo_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:{{cliente.descripcion_auto}}</a>
+		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción: {{cliente.descripcion_auto.cVersion}}</a>
 		              <a class="nav-link disabled" id="v-pills-CP-tab" data-toggle="pill"  href="#v-pills-CP" role="tab" aria-controls="v-pills-CP" aria-selected="false">CP: {{cliente.cp}}</a>
 		              <a class="nav-link disabled" id="v-pills-Nombre-tab" data-toggle="pill" href="#v-pills-Nombre"  role="tab" aria-controls="v-pills-Nombre" aria-selected="false">Nombre: {{cliente.nombre}} {{cliente.appaterno}} {{cliente.apmaterno}}</a>
 		              <a class="nav-link disabled" id="v-pills-Celular-tab" data-toggle="pill"  href="#v-pills-Celular" role="tab" aria-controls="v-pills-Celular" aria-selected="false">Celular: {{cliente.telefono}}</a>
@@ -33,7 +54,7 @@
     											Tipo de Uso:
     										</div>
     										<div class="card-body">
-    											<select v-model="cliente.uso_auto" size="3" class="list-group list-group-flush">
+    											<select v-model="cliente.uso_auto" size="3" class="list-group list-group-flush col mr-0 ml-0"  style="overflow-y: hidden;">
     												<option value="Servicio Particular" class="list-group-item text-center text-dark seleccionador">Servicio Particular</option>
                                     				<option value="Servicio Público" class="list-group-item text-center text-dark seleccionador">Servicio Público</option>
                                     				<option value="Servicio Público Federal" class="list-group-item text-center text-dark seleccionador">Servicio Público Federal</option>
@@ -51,7 +72,7 @@
 		                            Marca
 		                        </div>
 		                        <div class="card-body">
-		                            <select v-model="cliente.marca_auto" size="3" class="list-group list-group-flush">
+		                            <select v-model="cliente.marca_auto" size="3" class="list-group list-group-flush col">
 										<option v-for="marca in marcas" :value="marca.cMarcaLarga" class="list-group-item text-center text-dark seleccionador">{{marca.cMarcaLarga}}</option>
 									</select>
 		                        </div>
@@ -64,18 +85,22 @@
 		                            Modelo
 		                        </div>
 		                        <div class="card-body">
-		                            <!-- TODO -->
+		                            <select class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
+		                            	<option v-for="anio in anios" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
+		                            </select>
 		                        </div>
 		                    </div>
 		                </div>
 		                  <!--Descripcion-->
-		                <div class="tab-pane fade" v-show="descripcion" id="v-pills-Descripcion" role="tabpanel" aria-albelledby="v-pills-Descripcion-tab">
+		                <div class="tab-pane fade" v-show="descripcion" id="v-pills-Descripcion" role="tabpanel" aria-albelledby="v-pills-Descripcion-tab" >
 		                    <div class="card p-0">
 		                        <div class="card-header">
 		                            Descripcion
 		                        </div>
 		                        <div class="card-body">
-		                            <!-- TODO -->
+		                            <select class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
+		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Tipo: {{descripcion.cTipo}} Version: {{descripcion.cVersion}} Transmision: {{ descripcion.cTransmision == "A" ? 'Automatica' : 'Estandar'}}</option>
+		                            </select>
 		                        </div>
 		                    </div>
 		                </div>
@@ -86,7 +111,10 @@
 		                            CP
 		                        </div>
 		                        <div class="card-body">
-		                            <!-- TODO -->
+	                             	<div class="form-group">
+		                                <input type="number" class="form-control" v-model="cliente.cp" placeholder="CP: 000000" id="valorCP">
+		                            </div>
+		                            <button type="button" id="6_1" class="btn btn-primary seleccionador" @click="nextPill('cp')">Siguiente</button>
 		                        </div>
 		                    </div>
 		                </div>
@@ -98,6 +126,18 @@
 		                        </div>
 		                        <div class="card-body">
 		                            <!-- TODO -->
+		                            <div class="form-row">
+		                                <div class="col-12 my-1">
+		                                    <input type="text" v-model="cliente.nombre" id="valorNombre" class="form-control" placeholder="Nombre">
+		                                </div>
+		                                <div class="col-12 my-1">
+		                                    <input type="text" v-model="cliente.appaterno" id="valorApellidoP" class="form-control" placeholder="Apellido P.">
+		                                </div>
+		                                <div class="col-12 my-1">
+		                                    <input type="text" v-model="cliente.apmaterno" id="valorApellidoM" class="form-control" placeholder="Apellido M.">
+		                                </div>
+		                            </div>
+		                            <button type="button" id="e_1" @click="nextPill('nombre')" class="btn btn-primary seleccionador">Siguiente</button>
 		                        </div>
 		                    </div>
 		                </div>
@@ -108,7 +148,10 @@
 		                            Celular
 		                        </div>
 		                        <div class="card-body">
-		                            <!-- TODO -->
+		                        	<div class="form-group">
+		                                <input type="number" v-model="cliente.telefono" class="form-control" id="valorCelular" placeholder="55 53 33 11 22">
+		                            </div>
+		                            <button type="button" id="f_1"  @click="nextPill('telefono')" class="btn btn-primary seleccionador">Siguiente</button>
 		                        </div>
 		                    </div>
 		                </div>
@@ -119,7 +162,10 @@
 		                            Correo
 		                        </div>
 		                        <div class="card-body">
-		                            <!-- TODO -->
+		                             <div class="form-group">
+		                                <input type="email" v-model="cliente.email" class="form-control" id="valorCorreo" placeholder="ejemplo@ejemplo.com">
+		                            </div>
+		                            <button type="button" id="g_1" @click="nextPill('correo')" class="btn btn-primary seleccionador">Siguiente</button>
 		                        </div>
 		                    </div>
 		                </div>
@@ -131,6 +177,11 @@
 		                        </div>
 		                        <div class="card-body">
 		                            <!-- TODO -->
+		                            <select v-model="cliente.sexo" size="3" class="list-group list-group-flush">
+										<option value="Hombre" class="list-group-item text-center text-dark seleccionador">Hombre</option>
+                        				<option value="Mujer" class="list-group-item text-center text-dark seleccionador">Mujer</option>
+                        				<option value="Otro" class="list-group-item text-center text-dark seleccionador">Otro</option>
+									</select>
 		                        </div>
 		                    </div>
 		                </div>
@@ -142,6 +193,19 @@
 		                        </div>
 		                        <div class="card-body">
 		                            <!-- TODO -->
+		                            <div class="form-group">
+		                                <input type="date" v-model="cliente.f_nac" id="valorEdad" onchange="cambiarEdad(this.value)" style="max-width: 160px;">
+		                            </div>
+		                            <div class="row">
+		                                <div class="col-12 d-none d-sm-block">
+		                                    <!--Botón escritorio-->
+		                                    <button type="button" id="8_1" @click="sendCotizacion(cliente)" class="btn btn-primary seleccionador">Siguiente</button>
+		                                </div>
+		                                <div class="col-12 d-block d-sm-none">
+		                                    <!--Botón celular -->
+		                                    <button  type="button" id="8_1" @click="sendCotizacion(cliente)" class="btn btn-primary seleccionador">Siguiente</button>
+		                                </div>
+		                            </div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -149,9 +213,10 @@
     			</div>
     		</div>
     	</div>
-	    <pre>
+    	<!-- Fin de crear cotización -->
+	    <!-- <pre>
 	    	@{{$data}}
-	    </pre>
+	    </pre> -->
     </div>
 </template>
 
@@ -162,9 +227,10 @@
     	],
     	data(){
     		return{
-    			// cliente: this.cliente
-    			marcas: [],
+    			// cliente: this.cliente,
     			descripciones:[],
+    			anios:[],
+    			marcas: [],
     			pills:['v-pills-Uso','v-pills-Marca','v-pills-Modelo','v-pills-Descripcion','v-pills-CP','v-pills-Nombre','v-pills-Celular','v-pills-Correo','v-pills-Sexo','v-pills-Nacimiento'],
     			uso: true,
     			marca: false,
@@ -204,6 +270,7 @@
     				// this.showPill('v-pills-Marca');
     				$('#v-pills-Descripcion-tab').removeClass('disabled');
     				// $('#v-pills-Descripcion-tab').addClass('disabled');
+    				this.getDescripciones(this.cliente.marca_auto,this.cliente.modelo_auto);
     				$('#v-pills-Descripcion-tab').click();
     			}
     		},
@@ -216,60 +283,19 @@
     				$('#v-pills-CP-tab').click();
     			}
     		},
-    		'cliente.cp':function (newV,oldV) {
-    			// body...
-    			if (newV != "") {
-    				this.nombre = true;
-    				// this.showPill('v-pills-Marca');
-    				$('#v-pills-Nombre-tab').removeClass('disabled');
-    				// $('#v-pills-Nombre-tab').addClass('disabled');
-    				$('#v-pills-Nombre-tab').click();
-    			}
-    		},
-    		'cliente.nombre':function (newV,oldV) {
-    			// body...
-    			if (newV != "") {
-    				this.celular = true;
-    				// this.showPill('v-pills-Marca');
-    				$('#v-pills-Celular-tab').removeClass('disabled');
-    				// $('#v-pills-Nombre-tab').addClass('disabled');
-    				$('#v-pills-Celular-tab').click();
-    			}
-    		},
-    		'cliente.celular':function (newV,oldV) {
-    			// body...
-    			if (newV != "") {
-    				this.correo = true;
-    				// this.showPill('v-pills-Marca');
-    				$('#v-pills-Correo-tab').removeClass('disabled');
-    				// $('#v-pills-Nombre-tab').addClass('disabled');
-    				$('#v-pills-Correo-tab').click();
-    			}
-    		},
-    		'cliente.correo':function (newV,oldV) {
-    			// body...
-    			if (newV != "") {
-    				this.sexo = true;
-    				// this.showPill('v-pills-Marca');
-    				$('#v-pills-Sexo-tab').removeClass('disabled');
-    				// $('#v-pills-Nombre-tab').addClass('disabled');
-    				$('#v-pills-Sexo-tab').click();
-    			}
-    		},
-    		'cliente.sexo':function (newV,oldV) {
-    			// body...
+    		'cliente.sexo':function(newV,oldV){
     			if (newV != "") {
     				this.nac = true;
     				// this.showPill('v-pills-Marca');
     				$('#v-pills-Nacimiento-tab').removeClass('disabled');
-    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				// $('#v-pills-Nacimiento-tab').addClass('disabled');
     				$('#v-pills-Nacimiento-tab').click();
     			}
     		},
-
     	},
     	created(){
     		this.getMarcas();
+    		this.getModelos();
     	},
     	methods:{
     		searchCliente(cotizacion){
@@ -286,23 +312,87 @@
     				console.log('error',error);
     			})
     		},
-    		showPill(etiqueta){
-    			console.log(`#${etiqueta}`);
-    			this.pills.forEach(function(pill){
-    				if(pill == etiqueta){
-    					$(`#${pill}`).addClass('show active');
-    				}
-    				else{
-    					$(`#${pill}`).removeClass('show active');	
-    				}
-    			});
+    		// showPill(etiqueta){
+    		// 	console.log(`#${etiqueta}`);
+    		// 	this.pills.forEach(function(pill){
+    		// 		if(pill == etiqueta){
+    		// 			$(`#${pill}`).addClass('show active');
+    		// 		}
+    		// 		else{
+    		// 			$(`#${pill}`).removeClass('show active');	
+    		// 		}
+    		// 	});
+    		// },
+    		nextPill(input){
+    			if (input == "cp" && this.cliente.cp != "") {
+    				// console.log('si')
+    				this.nombre = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Nombre-tab').removeClass('disabled');
+    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				$('#v-pills-Nombre-tab').click();
+    			}
+    			if (input == "nombre" && this.cliente.nombre != "" && this.cliente.appaterno != "") {
+    				// console.log('si')
+    				this.celular = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Celular-tab').removeClass('disabled');
+    				// $('#v-pills-Celular-tab').addClass('disabled');
+    				$('#v-pills-Celular-tab').click();
+    			}
+    			if (input == "telefono" && this.cliente.telefono != "") {
+    				// console.log('si')
+    				this.correo = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Correo-tab').removeClass('disabled');
+    				// $('#v-pills-Correo-tab').addClass('disabled');
+    				$('#v-pills-Correo-tab').click();
+    			}
+    			if (input == "correo" && this.cliente.telefono != "") {
+    				// console.log('si')
+    				this.sexo = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Sexo-tab').removeClass('disabled');
+    				// $('#v-pills-Sexo-tab').addClass('disabled');
+    				$('#v-pills-Sexo-tab').click();
+    			}
+    			if (input == "sexo" && this.cliente.telefono != "") {
+    				// console.log('si')
+    				this.nac = true;
+    				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Nacimiento-tab').removeClass('disabled');
+    				// $('#v-pills-Nacimiento-tab').addClass('disabled');
+    				$('#v-pills-Nacimiento-tab').click();
+    			}
     		},
-    		getDescripciones(modelo,marca){
+    		getDescripciones(marca,modelo){
     			let url = `./api/modelos/${marca}/${modelo}`;
     			axios.get(url).then(res=>{
     				console.log('getDescripciones res',res);
+    				this.descripciones = res.data.descripciones
     			}).catch(err=>{
     				console.log('getDescripciones err',err);
+    			})
+    		},
+    		getModelos(){
+    			var currentYear = new Date().getFullYear()+1;
+    			var startYear = 1999;
+            	startYear = startYear || 1980;
+            	while ( startYear <= currentYear ) {
+                    this.anios.push(startYear++);
+            	} 
+
+            	this.anios = this.anios.reverse();
+    		},
+    		sendCotizacion(cliente){
+    			let params = cliente;
+    			let url = "./api/cotizacion";
+    			axios.post(url,cliente).then(res=>{
+    				console.log('res',res);
+    				this.cliente.cotizacion = res.data.cotizacion.cotizacion;
+    				$('#cotizar').modal('show');
+    			}).catch(err=>{
+    				console.log('err',err);
     			})
     		}
     	},

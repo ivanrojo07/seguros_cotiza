@@ -55,7 +55,7 @@ class WebServiceController extends Controller
         }
         else{
         $descripcion = $response["datos"]['Elemento'];
-          return response()->json(["descripcion"=>$descripcion],201);
+          return response()->json(["descripciones"=>$descripcion],201);
         }
         
       } catch (SoapFault $fault) {

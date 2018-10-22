@@ -14023,7 +14023,6 @@ var app = new Vue({
       'marca_auto': "",
       'modelo_auto': "",
       'descripcion_auto': "",
-      'clave_amis': "",
       'cp': "",
       'nombre': "",
       'appaterno': "",
@@ -47637,14 +47636,80 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['cliente'],
 	data: function data() {
 		return {
-			// cliente: this.cliente
-			marcas: [],
+			// cliente: this.cliente,
 			descripciones: [],
+			anios: [],
+			marcas: [],
 			pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
 			uso: true,
 			marca: false,
@@ -47685,6 +47750,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				// this.showPill('v-pills-Marca');
 				$('#v-pills-Descripcion-tab').removeClass('disabled');
 				// $('#v-pills-Descripcion-tab').addClass('disabled');
+				this.getDescripciones(this.cliente.marca_auto, this.cliente.modelo_auto);
 				$('#v-pills-Descripcion-tab').click();
 			}
 		},
@@ -47697,60 +47763,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				$('#v-pills-CP-tab').click();
 			}
 		},
-		'cliente.cp': function clienteCp(newV, oldV) {
-			// body...
-			if (newV != "") {
-				this.nombre = true;
-				// this.showPill('v-pills-Marca');
-				$('#v-pills-Nombre-tab').removeClass('disabled');
-				// $('#v-pills-Nombre-tab').addClass('disabled');
-				$('#v-pills-Nombre-tab').click();
-			}
-		},
-		'cliente.nombre': function clienteNombre(newV, oldV) {
-			// body...
-			if (newV != "") {
-				this.celular = true;
-				// this.showPill('v-pills-Marca');
-				$('#v-pills-Celular-tab').removeClass('disabled');
-				// $('#v-pills-Nombre-tab').addClass('disabled');
-				$('#v-pills-Celular-tab').click();
-			}
-		},
-		'cliente.celular': function clienteCelular(newV, oldV) {
-			// body...
-			if (newV != "") {
-				this.correo = true;
-				// this.showPill('v-pills-Marca');
-				$('#v-pills-Correo-tab').removeClass('disabled');
-				// $('#v-pills-Nombre-tab').addClass('disabled');
-				$('#v-pills-Correo-tab').click();
-			}
-		},
-		'cliente.correo': function clienteCorreo(newV, oldV) {
-			// body...
-			if (newV != "") {
-				this.sexo = true;
-				// this.showPill('v-pills-Marca');
-				$('#v-pills-Sexo-tab').removeClass('disabled');
-				// $('#v-pills-Nombre-tab').addClass('disabled');
-				$('#v-pills-Sexo-tab').click();
-			}
-		},
 		'cliente.sexo': function clienteSexo(newV, oldV) {
-			// body...
 			if (newV != "") {
 				this.nac = true;
 				// this.showPill('v-pills-Marca');
 				$('#v-pills-Nacimiento-tab').removeClass('disabled');
-				// $('#v-pills-Nombre-tab').addClass('disabled');
+				// $('#v-pills-Nacimiento-tab').addClass('disabled');
 				$('#v-pills-Nacimiento-tab').click();
 			}
 		}
-
 	},
 	created: function created() {
 		this.getMarcas();
+		this.getModelos();
 	},
 
 	methods: {
@@ -47769,22 +47794,92 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				console.log('error', error);
 			});
 		},
-		showPill: function showPill(etiqueta) {
-			console.log('#' + etiqueta);
-			this.pills.forEach(function (pill) {
-				if (pill == etiqueta) {
-					$('#' + pill).addClass('show active');
-				} else {
-					$('#' + pill).removeClass('show active');
-				}
-			});
+
+		// showPill(etiqueta){
+		// 	console.log(`#${etiqueta}`);
+		// 	this.pills.forEach(function(pill){
+		// 		if(pill == etiqueta){
+		// 			$(`#${pill}`).addClass('show active');
+		// 		}
+		// 		else{
+		// 			$(`#${pill}`).removeClass('show active');	
+		// 		}
+		// 	});
+		// },
+		nextPill: function nextPill(input) {
+			if (input == "cp" && this.cliente.cp != "") {
+				// console.log('si')
+				this.nombre = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Nombre-tab').removeClass('disabled');
+				// $('#v-pills-Nombre-tab').addClass('disabled');
+				$('#v-pills-Nombre-tab').click();
+			}
+			if (input == "nombre" && this.cliente.nombre != "" && this.cliente.appaterno != "") {
+				// console.log('si')
+				this.celular = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Celular-tab').removeClass('disabled');
+				// $('#v-pills-Celular-tab').addClass('disabled');
+				$('#v-pills-Celular-tab').click();
+			}
+			if (input == "telefono" && this.cliente.telefono != "") {
+				// console.log('si')
+				this.correo = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Correo-tab').removeClass('disabled');
+				// $('#v-pills-Correo-tab').addClass('disabled');
+				$('#v-pills-Correo-tab').click();
+			}
+			if (input == "correo" && this.cliente.telefono != "") {
+				// console.log('si')
+				this.sexo = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Sexo-tab').removeClass('disabled');
+				// $('#v-pills-Sexo-tab').addClass('disabled');
+				$('#v-pills-Sexo-tab').click();
+			}
+			if (input == "sexo" && this.cliente.telefono != "") {
+				// console.log('si')
+				this.nac = true;
+				// this.showPill('v-pills-Marca');
+				$('#v-pills-Nacimiento-tab').removeClass('disabled');
+				// $('#v-pills-Nacimiento-tab').addClass('disabled');
+				$('#v-pills-Nacimiento-tab').click();
+			}
 		},
-		getDescripciones: function getDescripciones(modelo, marca) {
+		getDescripciones: function getDescripciones(marca, modelo) {
+			var _this2 = this;
+
 			var url = './api/modelos/' + marca + '/' + modelo;
 			axios.get(url).then(function (res) {
 				console.log('getDescripciones res', res);
+				_this2.descripciones = res.data.descripciones;
 			}).catch(function (err) {
 				console.log('getDescripciones err', err);
+			});
+		},
+		getModelos: function getModelos() {
+			var currentYear = new Date().getFullYear() + 1;
+			var startYear = 1999;
+			startYear = startYear || 1980;
+			while (startYear <= currentYear) {
+				this.anios.push(startYear++);
+			}
+
+			this.anios = this.anios.reverse();
+		},
+		sendCotizacion: function sendCotizacion(cliente) {
+			var _this3 = this;
+
+			var params = cliente;
+			var url = "./api/cotizacion";
+			axios.post(url, cliente).then(function (res) {
+				console.log('res', res);
+				_this3.cliente.cotizacion = res.data.cotizacion.cotizacion;
+				$('#cotizar').modal('show');
+			}).catch(function (err) {
+				console.log('err', err);
 			});
 		}
 	},
@@ -47802,6 +47897,45 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade bd-example-modal-sm",
+        attrs: {
+          id: "cotizar",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "cotizar",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-sm" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-form-label",
+                    attrs: { for: "recipient-name" }
+                  },
+                  [
+                    _vm._v(
+                      "Tu cotización se guardo en nuestro sistema con el folio: " +
+                        _vm._s(_vm.cliente.cotizacion)
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "tab-pane" }, [
       _c("div", { staticClass: "row m-0 p-1 no-gutters" }, [
         _c("div", { staticClass: "col-sm-6 d-none d-sm-block p-2" }, [
@@ -47827,11 +47961,6 @@ var render = function() {
                     role: "tab",
                     "aria-controls": "v-pills-Uso",
                     "aria-selected": "true"
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.showPill("v-pills-Uso")
-                    }
                   }
                 },
                 [_vm._v("Uso: " + _vm._s(_vm.cliente.uso_auto))]
@@ -47882,7 +48011,12 @@ var render = function() {
                     "aria-selected": "false"
                   }
                 },
-                [_vm._v("Descripción:" + _vm._s(_vm.cliente.descripcion_auto))]
+                [
+                  _vm._v(
+                    "Descripción: " +
+                      _vm._s(_vm.cliente.descripcion_auto.cVersion)
+                  )
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48080,7 +48214,9 @@ var render = function() {
                                     expression: "cliente.uso_auto"
                                   }
                                 ],
-                                staticClass: "list-group list-group-flush",
+                                staticClass:
+                                  "list-group list-group-flush col mr-0 ml-0",
+                                staticStyle: { "overflow-y": "hidden" },
                                 attrs: { size: "3" },
                                 on: {
                                   change: function($event) {
@@ -48181,7 +48317,7 @@ var render = function() {
                               expression: "cliente.marca_auto"
                             }
                           ],
-                          staticClass: "list-group list-group-flush",
+                          staticClass: "list-group list-group-flush col",
                           attrs: { size: "3" },
                           on: {
                             change: function($event) {
@@ -48238,7 +48374,63 @@ var render = function() {
                     "aria-albelledby": "v-pills-Modelo-tab"
                   }
                 },
-                [_vm._m(0)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Modelo\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.modelo_auto,
+                              expression: "cliente.modelo_auto"
+                            }
+                          ],
+                          staticClass: "list-group list-group-flush col",
+                          attrs: { size: "3" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.cliente,
+                                "modelo_auto",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.anios, function(anio) {
+                          return _c(
+                            "option",
+                            {
+                              staticClass:
+                                "list-group-item text-center text-dark seleccionador",
+                              domProps: { value: anio }
+                            },
+                            [_vm._v(_vm._s(anio))]
+                          )
+                        })
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48259,7 +48451,77 @@ var render = function() {
                     "aria-albelledby": "v-pills-Descripcion-tab"
                   }
                 },
-                [_vm._m(1)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Descripcion\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.descripcion_auto,
+                              expression: "cliente.descripcion_auto"
+                            }
+                          ],
+                          staticClass: "list-group list-group-flush col",
+                          attrs: { size: "3" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.cliente,
+                                "descripcion_auto",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.descripciones, function(descripcion) {
+                          return _c(
+                            "option",
+                            {
+                              staticClass:
+                                "list-group-item text-center text-dark seleccionador",
+                              staticStyle: { "white-space": "normal" },
+                              domProps: { value: descripcion }
+                            },
+                            [
+                              _vm._v(
+                                "Tipo: " +
+                                  _vm._s(descripcion.cTipo) +
+                                  " Version: " +
+                                  _vm._s(descripcion.cVersion) +
+                                  " Transmision: " +
+                                  _vm._s(
+                                    descripcion.cTransmision == "A"
+                                      ? "Automatica"
+                                      : "Estandar"
+                                  )
+                              )
+                            ]
+                          )
+                        })
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48280,7 +48542,59 @@ var render = function() {
                     "aria-albelledby": "v-pills-CP-tab"
                   }
                 },
-                [_vm._m(2)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            CP\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.cp,
+                              expression: "cliente.cp"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            placeholder: "CP: 000000",
+                            id: "valorCP"
+                          },
+                          domProps: { value: _vm.cliente.cp },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.cliente, "cp", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary seleccionador",
+                          attrs: { type: "button", id: "6_1" },
+                          on: {
+                            click: function($event) {
+                              _vm.nextPill("cp")
+                            }
+                          }
+                        },
+                        [_vm._v("Siguiente")]
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48301,7 +48615,129 @@ var render = function() {
                     "aria-albelledby": "v-pills-Nombre-tab"
                   }
                 },
-                [_vm._m(3)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Nombre\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "form-row" }, [
+                        _c("div", { staticClass: "col-12 my-1" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cliente.nombre,
+                                expression: "cliente.nombre"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "valorNombre",
+                              placeholder: "Nombre"
+                            },
+                            domProps: { value: _vm.cliente.nombre },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.cliente,
+                                  "nombre",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12 my-1" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cliente.appaterno,
+                                expression: "cliente.appaterno"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "valorApellidoP",
+                              placeholder: "Apellido P."
+                            },
+                            domProps: { value: _vm.cliente.appaterno },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.cliente,
+                                  "appaterno",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12 my-1" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cliente.apmaterno,
+                                expression: "cliente.apmaterno"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "valorApellidoM",
+                              placeholder: "Apellido M."
+                            },
+                            domProps: { value: _vm.cliente.apmaterno },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.cliente,
+                                  "apmaterno",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary seleccionador",
+                          attrs: { type: "button", id: "e_1" },
+                          on: {
+                            click: function($event) {
+                              _vm.nextPill("nombre")
+                            }
+                          }
+                        },
+                        [_vm._v("Siguiente")]
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48322,7 +48758,63 @@ var render = function() {
                     "aria-albelledby": "v-pills-Celular-tab"
                   }
                 },
-                [_vm._m(4)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Celular\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.telefono,
+                              expression: "cliente.telefono"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "valorCelular",
+                            placeholder: "55 53 33 11 22"
+                          },
+                          domProps: { value: _vm.cliente.telefono },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cliente,
+                                "telefono",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary seleccionador",
+                          attrs: { type: "button", id: "f_1" },
+                          on: {
+                            click: function($event) {
+                              _vm.nextPill("telefono")
+                            }
+                          }
+                        },
+                        [_vm._v("Siguiente")]
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48343,7 +48835,63 @@ var render = function() {
                     "aria-albelledby": "v-pills-Correo-tab"
                   }
                 },
-                [_vm._m(5)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Correo\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.email,
+                              expression: "cliente.email"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            id: "valorCorreo",
+                            placeholder: "ejemplo@ejemplo.com"
+                          },
+                          domProps: { value: _vm.cliente.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cliente,
+                                "email",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary seleccionador",
+                          attrs: { type: "button", id: "g_1" },
+                          on: {
+                            click: function($event) {
+                              _vm.nextPill("correo")
+                            }
+                          }
+                        },
+                        [_vm._v("Siguiente")]
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48364,7 +48912,83 @@ var render = function() {
                     "aria-albelledby": "v-pills-Sexo-tab"
                   }
                 },
-                [_vm._m(6)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Sexo\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.sexo,
+                              expression: "cliente.sexo"
+                            }
+                          ],
+                          staticClass: "list-group list-group-flush",
+                          attrs: { size: "3" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.cliente,
+                                "sexo",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              staticClass:
+                                "list-group-item text-center text-dark seleccionador",
+                              attrs: { value: "Hombre" }
+                            },
+                            [_vm._v("Hombre")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "option",
+                            {
+                              staticClass:
+                                "list-group-item text-center text-dark seleccionador",
+                              attrs: { value: "Mujer" }
+                            },
+                            [_vm._v("Mujer")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "option",
+                            {
+                              staticClass:
+                                "list-group-item text-center text-dark seleccionador",
+                              attrs: { value: "Otro" }
+                            },
+                            [_vm._v("Otro")]
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -48385,15 +49009,89 @@ var render = function() {
                     "aria-albelledby": "v-pills-Nacimiento-tab"
                   }
                 },
-                [_vm._m(7)]
+                [
+                  _c("div", { staticClass: "card p-0" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n\t\t                            Nacimiento\n\t\t                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente.f_nac,
+                              expression: "cliente.f_nac"
+                            }
+                          ],
+                          staticStyle: { "max-width": "160px" },
+                          attrs: {
+                            type: "date",
+                            id: "valorEdad",
+                            onchange: "cambiarEdad(this.value)"
+                          },
+                          domProps: { value: _vm.cliente.f_nac },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cliente,
+                                "f_nac",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-12 d-none d-sm-block" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary seleccionador",
+                              attrs: { type: "button", id: "8_1" },
+                              on: {
+                                click: function($event) {
+                                  _vm.sendCotizacion(_vm.cliente)
+                                }
+                              }
+                            },
+                            [_vm._v("Siguiente")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary seleccionador",
+                              attrs: { type: "button", id: "8_1" },
+                              on: {
+                                click: function($event) {
+                                  _vm.sendCotizacion(_vm.cliente)
+                                }
+                              }
+                            },
+                            [_vm._v("Siguiente")]
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                ]
               )
             ]
           )
         ])
       ])
-    ]),
-    _vm._v(" "),
-    _c("pre", [_vm._v("\t    \t@" + _vm._s(_vm.$data) + "\n\t    ")])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -48401,112 +49099,25 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Modelo\n\t\t                        "
-        )
-      ]),
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Cotización:")]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Descripcion\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            CP\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Nombre\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Celular\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Correo\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Sexo\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-0" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n\t\t                            Nacimiento\n\t\t                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" })
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]

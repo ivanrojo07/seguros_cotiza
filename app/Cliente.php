@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Mail\CreateCotizacion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Cliente extends Model
 {
@@ -15,6 +17,8 @@ class Cliente extends Model
     	'marca_auto',
     	'modelo_auto',
     	'descripcion_auto',
+        'tipo_auto',
+        'c_amis',
     	'cp',
     	'nombre',
     	'appaterno',
@@ -32,6 +36,12 @@ class Cliente extends Model
 
     public function generarCotizacion(){
     	return md5("$this->id $this->updated_at");
+    }
+
+    public function emailCotizacion(){
+        $cliente = $this;
+        // dd($cliente);
+        Mail::to($cliente->email)->send(new CreateCotizacion($cliente));
     }
     
 
