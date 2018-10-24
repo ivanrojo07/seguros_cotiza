@@ -19,9 +19,14 @@
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <cotizacion v-bind:cliente="cliente"></cotizacion>
-                @include('pasos.paso1')
-                @include('pasos.paso2')
+                <div class="tab-pane fade show active" id="paso1" role="tabpanel" aria-labelledby="paso1-tab">
+                    <cotizacion v-bind:cliente="cliente" :getcotizacion="getcotizacion"></cotizacion>
+                </div>
+                <div class="tab-pane fade" id="paso2" role="tabpanel" aria-labelledby="paso2-tab">
+                    <polizas v-bind:cliente="cliente" :getcotizacion="getcotizacion"></polizas>
+                </div>
+                {{-- @include('pasos.paso1') --}}
+                {{-- @include('pasos.paso2') --}}
                 @include('pasos.paso3')
                 @include('pasos.paso4')
             </div>

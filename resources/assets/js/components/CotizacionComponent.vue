@@ -1,25 +1,6 @@
 <template>
-    <div class="container">
-
-    	<!-- Modal con número de cotización -->
-    	<div class="modal fade bd-example-modal-sm" id="cotizar" tabindex="-1" role="dialog" aria-labelledby="cotizar" aria-hidden="true">
-		  	<div class="modal-dialog modal-sm">
-		    	<div class="modal-content">
-			     	<div class="modal-header">
-			        	<h5 class="modal-title" id="exampleModalLabel">Cotización:</h5>
-			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			          	<span aria-hidden="true">&times;</span>
-			        	</button>
-			      	</div>
-		      		<div class="modal-body">
-		          		<div class="form-group">
-		            		<label for="recipient-name" class="col-form-label">Tu cotización se guardo en nuestro sistema con el folio: {{cliente.cotizacion}}</label>
-		            	</div>
-		        	</div>
-	      		</div>
-	    	</div>
-  		</div>
-  		<!-- fin de modal -->
+    <div>
+    	
   		<!-- Crear cotización -->
     	<div class="tab-pane">
     		<div class="row m-0 p-1 no-gutters">
@@ -37,7 +18,7 @@
 		              <a class="nav-link disabled" id="v-pills-Nacimiento-tab" data-toggle="pill"  href="#v-pills-Nacimiento" role="tab" aria-controls="v-pills-Nacimiento" aria-selected="false">Nacimiento: {{cliente.f_nac}}</a>
 		            </div>
     			</div>
-    			<div class="col col-sm-6 p-2 my-auto">
+    			<div class="col col-sm-6 p-2 my-auto" v-show="!searchOption">
     				<div class="tab-content" id="v-pills-tabContent">
     					<div class="tab-pane fade show active" id="v-pills-Uso" role="tabpanel" aria-albelledby="v-pills-Uso-tab">
     						<div class="row p-0 m-0">
@@ -98,7 +79,8 @@
 		                            Descripcion
 		                        </div>
 		                        <div class="card-body">
-		                            <select class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
+		                        	<div v-show="loader" class="loader"></div>
+		                            <select v-show="!loader" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
 		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Tipo: {{descripcion.cTipo}} Version: {{descripcion.cVersion}} Transmision: {{ descripcion.cTransmision == "A" ? 'Automatica' : 'Estandar'}}</option>
 		                            </select>
 		                        </div>
@@ -177,7 +159,7 @@
 		                        </div>
 		                        <div class="card-body">
 		                            <!-- TODO -->
-		                            <select v-model="cliente.sexo" size="3" class="list-group list-group-flush">
+		                            <select v-model="cliente.sexo" size="3" class="list-group list-group-flush col"  style="overflow-y: hidden;">
 										<option value="Hombre" class="list-group-item text-center text-dark seleccionador">Hombre</option>
                         				<option value="Mujer" class="list-group-item text-center text-dark seleccionador">Mujer</option>
                         				<option value="Otro" class="list-group-item text-center text-dark seleccionador">Otro</option>
@@ -194,7 +176,7 @@
 		                        <div class="card-body">
 		                            <!-- TODO -->
 		                            <div class="form-group">
-		                                <input type="date" v-model="cliente.f_nac" id="valorEdad" onchange="cambiarEdad(this.value)" style="max-width: 160px;">
+		                                <input type="date" v-model="cliente.f_nac" id="valorEdad" onchange="cambiarEdad(this.value)" class="form-control col">
 		                            </div>
 		                            <div class="row">
 		                                <div class="col-12 d-none d-sm-block">
@@ -221,9 +203,26 @@
 </template>
 
 <script>
+function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp,nombre,appaterno,apmaterno,telefono,email,sexo,f_nac}){
+	this.cotizacion = cotizacion;
+	this.uso_auto = uso_auto;
+	this.marca_auto=marca_auto;
+	this.modelo_auto=modelo_auto;
+	this.descripcion_auto= { cVersion : descripcion_auto};
+	this.cp = cp;
+	this.nombre= nombre;
+	this.appaterno = appaterno;
+	this.apmaterno = apmaterno;
+	this.telefono = telefono;
+	this.email = email;
+	this.sexo = sexo;
+	this.f_nac = f_nac;
+
+}
     export default {
     	props:[
-    		'cliente'
+    		'cliente',
+    		'getcotizacion'
     	],
     	data(){
     		return{
@@ -235,6 +234,7 @@
     			uso: true,
     			marca: false,
     			modelo: false,
+    			loader:true,
     			descripcion:false,
     			cp:false,
     			nombre:false,
@@ -242,6 +242,7 @@
     			correo:false,
     			sexo:false,
     			nac: false,
+    			searchOption:false,
 
     		}
     	},
@@ -258,6 +259,9 @@
     		'cliente.marca_auto': function(newValue,oldValue){
     			if (newValue != "") {
     				this.modelo = true;
+    				if(this.searchOption == false){
+    					this.cliente.descripcion_auto="";
+    				}
     				// this.showPill('v-pills-Marca');
     				$('#v-pills-Modelo-tab').removeClass('disabled');
     				// $('#v-pills-Modelo-tab').addClass('disabled');
@@ -268,6 +272,9 @@
     			if (newV != "") {
     				this.descripcion = true;
     				// this.showPill('v-pills-Marca');
+    				if(this.searchOption == false){
+    					this.cliente.descripcion_auto="";
+    				}
     				$('#v-pills-Descripcion-tab').removeClass('disabled');
     				// $('#v-pills-Descripcion-tab').addClass('disabled');
     				this.getDescripciones(this.cliente.marca_auto,this.cliente.modelo_auto);
@@ -301,6 +308,34 @@
     		searchCliente(cotizacion){
     			console.log(cotizacion);
     			// TODO
+    			let url = './api/searchCliente';
+    			let params = {cotizacion:cotizacion};
+    			axios.post(url,params).then(res=>{
+    				// console.log("res cot",res);
+    				if(res.data.cotizacion){
+    					this.searchOption = true;
+    					// this.cliente = new Cliente(res.data.cotizacion);
+    					this.cliente.cotizacion =res.data.cotizacion.cotizacion;
+						this.cliente.uso_auto =res.data.cotizacion.uso_auto;
+						this.cliente.marca_auto=res.data.cotizacion.marca_auto;
+						this.cliente.modelo_auto=res.data.cotizacion.modelo_auto;
+						this.cliente.descripcion_auto={ cVersion : res.data.cotizacion.descripcion_auto};
+						this.cliente.cp =res.data.cotizacion.cp;
+						this.cliente.nombre=res.data.cotizacion.nombre;
+						this.cliente.appaterno =res.data.cotizacion.appaterno;
+						this.cliente.apmaterno =res.data.cotizacion.apmaterno;
+						this.cliente.telefono =res.data.cotizacion.telefono;
+						this.cliente.email =res.data.cotizacion.email;
+						this.cliente.sexo =res.data.cotizacion.sexo;
+						this.cliente.f_nac =res.data.cotizacion.f_nac;
+					 	$("#paso2-tab").removeClass("disabled");
+        				$("#paso2-tab").click();
+        				this.getcotizacion.value = !this.getcotizacion.value;
+    				}
+    			}).catch(err=>{
+    				console.log('err cot',err);
+    			});
+
 
     		},
     		getMarcas(){
@@ -366,8 +401,11 @@
     			}
     		},
     		getDescripciones(marca,modelo){
+    			this.loader = true;
+            	$('#descripcion').append('<div class="loader"></div>');
     			let url = `./api/modelos/${marca}/${modelo}`;
     			axios.get(url).then(res=>{
+    				this.loader = false;
     				console.log('getDescripciones res',res);
     				this.descripciones = res.data.descripciones
     			}).catch(err=>{
@@ -390,7 +428,8 @@
     			axios.post(url,cliente).then(res=>{
     				console.log('res',res);
     				this.cliente.cotizacion = res.data.cotizacion.cotizacion;
-    				$('#cotizar').modal('show');
+    				this.getcotizacion.value = !this.getcotizacion.value;
+    				// $('#cotizar').modal('show');
     			}).catch(err=>{
     				console.log('err',err);
     			})

@@ -59,5 +59,14 @@ class ClienteController extends Controller
         return response()->json(['cotizacion'=>$cliente],201);
     }
 
+    public function search(Request $request){
+        $cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
+        if($cliente != null){
+            return response()->json(['cotizacion'=>$cliente],200);
+        }
+        else{
+            return response()->json(['error'=>'Cotización no encontrada'],404);
+        }
+    }
 
 }

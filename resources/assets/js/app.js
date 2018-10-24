@@ -17,6 +17,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('cotizacion', require('./components/CotizacionComponent.vue'));
+Vue.component('polizas',require('./components/PolizasComponent.vue'));
 const app = new Vue({
     el: '#app',
     data:{
@@ -34,6 +35,10 @@ const app = new Vue({
 	    	'email':"",
 	    	'sexo':"",
 	    	'f_nac':""
+    	},
+    	getcotizacion:{
+    		type: Boolean,
+    		value:false
     	},
 
     },
