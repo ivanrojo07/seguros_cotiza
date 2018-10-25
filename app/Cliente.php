@@ -82,6 +82,8 @@ class Cliente extends Model
     {
         $camis = $this->c_amis;
         $sum_impar = 0;
+
+        $sum_par=0;
        if(strlen($camis) <5){
             $camis = str_pad($camis,5,'0',STR_PAD_LEFT);
         }
@@ -91,14 +93,17 @@ class Cliente extends Model
                 // var_dump($i);
                 $sum_impar += $camis[$i];
             }
+            else{
+                $sum_par +=$camis[$i];
+            }
         }
         // var_dump($sum_impar);
         $sum_impar = $sum_impar*3;
         $sum_impar = (string)$sum_impar; 
-        $sum_par = 0;
-        for ($i = 0; $i < strlen($sum_impar); $i++) {
-          $sum_par += $sum_impar[$i];
-        }
+        // // $sum_par = 0;
+        // for ($i = 0; $i < strlen($camis); $i++) {
+        //   $sum_par += $sum_impar[$i];
+        // }
         // var_dump($sum_impar);
         // var_dump($sum_par);
         $et4 = $sum_impar+$sum_par;

@@ -319,7 +319,7 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
 						this.cliente.uso_auto =res.data.cotizacion.uso_auto;
 						this.cliente.marca_auto=res.data.cotizacion.marca_auto;
 						this.cliente.modelo_auto=res.data.cotizacion.modelo_auto;
-						this.cliente.descripcion_auto={ cVersion : res.data.cotizacion.descripcion_auto};
+						this.cliente.descripcion_auto={ cTipo: res.data.cotizacion.tipo_auto, cVersion : res.data.cotizacion.descripcion_auto};
 						this.cliente.cp =res.data.cotizacion.cp;
 						this.cliente.nombre=res.data.cotizacion.nombre;
 						this.cliente.appaterno =res.data.cotizacion.appaterno;

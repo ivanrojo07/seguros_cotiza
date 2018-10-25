@@ -164,9 +164,9 @@ class WebServiceController extends Controller
       </Coberturas>
     </DatosVehiculo>
     <DatosGenerales>
-      <FechaEmision>2018-10-23</FechaEmision>
-      <FechaInicio>2018-10-23</FechaInicio>
-      <FechaTermino>2019-10-23</FechaTermino>
+      <FechaEmision>2018-10-25</FechaEmision>
+      <FechaInicio>2018-10-25</FechaInicio>
+      <FechaTermino>2019-10-25</FechaTermino>
       <Moneda>0</Moneda>
       <Agente>74285</Agente>
       <FormaPago>C</FormaPago>
@@ -179,7 +179,7 @@ class WebServiceController extends Controller
       <PorcentajeDescuento>20</PorcentajeDescuento>
       <ConsideracionesAdicionalesDG NoConsideracion="1">
         <TipoRegla>1</TipoRegla>
-        <ValorRegla>2</ValorRegla>
+        <ValorRegla>6</ValorRegla>
       </ConsideracionesAdicionalesDG>
       <ConsideracionesAdicionalesDG NoConsideracion="4">
         <TipoRegla>1</TipoRegla>
@@ -390,7 +390,7 @@ XML;
         $client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmls));
         $xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
         $response = json_decode(json_encode($xml), true);
-        dd($response);
+        return response()->json(['response'=>$response],200);
       }
 
      
