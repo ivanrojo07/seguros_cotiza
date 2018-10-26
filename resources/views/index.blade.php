@@ -25,6 +25,7 @@
                 <div class="tab-pane fade" id="paso2" role="tabpanel" aria-labelledby="paso2-tab">
                     <polizas v-bind:cliente="cliente" :getcotizacion="getcotizacion"></polizas>
                 </div>
+                
                 {{-- @include('pasos.paso1') --}}
                 {{-- @include('pasos.paso2') --}}
                 @include('pasos.paso3')

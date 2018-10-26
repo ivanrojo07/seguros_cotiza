@@ -14005,13 +14005,16 @@ module.exports = __webpack_require__(49);
 __webpack_require__(14);
 
 window.Vue = __webpack_require__(37);
-
+// Vue.filter('capitalize', function (value) {
+//   if (!value) return ''
+//   value = value.toString()
+//   return value.charAt(0).toUpperCase() + value.slice(1)
+// });
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 Vue.component('example-component', __webpack_require__(40));
 Vue.component('cotizacion', __webpack_require__(43));
 Vue.component('polizas', __webpack_require__(46));
@@ -49277,11 +49280,74 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cliente', 'getcotizacion'],
   data: function data() {
     return {
+      cotizacion: null,
       cotizaciones: [],
       error: null
     };
@@ -49301,14 +49367,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var params = { cotizacion: cotizacion };
       axios.post(url, params).then(function (res) {
         console.log('coberturas res', res);
-        _this.error = res.data.response.Movimiento.CodigoError;
-        console.log(_this.error.length);
-        if (_this.error.length == 0) {
-          _this.cotizaciones.push({ 'imagen': './img/qua.png', 'response': res.data.response.Movimiento });
+        _this.error = res.data.error;
+        // console.log(this.error.length);
+        if (!_this.error) {
+          _this.cotizaciones.push({ 'imagen': './img/qua.png', 'response': res.data });
         }
       }).catch(function (err) {
         console.log('coberturas err', err);
       });
+    },
+    infoCotizacion: function infoCotizacion(cotiza) {
+      this.cotizacion = cotiza;
+    }
+  },
+  filters: {
+    'int': function int(value) {
+      if (!value) return '';
+      var val = (value / 1).toFixed(2).replace(',', '.');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
   created: function created() {},
@@ -49326,6 +49402,144 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade bd-example-modal-lg1",
+        attrs: {
+          id: "modal-Info",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myLargeModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-lg" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm.cotizacion
+                ? _c("div", { staticClass: "row p-0" }, [
+                    _c("div", { staticClass: "col-12 p-0" }, [
+                      _c("div", { staticClass: "row m-1" }, [
+                        _c("div", { staticClass: "col-6" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "nav flex-column nav-pills",
+                              attrs: {
+                                id: "v-pills-tab",
+                                role: "tablist",
+                                "aria-orientation": "vertical"
+                              }
+                            },
+                            _vm._l(
+                              _vm.cotizacion.response.amplia.Coberturas,
+                              function(cobertura, index) {
+                                return _c(
+                                  "a",
+                                  {
+                                    staticClass: "nav-link",
+                                    attrs: {
+                                      id: "cobertura-" + index + "-tab",
+                                      "data-toggle": "pill",
+                                      href: "#cobertura-" + index,
+                                      role: "tab",
+                                      "aria-controls": "cobertura-1",
+                                      "aria-selected": "true"
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(cobertura.tipo))]
+                                )
+                              }
+                            )
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-6 p-2" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "tab-content",
+                              attrs: { id: "v-pills-tabContent" }
+                            },
+                            _vm._l(
+                              _vm.cotizacion.response.amplia.Coberturas,
+                              function(cobertura, index) {
+                                return _c(
+                                  "div",
+                                  {
+                                    staticClass: "tab-pane fade",
+                                    attrs: {
+                                      id: "cobertura-" + index,
+                                      role: "tabpanel",
+                                      "aria-labelledby": "cobertura-1-tab"
+                                    }
+                                  },
+                                  [
+                                    _c("h4", [
+                                      _vm._v(
+                                        "\t\t\t\n                                            \t\tDescripción " +
+                                          _vm._s(cobertura.tipo) +
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("h5", [_vm._v("Suma asegurada:")]),
+                                    _vm._v(" "),
+                                    _c("p", [
+                                      _vm._v(
+                                        "$" +
+                                          _vm._s(
+                                            _vm._f("int")(
+                                              cobertura.SumaAsegurada
+                                            )
+                                          ) +
+                                          "MXN"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("h5", [_vm._v("Deducible:")]),
+                                    _vm._v(" "),
+                                    _c("p", [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("int")(cobertura.Deducible)
+                                        ) + "%"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("h5", [_vm._v("Prima:")]),
+                                    _vm._v(" "),
+                                    _c("p", [
+                                      _vm._v(
+                                        "$" +
+                                          _vm._s(
+                                            _vm._f("int")(cobertura.Prima)
+                                          ) +
+                                          "MXN"
+                                      )
+                                    ])
+                                  ]
+                                )
+                              }
+                            )
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "row p-3 m-0" }, [
       _c("div", { staticClass: "col" }, [
         _c("h3", [
@@ -49348,7 +49562,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(0),
+        _vm._m(2),
         _vm._v(" "),
         _c(
           "div",
@@ -49380,41 +49594,113 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("div", { staticClass: "card-body" }, [
-                          _c("h5", { staticClass: "card-title" }, [
+                          _c("h6", { staticClass: "card-title" }, [
                             _vm._v("Prima Neta:")
                           ]),
                           _vm._v(" "),
                           _c("p", [
                             _vm._v(
                               "$" +
-                                _vm._s(cotizacion.response.Primas.PrimaNeta) +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.amplia.Primas.PrimaNeta
+                                  )
+                                ) +
                                 "MXN"
                             )
                           ]),
                           _vm._v(" "),
-                          _c("h5", { staticClass: "card-title" }, [
+                          _c("h6", { staticClass: "card-title" }, [
                             _vm._v("Gastos de expedición de poliza:")
                           ]),
                           _vm._v(" "),
                           _c("p", [
                             _vm._v(
                               "$" +
-                                _vm._s(cotizacion.response.Primas.Derecho) +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.amplia.Primas.Derecho
+                                  )
+                                ) +
                                 "MXN"
                             )
                           ]),
                           _vm._v(" "),
-                          _c("h5", { staticClass: "card-title" }, [
+                          _c("h6", { staticClass: "card-title" }, [
                             _vm._v("Impuestos:")
                           ]),
                           _vm._v(" "),
                           _c("p", [
                             _vm._v(
                               "$" +
-                                _vm._s(cotizacion.response.Primas.Impuestos) +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.amplia.Primas.Impuesto
+                                  )
+                                ) +
                                 "MXN"
                             )
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Recargo:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.amplia.Primas.Recargo
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h4", { staticClass: "card-title" }, [
+                            _vm._v("Prima Total:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.amplia.Primas.PrimaTotal
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "row justify-content-between" },
+                            [
+                              _c("div", { staticClass: "col-4" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-info",
+                                    attrs: {
+                                      type: "button",
+                                      "data-toggle": "modal",
+                                      "data-target": "#modal-Info"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.infoCotizacion(cotizacion)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Información")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(3, true)
+                            ]
+                          )
                         ])
                       ])
                     ])
@@ -49445,10 +49731,55 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("pre", [_vm._v("\t\t" + _vm._s(_vm.$data) + "\n\t")])
+    _c("pre", [_vm._v("\t\t\t" + _vm._s(_vm.$data) + "\n\t\t")])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("div", { staticClass: "col-4 p-2" }, [
+        _c("img", {
+          staticClass: "rounded",
+          attrs: { src: "img/qua.png", alt: "..." }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col ml-3 p-2" }, [
+        _c(
+          "h5",
+          { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+          [_vm._v("Quálitas")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cerrar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary seleccionador",
+          attrs: { type: "button", id: "9" }
+        },
+        [_vm._v("Seleccionar")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -49515,6 +49846,21 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary seleccionador",
+          attrs: { type: "button", id: "9_1" }
+        },
+        [_vm._v("Elegir")]
+      )
+    ])
   }
 ]
 render._withStripped = true
