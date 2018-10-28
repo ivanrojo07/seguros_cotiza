@@ -49342,6 +49342,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cliente', 'getcotizacion'],
@@ -49435,26 +49488,26 @@ var render = function() {
                                 "aria-orientation": "vertical"
                               }
                             },
-                            _vm._l(
-                              _vm.cotizacion.response.amplia.Coberturas,
-                              function(cobertura, index) {
-                                return _c(
-                                  "a",
-                                  {
-                                    staticClass: "nav-link",
-                                    attrs: {
-                                      id: "cobertura-" + index + "-tab",
-                                      "data-toggle": "pill",
-                                      href: "#cobertura-" + index,
-                                      role: "tab",
-                                      "aria-controls": "cobertura-1",
-                                      "aria-selected": "true"
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(cobertura.tipo))]
-                                )
-                              }
-                            )
+                            _vm._l(_vm.cotizacion.Coberturas, function(
+                              cobertura,
+                              index
+                            ) {
+                              return _c(
+                                "a",
+                                {
+                                  staticClass: "nav-link",
+                                  attrs: {
+                                    id: "cobertura-" + index + "-tab",
+                                    "data-toggle": "pill",
+                                    href: "#cobertura-" + index,
+                                    role: "tab",
+                                    "aria-controls": "cobertura-1",
+                                    "aria-selected": "true"
+                                  }
+                                },
+                                [_vm._v(_vm._s(cobertura.tipo))]
+                              )
+                            })
                           )
                         ]),
                         _vm._v(" "),
@@ -49465,67 +49518,63 @@ var render = function() {
                               staticClass: "tab-content",
                               attrs: { id: "v-pills-tabContent" }
                             },
-                            _vm._l(
-                              _vm.cotizacion.response.amplia.Coberturas,
-                              function(cobertura, index) {
-                                return _c(
-                                  "div",
-                                  {
-                                    staticClass: "tab-pane fade",
-                                    attrs: {
-                                      id: "cobertura-" + index,
-                                      role: "tabpanel",
-                                      "aria-labelledby": "cobertura-1-tab"
-                                    }
-                                  },
-                                  [
-                                    _c("h4", [
-                                      _vm._v(
-                                        "\t\t\t\n                                            \t\tDescripción " +
-                                          _vm._s(cobertura.tipo) +
-                                          "\n\t\t\t\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("h5", [_vm._v("Suma asegurada:")]),
-                                    _vm._v(" "),
-                                    _c("p", [
-                                      _vm._v(
-                                        "$" +
-                                          _vm._s(
-                                            _vm._f("int")(
-                                              cobertura.SumaAsegurada
-                                            )
-                                          ) +
-                                          "MXN"
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("h5", [_vm._v("Deducible:")]),
-                                    _vm._v(" "),
-                                    _c("p", [
-                                      _vm._v(
+                            _vm._l(_vm.cotizacion.Coberturas, function(
+                              cobertura,
+                              index
+                            ) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass: "tab-pane fade",
+                                  attrs: {
+                                    id: "cobertura-" + index,
+                                    role: "tabpanel",
+                                    "aria-labelledby": "cobertura-1-tab"
+                                  }
+                                },
+                                [
+                                  _c("h4", [
+                                    _vm._v(
+                                      "\t\t\t\n                                            \t\tDescripción " +
+                                        _vm._s(cobertura.tipo) +
+                                        "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("h5", [_vm._v("Suma asegurada:")]),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm._v(
+                                      "$" +
                                         _vm._s(
-                                          _vm._f("int")(cobertura.Deducible)
-                                        ) + "%"
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("h5", [_vm._v("Prima:")]),
-                                    _vm._v(" "),
-                                    _c("p", [
-                                      _vm._v(
-                                        "$" +
-                                          _vm._s(
-                                            _vm._f("int")(cobertura.Prima)
-                                          ) +
-                                          "MXN"
-                                      )
-                                    ])
-                                  ]
-                                )
-                              }
-                            )
+                                          _vm._f("int")(cobertura.SumaAsegurada)
+                                        ) +
+                                        "MXN"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("h5", [_vm._v("Deducible:")]),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("int")(cobertura.Deducible)
+                                      ) + "%"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("h5", [_vm._v("Prima:")]),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm._v(
+                                      "$" +
+                                        _vm._s(_vm._f("int")(cobertura.Prima)) +
+                                        "MXN"
+                                    )
+                                  ])
+                                ]
+                              )
+                            })
                           )
                         ])
                       ])
@@ -49690,7 +49739,9 @@ var render = function() {
                                     },
                                     on: {
                                       click: function($event) {
-                                        _vm.infoCotizacion(cotizacion)
+                                        _vm.infoCotizacion(
+                                          cotizacion.response.amplia
+                                        )
                                       }
                                     }
                                   },
@@ -49709,29 +49760,297 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("div", {
-              staticClass: "tab-pane fade",
-              attrs: {
-                id: "pills-Limitada",
-                role: "tabpanel",
-                "aria-labelledby": "pills-Limitada-tab"
-              }
-            }),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade",
+                attrs: {
+                  id: "pills-Limitada",
+                  role: "tabpanel",
+                  "aria-labelledby": "pills-Limitada-tab"
+                }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "row" },
+                  _vm._l(_vm.cotizaciones, function(cotizacion) {
+                    return _c("div", { staticClass: "coti-item" }, [
+                      _c("div", { staticClass: "card" }, [
+                        _c("img", {
+                          staticClass: "card-img-top",
+                          attrs: {
+                            src: cotizacion.imagen,
+                            alt: "Card image cap"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Prima Neta:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.limitada.Primas
+                                      .PrimaNeta
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Gastos de expedición de poliza:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.limitada.Primas.Derecho
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Impuestos:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.limitada.Primas.Impuesto
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Recargo:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.limitada.Primas.Recargo
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h4", { staticClass: "card-title" }, [
+                            _vm._v("Prima Total:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.limitada.Primas
+                                      .PrimaTotal
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "row justify-content-between" },
+                            [
+                              _c("div", { staticClass: "col-4" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-info",
+                                    attrs: {
+                                      type: "button",
+                                      "data-toggle": "modal",
+                                      "data-target": "#modal-Info"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.infoCotizacion(
+                                          cotizacion.response.limitada
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Información")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(4, true)
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  })
+                )
+              ]
+            ),
             _vm._v(" "),
-            _c("div", {
-              staticClass: "tab-pane fade",
-              attrs: {
-                id: "pills-RC",
-                role: "tabpanel",
-                "aria-labelledby": "pills-RC-tab"
-              }
-            })
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade",
+                attrs: {
+                  id: "pills-RC",
+                  role: "tabpanel",
+                  "aria-labelledby": "pills-RC-tab"
+                }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "row" },
+                  _vm._l(_vm.cotizaciones, function(cotizacion) {
+                    return _c("div", { staticClass: "coti-item" }, [
+                      _c("div", { staticClass: "card" }, [
+                        _c("img", {
+                          staticClass: "card-img-top",
+                          attrs: {
+                            src: cotizacion.imagen,
+                            alt: "Card image cap"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Prima Neta:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.rc.Primas.PrimaNeta
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Gastos de expedición de poliza:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.rc.Primas.Derecho
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Impuestos:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.rc.Primas.Impuesto
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticClass: "card-title" }, [
+                            _vm._v("Recargo:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.rc.Primas.Recargo
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h4", { staticClass: "card-title" }, [
+                            _vm._v("Prima Total:")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  _vm._f("int")(
+                                    cotizacion.response.rc.Primas.PrimaTotal
+                                  )
+                                ) +
+                                "MXN"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "row justify-content-between" },
+                            [
+                              _c("div", { staticClass: "col-4" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-info",
+                                    attrs: {
+                                      type: "button",
+                                      "data-toggle": "modal",
+                                      "data-target": "#modal-Info"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.infoCotizacion(
+                                          cotizacion.response.rc
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Información")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(5, true)
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  })
+                )
+              ]
+            )
           ]
         )
       ])
-    ]),
-    _vm._v(" "),
-    _c("pre", [_vm._v("\t\t\t" + _vm._s(_vm.$data) + "\n\t\t")])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -49846,6 +50165,36 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary seleccionador",
+          attrs: { type: "button", id: "9_1" }
+        },
+        [_vm._v("Elegir")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary seleccionador",
+          attrs: { type: "button", id: "9_1" }
+        },
+        [_vm._v("Elegir")]
+      )
+    ])
   },
   function() {
     var _vm = this

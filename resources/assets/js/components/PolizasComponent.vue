@@ -20,12 +20,12 @@
                                 <div class="row m-1">
                                     <div class="col-6">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            <a v-for="(cobertura, index) in cotizacion.response.amplia.Coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#cobertura-'+index" role="tab" aria-controls="cobertura-1" aria-selected="true">{{cobertura.tipo}}</a>
+                                            <a v-for="(cobertura, index) in cotizacion.Coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#cobertura-'+index" role="tab" aria-controls="cobertura-1" aria-selected="true">{{cobertura.tipo}}</a>
                                         </div>
                                     </div>
                                     <div class="col-6 p-2">
                                         <div class="tab-content" id="v-pills-tabContent">
-                                            <div v-for="(cobertura, index) in cotizacion.response.amplia.Coberturas" class="tab-pane fade" :id="'cobertura-'+index" role="tabpanel" aria-labelledby="cobertura-1-tab">
+                                            <div v-for="(cobertura, index) in cotizacion.Coberturas" class="tab-pane fade" :id="'cobertura-'+index" role="tabpanel" aria-labelledby="cobertura-1-tab">
 												<h4>			
                                             		Descripción {{cobertura.tipo}}
 												</h4>
@@ -86,7 +86,7 @@
 	            						<p>${{cotizacion.response.amplia.Primas.PrimaTotal|int}}MXN</p>
 	            						<div class="row justify-content-between">
 	            							<div class="col-4">
-	            								<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion)">Información</button>
+	            								<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.amplia)">Información</button>
 	            							</div>
 	            							<div class="col-4">
 	            								<button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
@@ -98,16 +98,69 @@
 	            		</div>
 	            	</div>
 
-	            	<div class="tab-pane fade" id="pills-Limitada" role="tabpanel" aria-labelledby="pills-Limitada-tab"></div>
+	            	<div class="tab-pane fade" id="pills-Limitada" role="tabpanel" aria-labelledby="pills-Limitada-tab">
+                        <div class="row">
+                            <div class="coti-item" v-for="cotizacion in cotizaciones">
+                                <div class="card">
+                                    <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Prima Neta:</h6>
+                                        <p>${{cotizacion.response.limitada.Primas.PrimaNeta |int}}MXN</p>
+                                        <h6 class="card-title">Gastos de expedición de poliza:</h6>
+                                        <p>${{cotizacion.response.limitada.Primas.Derecho | int}}MXN</p>
+                                        <h6 class="card-title">Impuestos:</h6>
+                                        <p>${{cotizacion.response.limitada.Primas.Impuesto | int}}MXN</p>
+                                        <h6 class="card-title">Recargo:</h6>
+                                        <p>${{cotizacion.response.limitada.Primas.Recargo|int}}MXN</p>
+                                        <h4 class="card-title">Prima Total:</h4>
+                                        <p>${{cotizacion.response.limitada.Primas.PrimaTotal|int}}MXN</p>
+                                        <div class="row justify-content-between">
+                                            <div class="col-4">
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.limitada)">Información</button>
+                                            </div>
+                                            <div class="col-4">
+                                                <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
 
-	            	<div class="tab-pane fade" id="pills-RC" role="tabpanel" aria-labelledby="pills-RC-tab"></div>
+	            	<div class="tab-pane fade" id="pills-RC" role="tabpanel" aria-labelledby="pills-RC-tab">
+                  <div class="row">
+                            <div class="coti-item" v-for="cotizacion in cotizaciones">
+                                <div class="card">
+                                    <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Prima Neta:</h6>
+                                        <p>${{cotizacion.response.rc.Primas.PrimaNeta |int}}MXN</p>
+                                        <h6 class="card-title">Gastos de expedición de poliza:</h6>
+                                        <p>${{cotizacion.response.rc.Primas.Derecho | int}}MXN</p>
+                                        <h6 class="card-title">Impuestos:</h6>
+                                        <p>${{cotizacion.response.rc.Primas.Impuesto | int}}MXN</p>
+                                        <h6 class="card-title">Recargo:</h6>
+                                        <p>${{cotizacion.response.rc.Primas.Recargo|int}}MXN</p>
+                                        <h4 class="card-title">Prima Total:</h4>
+                                        <p>${{cotizacion.response.rc.Primas.PrimaTotal|int}}MXN</p>
+                                        <div class="row justify-content-between">
+                                            <div class="col-4">
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.rc)">Información</button>
+                                            </div>
+                                            <div class="col-4">
+                                                <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>      
+                    </div>
 
 	            </div>
 			</div>
 		</div>
-		<pre>
-			{{$data}}
-		</pre>
 	</div>
 </template>
 <script>
