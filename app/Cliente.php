@@ -53,11 +53,8 @@ class Cliente extends Model
         if($uso == "Servicio Público"){
             return "8";
         }
-        if($uso == "Servicio Público Federal"){
-            return "8";
-        }
         if($uso == "Servicio Particular"){
-            return "2";
+            return "1";
         }
         // return $codigo;
     }
@@ -70,12 +67,10 @@ class Cliente extends Model
         if($uso == "Servicio Público"){
             return "2";
         }
-        if($uso == "Servicio Público Federal"){
-            return "2";
-        }
         if($uso == "Servicio Particular"){
             return "1";
         }
+        
         // return $codigo;
     }
     public function getDigAttribute()

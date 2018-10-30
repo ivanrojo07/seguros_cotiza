@@ -44,20 +44,43 @@ class WebServiceController extends Controller
 		dd($fault);
 	  }
 	}
-	public function getModelos($marca,$modelo)
+	public function getModelos($uso,$marca,$modelo)
 	{
-	  // dd($marca);
+	  // dd($uso);
 	  try {
 		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cModelo'=>$modelo]);
 		$xml = simplexml_load_string($result->listaTarifasResult->any);
 		$response = json_decode(json_encode($xml), true);
 		// dd($response);
+		$descripcion = [];
 		if(count($response["datos"]) == 0){
-		  return response()->json(["message"=>"no se encotraron descripciones"],404);
+		  return response()->json(["descripciones"=>$descripcion],201);
 		}
 		else{
-		$descripcion = $response["datos"]['Elemento'];
-		  return response()->json(["descripciones"=>$descripcion],201);
+			
+			if ($response['retorno']['descripcion'] == "1") {
+				$response["datos"]['Elemento'] = [ $response["datos"]['Elemento'] ];
+			}
+			foreach ($response["datos"]['Elemento'] as $elemento) {
+				if($uso == "Servicio Particular"){
+					// dd('entra servicio particular');
+					$version = explode(' ',$elemento['cVersion']);
+					if(!in_array('SERVPUB',$version)){
+						array_push($descripcion,$elemento);
+					}
+				}
+				if($uso == "Servicio Público"){
+					// dd('entra servicio publico');
+					$version = explode(' ',$elemento['cVersion']);
+					if(in_array('SERVPUB',$version)){
+						array_push($descripcion,$elemento);
+					}
+				}
+
+			}
+			// $response["datos"]['Elemento'];
+
+		  	return response()->json(["descripciones"=>$descripcion],201);
 		}
 		
 	  } catch (SoapFault $fault) {
@@ -298,8 +321,8 @@ XML;
 		<ClaveAmis>$cliente->c_amis</ClaveAmis>
 		<Modelo>$cliente->modelo_auto</Modelo>
 		<DescripcionVehiculo></DescripcionVehiculo>
-		<Uso>1</Uso>
-		<Servicio>1</Servicio>
+		<Uso>$cliente->uso</Uso>
+		<Servicio>$cliente->servicio</Servicio>
 		<Paquete>1</Paquete>
 		<Motor/>
 		<Serie/>
@@ -338,6 +361,12 @@ XML;
 		  <TipoSuma>0</TipoSuma>
 		  <Deducible>0</Deducible>
 		  <Prima>0</Prima>
+		</Coberturas>
+		<Coberturas NoCobertura="13">
+			<SumaAsegurada>0</SumaAsegurada>
+			<TipoSuma>0</TipoSuma>
+			<Deducible>1500</Deducible>
+			<Prima>0</Prima>
 		</Coberturas>
 		<Coberturas NoCobertura="14">
 		  <SumaAsegurada>90</SumaAsegurada>
@@ -669,7 +698,12 @@ XML;
 		
 
 		if($response['Movimiento']['CodigoError']){
-			return $response;
+			$error = ['error'=>$response['Movimiento']['CodigoError']];
+			$cobertura = [
+		  		'Nombre'=>"Qualitas",
+				'error'=>$error
+		  	];
+		  	return $cobertura;
 		}
 		else{
 			$coberturas=[];

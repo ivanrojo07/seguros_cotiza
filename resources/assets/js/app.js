@@ -43,6 +43,10 @@ const app = new Vue({
     		type: Boolean,
     		value:false
     	},
+        alert: {
+            message:"",
+            class:""
+        },
 
     },
 });

@@ -1,7 +1,7 @@
 @component('mail::message')
 # Bienvenido a Seguros {{$cliente->nombre}} {{$cliente->appaterno}} {{$cliente->apmaterno}}:
 
-La cotización de tú auto {{$cliente->marca_auto}}  {{$cliente->modelo_auto}} {{$cliente->descripcion_auto}} se guardo en nuestro sistema con este numero:
+La cotización de tú auto {{$cliente->marca_auto}}  {{$cliente->modelo_auto}} {{$cliente->tipo_auto}} {{$cliente->descripcion_auto}} se guardo en nuestro sistema con este numero:
 
 {{$cliente->cotizacion}}
 

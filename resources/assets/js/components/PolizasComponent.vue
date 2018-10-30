@@ -71,7 +71,7 @@
 	            	<div class="tab-pane fade show active" id="pills-Amplia" role="tabpanel" aria-labelledby="pills-Amplia-tab">
 	            		<div class="row">
 	            			<div class="coti-item" v-for="cotizacion in cotizaciones">
-	            				<div class="card">
+	            				<div class="card" v-if="!cotizacion.response.amplia.error">
 	            					<img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
 	            					<div class="card-body">
 	            						<h6 class="card-title">Prima Neta:</h6>
@@ -101,7 +101,7 @@
 	            	<div class="tab-pane fade" id="pills-Limitada" role="tabpanel" aria-labelledby="pills-Limitada-tab">
                         <div class="row">
                             <div class="coti-item" v-for="cotizacion in cotizaciones">
-                                <div class="card">
+                                <div class="card"  v-if="!cotizacion.response.limitada.error">
                                     <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                     <div class="card-body">
                                         <h6 class="card-title">Prima Neta:</h6>
@@ -131,9 +131,9 @@
 	            	<div class="tab-pane fade" id="pills-RC" role="tabpanel" aria-labelledby="pills-RC-tab">
                   <div class="row">
                             <div class="coti-item" v-for="cotizacion in cotizaciones">
-                                <div class="card">
+                                <div class="card" v-if="!cotizacion.response.rc.error">
                                     <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
-                                    <div class="card-body">
+                                    <div class="card-body" >
                                         <h6 class="card-title">Prima Neta:</h6>
                                         <p>${{cotizacion.response.rc.Primas.PrimaNeta |int}}MXN</p>
                                         <h6 class="card-title">Gastos de expedición de poliza:</h6>
@@ -167,7 +167,8 @@
 	export default{
 		props:[
     		'cliente',
-    		'getcotizacion'
+    		'getcotizacion',
+            'alert',
     	],
     	data(){
     		return{

@@ -30,6 +30,6 @@ class CreateCotizacion extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.cotizacion');
+        return $this->subject('Gracias por usar Seguros')->markdown('emails.cotizacion');
     }
 }

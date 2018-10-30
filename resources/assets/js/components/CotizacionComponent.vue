@@ -38,7 +38,6 @@
     											<select v-model="cliente.uso_auto" size="3" class="list-group list-group-flush col mr-0 ml-0"  style="overflow-y: hidden;">
     												<option value="Servicio Particular" class="list-group-item text-center text-dark seleccionador">Servicio Particular</option>
                                     				<option value="Servicio Público" class="list-group-item text-center text-dark seleccionador">Servicio Público</option>
-                                    				<option value="Servicio Público Federal" class="list-group-item text-center text-dark seleccionador">Servicio Público Federal</option>
     											</select>
     										</div>
     									</div>
@@ -80,7 +79,10 @@
 		                        </div>
 		                        <div class="card-body">
 		                        	<div v-show="loader" class="loader"></div>
-		                            <select v-show="!loader" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
+		                        	<div v-show="!loader && this.descripciones.length == 0">
+		                        		<label>No se encontraron resultados</label>
+		                        	</div>
+		                            <select v-show="!loader && this.descripciones.length != 0" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
 		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Tipo: {{descripcion.cTipo}} Version: {{descripcion.cVersion}} Transmision: {{ descripcion.cTransmision == "A" ? 'Automatica' : 'Estandar'}}</option>
 		                            </select>
 		                        </div>
@@ -222,7 +224,8 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     export default {
     	props:[
     		'cliente',
-    		'getcotizacion'
+    		'getcotizacion',
+    		'alert'
     	],
     	data(){
     		return{
@@ -277,7 +280,7 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     				}
     				$('#v-pills-Descripcion-tab').removeClass('disabled');
     				// $('#v-pills-Descripcion-tab').addClass('disabled');
-    				this.getDescripciones(this.cliente.marca_auto,this.cliente.modelo_auto);
+    				this.getDescripciones(this.cliente.uso_auto,this.cliente.marca_auto,this.cliente.modelo_auto);
     				$('#v-pills-Descripcion-tab').click();
     			}
     		},
@@ -310,8 +313,10 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     			// TODO
     			let url = './api/searchCliente';
     			let params = {cotizacion:cotizacion};
+    			this.alert.message = '';
+				this.alert.class = '';
     			axios.post(url,params).then(res=>{
-    				// console.log("res cot",res);
+    				console.log("res cot",res);
     				if(res.data.cotizacion){
     					this.searchOption = true;
     					// this.cliente = new Cliente(res.data.cotizacion);
@@ -332,8 +337,13 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
         				$("#paso2-tab").click();
         				this.getcotizacion.value = !this.getcotizacion.value;
     				}
+    				
     			}).catch(err=>{
-    				console.log('err cot',err);
+    				if(err.response.data.error){
+    					this.alert.message = err.response.data.error;
+    					this.alert.class = "alert alert-danger alert-dismissible fade show"
+    					$('#alert').alert('show')
+    				}
     			});
 
 
@@ -400,15 +410,16 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     				$('#v-pills-Nacimiento-tab').click();
     			}
     		},
-    		getDescripciones(marca,modelo){
+    		getDescripciones(uso, marca,modelo){
     			this.loader = true;
             	$('#descripcion').append('<div class="loader"></div>');
-    			let url = `./api/modelos/${marca}/${modelo}`;
+    			let url = `./api/modelos/${uso}/${marca}/${modelo}`;
     			axios.get(url).then(res=>{
     				this.loader = false;
     				console.log('getDescripciones res',res);
     				this.descripciones = res.data.descripciones
     			}).catch(err=>{
+
     				console.log('getDescripciones err',err);
     			})
     		},
@@ -425,10 +436,14 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     		sendCotizacion(cliente){
     			let params = cliente;
     			let url = "./api/cotizacion";
+    			this.alert.message = '';
+				this.alert.class = '';
     			axios.post(url,cliente).then(res=>{
     				console.log('res',res);
     				this.cliente.cotizacion = res.data.cotizacion.cotizacion;
     				this.getcotizacion.value = !this.getcotizacion.value;
+    				this.alert.message = `${this.cliente.nombre} ${this.cliente.appaterno} ${this.cliente.apmaterno} su cotización se guardo con el folio ${this.cliente.cotizacion}`;
+    				this.alert.class = "alert alert-success alert-dismissible fade show";
     				// $('#cotizar').modal('show');
     			}).catch(err=>{
     				console.log('err',err);

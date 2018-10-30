@@ -19,11 +19,22 @@
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
+                <div class="container" v-if="alert.message">
+                    <div :class="alert.class" id="alert" role="alert">
+
+                        @verbatim
+                        <strong>{{alert.message}}</strong>
+                        @endverbatim
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="tab-pane fade show active" id="paso1" role="tabpanel" aria-labelledby="paso1-tab">
-                    <cotizacion v-bind:cliente="cliente" :getcotizacion="getcotizacion"></cotizacion>
+                    <cotizacion v-bind:cliente="cliente" :getcotizacion="getcotizacion" :alert="alert"></cotizacion>
                 </div>
                 <div class="tab-pane fade" id="paso2" role="tabpanel" aria-labelledby="paso2-tab">
-                    <polizas v-bind:cliente="cliente" :getcotizacion="getcotizacion"></polizas>
+                    <polizas v-bind:cliente="cliente" :getcotizacion="getcotizacion" :alert="alert"></polizas>
                 </div>
                 
                 {{-- @include('pasos.paso1') --}}
