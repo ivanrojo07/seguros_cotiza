@@ -5,7 +5,7 @@ La cotización de tú auto {{$cliente->marca_auto}}  {{$cliente->modelo_auto}} {
 
 {{$cliente->cotizacion}}
 
-@component('mail::button', ['url' => 'http://localhost/seguros_cotiza/public/'])
+@component('mail::button', ['url' => url("/")."?cotizacion=".$cliente->cotizacion])
 Ver cotización
 @endcomponent
 

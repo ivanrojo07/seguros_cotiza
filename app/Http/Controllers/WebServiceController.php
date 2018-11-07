@@ -8,22 +8,39 @@ use SoapClient;
 class WebServiceController extends Controller
 {
 	//
-	protected $opts,$params,$opts1,$params1,$urlTarifa,$clientTarifa,$clientCotiza,$clientCotizaImpresion;
+	protected $opts,$params,$opts1,$params1,$urlTarifa,$clientTarifa,$clientCotiza,$clientCotizaImpresion,$urlAuthGS,$urlCotGS,$clientAuthGS,$clientCotGS;
 	public function __construct(){
-	  $this->opts = array(
+	  	$this->opts = array(
 		  'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false),
 		  'http'=> array('header'=>array('Content-Type:application/soap+xml; charset=utf-8'))
-	);
-	  $this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180, 'stream_context' => stream_context_create($this->opts) );
-	  $this->opts1=['http'=>['header'=>["Content-Type:text/xml;charset=utf-8"]]];
-	  $this->params1=array ( 'encoding' => 'UTF-8','soap_version' => SOAP_1_2, 'trace' => 1, 'stream_context' => stream_context_create($this->opts1) );
-		// 'soap_version'=> SOAP_1_1,
-	  $this->urlTarifa = "http://qbcenter.qualitas.com.mx/wsTarifa/wsTarifa.asmx?wsdl";
-	  $this->urlCotiza = "http://sio.qualitas.com.mx/WsEmision/WsEmision.asmx?wsdl";
-	  $this->urlCotizaImpresion= "http://qbcenter.qualitas.com.mx/QBCImpresion/Service.asmx?wsdl";
-	  $this->clientTarifa = new SoapClient($this->urlTarifa,$this->params);
-	  $this->clientCotiza = new SoapClient($this->urlCotiza,$this->params1);
-	  $this->clientCotizaImpresion= new SoapClient($this->urlCotizaImpresion,$this->params);
+		);
+		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180, 'stream_context' => stream_context_create($this->opts) );
+		$this->opts1=['http'=>['header'=>["Content-Type:text/xml;charset=utf-8"]]];
+		$this->params1=array ( 'encoding' => 'UTF-8','soap_version' => SOAP_1_2, 'trace' => 1, 'stream_context' => stream_context_create($this->opts1) );
+			// 'soap_version'=> SOAP_1_1,
+
+
+		  // DATOS QUALITAS
+		$this->urlTarifa = "http://qbcenter.qualitas.com.mx/wsTarifa/wsTarifa.asmx?wsdl";
+		$this->urlCotiza = "http://sio.qualitas.com.mx/WsEmision/WsEmision.asmx?wsdl";
+		$this->urlCotizaImpresion= "http://qbcenter.qualitas.com.mx/QBCImpresion/Service.asmx?wsdl";
+		$this->clientTarifa = new SoapClient($this->urlTarifa,$this->params);
+		$this->clientCotiza = new SoapClient($this->urlCotiza,$this->params1);
+		$this->clientCotizaImpresion= new SoapClient($this->urlCotizaImpresion,$this->params);
+
+		  // DATOS GENERAL DE SEGUROS
+		$this->urlAuthGS = "http://gdswas.mx:9080/gsautos-wsDesa/soap/autenticacionWS?wsdl";
+		$this->urlCotGS = "http://gdswas.mx:9080/gsautos-wsDesa/soap/cotizacionEmisionWS?wsdl";
+		// try{
+		// 	$this->clientAuthGS = new SoapClient($this->urlAuthGS,$this->params);
+			
+		// 	$this->clientCotGS = new SoapClient($this->urlCotGS,$this->params);
+		// }
+		// catch(SoapFault $fault){
+		// 	dd($fault);
+		// }
+
+
 	}
 	public function getMarcas()
 	{
@@ -829,5 +846,22 @@ XML;
 		  	return $cobertura;
 		}
 	  }
+
+	  public function generalSeguro()
+	  {
+	  	try{
+		  	var_dump($this->clientAuthGS->__getFunctions());
+		  	var_dump($this->clientCotGS->__getFunctions());
+		  	dd($this->clientAuthGS->obtenerToken(["usuario"=>'ATC0','password'=>'2r2kGdeUA0']));
+		  	// dd($this->clientCotGS->__getTypes());
+
+	  	}
+	  	catch (SoapFault $fault) {
+			trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
+	  	}
+	  }
+
+
+
 
 }

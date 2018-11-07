@@ -20,6 +20,7 @@
     			</div>
     			<div class="col col-sm-6 p-2 my-auto" v-show="!searchOption">
     				<div class="tab-content" id="v-pills-tabContent">
+    					 <!--USO-->
     					<div class="tab-pane fade show active" id="v-pills-Uso" role="tabpanel" aria-albelledby="v-pills-Uso-tab">
     						<div class="row p-0 m-0">
     							<div class="col-12 p-0 m-0">
@@ -55,6 +56,11 @@
 		                            <select v-model="cliente.marca_auto" size="3" class="list-group list-group-flush col">
 										<option v-for="marca in marcas" :value="marca.cMarcaLarga" class="list-group-item text-center text-dark seleccionador">{{marca.cMarcaLarga}}</option>
 									</select>
+									<div class="row">
+										<div class="col-12 mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Uso-tab').click();">Atras</button>
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -68,6 +74,11 @@
 		                            <select class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
 		                            	<option v-for="anio in anios" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
 		                            </select>
+		                            <div class="row">
+										<div class="col-12 mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Marca-tab').click();">Atras</button>
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -85,6 +96,11 @@
 		                            <select v-show="!loader && this.descripciones.length != 0" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
 		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Tipo: {{descripcion.cTipo}} Version: {{descripcion.cVersion}} Transmision: {{ descripcion.cTransmision == "A" ? 'Automatica' : 'Estandar'}}</option>
 		                            </select>
+		                            <div class="row">
+										<div class="col-12 mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Modelo-tab').click();">Atras</button>
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -98,7 +114,15 @@
 	                             	<div class="form-group">
 		                                <input type="number" class="form-control" v-model="cliente.cp" placeholder="CP: 000000" id="valorCP">
 		                            </div>
-		                            <button type="button" id="6_1" class="btn btn-primary seleccionador" @click="nextPill('cp')">Siguiente</button>
+		                            <div class="row">
+										<div class="col mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Descripcion-tab').click();">Atras</button>
+										</div>
+										<div class="col mt-3 d-flex justify-content-end">
+                        					<button type="button" id="6_1" class="btn btn-primary seleccionador" @click="nextPill('cp')">Siguiente</button>
+											
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -121,7 +145,14 @@
 		                                    <input type="text" v-model="cliente.apmaterno" id="valorApellidoM" class="form-control" placeholder="Apellido M.">
 		                                </div>
 		                            </div>
-		                            <button type="button" id="e_1" @click="nextPill('nombre')" class="btn btn-primary seleccionador">Siguiente</button>
+		                            <div class="row">
+										<div class="col mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-CP-tab').click();">Atras</button>
+										</div>
+										<div class="col mt-3 d-flex justify-content-end">
+                        					<button type="button" id="e_1" @click="nextPill('nombre')" class="btn btn-primary seleccionador">Siguiente</button>
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -135,7 +166,14 @@
 		                        	<div class="form-group">
 		                                <input type="number" v-model="cliente.telefono" class="form-control" id="valorCelular" placeholder="55 53 33 11 22">
 		                            </div>
-		                            <button type="button" id="f_1"  @click="nextPill('telefono')" class="btn btn-primary seleccionador">Siguiente</button>
+		                            <div class="row">
+										<div class="col mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Nombre-tab').click();">Atras</button>
+										</div>
+										<div class="col mt-3 d-flex justify-content-end">
+                        					<button type="button" id="f_1"  @click="nextPill('telefono')" class="btn btn-primary seleccionador">Siguiente</button>
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -149,7 +187,14 @@
 		                             <div class="form-group">
 		                                <input type="email" v-model="cliente.email" class="form-control" id="valorCorreo" placeholder="ejemplo@ejemplo.com">
 		                            </div>
-		                            <button type="button" id="g_1" @click="nextPill('correo')" class="btn btn-primary seleccionador">Siguiente</button>
+		                            <div class="row">
+										<div class="col mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Celular-tab').click();">Atras</button>
+										</div>
+										<div class="col mt-3 d-flex justify-content-end">
+                        					<button type="button" id="g_1" @click="nextPill('correo')" class="btn btn-primary seleccionador">Siguiente</button>
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -160,12 +205,16 @@
 		                            Sexo
 		                        </div>
 		                        <div class="card-body">
-		                            <!-- TODO -->
 		                            <select v-model="cliente.sexo" size="3" class="list-group list-group-flush col"  style="overflow-y: hidden;">
 										<option value="Hombre" class="list-group-item text-center text-dark seleccionador">Hombre</option>
                         				<option value="Mujer" class="list-group-item text-center text-dark seleccionador">Mujer</option>
                         				<option value="Otro" class="list-group-item text-center text-dark seleccionador">Otro</option>
 									</select>
+									<div class="row">
+										<div class="col-12 mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Correo-tab').click();">Atras</button>
+										</div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -180,16 +229,15 @@
 		                            <div class="form-group">
 		                                <input type="date" v-model="cliente.f_nac" id="valorEdad" onchange="cambiarEdad(this.value)" class="form-control col">
 		                            </div>
+
 		                            <div class="row">
-		                                <div class="col-12 d-none d-sm-block">
-		                                    <!--Botón escritorio-->
+										<div class="col mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Sexo-tab').click();">Atras</button>
+										</div>
+										<div class="col mt-3 d-flex justify-content-end">
 		                                    <button type="button" id="8_1" @click="sendCotizacion(cliente)" class="btn btn-primary seleccionador">Siguiente</button>
 		                                </div>
-		                                <div class="col-12 d-block d-sm-none">
-		                                    <!--Botón celular -->
-		                                    <button  type="button" id="8_1" @click="sendCotizacion(cliente)" class="btn btn-primary seleccionador">Siguiente</button>
-		                                </div>
-		                            </div>
+									</div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -451,7 +499,26 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     		}
     	},
         mounted() {
-            console.log('Component mounted.')
+            console.log('Component mounted.');
+            let uri = window.location.href.split('?');
+            if (uri.length == 2)
+		    {
+		      let vars = uri[1].split('&');
+		      let getVars = {};
+		      let tmp = '';
+		      vars.forEach(function(v){
+		        tmp = v.split('=');
+		        if(tmp.length == 2)
+		        getVars[tmp[0]] = tmp[1];
+		      });
+		      if(getVars.cotizacion){
+		      	this.cliente.cotizacion = getVars.cotizacion
+		      	this.searchCliente(this.cliente.cotizacion);
+		      }
+		      console.log(getVars);
+		      // do 
+		    }
+            // console.log(uri[1]);
         }
     }
 </script>

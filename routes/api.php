@@ -20,7 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/marcas',"WebServiceController@getMarcas");
 Route::get('/modelos/{uso}/{marca}/{modelo}',"WebServiceController@getModelos");
-Route::get('/tarifas','WebServiceController@getTarifas');
+// Route::get('/tarifas','WebServiceController@getTarifas');
 Route::post('/cotizacion','ClienteController@store');
 Route::post('/searchCliente','ClienteController@search');
 Route::post('/getCoberturasQ','WebServiceController@getCobertura');
+Route::get('/generalS','WebServiceController@generalSeguro');
