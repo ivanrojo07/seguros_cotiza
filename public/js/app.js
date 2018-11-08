@@ -47926,6 +47926,8 @@ function Cliente(_ref) {
         nextPill: function nextPill(input) {
             if (input == "cp" && this.cliente.cp != "") {
                 // console.log('si')
+                // window.axios.defaults.headers.common['X-CSRF-TOKEN'] = "";
+                // token.content
                 this.nombre = true;
                 // this.showPill('v-pills-Marca');
                 $('#v-pills-Nombre-tab').removeClass('disabled');

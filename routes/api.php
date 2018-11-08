@@ -25,3 +25,4 @@ Route::post('/cotizacion','ClienteController@store');
 Route::post('/searchCliente','ClienteController@search');
 Route::post('/getCoberturasQ','WebServiceController@getCobertura');
 Route::get('/generalS','WebServiceController@generalSeguro');
+Route::get('/cp/{cp}','CPController@get');
