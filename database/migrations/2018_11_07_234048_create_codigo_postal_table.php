@@ -16,7 +16,7 @@ class CreateCodigoPostalTable extends Migration
         Schema::create('codigo_postal', function (Blueprint $table) {
             $table->increments('id');
             $table->string('codigo_postal');
-            $table->string('cestado');
+            $table->string('cestado')->nullable();
             $table->string('poblacion')->nullable();
             $table->string('municipio')->nullable();
             $table->string('estado')->nullable();

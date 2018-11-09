@@ -27,16 +27,15 @@ Route::get('/excel', function(){
 	        // dd($results);
 	        if($results->count()) {
 	            foreach ($results as $value) {	                
-                    CP::updateOrCreate([
-                    	'codigo_postal' =>$value['d_codigo'],
-                    	'municipio' =>$value['d_mnpio'],
-                    ],
+	            	// dd($value);
+                    CP::create(
                     	[
                     	'codigo_postal' =>$value['d_codigo'],
                     	'municipio' =>$value['d_mnpio'],
-                    	'poblacion' => $value['c_estado'],
+                    	'poblacion'=>$value['d_asenta'],
 						'estado' =>$value['d_estado'],
 						'ciudad' =>$value['d_ciudad'],
+                    	'cestado' => $value->c_estado,
                     ]);
 	            }
 	        }
