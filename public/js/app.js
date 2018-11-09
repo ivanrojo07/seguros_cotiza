@@ -14028,6 +14028,7 @@ var app = new Vue({
             'modelo_auto': "",
             'descripcion_auto': "",
             'cp': "",
+            'cestado': "",
             'nombre': "",
             'appaterno': "",
             'apmaterno': "",
@@ -47746,6 +47747,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 function Cliente(_ref) {
     var cotizacion = _ref.cotizacion,
@@ -47785,6 +47789,7 @@ function Cliente(_ref) {
             anios: [],
             marcas: [],
             pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
+            alert_cp: "",
             uso: true,
             marca: false,
             modelo: false,
@@ -47924,15 +47929,33 @@ function Cliente(_ref) {
         // 	});
         // },
         nextPill: function nextPill(input) {
+            var _this3 = this;
+
             if (input == "cp" && this.cliente.cp != "") {
                 // console.log('si')
                 // window.axios.defaults.headers.common['X-CSRF-TOKEN'] = "";
                 // token.content
-                this.nombre = true;
-                // this.showPill('v-pills-Marca');
-                $('#v-pills-Nombre-tab').removeClass('disabled');
-                // $('#v-pills-Nombre-tab').addClass('disabled');
-                $('#v-pills-Nombre-tab').click();
+                var url = './api/cp/' + this.cliente.cp;
+                axios.get(url).then(function (res) {
+                    if (res.data.response) {
+                        _this3.alert_cp = _this3.nombre = true;
+                        _this3.alert_cp = "";
+                        console.log('si entra');
+                        // this.showPill('v-pills-Marca');
+                        _this3.cliente.cestado = res.data.response[0].cestado;
+
+                        $('#v-pills-Nombre-tab').removeClass('disabled');
+                        // $('#v-pills-Nombre-tab').addClass('disabled');
+                        $('#v-pills-Nombre-tab').click();
+                    }
+                    console.log(res);
+                }).catch(function (err) {
+                    if (err.response.data.error) {
+                        _this3.nombre = false;
+                        $('#v-pills-Nombre-tab').addClass('disabled');
+                        _this3.alert_cp = err.response.data.error;
+                    }
+                });
             }
             if (input == "nombre" && this.cliente.nombre != "" && this.cliente.appaterno != "") {
                 // console.log('si')
@@ -47968,15 +47991,15 @@ function Cliente(_ref) {
             }
         },
         getDescripciones: function getDescripciones(uso, marca, modelo) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.loader = true;
             $('#descripcion').append('<div class="loader"></div>');
             var url = './api/modelos/' + uso + '/' + marca + '/' + modelo;
             axios.get(url).then(function (res) {
-                _this3.loader = false;
+                _this4.loader = false;
                 console.log('getDescripciones res', res);
-                _this3.descripciones = res.data.descripciones;
+                _this4.descripciones = res.data.descripciones;
             }).catch(function (err) {
 
                 console.log('getDescripciones err', err);
@@ -47993,7 +48016,7 @@ function Cliente(_ref) {
             this.anios = this.anios.reverse();
         },
         sendCotizacion: function sendCotizacion(cliente) {
-            var _this4 = this;
+            var _this5 = this;
 
             var params = cliente;
             var url = "./api/cotizacion";
@@ -48001,10 +48024,10 @@ function Cliente(_ref) {
             this.alert.class = '';
             axios.post(url, cliente).then(function (res) {
                 console.log('res', res);
-                _this4.cliente.cotizacion = res.data.cotizacion.cotizacion;
-                _this4.getcotizacion.value = !_this4.getcotizacion.value;
-                _this4.alert.message = _this4.cliente.nombre + ' ' + _this4.cliente.appaterno + ' ' + _this4.cliente.apmaterno + ' su cotizaci\xF3n se guardo con el folio ' + _this4.cliente.cotizacion;
-                _this4.alert.class = "alert alert-success alert-dismissible fade show";
+                _this5.cliente.cotizacion = res.data.cotizacion.cotizacion;
+                _this5.getcotizacion.value = !_this5.getcotizacion.value;
+                _this5.alert.message = _this5.cliente.nombre + ' ' + _this5.cliente.appaterno + ' ' + _this5.cliente.apmaterno + ' su cotizaci\xF3n se guardo con el folio ' + _this5.cliente.cotizacion;
+                _this5.alert.class = "alert alert-success alert-dismissible fade show";
                 // $('#cotizar').modal('show');
             }).catch(function (err) {
                 console.log('err', err);
@@ -48741,7 +48764,23 @@ var render = function() {
                                 _vm.$set(_vm.cliente, "cp", $event.target.value)
                               }
                             }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.alert_cp,
+                                  expression: "alert_cp"
+                                }
+                              ],
+                              staticClass: "alert alert-danger"
+                            },
+                            [_c("strong", [_vm._v(_vm._s(_vm.alert_cp))])]
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
@@ -48757,7 +48796,7 @@ var render = function() {
                                 "button",
                                 {
                                   staticClass: "btn btn-primary seleccionador",
-                                  attrs: { type: "button", id: "6_1" },
+                                  attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
                                       _vm.nextPill("cp")

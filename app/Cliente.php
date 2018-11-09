@@ -20,6 +20,7 @@ class Cliente extends Model
         'tipo_auto',
         'c_amis',
     	'cp',
+        'cestado',
     	'nombre',
     	'appaterno',
     	'apmaterno',

@@ -31,6 +31,7 @@ const app = new Vue({
 	    	'modelo_auto':"",
 	    	'descripcion_auto':"",
 	    	'cp':"",
+            'cestado':"",
 	    	'nombre':"",
 	    	'appaterno':"",
 	    	'apmaterno':"",

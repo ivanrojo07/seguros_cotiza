@@ -23,6 +23,7 @@ class CreateClienteTable extends Migration
             $table->string('tipo_auto');
             $table->string('c_amis');
             $table->string('cp');
+            $table->string('cestado');
             $table->string('nombre');
             $table->string('appaterno');
             $table->string('apmaterno')->nullable();

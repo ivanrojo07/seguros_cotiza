@@ -305,7 +305,7 @@ XML;
 		<Direccion/>
 		<Colonia/>
 		<Poblacion/>
-		<Estado>9</Estado>
+		<Estado>$cliente->cestado</Estado>
 		<CodigoPostal>$cliente->cp</CodigoPostal>
 		<NoEmpleado/>
 		<Agrupador/>

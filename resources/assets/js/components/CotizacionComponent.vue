@@ -113,13 +113,16 @@
 		                        <div class="card-body">
 	                             	<div class="form-group">
 		                                <input type="number" class="form-control" v-model="cliente.cp" placeholder="CP: 000000" id="valorCP">
+		                                <div class="alert alert-danger" v-show="alert_cp">
+  											<strong>{{alert_cp}}</strong>
+										</div>
 		                            </div>
 		                            <div class="row">
 										<div class="col mt-3 d-block d-sm-none">
 											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Descripcion-tab').click();">Atras</button>
 										</div>
 										<div class="col mt-3 d-flex justify-content-end">
-                        					<button type="button" id="6_1" class="btn btn-primary seleccionador" @click="nextPill('cp')">Siguiente</button>
+                        					<button type="button" class="btn btn-primary seleccionador" @click="nextPill('cp')">Siguiente</button>
 											
 										</div>
 									</div>
@@ -282,6 +285,7 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     			anios:[],
     			marcas: [],
     			pills:['v-pills-Uso','v-pills-Marca','v-pills-Modelo','v-pills-Descripcion','v-pills-CP','v-pills-Nombre','v-pills-Celular','v-pills-Correo','v-pills-Sexo','v-pills-Nacimiento'],
+    			alert_cp:"",
     			uso: true,
     			marca: false,
     			modelo: false,
@@ -403,6 +407,7 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     				this.marcas = res.data.marcas;
     			}).catch(error=>{
     				console.log('error',error);
+
     			})
     		},
     		// showPill(etiqueta){
@@ -421,11 +426,31 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     				// console.log('si')
     				// window.axios.defaults.headers.common['X-CSRF-TOKEN'] = "";
     						// token.content
-    				this.nombre = true;
-    				// this.showPill('v-pills-Marca');
-    				$('#v-pills-Nombre-tab').removeClass('disabled');
-    				// $('#v-pills-Nombre-tab').addClass('disabled');
-    				$('#v-pills-Nombre-tab').click();
+	    			let url = `./api/cp/${this.cliente.cp}`;
+    				axios.get(url).then(
+    					res=>{
+    						if(res.data.response){
+    							this.alert_cp = 
+    							this.nombre = true;
+    							this.alert_cp = "";
+    							console.log('si entra');
+			    				// this.showPill('v-pills-Marca');
+			    				this.cliente.cestado = res.data.response[0].cestado;
+
+			    				$('#v-pills-Nombre-tab').removeClass('disabled');
+			    				// $('#v-pills-Nombre-tab').addClass('disabled');
+			    				$('#v-pills-Nombre-tab').click();
+    						}
+    						console.log(res);
+    					}).catch(
+    					err=>{
+    						if(err.response.data.error){
+    							this.nombre = false;
+    							$('#v-pills-Nombre-tab').addClass('disabled');
+    							this.alert_cp = err.response.data.error;
+    						}
+    					})
+    				
     			}
     			if (input == "nombre" && this.cliente.nombre != "" && this.cliente.appaterno != "") {
     				// console.log('si')
