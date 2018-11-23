@@ -65,14 +65,83 @@ class GeneralSegurosController extends Controller
     	}
     }
 
-    public function getCoberturas(){
-    	var_dump($this->token);
+    public function getCotizacion(){
+    	$client = $this->getClient($this->urlCotiza);
+    	dd($client->__getTypes());
+    	$res = $client->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>"07880",'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>222,"conductorMenor30"=>1,'modelo'=>2014,'tipoServicio',"PARTICULAR",'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP"]]]);
+    	dd($res);
+    }
+
+    public function getCoberturas()
+    {
+    	$client = $this->getClient($this->urlCober);
+    	dd($client->__getTypes());
+    	
     }
 
     public function getMarcas(){
     	$client = $this->getClient($this->urlCatAuto);
-    	dd($client->wsListarMarcas(['arg0'=>["token"=>$this->token]]));
+    	$res = $client->wsListarMarcas(['arg0'=>["token"=>$this->token]]);
+    	return $this->responseJson('marcas',$res);
     }
+
+    public function getSubmarcas($marca_id){
+    	// dd($marca_id);
+    	$client = $this->getClient($this->urlCatAuto);
+    	$res = $client->wsListarSubMarcas(['arg0'=>['token'=>$this->token,'idMarca'=>$marca_id]]);
+    	return $this->responseJson('submarcas',$res);
+    }
+    public function getModelos($submarca_id)
+    {
+    	$client = $this->getClient($this->urlCatAuto);
+    	$res = $client->wsListarModelos(['arg0'=>['idSubmarca'=>$submarca_id]]);
+    	return $this->responseJson('modelos',$res);
+    }
+    public function getVersiones($submarca_id,$modelo)
+    {
+    	$client = $this->getClient($this->urlCatAuto);
+    	$res = $client->wsListarVersiones(['arg0'=>['idSubmarca'=>$submarca_id,'modelo'=>$modelo]]);
+    	return $this->responseJson('versiones',$res);
+    }
+
+    public function getContactos()
+    {
+    	$client = $this->getClient($this->urlCat);
+    	$res = $client->wsListarTiposContacto(['arg0'=>['token'=>$this->token]]);
+    	return $this->responseJson('tiposContacto',$res);
+    }
+
+    public function getGiros()
+    {
+    	$client = $this->getClient($this->urlCat);
+    	$res = $client->wsListarGiros(['arg0'=>['token'=>$this->token]]);
+    	return $this->responseJson('giros',$res);
+    }	
+
+    public function getEstadoCivil()
+    {
+    	$client = $this->getClient($this->urlCat);
+    	$res = $client->wsListarEstadosCivil(['arg0'=>['token'=>$this->token]]);
+    	return $this->responseJson('estadosCivil',$res);
+    }
+
+    public function getTitulos()
+    {
+    	$client = $this->getClient($this->urlCat);
+    	$res = $client->wsListarTitulos(['arg0'=>['token'=>$this->token]]);
+    	return $this->responseJson('titulos',$res);
+    	
+    }
+
+    public function responseJson($key,$res)
+    {
+    	$response = json_decode(json_encode($res),true);
+    	if($response['return']['exito']){
+    		$value = $response['return'][$key];
+    		return response()->json([$key=>$value]);
+    	}
+    }
+
 
 
 }

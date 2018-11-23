@@ -24,7 +24,20 @@ Route::get('/modelos/{uso}/{marca}/{modelo}',"QualitasController@getModelos");
 Route::post('/cotizacion','ClienteController@store');
 Route::post('/searchCliente','ClienteController@search');
 Route::post('/getCoberturasQ','QualitasController@getCobertura');
-Route::get('/generalS','GeneralSegurosController@getCoberturas');
+
+
+
 Route::get('/getMarcas','GeneralSegurosController@getMarcas');
+Route::get('/getSubmarcas/{marca_id}','GeneralSegurosController@getSubmarcas');
+Route::get('/getModelos/{submarca_id}','GeneralSegurosController@getModelos');
+Route::get('/getVersiones/{submarca_id}/{modelo}','GeneralSegurosController@getVersiones');
+Route::get('/getContactos','GeneralSegurosController@getContactos');
+Route::get('/getGiros','GeneralSegurosController@getGiros');
+Route::get('/getEstadoCivil','GeneralSegurosController@getEstadoCivil');
+Route::get('/getTitulos','GeneralSegurosController@getTitulos');
+
+Route::get('/getCotizacionGS','GeneralSegurosController@getCotizacion');
+
+Route::get('/getCoberturasGS','GeneralSegurosController@getCoberturas');
 
 Route::get('/cp/{cp}','CPController@get');
