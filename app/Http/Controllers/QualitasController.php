@@ -15,7 +15,7 @@ class QualitasController extends Controller
  	public function __construct(){
 		$this->opts = array(
 		  'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false),
-		  'http'=> array('header'=>array("Content-Type:text/xml;charset=utf-8"))
+		  'http'=> array('header'=>array("Content-Type:application/xml;charset=utf-8"))
 		);
 		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180, 'stream_context' => stream_context_create($this->opts) );
 

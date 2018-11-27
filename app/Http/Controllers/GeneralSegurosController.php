@@ -18,7 +18,7 @@ class GeneralSegurosController extends Controller
 		  'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false),
 		  'http'=> array('header'=>array('Content-Type:application/soap+xml; charset=utf-8'), 'user_agent' => 'PHPSoapClient')
 		);
-		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180, 'stream_context' => stream_context_create($this->opts) );
+		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180,'keep_alive' => false, 'stream_context' => stream_context_create($this->opts) );
     	 // DATOS GENERAL DE SEGUROS
 		$this->urlAuth = "http://gdswas.mx:9080/gsautos-wsDesa/soap/autenticacionWS?wsdl";
 		$this->urlCotiza = "http://gdswas.mx:9080/gsautos-wsDesa/soap/cotizacionEmisionWS?wsdl";
@@ -67,15 +67,43 @@ class GeneralSegurosController extends Controller
 
     public function getCotizacion(){
     	$client = $this->getClient($this->urlCotiza);
-    	dd($client->__getTypes());
-    	$res = $client->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>"07880",'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>222,"conductorMenor30"=>1,'modelo'=>2014,'tipoServicio',"PARTICULAR",'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP"]]]);
-    	dd($res);
+    	// dd($client->__getTypes());
+    	try{
+	    	$res = $client->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>7880,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>71101212,"conductorMenor30"=>1,'modelo'=>2017,'tipoServicio'=>"PARTICULAR",'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
+			$response = json_decode(json_encode($res),true);
+	    	// dd($response);
+			if($response['return']['exito']){
+				$paquetes = [];
+				foreach ($response['return']['paquetes'] as $paquete) {
+					$paquete['coberturas'] = $this->getCoberturas($response['return']['idCotizacion'], $paquete['id']);
+					array_push($paquetes,$paquete);
+				}
+				// dd($paquetes);
+				$cotizacion = ['id'=>$response['return']['idCotizacion'],'paquetes'=>$paquetes];
+				return response()->json(['cotizacion'=>$cotizacion]);
+				
+			}
+	    	return $this->responseJson('paquetes',$res);
+    		
+    	}
+    	catch(SoapFault $error){
+    		var_dump($error);
+    	}
     }
 
-    public function getCoberturas()
+    public function getCoberturas($cotizacion,$paquete)
     {
+    	// dd($paquete);
     	$client = $this->getClient($this->urlCober);
-    	dd($client->__getTypes());
+    	$coberturas = $client->wsObtenerCoberturasCotizacion(['arg0'=>['token'=>$this->token,'cotizacion'=>$cotizacion,'paquete'=>$paquete]]);
+    	$response = json_decode(json_encode($coberturas),true);
+    	if ($response['return']['exito']){
+    		return $response['return']['coberturas'];
+    		// return response()->json(['coberturas'=>$response['return']['coberturas']]);
+    	}
+    	// dd($response);
+
+    	// dd($client->__getTypes());
     	
     }
 
@@ -137,8 +165,15 @@ class GeneralSegurosController extends Controller
     {
     	$response = json_decode(json_encode($res),true);
     	if($response['return']['exito']){
-    		$value = $response['return'][$key];
-    		return response()->json([$key=>$value]);
+    		if ($key == "paquetes" && $response['return']['idCotizacion']) {
+    			$value = $response['return'][$key];
+    			return response()->json(['cotizacion_id'=>$response['return']['idCotizacion'],$key=>$value ]);
+    		}
+    		else{
+    			
+    			$value = $response['return'][$key];
+    			return response()->json([$key=>$value]);
+    		}
     	}
     }
 

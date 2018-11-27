@@ -28,6 +28,7 @@ const app = new Vue({
     		"cotizacion":null,
     		'uso_auto':'',
     		'marca_auto':"",
+            'submarca_auto':"",
 	    	'modelo_auto':"",
 	    	'descripcion_auto':"",
 	    	'cp':"",

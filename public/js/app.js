@@ -14025,6 +14025,7 @@ var app = new Vue({
             "cotizacion": null,
             'uso_auto': '',
             'marca_auto': "",
+            'submarca_auto': "",
             'modelo_auto': "",
             'descripcion_auto': "",
             'cp': "",
@@ -47750,11 +47751,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 function Cliente(_ref) {
     var cotizacion = _ref.cotizacion,
         uso_auto = _ref.uso_auto,
         marca_auto = _ref.marca_auto,
+        submarca_auto = _ref.submarca_auto,
         modelo_auto = _ref.modelo_auto,
         descripcion_auto = _ref.descripcion_auto,
         cp = _ref.cp,
@@ -47769,6 +47790,7 @@ function Cliente(_ref) {
     this.cotizacion = cotizacion;
     this.uso_auto = uso_auto;
     this.marca_auto = marca_auto;
+    this.submarca_auto = submarca_auto;
     this.modelo_auto = modelo_auto;
     this.descripcion_auto = { cVersion: descripcion_auto };
     this.cp = cp;
@@ -47788,10 +47810,13 @@ function Cliente(_ref) {
             descripciones: [],
             anios: [],
             marcas: [],
-            pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
+            submarcas: [],
+            modelos: [],
+            pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Submarca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
             alert_cp: "",
             uso: true,
             marca: false,
+            submarca: false,
             modelo: false,
             loader: true,
             descripcion: false,
@@ -47822,9 +47847,21 @@ function Cliente(_ref) {
                 if (this.searchOption == false) {
                     this.cliente.descripcion_auto = "";
                 }
+                this.getSubmarcas(this.cliente.marca_auto.id);
                 // this.showPill('v-pills-Marca');
+                $('#v-pills-Submarca-tab').removeClass('disabled');
+                // $('#v-pills-Submarca-tab').addClass('disabled');
+                $('#v-pills-Submarca-tab').click();
+            }
+        },
+        'cliente.submarca_auto': function clienteSubmarca_auto(newV, oldV) {
+            if (newV != "") {
+                this.submarca = true;
+                if (this.searchOption == false) {
+                    this.cliente.descripcion_auto = "";
+                }
+                this.getModelos(this.cliente.submarca_auto.id);
                 $('#v-pills-Modelo-tab').removeClass('disabled');
-                // $('#v-pills-Modelo-tab').addClass('disabled');
                 $('#v-pills-Modelo-tab').click();
             }
         },
@@ -47837,7 +47874,7 @@ function Cliente(_ref) {
                 }
                 $('#v-pills-Descripcion-tab').removeClass('disabled');
                 // $('#v-pills-Descripcion-tab').addClass('disabled');
-                this.getDescripciones(this.cliente.uso_auto, this.cliente.marca_auto, this.cliente.modelo_auto);
+                this.getDescripciones(this.cliente.submarca_auto.id, this.cliente.modelo_auto);
                 $('#v-pills-Descripcion-tab').click();
             }
         },
@@ -47862,7 +47899,7 @@ function Cliente(_ref) {
     },
     created: function created() {
         this.getMarcas();
-        this.getModelos();
+        // this.getModelos();
     },
 
     methods: {
@@ -47908,12 +47945,54 @@ function Cliente(_ref) {
         getMarcas: function getMarcas() {
             var _this2 = this;
 
-            var url = './api/marcas';
+            var url = './api/getMarcas';
             axios.get(url).then(function (res) {
                 console.log("res", res);
                 _this2.marcas = res.data.marcas;
             }).catch(function (error) {
                 console.log('error', error);
+            });
+        },
+        getSubmarcas: function getSubmarcas(marca) {
+            var _this3 = this;
+
+            var url = './api/getSubmarcas/' + marca;
+            axios.get(url).then(function (res) {
+                console.log('res submarcas', res);
+                if (res.data.submarcas) {
+                    _this3.submarcas = res.data.submarcas;
+                }
+            }).catch(function (error) {
+                console.log('error submarcas', error);
+            });
+        },
+        getModelos: function getModelos(submarca) {
+            var _this4 = this;
+
+            var url = './api/getModelos/' + submarca;
+            axios.get(url).then(function (res) {
+                console.log('res modelos', res);
+                if (res.data.modelos) {
+                    _this4.modelos = res.data.modelos;
+                    _this4.modelos = _this4.modelos.reverse();
+                }
+            }).catch(function (error) {
+                console.log('error modelos', error);
+            });
+        },
+        getDescripciones: function getDescripciones(submarca, modelo) {
+            var _this5 = this;
+
+            this.loader = true;
+            $('#descripcion').append('<div class="loader"></div>');
+            var url = './api/getVersiones/' + submarca + '/' + modelo;
+            axios.get(url).then(function (res) {
+                _this5.loader = false;
+                console.log('getDescripciones res', res);
+                _this5.descripciones = res.data.versiones;
+            }).catch(function (err) {
+
+                console.log('getDescripciones err', err);
             });
         },
 
@@ -47929,7 +48008,7 @@ function Cliente(_ref) {
         // 	});
         // },
         nextPill: function nextPill(input) {
-            var _this3 = this;
+            var _this6 = this;
 
             if (input == "cp" && this.cliente.cp != "") {
                 // console.log('si')
@@ -47938,11 +48017,11 @@ function Cliente(_ref) {
                 var url = './api/cp/' + this.cliente.cp;
                 axios.get(url).then(function (res) {
                     if (res.data.response) {
-                        _this3.alert_cp = _this3.nombre = true;
-                        _this3.alert_cp = "";
+                        _this6.alert_cp = _this6.nombre = true;
+                        _this6.alert_cp = "";
                         console.log('si entra');
                         // this.showPill('v-pills-Marca');
-                        _this3.cliente.cestado = res.data.response[0].cestado;
+                        _this6.cliente.cestado = res.data.response[0].cestado;
 
                         $('#v-pills-Nombre-tab').removeClass('disabled');
                         // $('#v-pills-Nombre-tab').addClass('disabled');
@@ -47951,9 +48030,9 @@ function Cliente(_ref) {
                     console.log(res);
                 }).catch(function (err) {
                     if (err.response.data.error) {
-                        _this3.nombre = false;
+                        _this6.nombre = false;
                         $('#v-pills-Nombre-tab').addClass('disabled');
-                        _this3.alert_cp = err.response.data.error;
+                        _this6.alert_cp = err.response.data.error;
                     }
                 });
             }
@@ -47990,33 +48069,20 @@ function Cliente(_ref) {
                 $('#v-pills-Nacimiento-tab').click();
             }
         },
-        getDescripciones: function getDescripciones(uso, marca, modelo) {
-            var _this4 = this;
 
-            this.loader = true;
-            $('#descripcion').append('<div class="loader"></div>');
-            var url = './api/modelos/' + uso + '/' + marca + '/' + modelo;
-            axios.get(url).then(function (res) {
-                _this4.loader = false;
-                console.log('getDescripciones res', res);
-                _this4.descripciones = res.data.descripciones;
-            }).catch(function (err) {
 
-                console.log('getDescripciones err', err);
-            });
-        },
-        getModelos: function getModelos() {
-            var currentYear = new Date().getFullYear() + 1;
-            var startYear = 1999;
-            startYear = startYear || 1980;
-            while (startYear <= currentYear) {
-                this.anios.push(startYear++);
-            }
+        // getModelos(){
+        // 	var currentYear = new Date().getFullYear()+1;
+        // 	var startYear = 1999;
+        //       	startYear = startYear || 1980;
+        //       	while ( startYear <= currentYear ) {
+        //               this.anios.push(startYear++);
+        //       	} 
 
-            this.anios = this.anios.reverse();
-        },
+        //       	this.anios = this.anios.reverse();
+        // },
         sendCotizacion: function sendCotizacion(cliente) {
-            var _this5 = this;
+            var _this7 = this;
 
             var params = cliente;
             var url = "./api/cotizacion";
@@ -48024,10 +48090,10 @@ function Cliente(_ref) {
             this.alert.class = '';
             axios.post(url, cliente).then(function (res) {
                 console.log('res', res);
-                _this5.cliente.cotizacion = res.data.cotizacion.cotizacion;
-                _this5.getcotizacion.value = !_this5.getcotizacion.value;
-                _this5.alert.message = _this5.cliente.nombre + ' ' + _this5.cliente.appaterno + ' ' + _this5.cliente.apmaterno + ' su cotizaci\xF3n se guardo con el folio ' + _this5.cliente.cotizacion;
-                _this5.alert.class = "alert alert-success alert-dismissible fade show";
+                _this7.cliente.cotizacion = res.data.cotizacion.cotizacion;
+                _this7.getcotizacion.value = !_this7.getcotizacion.value;
+                _this7.alert.message = _this7.cliente.nombre + ' ' + _this7.cliente.appaterno + ' ' + _this7.cliente.apmaterno + ' su cotizaci\xF3n se guardo con el folio ' + _this7.cliente.cotizacion;
+                _this7.alert.class = "alert alert-success alert-dismissible fade show";
                 // $('#cotizar').modal('show');
             }).catch(function (err) {
                 console.log('err', err);
@@ -48108,7 +48174,23 @@ var render = function() {
                     "aria-selected": "false"
                   }
                 },
-                [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto))]
+                [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto.nombre))]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link disabled",
+                  attrs: {
+                    id: "v-pills-Submarca-tab",
+                    "data-toggle": "pill",
+                    href: "#v-pills-Submarca",
+                    role: "tab",
+                    "aria-controls": "v-pills-Submarca",
+                    "aria-selected": "false"
+                  }
+                },
+                [_vm._v("Tipo: " + _vm._s(_vm.cliente.submarca_auto.nombre))]
               ),
               _vm._v(" "),
               _c(
@@ -48143,9 +48225,7 @@ var render = function() {
                 [
                   _vm._v(
                     "Descripción:  " +
-                      _vm._s(_vm.cliente.descripcion_auto.cTipo) +
-                      " " +
-                      _vm._s(_vm.cliente.descripcion_auto.cVersion)
+                      _vm._s(_vm.cliente.descripcion_auto.descripcion)
                   )
                 ]
               ),
@@ -48486,14 +48566,93 @@ var render = function() {
                               {
                                 staticClass:
                                   "list-group-item text-center text-dark seleccionador",
-                                domProps: { value: marca.cMarcaLarga }
+                                domProps: { value: marca }
                               },
-                              [_vm._v(_vm._s(marca.cMarcaLarga))]
+                              [_vm._v(_vm._s(marca.nombre))]
                             )
                           })
                         ),
                         _vm._v(" "),
                         _vm._m(0)
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.marca,
+                        expression: "marca"
+                      }
+                    ],
+                    staticClass: "tab-pane fade",
+                    attrs: {
+                      id: "v-pills-Submarca",
+                      role: "tabpanel",
+                      "aria-albelledby": "v-pills-Submarca-tab"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "card p-0" }, [
+                      _c("div", { staticClass: "card-header" }, [
+                        _vm._v(
+                          "\n\t\t                            Tipo\n\t\t                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cliente.submarca_auto,
+                                expression: "cliente.submarca_auto"
+                              }
+                            ],
+                            staticClass: "list-group list-group-flush col",
+                            attrs: { size: "3" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.cliente,
+                                  "submarca_auto",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.submarcas, function(submarca) {
+                            return _c(
+                              "option",
+                              {
+                                staticClass:
+                                  "list-group-item text-center text-dark seleccionador",
+                                domProps: { value: submarca }
+                              },
+                              [_vm._v(_vm._s(submarca.nombre))]
+                            )
+                          })
+                        ),
+                        _vm._v(" "),
+                        _vm._m(1)
                       ])
                     ])
                   ]
@@ -48559,7 +48718,7 @@ var render = function() {
                               }
                             }
                           },
-                          _vm._l(_vm.anios, function(anio) {
+                          _vm._l(_vm.modelos, function(anio) {
                             return _c(
                               "option",
                               {
@@ -48572,7 +48731,7 @@ var render = function() {
                           })
                         ),
                         _vm._v(" "),
-                        _vm._m(1)
+                        _vm._m(2)
                       ])
                     ])
                   ]
@@ -48688,25 +48847,12 @@ var render = function() {
                                 staticStyle: { "white-space": "normal" },
                                 domProps: { value: descripcion }
                               },
-                              [
-                                _vm._v(
-                                  "Tipo: " +
-                                    _vm._s(descripcion.cTipo) +
-                                    " Version: " +
-                                    _vm._s(descripcion.cVersion) +
-                                    " Transmision: " +
-                                    _vm._s(
-                                      descripcion.cTransmision == "A"
-                                        ? "Automatica"
-                                        : "Estandar"
-                                    )
-                                )
-                              ]
+                              [_vm._v(_vm._s(descripcion.descripcion))]
                             )
                           })
                         ),
                         _vm._v(" "),
-                        _vm._m(2)
+                        _vm._m(3)
                       ])
                     ])
                   ]
@@ -48784,7 +48930,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(3),
+                          _vm._m(4),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -48939,7 +49085,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(4),
+                          _vm._m(5),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -49028,7 +49174,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(5),
+                          _vm._m(6),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -49117,7 +49263,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(6),
+                          _vm._m(7),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -49240,7 +49386,7 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(8)
                       ])
                     ])
                   ]
@@ -49306,7 +49452,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(8),
+                          _vm._m(9),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -49343,6 +49489,23 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12 mt-3 d-block d-sm-none" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", onclick: "$('#v-pills-Uso-tab').click();" }
+          },
+          [_vm._v("Atras")]
+        )
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

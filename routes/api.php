@@ -19,6 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/marcas',"QualitasController@getMarcas");
+// Route::get('/submarca/{uso}/{marca}/{submarca}/{modelo}',"QualitasController@getSubmarcas");
+
 Route::get('/modelos/{uso}/{marca}/{modelo}',"QualitasController@getModelos");
 // Route::get('/tarifas','WebServiceController@getTarifas');
 Route::post('/cotizacion','ClienteController@store');
@@ -38,6 +40,6 @@ Route::get('/getTitulos','GeneralSegurosController@getTitulos');
 
 Route::get('/getCotizacionGS','GeneralSegurosController@getCotizacion');
 
-Route::get('/getCoberturasGS','GeneralSegurosController@getCoberturas');
+Route::get('/getCoberturasGS/{cotizacion}/{paquete}','GeneralSegurosController@getCoberturas');
 
 Route::get('/cp/{cp}','CPController@get');
