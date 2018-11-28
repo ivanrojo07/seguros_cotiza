@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Imports\CPsImport;
+use App\CP;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
@@ -45,7 +46,7 @@ class CodigoPostal extends Command
         for ($i = 0; $i <= 31 ; $i++) {
             \Excel::filter('chunk')->selectSheetsByIndex($i)
                 ->load(storage_path("/app/public/CPdescarga.xls"),null,null,true,null)
-                ->chunk(250, function($results) {
+                ->chunk(1000, function($results) {
                 set_time_limit(0);
                 // dd($results);
                 if($results->count()) {

@@ -1,9 +1,8 @@
 <template>
 	<div>
 
-		<!-- Modal -->
-
-		<div id="modal-Info" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<!-- Modal QUALITAS -->
+		<div id="modal-Info-Qualitas" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="qualitasModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -36,6 +35,51 @@
 												<h5>Prima:</h5>
 												<p>${{cobertura.Prima | int}}MXN</p>
                                         	</div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal QUALITAS -->
+        <div id="modal-Info-GS" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="qualitasModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="col-4 p-2">
+                            <img src="img/GENERAL-DE-SEGUROS-LOGO.png" style="width: 100%!important; height: 25%!important;" class="rounded" alt="...">
+                        </div>
+                        <div class="col ml-3 p-2">
+                            <h5 class="modal-title" v-if="cotizacion" id="exampleModalLabel">{{cotizacion.nombre}}</h5>
+
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div v-if="cotizacion" class="row p-0">
+                            <div class="col-12 p-0">
+                                <div class="row m-1">
+                                    <div class="col-6">
+                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                            <a v-for="(cobertura, index) in cotizacion.coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#cobertura-'+index" role="tab" aria-controls="cobertura-1" aria-selected="true">{{cobertura.descripcion}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 p-2">
+                                        <div class="tab-content" id="v-pills-tabContent">
+                                            <div v-for="(cobertura, index) in cotizacion.coberturas" class="tab-pane fade" :id="'cobertura-'+index" role="tabpanel" aria-labelledby="cobertura-1-tab">
+                                                <h4>            
+                                                    Descripción {{cobertura.descripcion}}
+                                                </h4>
+                                                <h5>Monto:</h5>
+                                                <p>{{cobertura.monto}}</p>
+                                            </div>
                                            
                                         </div>
                                     </div>
@@ -109,10 +153,31 @@
                                         </div>
                                     </div>
                                     <div class="coti-item" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
-                                        {{cotizacionGS}}
-                                       <!--  <div class="card">
-                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                        </div> -->
+                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
+                                        <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                        <div class="card-body">
+                                            <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
+                                                <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                <p class="col-6 card-title">PAGO INICIAL:</p>
+                                                <p class="col-6">${{pago.reciboini | int}}</p>
+                                                <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                    ${{pago.recibosub | int}}
+                                                </p>
+                                            </div>
+                                            <div class="row justify-content-between">
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                                </div>
+                                                <div class="col-4">
+                                                    <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -144,27 +209,29 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
-                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
-                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                            <div class="card-body">
-                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                    <h5 class="col-6 card-title">{{pago.nombre}}:</h5>
-                                                    <p class="col-6">{{pago.primaTotal | int}}</p>
-                                                    <h6 class="col-6 card-title">Pago Inicial</h6>
-                                                    <p class="col-6">{{pago.reciboini | int}}</p>
-                                                    <h6 class="col-6 card-title">Pagos:</h6>
-                                                    <p class="col-6">
-                                                        {{pago.recibosub | int}}
-                                                    </p>
+                                </div>
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
+                                    <div class="card" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
+                                        <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                        <div class="card-body">
+                                            <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
+                                                <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                <p class="col-6 card-title">PAGO INICIAL:</p>
+                                                <p class="col-6">${{pago.reciboini | int}}</p>
+                                                <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                    ${{pago.recibosub | int}}
+                                                </p>
+                                            </div>
+                                            <div class="row justify-content-between">
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
                                                 </div>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.amplia)">Información</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
-                                                    </div>
+                                                <div class="col-4">
+                                                    <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -204,6 +271,33 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="coti-item" v-if="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
+                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
+                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                            <div class="card-body">
+                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                    <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
+                                                    <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                    <p class="col-6 card-title">PAGO INICIAL:</p>
+                                                    <p class="col-6">${{pago.reciboini | int}}</p>
+                                                    <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                    <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                        ${{pago.recibosub | int}}
+                                                    </p>
+                                                </div>
+                                                <div class="row justify-content-between">
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!--ESCRITORIO-->
@@ -226,6 +320,33 @@
                                                 <div class="row justify-content-between">
                                                     <div class="col-4">
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.limitada)">Información</button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
+                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
+                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                            <div class="card-body">
+                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                    <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
+                                                    <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                    <p class="col-6 card-title">PAGO INICIAL:</p>
+                                                    <p class="col-6">${{pago.reciboini | int}}</p>
+                                                    <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                    <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                        ${{pago.recibosub | int}}
+                                                    </p>
+                                                </div>
+                                                <div class="row justify-content-between">
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
                                                     </div>
                                                     <div class="col-4">
                                                         <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
@@ -269,6 +390,33 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="coti-item" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
+                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT BASICA'">
+                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                            <div class="card-body">
+                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                    <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
+                                                    <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                    <p class="col-6 card-title">PAGO INICIAL:</p>
+                                                    <p class="col-6">${{pago.reciboini | int}}</p>
+                                                    <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                    <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                        ${{pago.recibosub | int}}
+                                                    </p>
+                                                </div>
+                                                <div class="row justify-content-between">
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!--ESCRITORIO-->
@@ -300,6 +448,33 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
+                                    <div class="card" v-if="cotizacionGS.nombre == 'CONFORT BASICA'">
+                                        <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                        <div class="card-body">
+                                            <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
+                                                <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                <p class="col-6 card-title">PAGO INICIAL:</p>
+                                                <p class="col-6">${{pago.reciboini | int}}</p>
+                                                <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                    ${{pago.recibosub | int}}
+                                                </p>
+                                            </div>
+                                            <div class="row justify-content-between">
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                                </div>
+                                                <div class="col-4">
+                                                    <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>      
@@ -307,7 +482,10 @@
 
 	            </div>
 			</div>
-		</div>
+        </div>
+       <!--  <pre>
+            {{$data}}
+        </pre> -->
 	</div>
 </template>
 <script>
@@ -319,7 +497,7 @@
     	],
     	data(){
     		return{
-                loader: true,
+                loader: false,
     			cotizacion:null,
     			cotizacionesQualitas:[],
                 cotizacionesGS:[],
@@ -329,8 +507,8 @@
     	watch:{
     		'getcotizacion.value': function (newVal,oldVal) {
     			// body...
+                // this.getCoberturasGS(this.cliente.cotizacion);
     			this.getCoberturas(this.cliente.cotizacion);
-                this.getCoberturasGS(this.cliente.cotizacion);
     		}
     	},
     	methods:{
@@ -341,10 +519,11 @@
     				console.log('coberturas res',res);
     				this.error = res.data.error;
 					// console.log(this.error.length);
-    				if(!this.error){
-    					this.cotizacionesQualitas.push({'imagen':'./img/qua.png','response':res.data});
-                        this.loader = false;
-    				}
+                    console.log(res.data);
+    				// if(!this.error){
+    				// 	this.cotizacionesQualitas.push({'imagen':'./img/qua.png','response':res.data});
+        //                 this.loader = false;
+    				// }
     			}).catch(err=>{
     				console.log('coberturas err', err)
     			});
@@ -354,6 +533,7 @@
                 let params = {cotizacion:cotizacion};
                 axios.post(url,params).then(res=>{
                     console.log("general res",res.data)
+                    this.loader = false;
                     this.cotizacionesGS = {"img": './img/GENERAL-DE-SEGUROS-LOGO.png','cotizacion':res.data.cotizacion};
                 }).catch(error=>{
                     console.log('general err',error);
@@ -361,6 +541,7 @@
 
             },
     		infoCotizacion(cotiza){
+                console.log(cotiza);
     			this.cotizacion = cotiza;
     		}
     	},

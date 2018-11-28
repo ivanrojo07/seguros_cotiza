@@ -47,14 +47,21 @@ class QualitasController extends Controller
 		dd($fault);
 	  }
 	}
-	public function getModelos($uso,$marca,$modelo)
+	public function getModelos($uso,$marca,$modelo,$submarca,$descripcion)
 	{
-	  // dd($uso);
+	  
 	  try {
-		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cModelo'=>$modelo]);
+		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cTipo'=>$submarca,'version'=>$descripcion,'cModelo'=>$modelo]);
 		$xml = simplexml_load_string($result->listaTarifasResult->any);
-		$response = json_decode(json_encode($xml), true);
-		// dd($response);
+		$results = json_decode(json_encode($xml), true);
+		dd($results['datos']['Elemento']);
+		$porcentajes=[];
+		foreach ($results['datos']['Elemento'] as $res) {
+			// dd($res);
+			similar_text($descripcion,$res['cVersion'],$porcentaje);
+			array_push($porcentajes,$porcentaje);
+		}
+		dd($porcentajes);
 		$descripcion = [];
 		if(count($response["datos"]) == 0){
 		  return response()->json(["descripciones"=>$descripcion],201);
@@ -95,7 +102,15 @@ class QualitasController extends Controller
 	{
 	  // dd($request->all());
 	  $cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
-	  // dd($cliente);
+
+	  $marca = $cliente->auto->marca->nombre;
+	  $submarca= $cliente->auto->submarca->nombre;
+	  $modelo = $cliente->auto->submarca->anio;
+	  $descripcion= $cliente->auto->version->descripcion;
+	  $result = $this->getModelos("Servicio Particular", $marca, $modelo, $submarca, $descripcion);
+	  dd($result);
+
+
 	  if($cliente == null){
 		return response()->json(['error'=>"datos no encontrado"],404);
 
