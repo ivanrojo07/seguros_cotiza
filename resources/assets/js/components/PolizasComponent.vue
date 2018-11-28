@@ -77,13 +77,13 @@
 	                </li>
 	            </ul>
 	            <div class="tab-content" v-if="!loader" id="pills-tabContent">
-	            	
+	            	<!-- AMPLIA -->
 	            	<div class="tab-pane fade show active" id="pills-Amplia" role="tabpanel" aria-labelledby="pills-Amplia-tab">
 	            		<div class="row">
                             <!--CELULAR-->
                             <div class="col-12 d-block d-sm-none">
                                 <div class="coti">
-                                    <div class="coti-item" v-for="cotizacion in cotizaciones">
+                                    <div class="coti-item" v-for="cotizacion in cotizacionesQualitas">
                                         <div class="card" v-if="!cotizacion.response.amplia.error">
                                             <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                             <div class="card-body">
@@ -108,12 +108,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="coti-item" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
+                                        {{cotizacionGS}}
+                                       <!--  <div class="card">
+                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                        </div> -->
+                                    </div>
                                 </div>
                             </div>
 	            			<!--ESCRITORIO-->
                             <div class="col-12 d-none d-sm-block p-2">
                                 <div class="row m-2 no-gutters">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizaciones">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizacionesQualitas">
                                         <div class="card" v-if="!cotizacion.response.amplia.error">
                                             <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                             <div class="card-body">
@@ -127,6 +133,31 @@
                                                 <p>${{cotizacion.response.amplia.Primas.Recargo|int}}MXN</p>
                                                 <h4 class="card-title">Prima Total:</h4>
                                                 <p>${{cotizacion.response.amplia.Primas.PrimaTotal|int}}MXN</p>
+                                                <div class="row justify-content-between">
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.amplia)">Información</button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
+                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
+                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                            <div class="card-body">
+                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                    <h5 class="col-6 card-title">{{pago.nombre}}:</h5>
+                                                    <p class="col-6">{{pago.primaTotal | int}}</p>
+                                                    <h6 class="col-6 card-title">Pago Inicial</h6>
+                                                    <p class="col-6">{{pago.reciboini | int}}</p>
+                                                    <h6 class="col-6 card-title">Pagos:</h6>
+                                                    <p class="col-6">
+                                                        {{pago.recibosub | int}}
+                                                    </p>
+                                                </div>
                                                 <div class="row justify-content-between">
                                                     <div class="col-4">
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.amplia)">Información</button>
@@ -142,13 +173,13 @@
                             </div>
 	            		</div>
 	            	</div>
-
+                    <!-- LIMITADA -->
 	            	<div class="tab-pane fade" id="pills-Limitada" role="tabpanel" aria-labelledby="pills-Limitada-tab">
                         <div class="row">
                              <!--CELULAR-->
                             <div class="col-12 d-block d-sm-none">
                                 <div class="coti">
-                                    <div class="coti-item" v-for="cotizacion in cotizaciones">
+                                    <div class="coti-item" v-for="cotizacion in cotizacionesQualitas">
                                         <div class="card" v-if="!cotizacion.response.limitada.error">
                                             <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                             <div class="card-body">
@@ -178,7 +209,7 @@
                             <!--ESCRITORIO-->
                             <div class="col-12 d-none d-sm-block p-2">
                                 <div class="row m-2 no-gutters">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizaciones">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizacionesQualitas">
                                         <div class="card" v-if="!cotizacion.response.limitada.error">
                                             <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                             <div class="card-body">
@@ -213,7 +244,7 @@
                             <!--CELULAR-->
                             <div class="col-12 d-block d-sm-none">
                                 <div class="coti">
-                                    <div class="coti-item" v-for="cotizacion in cotizaciones">
+                                    <div class="coti-item" v-for="cotizacion in cotizacionesQualitas">
                                         <div class="card" v-if="!cotizacion.response.rc.error">
                                             <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                             <div class="card-body" >
@@ -243,7 +274,7 @@
                             <!--ESCRITORIO-->
                             <div class="col-12 d-none d-sm-block p-2">
                                 <div class="row m-2 no-gutters">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizaciones">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizacionesQualitas">
                                         <div class="card" v-if="!cotizacion.response.rc.error">
                                             <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                             <div class="card-body" >
@@ -290,7 +321,8 @@
     		return{
                 loader: true,
     			cotizacion:null,
-    			cotizaciones:[],
+    			cotizacionesQualitas:[],
+                cotizacionesGS:[],
     			error:null,
     		}
     	},
@@ -298,6 +330,7 @@
     		'getcotizacion.value': function (newVal,oldVal) {
     			// body...
     			this.getCoberturas(this.cliente.cotizacion);
+                this.getCoberturasGS(this.cliente.cotizacion);
     		}
     	},
     	methods:{
@@ -309,13 +342,24 @@
     				this.error = res.data.error;
 					// console.log(this.error.length);
     				if(!this.error){
-    					this.cotizaciones.push({'imagen':'./img/qua.png','response':res.data});
+    					this.cotizacionesQualitas.push({'imagen':'./img/qua.png','response':res.data});
                         this.loader = false;
     				}
     			}).catch(err=>{
     				console.log('coberturas err', err)
     			});
     		},
+            getCoberturasGS(cotizacion){
+                let url = "./api/getCotizacionGS";
+                let params = {cotizacion:cotizacion};
+                axios.post(url,params).then(res=>{
+                    console.log("general res",res.data)
+                    this.cotizacionesGS = {"img": './img/GENERAL-DE-SEGUROS-LOGO.png','cotizacion':res.data.cotizacion};
+                }).catch(error=>{
+                    console.log('general err',error);
+                })
+
+            },
     		infoCotizacion(cotiza){
     			this.cotizacion = cotiza;
     		}

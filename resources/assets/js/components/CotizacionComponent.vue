@@ -494,33 +494,38 @@ function Cliente({cotizacion,uso_auto,marca_auto,submarca_auto,modelo_auto,descr
     		// },
     		nextPill(input){
     			if (input == "cp" && this.cliente.cp != "") {
-    				// console.log('si')
-    				// window.axios.defaults.headers.common['X-CSRF-TOKEN'] = "";
-    						// token.content
-	    			let url = `./api/cp/${this.cliente.cp}`;
-    				axios.get(url).then(
-    					res=>{
-    						if(res.data.response){
-    							this.alert_cp = 
-    							this.nombre = true;
-    							this.alert_cp = "";
-    							console.log('si entra');
-			    				// this.showPill('v-pills-Marca');
-			    				this.cliente.cestado = res.data.response[0].cestado;
+    				console.log('si entra');
+    				// this.showPill('v-pills-Marca');
+    				this.nombre = true;
+    				this.cliente.cestado = '10';
 
-			    				$('#v-pills-Nombre-tab').removeClass('disabled');
-			    				// $('#v-pills-Nombre-tab').addClass('disabled');
-			    				$('#v-pills-Nombre-tab').click();
-    						}
-    						console.log(res);
-    					}).catch(
-    					err=>{
-    						if(err.response.data.error){
-    							this.nombre = false;
-    							$('#v-pills-Nombre-tab').addClass('disabled');
-    							this.alert_cp = err.response.data.error;
-    						}
-    					})
+    				$('#v-pills-Nombre-tab').removeClass('disabled');
+    				// $('#v-pills-Nombre-tab').addClass('disabled');
+    				$('#v-pills-Nombre-tab').click();
+	    			// let url = `./api/cp/${this.cliente.cp}`;
+    				// axios.get(url).then(
+    				// 	res=>{
+    				// 		if(res.data.response){
+    				// 			this.alert_cp = 
+    				// 			this.nombre = true;
+    				// 			this.alert_cp = "";
+    				// 			console.log('si entra');
+			    	// 			// this.showPill('v-pills-Marca');
+			    	// 			this.cliente.cestado = res.data.response[0].cestado;
+
+			    	// 			$('#v-pills-Nombre-tab').removeClass('disabled');
+			    	// 			// $('#v-pills-Nombre-tab').addClass('disabled');
+			    	// 			$('#v-pills-Nombre-tab').click();
+    				// 		}
+    				// 		console.log(res);
+    				// 	}).catch(
+    				// 	err=>{
+    				// 		if(err.response.data.error){
+    				// 			this.nombre = false;
+    				// 			$('#v-pills-Nombre-tab').addClass('disabled');
+    				// 			this.alert_cp = err.response.data.error;
+    				// 		}
+    				// 	})
     				
     			}
     			if (input == "nombre" && this.cliente.nombre != "" && this.cliente.appaterno != "") {

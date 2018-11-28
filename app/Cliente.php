@@ -5,6 +5,7 @@ namespace App;
 use App\Mail\CreateCotizacion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class Cliente extends Model
 {
@@ -14,29 +15,34 @@ class Cliente extends Model
 
     protected $fillable=[
     	'uso_auto',
-    	'marca_auto',
-    	'modelo_auto',
-    	'descripcion_auto',
-        'tipo_auto',
-        'c_amis',
-    	'cp',
+    	// 'marca_auto',
+    	// 'modelo_auto',
+    	// 'descripcion_auto',
+     //    'tipo_auto',
+     //    'c_amis',
+        'cp',
         'cestado',
-    	'nombre',
-    	'appaterno',
-    	'apmaterno',
-    	'telefono',
-    	'email',
-    	'sexo',
-    	'f_nac'
+        'nombre',
+        'appaterno',
+        'apmaterno',
+        'telefono',
+        'email',
+        'sexo',
+        'f_nac'
     ];
 
     protected $hidden=[
-    	'created_at',
-    	'updated_at',
+        'created_at',
+        'updated_at',
     ];
 
+    public function auto()
+    {
+        return $this->hasOne('App\Auto');
+    }
+
     public function generarCotizacion(){
-    	return md5("$this->id $this->updated_at");
+        return substr(md5(uniqid(mt_rand(), true)), 0, 10);
     }
 
     public function emailCotizacion(){
@@ -45,6 +51,31 @@ class Cliente extends Model
         Mail::to($cliente->email)->send(new CreateCotizacion($cliente));
     }
 
+
+    public function getMenor30Attribute()
+    {
+        $nacimiento = Carbon::parse($this->f_nac);
+        $edad = Carbon::createFromDate($nacimiento->year,$nacimiento->month,$nacimiento->day)->age;
+        if ($edad >= 30) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+    public function getTipoServicioAttribute()
+    {
+        $uso = $this->uso_auto;
+        // $codigo;
+        // dd($uso);
+        if($uso == "Servicio Público"){
+            return "COMERCIAL";
+        }
+        if($uso == "Servicio Particular"){
+            return "PARTICULAR";
+        }
+    }
 
     public function getUsoAttribute()
     {
@@ -74,6 +105,9 @@ class Cliente extends Model
         
         // return $codigo;
     }
+
+
+
     public function getDigAttribute()
     {
         $camis = $this->c_amis;

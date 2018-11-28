@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use SoapClient;
+use App\Cliente;
 
 
 class GeneralSegurosController extends Controller
@@ -16,9 +17,9 @@ class GeneralSegurosController extends Controller
 
     	$this->opts = array(
 		  'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false),
-		  'http'=> array('header'=>array('Content-Type:application/soap+xml; charset=utf-8'), 'user_agent' => 'PHPSoapClient')
+		  'http'=> array('header'=>array('Content-Type:application/soap+xml; charset=utf-8'))
 		);
-		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180,'keep_alive' => false, 'stream_context' => stream_context_create($this->opts) );
+		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 500,'keep_alive' => 0, 'cache_wsdl' => WSDL_CACHE_NONE, 'stream_context' => stream_context_create($this->opts) );
     	 // DATOS GENERAL DE SEGUROS
 		$this->urlAuth = "http://gdswas.mx:9080/gsautos-wsDesa/soap/autenticacionWS?wsdl";
 		$this->urlCotiza = "http://gdswas.mx:9080/gsautos-wsDesa/soap/cotizacionEmisionWS?wsdl";
@@ -65,11 +66,13 @@ class GeneralSegurosController extends Controller
     	}
     }
 
-    public function getCotizacion(){
-    	$client = $this->getClient($this->urlCotiza);
-    	// dd($client->__getTypes());
+    public function getCotizacion(Request $request){
+    	$cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
+    	// dd($cliente['tipoServicio']);
+    	$soapClient = $this->getClient($this->urlCotiza);
+    	// dd($soapClient->__getTypes());
     	try{
-	    	$res = $client->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>7880,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>71101212,"conductorMenor30"=>1,'modelo'=>2017,'tipoServicio'=>"PARTICULAR",'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
+	    	$res = $soapClient->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>$cliente->cp,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>$cliente->auto->version->amis_gs,"conductorMenor30"=>$cliente->menor30,'modelo'=>$cliente->auto->submarca->anio,'tipoServicio'=>$cliente->tipoServicio,'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
 			$response = json_decode(json_encode($res),true);
 	    	// dd($response);
 			if($response['return']['exito']){
@@ -94,8 +97,8 @@ class GeneralSegurosController extends Controller
     public function getCoberturas($cotizacion,$paquete)
     {
     	// dd($paquete);
-    	$client = $this->getClient($this->urlCober);
-    	$coberturas = $client->wsObtenerCoberturasCotizacion(['arg0'=>['token'=>$this->token,'cotizacion'=>$cotizacion,'paquete'=>$paquete]]);
+    	$soapClient = $this->getClient($this->urlCober);
+    	$coberturas = $soapClient->wsObtenerCoberturasCotizacion(['arg0'=>['token'=>$this->token,'cotizacion'=>$cotizacion,'paquete'=>$paquete]]);
     	$response = json_decode(json_encode($coberturas),true);
     	if ($response['return']['exito']){
     		return $response['return']['coberturas'];
@@ -103,7 +106,7 @@ class GeneralSegurosController extends Controller
     	}
     	// dd($response);
 
-    	// dd($client->__getTypes());
+    	// dd($soapClient->__getTypes());
     	
     }
 

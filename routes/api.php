@@ -38,7 +38,7 @@ Route::get('/getGiros','GeneralSegurosController@getGiros');
 Route::get('/getEstadoCivil','GeneralSegurosController@getEstadoCivil');
 Route::get('/getTitulos','GeneralSegurosController@getTitulos');
 
-Route::get('/getCotizacionGS','GeneralSegurosController@getCotizacion');
+Route::post('/getCotizacionGS','GeneralSegurosController@getCotizacion');
 
 Route::get('/getCoberturasGS/{cotizacion}/{paquete}','GeneralSegurosController@getCoberturas');
 
