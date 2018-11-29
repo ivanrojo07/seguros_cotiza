@@ -19,7 +19,7 @@ class CreateVersionsTable extends Migration
             $table->foreign('auto_id')->references('id')->on('autos');
             $table->integer('amis_gs')->unsigned();
             $table->string('descripcion');
-            $table->string('camis_qualitas')->nullable();
+            $table->integer('camis_qualitas')->nullable();
             $table->timestamps();
         });
     }

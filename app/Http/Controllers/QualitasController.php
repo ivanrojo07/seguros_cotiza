@@ -52,46 +52,58 @@ class QualitasController extends Controller
 	  
 	  try {
 		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cTipo'=>$submarca,'version'=>$descripcion,'cModelo'=>$modelo]);
+		// dd($result);
 		$xml = simplexml_load_string($result->listaTarifasResult->any);
 		$results = json_decode(json_encode($xml), true);
-		dd($results['datos']['Elemento']);
-		$porcentajes=[];
-		foreach ($results['datos']['Elemento'] as $res) {
-			// dd($res);
-			similar_text($descripcion,$res['cVersion'],$porcentaje);
-			array_push($porcentajes,$porcentaje);
+		$descripciones= [];
+		// dd($results);
+		if(empty($results['datos'])){
+			$result=null;
+			return $result;
 		}
-		dd($porcentajes);
-		$descripcion = [];
-		if(count($response["datos"]) == 0){
-		  return response()->json(["descripciones"=>$descripcion],201);
+		elseif(count($results["datos"]) == 0 ){
+		  array_push($descripciones, $results["datos"]['Elemento']);
+
 		}
 		else{
 			
-			if ($response['retorno']['descripcion'] == "1") {
-				$response["datos"]['Elemento'] = [ $response["datos"]['Elemento'] ];
+			if ($results['retorno']['descripcion'] == "1") {
+				$results["datos"]['Elemento'] = [ $results["datos"]['Elemento'] ];
 			}
-			foreach ($response["datos"]['Elemento'] as $elemento) {
+			foreach ($results["datos"]['Elemento'] as $elemento) {
 				if($uso == "Servicio Particular"){
 					// dd('entra servicio particular');
 					$version = explode(' ',$elemento['cVersion']);
 					if(!in_array('SERVPUB',$version)){
-						array_push($descripcion,$elemento);
+						array_push($descripciones,$elemento);
 					}
 				}
 				if($uso == "Servicio Público"){
 					// dd('entra servicio publico');
 					$version = explode(' ',$elemento['cVersion']);
 					if(in_array('SERVPUB',$version)){
-						array_push($descripcion,$elemento);
+						array_push($descripciones,$elemento);
 					}
 				}
 
 			}
-			// $response["datos"]['Elemento'];
-
-		  	return response()->json(["descripciones"=>$descripcion],201);
 		}
+		$porcentajes=[];
+		$porcPiv = 0;
+		// dd($descripcion);
+		foreach ($descripciones as $res) {
+			// dd($res);
+			similar_text($descripcion,$res['cVersion'],$porcentaje);
+			// var_dump($porcentaje);
+			if ($porcentaje >= $porcPiv ) {
+				$porcPiv = $porcentaje;
+				$descripcionQualitas = $res;
+			} 
+			array_push($porcentajes,$porcentaje);
+		}
+		$result = ['version'=>$descripcionQualitas];
+		// dd($result);
+		return $result;
 		
 	  } catch (SoapFault $fault) {
 	  dd($fault);         
@@ -102,20 +114,32 @@ class QualitasController extends Controller
 	{
 	  // dd($request->all());
 	  $cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
-
-	  $marca = $cliente->auto->marca->nombre;
-	  $submarca= $cliente->auto->submarca->nombre;
-	  $modelo = $cliente->auto->submarca->anio;
-	  $descripcion= $cliente->auto->version->descripcion;
-	  $result = $this->getModelos("Servicio Particular", $marca, $modelo, $submarca, $descripcion);
-	  dd($result);
-
-
 	  if($cliente == null){
 		return response()->json(['error'=>"datos no encontrado"],404);
 
 	  }
 	  else{
+	  	$marca = $cliente->auto->marca->nombre;
+		$submarca= $cliente->auto->submarca->nombre;
+		$modelo = $cliente->auto->submarca->anio;
+		$descripcion= $cliente->auto->version->descripcion;
+		// dd($cliente);
+		if (!$cliente->auto->version->camis_qualitas) {
+			$result = $this->getModelos("Servicio Particular", $marca, $modelo, $submarca, $descripcion);
+			if($result){
+				$cliente->auto->version->camis_qualitas = $result['version']['CAMIS'];
+				$cliente->auto->version->save();
+			}
+			else{
+				return response()->json(['error'=>"No se encontro modelo"],404);
+			}
+			// dd($result['version']['CAMIS']);
+		}
+		$camis = $cliente->auto->version->camis_qualitas;
+		$modelo = $cliente->auto->submarca->anio;
+		$version = $cliente->auto->version;
+		$dig =(int)$cliente->auto->version->dig;
+		// dd($camis." ".$cliente->auto->version->dig);
 		$fecha = Carbon::now()->toDateString();
 		$fecha_t = Carbon::parse($fecha);
 		$fecha_t = $fecha_t->addYears(1)->toDateString();
@@ -189,8 +213,8 @@ class QualitasController extends Controller
 		</ConsideracionesAdicionalesDA>
 	  </DatosAsegurado>
 	  <DatosVehiculo NoInciso="1">
-		<ClaveAmis>$cliente->c_amis</ClaveAmis>
-		<Modelo>$cliente->modelo_auto</Modelo>
+		<ClaveAmis>$camis</ClaveAmis>
+		<Modelo>$modelo</Modelo>
 		<DescripcionVehiculo></DescripcionVehiculo>
 		<Uso>$cliente->uso</Uso>
 		<Servicio>$cliente->servicio</Servicio>
@@ -268,7 +292,7 @@ class QualitasController extends Controller
 		<PorcentajeDescuento>20</PorcentajeDescuento>
 		<ConsideracionesAdicionalesDG NoConsideracion="1">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>$cliente->dig</ValorRegla>
+		  <ValorRegla>$dig</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
@@ -325,8 +349,8 @@ XML;
 		</ConsideracionesAdicionalesDA>
 	  </DatosAsegurado>
 	  <DatosVehiculo NoInciso="1">
-		<ClaveAmis>$cliente->c_amis</ClaveAmis>
-		<Modelo>$cliente->modelo_auto</Modelo>
+		<ClaveAmis>$camis</ClaveAmis>
+		<Modelo>$modelo</Modelo>
 		<DescripcionVehiculo></DescripcionVehiculo>
 		<Uso>1</Uso>
 		<Servicio>1</Servicio>
@@ -398,7 +422,7 @@ XML;
 		<PorcentajeDescuento>20</PorcentajeDescuento>
 		<ConsideracionesAdicionalesDG NoConsideracion="1">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>$cliente->dig</ValorRegla>
+		  <ValorRegla>$dig</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
@@ -455,8 +479,8 @@ XML;
 		</ConsideracionesAdicionalesDA>
 	  </DatosAsegurado>
 	  <DatosVehiculo NoInciso="1">
-		<ClaveAmis>$cliente->c_amis</ClaveAmis>
-		<Modelo>$cliente->modelo_auto</Modelo>
+		<ClaveAmis>$camis</ClaveAmis>
+		<Modelo>$modelo</Modelo>
 		<DescripcionVehiculo></DescripcionVehiculo>
 		<Uso>1</Uso>
 		<Servicio>1</Servicio>
@@ -528,7 +552,7 @@ XML;
 		<PorcentajeDescuento>20</PorcentajeDescuento>
 		<ConsideracionesAdicionalesDG NoConsideracion="1">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>$cliente->dig</ValorRegla>
+		  <ValorRegla>$dig</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>

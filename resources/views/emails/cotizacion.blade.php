@@ -1,7 +1,7 @@
 @component('mail::message')
-# Bienvenido a Seguros {{$cliente->nombre}} {{$cliente->appaterno}} {{$cliente->apmaterno}}:
+# Bienvenido a {{ config('app.name') }} {{$cliente->nombre}} {{$cliente->appaterno}} {{$cliente->apmaterno}}:
 
-La cotización de tú auto {{$cliente->marca_auto}}  {{$cliente->modelo_auto}} {{$cliente->tipo_auto}} {{$cliente->descripcion_auto}} se guardo en nuestro sistema con este numero:
+La cotización de tú auto {{$cliente->auto->marca->nombre}}  {{$cliente->auto->submarca->anio}} {{$cliente->auto->version->descripcion}} se guardo en nuestro sistema con este folio:
 
 {{$cliente->cotizacion}}
 

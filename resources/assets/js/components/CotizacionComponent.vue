@@ -275,13 +275,10 @@
 </template>
 
 <script>
-function Cliente({cotizacion,uso_auto,marca_auto,submarca_auto,modelo_auto,descripcion_auto,cp,nombre,appaterno,apmaterno,telefono,email,sexo,f_nac}){
+function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefono,email,sexo,f_nac}){
 	this.cotizacion = cotizacion;
 	this.uso_auto = uso_auto;
-	this.marca_auto=marca_auto;
-	this.submarca_auto=submarca_auto;
-	this.modelo_auto=modelo_auto;
-	this.descripcion_auto= { cVersion : descripcion_auto};
+	this.auto = auto;
 	this.cp = cp;
 	this.nombre= nombre;
 	this.appaterno = appaterno;
@@ -409,9 +406,11 @@ function Cliente({cotizacion,uso_auto,marca_auto,submarca_auto,modelo_auto,descr
     					// this.cliente = new Cliente(res.data.cotizacion);
     					this.cliente.cotizacion =res.data.cotizacion.cotizacion;
 						this.cliente.uso_auto =res.data.cotizacion.uso_auto;
-						this.cliente.marca_auto=res.data.cotizacion.marca_auto;
-						this.cliente.modelo_auto=res.data.cotizacion.modelo_auto;
-						this.cliente.descripcion_auto={ cTipo: res.data.cotizacion.tipo_auto, cVersion : res.data.cotizacion.descripcion_auto};
+						this.cliente.descripcion_auto = res.data.cotizacion.auto.version;
+						this.cliente.marca_auto = res.data.cotizacion.auto.marca;
+						this.cliente.modelo_auto = res.data.cotizacion.auto.submarca.anio;
+						this.cliente.submarca_auto = res.data.cotizacion.auto.submarca;
+						// this.cliente.auto = res.data.cotizacion.auto;
 						this.cliente.cp =res.data.cotizacion.cp;
 						this.cliente.nombre=res.data.cotizacion.nombre;
 						this.cliente.appaterno =res.data.cotizacion.appaterno;

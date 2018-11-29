@@ -75,7 +75,7 @@ class GeneralSegurosController extends Controller
 	    	$res = $soapClient->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>$cliente->cp,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>$cliente->auto->version->amis_gs,"conductorMenor30"=>$cliente->menor30,'modelo'=>$cliente->auto->submarca->anio,'tipoServicio'=>$cliente->tipoServicio,'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
 			$response = json_decode(json_encode($res),true);
 	    	// dd($response);
-			if($response['return']['exito']){
+			if($response['return']['exito'] && isset($response['return']['paquetes'])){
 				$paquetes = [];
 				foreach ($response['return']['paquetes'] as $paquete) {
 					$paquete['coberturas'] = $this->getCoberturas($response['return']['idCotizacion'], $paquete['id']);
@@ -86,7 +86,7 @@ class GeneralSegurosController extends Controller
 				return response()->json(['cotizacion'=>$cotizacion]);
 				
 			}
-	    	return $this->responseJson('paquetes',$res);
+	    	return response()->json(['error'=>"No hay paquetes"],404);
     		
     	}
     	catch(SoapFault $error){

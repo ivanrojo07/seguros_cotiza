@@ -82,8 +82,9 @@ class ClienteController extends Controller
     }
 
     public function search(Request $request){
-        $cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
+        $cliente = Cliente::where('cotizacion',$request->cotizacion)->with(['auto','auto.marca','auto.submarca','auto.version'])->first();
         if($cliente != null){
+            // $cliente->;
             return response()->json(['cotizacion'=>$cliente],200);
         }
         else{
