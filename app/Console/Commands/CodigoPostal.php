@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Imports\CPsImport;
+use App\CP;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
