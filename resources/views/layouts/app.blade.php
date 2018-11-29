@@ -36,7 +36,7 @@
                 <div class="row ">
                     <div class="col-12 col-sm-6">
                         <h5>
-                            AutoSegurosDirecto.com
+                            AutoSeguroDirecto.com
                         </h5>
                     </div>
                     <div class="col-12 col-sm-6">
@@ -94,7 +94,7 @@
         <!--FOOTER-->
         <div class="row bg-info text-white p-4">
             <div class="col-12 col-sm-4">
-                <p class="font-weight-bold text-center">AutoSegurosDirecto.com</p>
+                <p class="font-weight-bold text-center">AutoSeguroDirecto.com</p>
                 <p class="text-center">"A un click de tu Seguro"</p>
             </div>
             <div class="col-12 col-sm-4">

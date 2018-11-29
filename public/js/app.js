@@ -14025,9 +14025,11 @@ var app = new Vue({
             "cotizacion": null,
             'uso_auto': '',
             'marca_auto': "",
+            'submarca_auto': "",
             'modelo_auto': "",
             'descripcion_auto': "",
             'cp': "",
+            'cestado': "",
             'nombre': "",
             'appaterno': "",
             'apmaterno': "",
@@ -47746,13 +47748,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 function Cliente(_ref) {
     var cotizacion = _ref.cotizacion,
+        auto = _ref.auto,
         uso_auto = _ref.uso_auto,
-        marca_auto = _ref.marca_auto,
-        modelo_auto = _ref.modelo_auto,
-        descripcion_auto = _ref.descripcion_auto,
         cp = _ref.cp,
         nombre = _ref.nombre,
         appaterno = _ref.appaterno,
@@ -47764,9 +47786,7 @@ function Cliente(_ref) {
 
     this.cotizacion = cotizacion;
     this.uso_auto = uso_auto;
-    this.marca_auto = marca_auto;
-    this.modelo_auto = modelo_auto;
-    this.descripcion_auto = { cVersion: descripcion_auto };
+    this.auto = auto;
     this.cp = cp;
     this.nombre = nombre;
     this.appaterno = appaterno;
@@ -47784,9 +47804,13 @@ function Cliente(_ref) {
             descripciones: [],
             anios: [],
             marcas: [],
-            pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
+            submarcas: [],
+            modelos: [],
+            pills: ['v-pills-Uso', 'v-pills-Marca', 'v-pills-Submarca', 'v-pills-Modelo', 'v-pills-Descripcion', 'v-pills-CP', 'v-pills-Nombre', 'v-pills-Celular', 'v-pills-Correo', 'v-pills-Sexo', 'v-pills-Nacimiento'],
+            alert_cp: "",
             uso: true,
             marca: false,
+            submarca: false,
             modelo: false,
             loader: true,
             descripcion: false,
@@ -47817,9 +47841,21 @@ function Cliente(_ref) {
                 if (this.searchOption == false) {
                     this.cliente.descripcion_auto = "";
                 }
+                this.getSubmarcas(this.cliente.marca_auto.id);
                 // this.showPill('v-pills-Marca');
+                $('#v-pills-Submarca-tab').removeClass('disabled');
+                // $('#v-pills-Submarca-tab').addClass('disabled');
+                $('#v-pills-Submarca-tab').click();
+            }
+        },
+        'cliente.submarca_auto': function clienteSubmarca_auto(newV, oldV) {
+            if (newV != "") {
+                this.submarca = true;
+                if (this.searchOption == false) {
+                    this.cliente.descripcion_auto = "";
+                }
+                this.getModelos(this.cliente.submarca_auto.id);
                 $('#v-pills-Modelo-tab').removeClass('disabled');
-                // $('#v-pills-Modelo-tab').addClass('disabled');
                 $('#v-pills-Modelo-tab').click();
             }
         },
@@ -47832,7 +47868,7 @@ function Cliente(_ref) {
                 }
                 $('#v-pills-Descripcion-tab').removeClass('disabled');
                 // $('#v-pills-Descripcion-tab').addClass('disabled');
-                this.getDescripciones(this.cliente.uso_auto, this.cliente.marca_auto, this.cliente.modelo_auto);
+                this.getDescripciones(this.cliente.submarca_auto.id, this.cliente.modelo_auto);
                 $('#v-pills-Descripcion-tab').click();
             }
         },
@@ -47857,7 +47893,7 @@ function Cliente(_ref) {
     },
     created: function created() {
         this.getMarcas();
-        this.getModelos();
+        // this.getModelos();
     },
 
     methods: {
@@ -47877,9 +47913,11 @@ function Cliente(_ref) {
                     // this.cliente = new Cliente(res.data.cotizacion);
                     _this.cliente.cotizacion = res.data.cotizacion.cotizacion;
                     _this.cliente.uso_auto = res.data.cotizacion.uso_auto;
-                    _this.cliente.marca_auto = res.data.cotizacion.marca_auto;
-                    _this.cliente.modelo_auto = res.data.cotizacion.modelo_auto;
-                    _this.cliente.descripcion_auto = { cTipo: res.data.cotizacion.tipo_auto, cVersion: res.data.cotizacion.descripcion_auto };
+                    _this.cliente.descripcion_auto = res.data.cotizacion.auto.version;
+                    _this.cliente.marca_auto = res.data.cotizacion.auto.marca;
+                    _this.cliente.modelo_auto = res.data.cotizacion.auto.submarca.anio;
+                    _this.cliente.submarca_auto = res.data.cotizacion.auto.submarca;
+                    // this.cliente.auto = res.data.cotizacion.auto;
                     _this.cliente.cp = res.data.cotizacion.cp;
                     _this.cliente.nombre = res.data.cotizacion.nombre;
                     _this.cliente.appaterno = res.data.cotizacion.appaterno;
@@ -47903,12 +47941,54 @@ function Cliente(_ref) {
         getMarcas: function getMarcas() {
             var _this2 = this;
 
-            var url = './api/marcas';
+            var url = './api/getMarcas';
             axios.get(url).then(function (res) {
                 console.log("res", res);
                 _this2.marcas = res.data.marcas;
             }).catch(function (error) {
                 console.log('error', error);
+            });
+        },
+        getSubmarcas: function getSubmarcas(marca) {
+            var _this3 = this;
+
+            var url = './api/getSubmarcas/' + marca;
+            axios.get(url).then(function (res) {
+                console.log('res submarcas', res);
+                if (res.data.submarcas) {
+                    _this3.submarcas = res.data.submarcas;
+                }
+            }).catch(function (error) {
+                console.log('error submarcas', error);
+            });
+        },
+        getModelos: function getModelos(submarca) {
+            var _this4 = this;
+
+            var url = './api/getModelos/' + submarca;
+            axios.get(url).then(function (res) {
+                console.log('res modelos', res);
+                if (res.data.modelos) {
+                    _this4.modelos = res.data.modelos;
+                    _this4.modelos = _this4.modelos.reverse();
+                }
+            }).catch(function (error) {
+                console.log('error modelos', error);
+            });
+        },
+        getDescripciones: function getDescripciones(submarca, modelo) {
+            var _this5 = this;
+
+            this.loader = true;
+            $('#descripcion').append('<div class="loader"></div>');
+            var url = './api/getVersiones/' + submarca + '/' + modelo;
+            axios.get(url).then(function (res) {
+                _this5.loader = false;
+                console.log('getDescripciones res', res);
+                _this5.descripciones = res.data.versiones;
+            }).catch(function (err) {
+
+                console.log('getDescripciones err', err);
             });
         },
 
@@ -47924,15 +48004,38 @@ function Cliente(_ref) {
         // 	});
         // },
         nextPill: function nextPill(input) {
+            var _this6 = this;
+
             if (input == "cp" && this.cliente.cp != "") {
-                // console.log('si')
-                // window.axios.defaults.headers.common['X-CSRF-TOKEN'] = "";
-                // token.content
-                this.nombre = true;
+                console.log('si entra');
                 // this.showPill('v-pills-Marca');
-                $('#v-pills-Nombre-tab').removeClass('disabled');
-                // $('#v-pills-Nombre-tab').addClass('disabled');
-                $('#v-pills-Nombre-tab').click();
+                // this.nombre = true;
+                // this.cliente.cestado = '10';
+
+                // $('#v-pills-Nombre-tab').removeClass('disabled');
+                // // $('#v-pills-Nombre-tab').addClass('disabled');
+                // $('#v-pills-Nombre-tab').click();
+                var url = './api/cp/' + this.cliente.cp;
+                axios.get(url).then(function (res) {
+                    if (res.data.response) {
+                        _this6.alert_cp = _this6.nombre = true;
+                        _this6.alert_cp = "";
+                        console.log('si entra');
+                        // this.showPill('v-pills-Marca');
+                        _this6.cliente.cestado = res.data.response[0].cestado;
+
+                        $('#v-pills-Nombre-tab').removeClass('disabled');
+                        // $('#v-pills-Nombre-tab').addClass('disabled');
+                        $('#v-pills-Nombre-tab').click();
+                    }
+                    console.log(res);
+                }).catch(function (err) {
+                    if (err.response.data.error) {
+                        _this6.nombre = false;
+                        $('#v-pills-Nombre-tab').addClass('disabled');
+                        _this6.alert_cp = err.response.data.error;
+                    }
+                });
             }
             if (input == "nombre" && this.cliente.nombre != "" && this.cliente.appaterno != "") {
                 // console.log('si')
@@ -47967,33 +48070,20 @@ function Cliente(_ref) {
                 $('#v-pills-Nacimiento-tab').click();
             }
         },
-        getDescripciones: function getDescripciones(uso, marca, modelo) {
-            var _this3 = this;
 
-            this.loader = true;
-            $('#descripcion').append('<div class="loader"></div>');
-            var url = './api/modelos/' + uso + '/' + marca + '/' + modelo;
-            axios.get(url).then(function (res) {
-                _this3.loader = false;
-                console.log('getDescripciones res', res);
-                _this3.descripciones = res.data.descripciones;
-            }).catch(function (err) {
 
-                console.log('getDescripciones err', err);
-            });
-        },
-        getModelos: function getModelos() {
-            var currentYear = new Date().getFullYear() + 1;
-            var startYear = 1999;
-            startYear = startYear || 1980;
-            while (startYear <= currentYear) {
-                this.anios.push(startYear++);
-            }
+        // getModelos(){
+        // 	var currentYear = new Date().getFullYear()+1;
+        // 	var startYear = 1999;
+        //       	startYear = startYear || 1980;
+        //       	while ( startYear <= currentYear ) {
+        //               this.anios.push(startYear++);
+        //       	} 
 
-            this.anios = this.anios.reverse();
-        },
+        //       	this.anios = this.anios.reverse();
+        // },
         sendCotizacion: function sendCotizacion(cliente) {
-            var _this4 = this;
+            var _this7 = this;
 
             var params = cliente;
             var url = "./api/cotizacion";
@@ -48001,10 +48091,10 @@ function Cliente(_ref) {
             this.alert.class = '';
             axios.post(url, cliente).then(function (res) {
                 console.log('res', res);
-                _this4.cliente.cotizacion = res.data.cotizacion.cotizacion;
-                _this4.getcotizacion.value = !_this4.getcotizacion.value;
-                _this4.alert.message = _this4.cliente.nombre + ' ' + _this4.cliente.appaterno + ' ' + _this4.cliente.apmaterno + ' su cotizaci\xF3n se guardo con el folio ' + _this4.cliente.cotizacion;
-                _this4.alert.class = "alert alert-success alert-dismissible fade show";
+                _this7.cliente.cotizacion = res.data.cotizacion.cotizacion;
+                _this7.getcotizacion.value = !_this7.getcotizacion.value;
+                _this7.alert.message = _this7.cliente.nombre + ' ' + _this7.cliente.appaterno + ' ' + _this7.cliente.apmaterno + ' su cotizaci\xF3n se guardo con el folio ' + _this7.cliente.cotizacion;
+                _this7.alert.class = "alert alert-success alert-dismissible fade show";
                 // $('#cotizar').modal('show');
             }).catch(function (err) {
                 console.log('err', err);
@@ -48085,7 +48175,23 @@ var render = function() {
                     "aria-selected": "false"
                   }
                 },
-                [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto))]
+                [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto.nombre))]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link disabled",
+                  attrs: {
+                    id: "v-pills-Submarca-tab",
+                    "data-toggle": "pill",
+                    href: "#v-pills-Submarca",
+                    role: "tab",
+                    "aria-controls": "v-pills-Submarca",
+                    "aria-selected": "false"
+                  }
+                },
+                [_vm._v("Tipo: " + _vm._s(_vm.cliente.submarca_auto.nombre))]
               ),
               _vm._v(" "),
               _c(
@@ -48120,9 +48226,7 @@ var render = function() {
                 [
                   _vm._v(
                     "Descripción:  " +
-                      _vm._s(_vm.cliente.descripcion_auto.cTipo) +
-                      " " +
-                      _vm._s(_vm.cliente.descripcion_auto.cVersion)
+                      _vm._s(_vm.cliente.descripcion_auto.descripcion)
                   )
                 ]
               ),
@@ -48463,14 +48567,93 @@ var render = function() {
                               {
                                 staticClass:
                                   "list-group-item text-center text-dark seleccionador",
-                                domProps: { value: marca.cMarcaLarga }
+                                domProps: { value: marca }
                               },
-                              [_vm._v(_vm._s(marca.cMarcaLarga))]
+                              [_vm._v(_vm._s(marca.nombre))]
                             )
                           })
                         ),
                         _vm._v(" "),
                         _vm._m(0)
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.marca,
+                        expression: "marca"
+                      }
+                    ],
+                    staticClass: "tab-pane fade",
+                    attrs: {
+                      id: "v-pills-Submarca",
+                      role: "tabpanel",
+                      "aria-albelledby": "v-pills-Submarca-tab"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "card p-0" }, [
+                      _c("div", { staticClass: "card-header" }, [
+                        _vm._v(
+                          "\n\t\t                            Tipo\n\t\t                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cliente.submarca_auto,
+                                expression: "cliente.submarca_auto"
+                              }
+                            ],
+                            staticClass: "list-group list-group-flush col",
+                            attrs: { size: "3" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.cliente,
+                                  "submarca_auto",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.submarcas, function(submarca) {
+                            return _c(
+                              "option",
+                              {
+                                staticClass:
+                                  "list-group-item text-center text-dark seleccionador",
+                                domProps: { value: submarca }
+                              },
+                              [_vm._v(_vm._s(submarca.nombre))]
+                            )
+                          })
+                        ),
+                        _vm._v(" "),
+                        _vm._m(1)
                       ])
                     ])
                   ]
@@ -48536,7 +48719,7 @@ var render = function() {
                               }
                             }
                           },
-                          _vm._l(_vm.anios, function(anio) {
+                          _vm._l(_vm.modelos, function(anio) {
                             return _c(
                               "option",
                               {
@@ -48549,7 +48732,7 @@ var render = function() {
                           })
                         ),
                         _vm._v(" "),
-                        _vm._m(1)
+                        _vm._m(2)
                       ])
                     ])
                   ]
@@ -48665,25 +48848,12 @@ var render = function() {
                                 staticStyle: { "white-space": "normal" },
                                 domProps: { value: descripcion }
                               },
-                              [
-                                _vm._v(
-                                  "Tipo: " +
-                                    _vm._s(descripcion.cTipo) +
-                                    " Version: " +
-                                    _vm._s(descripcion.cVersion) +
-                                    " Transmision: " +
-                                    _vm._s(
-                                      descripcion.cTransmision == "A"
-                                        ? "Automatica"
-                                        : "Estandar"
-                                    )
-                                )
-                              ]
+                              [_vm._v(_vm._s(descripcion.descripcion))]
                             )
                           })
                         ),
                         _vm._v(" "),
-                        _vm._m(2)
+                        _vm._m(3)
                       ])
                     ])
                   ]
@@ -48741,11 +48911,27 @@ var render = function() {
                                 _vm.$set(_vm.cliente, "cp", $event.target.value)
                               }
                             }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.alert_cp,
+                                  expression: "alert_cp"
+                                }
+                              ],
+                              staticClass: "alert alert-danger"
+                            },
+                            [_c("strong", [_vm._v(_vm._s(_vm.alert_cp))])]
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(3),
+                          _vm._m(4),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -48757,7 +48943,7 @@ var render = function() {
                                 "button",
                                 {
                                   staticClass: "btn btn-primary seleccionador",
-                                  attrs: { type: "button", id: "6_1" },
+                                  attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
                                       _vm.nextPill("cp")
@@ -48900,7 +49086,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(4),
+                          _vm._m(5),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -48989,7 +49175,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(5),
+                          _vm._m(6),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -49078,7 +49264,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(6),
+                          _vm._m(7),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -49201,7 +49387,7 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(8)
                       ])
                     ])
                   ]
@@ -49267,7 +49453,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _vm._m(8),
+                          _vm._m(9),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -49304,6 +49490,23 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12 mt-3 d-block d-sm-none" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", onclick: "$('#v-pills-Uso-tab').click();" }
+          },
+          [_vm._v("Atras")]
+        )
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -49809,57 +50012,292 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['cliente', 'getcotizacion', 'alert'],
-  data: function data() {
-    return {
-      loader: true,
-      cotizacion: null,
-      cotizaciones: [],
-      error: null
-    };
-  },
+            props: ['cliente', 'getcotizacion', 'alert'],
+            data: function data() {
+                        return {
+                                    loader: true,
+                                    cotizacion: null,
+                                    cotizacionesQualitas: [],
+                                    cotizacionesGS: [],
+                                    error: null
+                        };
+            },
 
-  watch: {
-    'getcotizacion.value': function getcotizacionValue(newVal, oldVal) {
-      // body...
-      this.getCoberturas(this.cliente.cotizacion);
-    }
-  },
-  methods: {
-    getCoberturas: function getCoberturas(cotizacion) {
-      var _this = this;
+            watch: {
+                        'getcotizacion.value': function getcotizacionValue(newVal, oldVal) {
+                                    // body...
+                                    this.getCoberturasGS(this.cliente.cotizacion);
+                                    this.getCoberturas(this.cliente.cotizacion);
+                        }
+            },
+            methods: {
+                        getCoberturas: function getCoberturas(cotizacion) {
+                                    var _this = this;
 
-      var url = './api/getCoberturasQ';
-      var params = { cotizacion: cotizacion };
-      axios.post(url, params).then(function (res) {
-        console.log('coberturas res', res);
-        _this.error = res.data.error;
-        // console.log(this.error.length);
-        if (!_this.error) {
-          _this.cotizaciones.push({ 'imagen': './img/qua.png', 'response': res.data });
-          _this.loader = false;
-        }
-      }).catch(function (err) {
-        console.log('coberturas err', err);
-      });
-    },
-    infoCotizacion: function infoCotizacion(cotiza) {
-      this.cotizacion = cotiza;
-    }
-  },
-  filters: {
-    'int': function int(value) {
-      if (!value) return '';
-      var val = (value / 1).toFixed(2).replace(',', '.');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-  },
-  created: function created() {},
-  mounted: function mounted() {
-    console.log('Polizas Component mounted.');
-  }
+                                    var url = './api/getCoberturasQ';
+                                    var params = { cotizacion: cotizacion };
+                                    axios.post(url, params).then(function (res) {
+                                                console.log('coberturas res', res);
+                                                _this.error = res.data.error;
+                                                // console.log(this.error.length);
+                                                console.log(res.data);
+                                                if (!_this.error) {
+                                                            _this.cotizacionesQualitas.push({ 'imagen': './img/qua.png', 'response': res.data });
+                                                            // this.loader = false;
+                                                }
+                                    }).catch(function (err) {
+                                                console.log('coberturas err', err);
+                                    });
+                        },
+                        getCoberturasGS: function getCoberturasGS(cotizacion) {
+                                    var _this2 = this;
+
+                                    var url = "./api/getCotizacionGS";
+                                    var params = { cotizacion: cotizacion };
+                                    axios.post(url, params).then(function (res) {
+                                                console.log("general res", res.data);
+                                                _this2.loader = false;
+                                                _this2.cotizacionesGS = { "img": './img/GENERAL-DE-SEGUROS-LOGO.png', 'cotizacion': res.data.cotizacion };
+                                    }).catch(function (error) {
+                                                _this2.loader = false;
+                                                _this2.cotizacionesGS = null;
+                                                console.log('general err', error);
+                                    });
+                        },
+                        infoCotizacion: function infoCotizacion(cotiza) {
+                                    console.log(cotiza);
+                                    this.cotizacion = cotiza;
+                        }
+            },
+            filters: {
+                        'int': function int(value) {
+                                    if (!value) return '';
+                                    var val = (value / 1).toFixed(2).replace(',', '.');
+                                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+            },
+            created: function created() {},
+            mounted: function mounted() {
+                        console.log('Polizas Component mounted.');
+            }
 });
 
 /***/ }),
@@ -49876,10 +50314,10 @@ var render = function() {
       {
         staticClass: "modal fade bd-example-modal-lg1",
         attrs: {
-          id: "modal-Info",
+          id: "modal-Info-Qualitas",
           tabindex: "-1",
           role: "dialog",
-          "aria-labelledby": "myLargeModalLabel",
+          "aria-labelledby": "qualitasModal",
           "aria-hidden": "true"
         }
       },
@@ -50005,6 +50443,132 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade bd-example-modal-lg1",
+        attrs: {
+          id: "modal-Info-GS",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "qualitasModal",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-lg" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "col ml-3 p-2" }, [
+                _vm.cotizacion
+                  ? _c(
+                      "h5",
+                      {
+                        staticClass: "modal-title",
+                        attrs: { id: "exampleModalLabel" }
+                      },
+                      [
+                        _vm._v(
+                          " General de Seguros: " +
+                            _vm._s(_vm.cotizacion.nombre)
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm.cotizacion
+                ? _c("div", { staticClass: "row p-0" }, [
+                    _c("div", { staticClass: "col-12 p-0" }, [
+                      _c("div", { staticClass: "row m-1" }, [
+                        _c("div", { staticClass: "col-6" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "nav flex-column nav-pills",
+                              attrs: {
+                                id: "v-pills-tab",
+                                role: "tablist",
+                                "aria-orientation": "vertical"
+                              }
+                            },
+                            _vm._l(_vm.cotizacion.coberturas, function(
+                              cobertura,
+                              index
+                            ) {
+                              return _c(
+                                "a",
+                                {
+                                  staticClass: "nav-link",
+                                  attrs: {
+                                    id: "cobertura-" + index + "-tab",
+                                    "data-toggle": "pill",
+                                    href: "#cobertura-" + index,
+                                    role: "tab",
+                                    "aria-controls": "cobertura-1",
+                                    "aria-selected": "true"
+                                  }
+                                },
+                                [_vm._v(_vm._s(cobertura.descripcion))]
+                              )
+                            })
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-6 p-2" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "tab-content",
+                              attrs: { id: "v-pills-tabContent" }
+                            },
+                            _vm._l(_vm.cotizacion.coberturas, function(
+                              cobertura,
+                              index
+                            ) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass: "tab-pane fade",
+                                  attrs: {
+                                    id: "cobertura-" + index,
+                                    role: "tabpanel",
+                                    "aria-labelledby": "cobertura-1-tab"
+                                  }
+                                },
+                                [
+                                  _c("h4", [
+                                    _vm._v(
+                                      "            \n                                                    Descripción " +
+                                        _vm._s(cobertura.descripcion) +
+                                        "\n                                                "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("h5", [_vm._v("Monto:")]),
+                                  _vm._v(" "),
+                                  _c("p", [_vm._v(_vm._s(cobertura.monto))])
+                                ]
+                              )
+                            })
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm._m(3)
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "row p-3 m-0" }, [
       _c("div", { staticClass: "col" }, [
         _c("h3", [
@@ -50025,11 +50589,11 @@ var render = function() {
             _c("h5", { staticClass: "alert-heading" }, [
               _vm._v(
                 "\n                        " +
-                  _vm._s(_vm.cliente.marca_auto) +
+                  _vm._s(_vm.cliente.marca_auto.nombre) +
                   " " +
-                  _vm._s(_vm.cliente.descripcion_auto.cTipo) +
+                  _vm._s(_vm.cliente.modelo_auto) +
                   " " +
-                  _vm._s(_vm.cliente.descripcion_auto.cVersion) +
+                  _vm._s(_vm.cliente.descripcion_auto.descripcion) +
                   "\n                    "
               )
             ])
@@ -50047,7 +50611,7 @@ var render = function() {
                 staticClass: "nav nav-pills mb-3",
                 attrs: { id: "pills-tab", role: "tablist" }
               },
-              [_vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]
+              [_vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]
             )
           : _vm._e(),
         _vm._v(" "),
@@ -50068,149 +50632,7 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
-                        _c(
-                          "div",
-                          { staticClass: "coti" },
-                          _vm._l(_vm.cotizaciones, function(cotizacion) {
-                            return _c("div", { staticClass: "coti-item" }, [
-                              !cotizacion.response.amplia.error
-                                ? _c("div", { staticClass: "card" }, [
-                                    _c("img", {
-                                      staticClass: "card-img-top",
-                                      attrs: {
-                                        src: cotizacion.imagen,
-                                        alt: "Card image cap"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "card-body" }, [
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Prima Neta:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.amplia
-                                                  .Primas.PrimaNeta
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v(
-                                          "Gastos de expedición de poliza:"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.amplia
-                                                  .Primas.Derecho
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Impuestos:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.amplia
-                                                  .Primas.Impuesto
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Recargo:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.amplia
-                                                  .Primas.Recargo
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h4", { staticClass: "card-title" }, [
-                                        _vm._v("Prima Total:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.amplia
-                                                  .Primas.PrimaTotal
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "row justify-content-between"
-                                        },
-                                        [
-                                          _c("div", { staticClass: "col-4" }, [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-info",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-toggle": "modal",
-                                                  "data-target": "#modal-Info"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.infoCotizacion(
-                                                      cotizacion.response.amplia
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v("Información")]
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _vm._m(5, true)
-                                        ]
-                                      )
-                                    ])
-                                  ])
-                                : _vm._e()
-                            ])
-                          })
-                        )
-                      ]),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -50219,176 +50641,434 @@ var render = function() {
                           _c(
                             "div",
                             { staticClass: "row m-2 no-gutters" },
-                            _vm._l(_vm.cotizaciones, function(cotizacion) {
-                              return _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
-                                },
-                                [
-                                  !cotizacion.response.amplia.error
-                                    ? _c("div", { staticClass: "card" }, [
-                                        _c("img", {
-                                          staticClass: "card-img-top",
-                                          attrs: {
-                                            src: cotizacion.imagen,
-                                            alt: "Card image cap"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "card-body" },
-                                          [
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Prima Neta:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.amplia
-                                                        .Primas.PrimaNeta
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [
+                            [
+                              _vm._l(_vm.cotizacionesQualitas, function(
+                                cotizacion
+                              ) {
+                                return _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
+                                  },
+                                  [
+                                    !cotizacion.response.amplia.error
+                                      ? _c("div", { staticClass: "card" }, [
+                                          _c("img", {
+                                            staticClass: "card-img-top",
+                                            attrs: {
+                                              src: cotizacion.imagen,
+                                              alt: "Card image cap"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "card-body" },
+                                            [
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Prima Neta:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
                                                 _vm._v(
-                                                  "Gastos de expedición de poliza:"
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .amplia.Primas
+                                                          .PrimaNeta
+                                                      )
+                                                    ) +
+                                                    "MXN"
                                                 )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.amplia
-                                                        .Primas.Derecho
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Impuestos:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.amplia
-                                                        .Primas.Impuesto
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Recargo:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.amplia
-                                                        .Primas.Recargo
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h4",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Prima Total:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.amplia
-                                                        .Primas.PrimaTotal
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "row justify-content-between"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-4" },
-                                                  [
-                                                    _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "btn btn-info",
-                                                        attrs: {
-                                                          type: "button",
-                                                          "data-toggle":
-                                                            "modal",
-                                                          "data-target":
-                                                            "#modal-Info"
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            _vm.infoCotizacion(
-                                                              cotizacion
-                                                                .response.amplia
-                                                            )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [
+                                                  _vm._v(
+                                                    "Gastos de expedición de poliza:"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .amplia.Primas.Derecho
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Impuestos:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .amplia.Primas
+                                                          .Impuesto
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Recargo:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .amplia.Primas.Recargo
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h4",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Prima Total:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .amplia.Primas
+                                                          .PrimaTotal
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "row justify-content-between"
+                                                },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-4" },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-info",
+                                                          attrs: {
+                                                            type: "button",
+                                                            "data-toggle":
+                                                              "modal",
+                                                            "data-target":
+                                                              "#modal-Info-Qualitas"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.infoCotizacion(
+                                                                cotizacion
+                                                                  .response
+                                                                  .amplia
+                                                              )
+                                                            }
                                                           }
+                                                        },
+                                                        [_vm._v("Información")]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._m(8, true)
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ]
+                                )
+                              }),
+                              _vm._v(" "),
+                              _vm.cotizacionesGS
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
+                                    },
+                                    _vm._l(
+                                      _vm.cotizacionesGS.cotizacion.paquetes,
+                                      function(cotizacionGS) {
+                                        return cotizacionGS.nombre ==
+                                          "CONFORT AMPLIA"
+                                          ? _c("div", [
+                                              cotizacionGS.nombre ==
+                                              "CONFORT AMPLIA"
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "card" },
+                                                    [
+                                                      _c("img", {
+                                                        staticClass:
+                                                          "card-img-top",
+                                                        attrs: {
+                                                          src:
+                                                            _vm.cotizacionesGS
+                                                              .img,
+                                                          alt: "Card image cap"
                                                         }
-                                                      },
-                                                      [_vm._v("Información")]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._m(6, true)
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    : _vm._e()
-                                ]
-                              )
-                            })
+                                                      }),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "card-body"
+                                                        },
+                                                        [
+                                                          _vm._l(
+                                                            cotizacionGS.formasPagoDTO,
+                                                            function(pago) {
+                                                              return _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "row"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "h6",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6 card-title"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        _vm._s(
+                                                                          pago.nombre
+                                                                        ) + ":"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "$" +
+                                                                          _vm._s(
+                                                                            _vm._f(
+                                                                              "int"
+                                                                            )(
+                                                                              pago.primaTotal
+                                                                            )
+                                                                          )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6 card-title"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "PAGO INICIAL:"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "$" +
+                                                                          _vm._s(
+                                                                            _vm._f(
+                                                                              "int"
+                                                                            )(
+                                                                              pago.reciboini
+                                                                            )
+                                                                          )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  pago.nombre ===
+                                                                  "SEMESTRAL"
+                                                                    ? _c(
+                                                                        "p",
+                                                                        {
+                                                                          staticClass:
+                                                                            "col-6 card-title"
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "SEMESTRES:"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    : pago.nombre ===
+                                                                      "TRIMESTRAL"
+                                                                      ? _c(
+                                                                          "p",
+                                                                          {
+                                                                            staticClass:
+                                                                              "col-6 card-title"
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "TRIMESTRES:"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      : pago.nombre ===
+                                                                        "MENSUAL"
+                                                                        ? _c(
+                                                                            "p",
+                                                                            {
+                                                                              staticClass:
+                                                                                "col-6 card-title"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "MENSUALIDAD:"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : _vm._e(),
+                                                                  _vm._v(" "),
+                                                                  pago.nombre !=
+                                                                  "CONTADO"
+                                                                    ? _c(
+                                                                        "p",
+                                                                        {
+                                                                          staticClass:
+                                                                            "col-6"
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "\n                                                        $" +
+                                                                              _vm._s(
+                                                                                _vm._f(
+                                                                                  "int"
+                                                                                )(
+                                                                                  pago.recibosub
+                                                                                )
+                                                                              ) +
+                                                                              "\n                                                    "
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    : _vm._e()
+                                                                ]
+                                                              )
+                                                            }
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "row justify-content-between"
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "col-4"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "button",
+                                                                    {
+                                                                      staticClass:
+                                                                        "btn btn-info",
+                                                                      attrs: {
+                                                                        type:
+                                                                          "button",
+                                                                        "data-toggle":
+                                                                          "modal",
+                                                                        "data-target":
+                                                                          "#modal-Info-GS"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          _vm.infoCotizacion(
+                                                                            cotizacionGS
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Información"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _vm._m(9, true)
+                                                            ]
+                                                          )
+                                                        ],
+                                                        2
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ])
+                                          : _vm._e()
+                                      }
+                                    )
+                                  )
+                                : _vm._e()
+                            ],
+                            2
                           )
                         ]
                       )
@@ -50408,151 +51088,6 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
-                        _c(
-                          "div",
-                          { staticClass: "coti" },
-                          _vm._l(_vm.cotizaciones, function(cotizacion) {
-                            return _c("div", { staticClass: "coti-item" }, [
-                              !cotizacion.response.limitada.error
-                                ? _c("div", { staticClass: "card" }, [
-                                    _c("img", {
-                                      staticClass: "card-img-top",
-                                      attrs: {
-                                        src: cotizacion.imagen,
-                                        alt: "Card image cap"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "card-body" }, [
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Prima Neta:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.limitada
-                                                  .Primas.PrimaNeta
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v(
-                                          "Gastos de expedición de poliza:"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.limitada
-                                                  .Primas.Derecho
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Impuestos:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.limitada
-                                                  .Primas.Impuesto
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Recargo:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.limitada
-                                                  .Primas.Recargo
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h4", { staticClass: "card-title" }, [
-                                        _vm._v("Prima Total:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.limitada
-                                                  .Primas.PrimaTotal
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "row justify-content-between"
-                                        },
-                                        [
-                                          _c("div", { staticClass: "col-4" }, [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-info",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-toggle": "modal",
-                                                  "data-target": "#modal-Info"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.infoCotizacion(
-                                                      cotizacion.response
-                                                        .limitada
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v("Información")]
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _vm._m(7, true)
-                                        ]
-                                      )
-                                    ])
-                                  ])
-                                : _vm._e()
-                            ])
-                          })
-                        )
-                      ]),
-                      _vm._v(" "),
                       _c(
                         "div",
                         { staticClass: "col-12 d-none d-sm-block p-2" },
@@ -50560,180 +51095,436 @@ var render = function() {
                           _c(
                             "div",
                             { staticClass: "row m-2 no-gutters" },
-                            _vm._l(_vm.cotizaciones, function(cotizacion) {
-                              return _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
-                                },
-                                [
-                                  !cotizacion.response.limitada.error
-                                    ? _c("div", { staticClass: "card" }, [
-                                        _c("img", {
-                                          staticClass: "card-img-top",
-                                          attrs: {
-                                            src: cotizacion.imagen,
-                                            alt: "Card image cap"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "card-body" },
-                                          [
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Prima Neta:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response
-                                                        .limitada.Primas
-                                                        .PrimaNeta
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [
+                            [
+                              _vm._l(_vm.cotizacionesQualitas, function(
+                                cotizacion
+                              ) {
+                                return _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
+                                  },
+                                  [
+                                    !cotizacion.response.limitada.error
+                                      ? _c("div", { staticClass: "card" }, [
+                                          _c("img", {
+                                            staticClass: "card-img-top",
+                                            attrs: {
+                                              src: cotizacion.imagen,
+                                              alt: "Card image cap"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "card-body" },
+                                            [
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Prima Neta:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
                                                 _vm._v(
-                                                  "Gastos de expedición de poliza:"
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .limitada.Primas
+                                                          .PrimaNeta
+                                                      )
+                                                    ) +
+                                                    "MXN"
                                                 )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response
-                                                        .limitada.Primas.Derecho
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Impuestos:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response
-                                                        .limitada.Primas
-                                                        .Impuesto
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Recargo:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response
-                                                        .limitada.Primas.Recargo
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h4",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Prima Total:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response
-                                                        .limitada.Primas
-                                                        .PrimaTotal
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "row justify-content-between"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-4" },
-                                                  [
-                                                    _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "btn btn-info",
-                                                        attrs: {
-                                                          type: "button",
-                                                          "data-toggle":
-                                                            "modal",
-                                                          "data-target":
-                                                            "#modal-Info"
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            _vm.infoCotizacion(
-                                                              cotizacion
-                                                                .response
-                                                                .limitada
-                                                            )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [
+                                                  _vm._v(
+                                                    "Gastos de expedición de poliza:"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .limitada.Primas
+                                                          .Derecho
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Impuestos:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .limitada.Primas
+                                                          .Impuesto
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Recargo:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .limitada.Primas
+                                                          .Recargo
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h4",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Prima Total:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response
+                                                          .limitada.Primas
+                                                          .PrimaTotal
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "row justify-content-between"
+                                                },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-4" },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-info",
+                                                          attrs: {
+                                                            type: "button",
+                                                            "data-toggle":
+                                                              "modal",
+                                                            "data-target":
+                                                              "#modal-Info-Qualitas"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.infoCotizacion(
+                                                                cotizacion
+                                                                  .response
+                                                                  .limitada
+                                                              )
+                                                            }
                                                           }
+                                                        },
+                                                        [_vm._v("Información")]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._m(10, true)
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ]
+                                )
+                              }),
+                              _vm._v(" "),
+                              _vm.cotizacionesGS
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
+                                    },
+                                    _vm._l(
+                                      _vm.cotizacionesGS.cotizacion.paquetes,
+                                      function(cotizacionGS) {
+                                        return cotizacionGS.nombre ==
+                                          "CONFORT LIMITADA"
+                                          ? _c("div", [
+                                              cotizacionGS.nombre ==
+                                              "CONFORT LIMITADA"
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "card" },
+                                                    [
+                                                      _c("img", {
+                                                        staticClass:
+                                                          "card-img-top",
+                                                        attrs: {
+                                                          src:
+                                                            _vm.cotizacionesGS
+                                                              .img,
+                                                          alt: "Card image cap"
                                                         }
-                                                      },
-                                                      [_vm._v("Información")]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._m(8, true)
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    : _vm._e()
-                                ]
-                              )
-                            })
+                                                      }),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "card-body"
+                                                        },
+                                                        [
+                                                          _vm._l(
+                                                            cotizacionGS.formasPagoDTO,
+                                                            function(pago) {
+                                                              return _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "row"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "h6",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6 card-title"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        _vm._s(
+                                                                          pago.nombre
+                                                                        ) + ":"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "$" +
+                                                                          _vm._s(
+                                                                            _vm._f(
+                                                                              "int"
+                                                                            )(
+                                                                              pago.primaTotal
+                                                                            )
+                                                                          )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6 card-title"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "PAGO INICIAL:"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "$" +
+                                                                          _vm._s(
+                                                                            _vm._f(
+                                                                              "int"
+                                                                            )(
+                                                                              pago.reciboini
+                                                                            )
+                                                                          )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  pago.nombre ===
+                                                                  "SEMESTRAL"
+                                                                    ? _c(
+                                                                        "p",
+                                                                        {
+                                                                          staticClass:
+                                                                            "col-6 card-title"
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "SEMESTRES:"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    : pago.nombre ===
+                                                                      "TRIMESTRAL"
+                                                                      ? _c(
+                                                                          "p",
+                                                                          {
+                                                                            staticClass:
+                                                                              "col-6 card-title"
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "TRIMESTRES:"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      : pago.nombre ===
+                                                                        "MENSUAL"
+                                                                        ? _c(
+                                                                            "p",
+                                                                            {
+                                                                              staticClass:
+                                                                                "col-6 card-title"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "MENSUALIDAD:"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : _vm._e(),
+                                                                  _vm._v(" "),
+                                                                  pago.nombre !=
+                                                                  "CONTADO"
+                                                                    ? _c(
+                                                                        "p",
+                                                                        {
+                                                                          staticClass:
+                                                                            "col-6"
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "\n                                                        $" +
+                                                                              _vm._s(
+                                                                                _vm._f(
+                                                                                  "int"
+                                                                                )(
+                                                                                  pago.recibosub
+                                                                                )
+                                                                              ) +
+                                                                              "\n                                                    "
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    : _vm._e()
+                                                                ]
+                                                              )
+                                                            }
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "row justify-content-between"
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "col-4"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "button",
+                                                                    {
+                                                                      staticClass:
+                                                                        "btn btn-info",
+                                                                      attrs: {
+                                                                        type:
+                                                                          "button",
+                                                                        "data-toggle":
+                                                                          "modal",
+                                                                        "data-target":
+                                                                          "#modal-Info-GS"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          _vm.infoCotizacion(
+                                                                            cotizacionGS
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Información"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _vm._m(11, true)
+                                                            ]
+                                                          )
+                                                        ],
+                                                        2
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ])
+                                          : _vm._e()
+                                      }
+                                    )
+                                  )
+                                : _vm._e()
+                            ],
+                            2
                           )
                         ]
                       )
@@ -50753,150 +51544,6 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
-                        _c(
-                          "div",
-                          { staticClass: "coti" },
-                          _vm._l(_vm.cotizaciones, function(cotizacion) {
-                            return _c("div", { staticClass: "coti-item" }, [
-                              !cotizacion.response.rc.error
-                                ? _c("div", { staticClass: "card" }, [
-                                    _c("img", {
-                                      staticClass: "card-img-top",
-                                      attrs: {
-                                        src: cotizacion.imagen,
-                                        alt: "Card image cap"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "card-body" }, [
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Prima Neta:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.rc.Primas
-                                                  .PrimaNeta
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v(
-                                          "Gastos de expedición de poliza:"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.rc.Primas
-                                                  .Derecho
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Impuestos:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.rc.Primas
-                                                  .Impuesto
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h6", { staticClass: "card-title" }, [
-                                        _vm._v("Recargo:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.rc.Primas
-                                                  .Recargo
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("h4", { staticClass: "card-title" }, [
-                                        _vm._v("Prima Total:")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "$" +
-                                            _vm._s(
-                                              _vm._f("int")(
-                                                cotizacion.response.rc.Primas
-                                                  .PrimaTotal
-                                              )
-                                            ) +
-                                            "MXN"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "row justify-content-between"
-                                        },
-                                        [
-                                          _c("div", { staticClass: "col-4" }, [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-info",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-toggle": "modal",
-                                                  "data-target": "#modal-Info"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.infoCotizacion(
-                                                      cotizacion.response.rc
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v("Información")]
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _vm._m(9, true)
-                                        ]
-                                      )
-                                    ])
-                                  ])
-                                : _vm._e()
-                            ])
-                          })
-                        )
-                      ]),
-                      _vm._v(" "),
                       _c(
                         "div",
                         { staticClass: "col-12 d-none d-sm-block p-2" },
@@ -50904,176 +51551,430 @@ var render = function() {
                           _c(
                             "div",
                             { staticClass: "row m-2 no-gutters" },
-                            _vm._l(_vm.cotizaciones, function(cotizacion) {
-                              return _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
-                                },
-                                [
-                                  !cotizacion.response.rc.error
-                                    ? _c("div", { staticClass: "card" }, [
-                                        _c("img", {
-                                          staticClass: "card-img-top",
-                                          attrs: {
-                                            src: cotizacion.imagen,
-                                            alt: "Card image cap"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "card-body" },
-                                          [
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Prima Neta:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.rc
-                                                        .Primas.PrimaNeta
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [
+                            [
+                              _vm._l(_vm.cotizacionesQualitas, function(
+                                cotizacion
+                              ) {
+                                return _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
+                                  },
+                                  [
+                                    !cotizacion.response.rc.error
+                                      ? _c("div", { staticClass: "card" }, [
+                                          _c("img", {
+                                            staticClass: "card-img-top",
+                                            attrs: {
+                                              src: cotizacion.imagen,
+                                              alt: "Card image cap"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "card-body" },
+                                            [
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Prima Neta:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
                                                 _vm._v(
-                                                  "Gastos de expedición de poliza:"
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response.rc
+                                                          .Primas.PrimaNeta
+                                                      )
+                                                    ) +
+                                                    "MXN"
                                                 )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.rc
-                                                        .Primas.Derecho
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Impuestos:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.rc
-                                                        .Primas.Impuesto
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h6",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Recargo:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.rc
-                                                        .Primas.Recargo
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "h4",
-                                              { staticClass: "card-title" },
-                                              [_vm._v("Prima Total:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "$" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      cotizacion.response.rc
-                                                        .Primas.PrimaTotal
-                                                    )
-                                                  ) +
-                                                  "MXN"
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "row justify-content-between"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-4" },
-                                                  [
-                                                    _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "btn btn-info",
-                                                        attrs: {
-                                                          type: "button",
-                                                          "data-toggle":
-                                                            "modal",
-                                                          "data-target":
-                                                            "#modal-Info"
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            _vm.infoCotizacion(
-                                                              cotizacion
-                                                                .response.rc
-                                                            )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [
+                                                  _vm._v(
+                                                    "Gastos de expedición de poliza:"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response.rc
+                                                          .Primas.Derecho
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Impuestos:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response.rc
+                                                          .Primas.Impuesto
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h6",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Recargo:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response.rc
+                                                          .Primas.Recargo
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h4",
+                                                { staticClass: "card-title" },
+                                                [_vm._v("Prima Total:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "$" +
+                                                    _vm._s(
+                                                      _vm._f("int")(
+                                                        cotizacion.response.rc
+                                                          .Primas.PrimaTotal
+                                                      )
+                                                    ) +
+                                                    "MXN"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "row justify-content-between"
+                                                },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-4" },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-info",
+                                                          attrs: {
+                                                            type: "button",
+                                                            "data-toggle":
+                                                              "modal",
+                                                            "data-target":
+                                                              "#modal-Info-Qualitas"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.infoCotizacion(
+                                                                cotizacion
+                                                                  .response.rc
+                                                              )
+                                                            }
                                                           }
+                                                        },
+                                                        [_vm._v("Información")]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._m(12, true)
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ]
+                                )
+                              }),
+                              _vm._v(" "),
+                              _vm.cotizacionesGS
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "col col-sm-12 col-md-12 col-lg-6 col-xl-6"
+                                    },
+                                    _vm._l(
+                                      _vm.cotizacionesGS.cotizacion.paquetes,
+                                      function(cotizacionGS) {
+                                        return cotizacionGS.nombre ==
+                                          "CONFORT BASICA"
+                                          ? _c("div", [
+                                              cotizacionGS.nombre ==
+                                              "CONFORT BASICA"
+                                                ? _c(
+                                                    "div",
+                                                    { staticClass: "card" },
+                                                    [
+                                                      _c("img", {
+                                                        staticClass:
+                                                          "card-img-top",
+                                                        attrs: {
+                                                          src:
+                                                            _vm.cotizacionesGS
+                                                              .img,
+                                                          alt: "Card image cap"
                                                         }
-                                                      },
-                                                      [_vm._v("Información")]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._m(10, true)
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    : _vm._e()
-                                ]
-                              )
-                            })
+                                                      }),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "card-body"
+                                                        },
+                                                        [
+                                                          _vm._l(
+                                                            cotizacionGS.formasPagoDTO,
+                                                            function(pago) {
+                                                              return _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "row"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "h6",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6 card-title"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        _vm._s(
+                                                                          pago.nombre
+                                                                        ) + ":"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "$" +
+                                                                          _vm._s(
+                                                                            _vm._f(
+                                                                              "int"
+                                                                            )(
+                                                                              pago.primaTotal
+                                                                            )
+                                                                          )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6 card-title"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "PAGO INICIAL:"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "p",
+                                                                    {
+                                                                      staticClass:
+                                                                        "col-6"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "$" +
+                                                                          _vm._s(
+                                                                            _vm._f(
+                                                                              "int"
+                                                                            )(
+                                                                              pago.reciboini
+                                                                            )
+                                                                          )
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  pago.nombre ===
+                                                                  "SEMESTRAL"
+                                                                    ? _c(
+                                                                        "p",
+                                                                        {
+                                                                          staticClass:
+                                                                            "col-6 card-title"
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "SEMESTRES:"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    : pago.nombre ===
+                                                                      "TRIMESTRAL"
+                                                                      ? _c(
+                                                                          "p",
+                                                                          {
+                                                                            staticClass:
+                                                                              "col-6 card-title"
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "TRIMESTRES:"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      : pago.nombre ===
+                                                                        "MENSUAL"
+                                                                        ? _c(
+                                                                            "p",
+                                                                            {
+                                                                              staticClass:
+                                                                                "col-6 card-title"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "MENSUALIDAD:"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        : _vm._e(),
+                                                                  _vm._v(" "),
+                                                                  pago.nombre !=
+                                                                  "CONTADO"
+                                                                    ? _c(
+                                                                        "p",
+                                                                        {
+                                                                          staticClass:
+                                                                            "col-6"
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "\n                                                        $" +
+                                                                              _vm._s(
+                                                                                _vm._f(
+                                                                                  "int"
+                                                                                )(
+                                                                                  pago.recibosub
+                                                                                )
+                                                                              ) +
+                                                                              "\n                                                    "
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    : _vm._e()
+                                                                ]
+                                                              )
+                                                            }
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "row justify-content-between"
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "col-4"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "button",
+                                                                    {
+                                                                      staticClass:
+                                                                        "btn btn-info",
+                                                                      attrs: {
+                                                                        type:
+                                                                          "button",
+                                                                        "data-toggle":
+                                                                          "modal",
+                                                                        "data-target":
+                                                                          "#modal-Info-GS"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          _vm.infoCotizacion(
+                                                                            cotizacionGS
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Información"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _vm._m(13, true)
+                                                            ]
+                                                          )
+                                                        ],
+                                                        2
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ])
+                                          : _vm._e()
+                                      }
+                                    )
+                                  )
+                                : _vm._e()
+                            ],
+                            2
                           )
                         ]
                       )
@@ -51107,6 +52008,42 @@ var staticRenderFns = [
           [_vm._v("Quálitas")]
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cerrar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary seleccionador",
+          attrs: { type: "button", id: "9" }
+        },
+        [_vm._v("Seleccionar")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4 p-2" }, [
+      _c("img", {
+        staticClass: "rounded",
+        staticStyle: { width: "100%!important", height: "25%!important" },
+        attrs: { src: "img/GENERAL-DE-SEGUROS-LOGO.png", alt: "..." }
+      })
     ])
   },
   function() {
@@ -51197,6 +52134,14 @@ var staticRenderFns = [
         },
         [_vm._v("RC")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
+      _c("div", { staticClass: "coti" })
     ])
   },
   function() {

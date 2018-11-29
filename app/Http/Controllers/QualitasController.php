@@ -1,48 +1,34 @@
 <?php
+
 namespace App\Http\Controllers;
 use App\Cliente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
 use SoapClient;
-class WebServiceController extends Controller
+class QualitasController extends Controller
 {
-	//
-	protected $opts,$params,$opts1,$params1,$urlTarifa,$clientTarifa,$clientCotiza,$clientCotizaImpresion,$urlAuthGS,$urlCotGS,$clientAuthGS,$clientCotGS;
-	public function __construct(){
-	  	$this->opts = array(
+    //
+
+    protected $opts,$params,$urlTarifa,$urlCotiza,$urlCotizaImpresion,$clientTarifa,$clientCotiza,$clientCotizaImpresion;
+
+ 	public function __construct(){
+		$this->opts = array(
 		  'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false),
-		  'http'=> array('header'=>array('Content-Type:application/soap+xml; charset=utf-8'))
+		  'http'=> array('header'=>array("Content-Type:application/xml;charset=utf-8"))
 		);
 		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180, 'stream_context' => stream_context_create($this->opts) );
-		$this->opts1=['http'=>['header'=>["Content-Type:text/xml;charset=utf-8"]]];
-		$this->params1=array ( 'encoding' => 'UTF-8','soap_version' => SOAP_1_2, 'trace' => 1, 'stream_context' => stream_context_create($this->opts1) );
-			// 'soap_version'=> SOAP_1_1,
-
 
 		  // DATOS QUALITAS
 		$this->urlTarifa = "http://qbcenter.qualitas.com.mx/wsTarifa/wsTarifa.asmx?wsdl";
 		$this->urlCotiza = "http://sio.qualitas.com.mx/WsEmision/WsEmision.asmx?wsdl";
 		$this->urlCotizaImpresion= "http://qbcenter.qualitas.com.mx/QBCImpresion/Service.asmx?wsdl";
 		$this->clientTarifa = new SoapClient($this->urlTarifa,$this->params);
-		$this->clientCotiza = new SoapClient($this->urlCotiza,$this->params1);
+		$this->clientCotiza = new SoapClient($this->urlCotiza,$this->params);
 		$this->clientCotizaImpresion= new SoapClient($this->urlCotizaImpresion,$this->params);
+ 	}
 
-		  // DATOS GENERAL DE SEGUROS
-		$this->urlAuthGS = "http://gdswas.mx:9080/gsautos-wsDesa/soap/autenticacionWS?wsdl";
-		$this->urlCotGS = "http://gdswas.mx:9080/gsautos-wsDesa/soap/cotizacionEmisionWS?wsdl";
-		try{
-			$this->clientAuthGS = new SoapClient($this->urlAuthGS,$this->params);
-			
-			$this->clientCotGS = new SoapClient($this->urlCotGS,$this->params);
-		}
-		catch(SoapFault $fault){
-			dd($fault);
-		}
-
-
-	}
-	public function getMarcas()
+ 	public function getMarcas()
 	{
 	  
 	  try {
@@ -61,194 +47,66 @@ class WebServiceController extends Controller
 		dd($fault);
 	  }
 	}
-	public function getModelos($uso,$marca,$modelo)
+	public function getModelos($uso,$marca,$modelo,$submarca,$descripcion)
 	{
-	  // dd($uso);
+	  
 	  try {
-		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cModelo'=>$modelo]);
+		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cTipo'=>$submarca,'version'=>$descripcion,'cModelo'=>$modelo]);
+		// dd($result);
 		$xml = simplexml_load_string($result->listaTarifasResult->any);
-		$response = json_decode(json_encode($xml), true);
-		// dd($response);
-		$descripcion = [];
-		if(count($response["datos"]) == 0){
-		  return response()->json(["descripciones"=>$descripcion],201);
+		$results = json_decode(json_encode($xml), true);
+		$descripciones= [];
+		// dd($results);
+		if(empty($results['datos'])){
+			$result=null;
+			return $result;
+		}
+		elseif(count($results["datos"]) == 0 ){
+		  array_push($descripciones, $results["datos"]['Elemento']);
+
 		}
 		else{
 			
-			if ($response['retorno']['descripcion'] == "1") {
-				$response["datos"]['Elemento'] = [ $response["datos"]['Elemento'] ];
+			if ($results['retorno']['descripcion'] == "1") {
+				$results["datos"]['Elemento'] = [ $results["datos"]['Elemento'] ];
 			}
-			foreach ($response["datos"]['Elemento'] as $elemento) {
+			foreach ($results["datos"]['Elemento'] as $elemento) {
 				if($uso == "Servicio Particular"){
 					// dd('entra servicio particular');
 					$version = explode(' ',$elemento['cVersion']);
 					if(!in_array('SERVPUB',$version)){
-						array_push($descripcion,$elemento);
+						array_push($descripciones,$elemento);
 					}
 				}
 				if($uso == "Servicio Público"){
 					// dd('entra servicio publico');
 					$version = explode(' ',$elemento['cVersion']);
 					if(in_array('SERVPUB',$version)){
-						array_push($descripcion,$elemento);
+						array_push($descripciones,$elemento);
 					}
 				}
 
 			}
-			// $response["datos"]['Elemento'];
-
-		  	return response()->json(["descripciones"=>$descripcion],201);
 		}
+		$porcentajes=[];
+		$porcPiv = 0;
+		// dd($descripcion);
+		foreach ($descripciones as $res) {
+			// dd($res);
+			similar_text($descripcion,$res['cVersion'],$porcentaje);
+			// var_dump($porcentaje);
+			if ($porcentaje >= $porcPiv ) {
+				$porcPiv = $porcentaje;
+				$descripcionQualitas = $res;
+			} 
+			array_push($porcentajes,$porcentaje);
+		}
+		$result = ['version'=>$descripcionQualitas];
+		// dd($result);
+		return $result;
 		
 	  } catch (SoapFault $fault) {
 	  dd($fault);         
-	  }
-	}
-	public function getTarifas(Request $request)
-	{
-	  try {
-		// dd($this->clientCotiza->__getLastResponse());
-		$xmlstr =<<<XML
-<Movimientos>
-  <Movimiento TipoMovimiento="2" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
-	<DatosAsegurado NoAsegurado="">
-	  <Nombre/>
-	  <Direccion/>
-	  <Colonia/>
-	  <Poblacion/>
-	  <Estado>9</Estado>
-	  <CodigoPostal>06000</CodigoPostal>
-	  <NoEmpleado/>
-	  <Agrupador/>
-	  <ConsideracionesAdicionalesDA NoConsideracion="40">
-		<TipoRegla>1</TipoRegla>
-		<ValorRegla>1</ValorRegla>
-	  </ConsideracionesAdicionalesDA>
-	  <ConsideracionesAdicionalesDA NoConsideracion="40">
-		<TipoRegla>2</TipoRegla>
-		<ValorRegla>2</ValorRegla>
-	  </ConsideracionesAdicionalesDA>
-	  <ConsideracionesAdicionalesDA NoConsideracion="40">
-		<TipoRegla>3</TipoRegla>
-		<ValorRegla>MEXICO</ValorRegla>
-	  </ConsideracionesAdicionalesDA>
-	  <ConsideracionesAdicionalesDA NoConsideracion="40">
-		<TipoRegla>4</TipoRegla>
-		<ValorRegla>NOMBRE2</ValorRegla>
-	  </ConsideracionesAdicionalesDA>
-	  <ConsideracionesAdicionalesDA NoConsideracion="40">
-		<TipoRegla>5</TipoRegla>
-		<ValorRegla>APELLIDOP2</ValorRegla>
-	  </ConsideracionesAdicionalesDA>
-	  <ConsideracionesAdicionalesDA NoConsideracion="40">
-		<TipoRegla>6</TipoRegla>
-		<ValorRegla>APELLIDOM2</ValorRegla>
-	  </ConsideracionesAdicionalesDA>
-	</DatosAsegurado>
-	<DatosVehiculo NoInciso="1">
-	  <ClaveAmis>2789</ClaveAmis>
-	  <Modelo>2018</Modelo>
-	  <DescripcionVehiculo/>
-	  <Uso>1</Uso>
-	  <Servicio>1</Servicio>
-
-	  <Paquete>4</Paquete>
-	  <Motor/>
-	  <Serie/>
-	  <Coberturas NoCobertura="1">
-		<SumaAsegurada>0</SumaAsegurada>
-		<TipoSuma>0</TipoSuma>
-		<Deducible>5</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	  <Coberturas NoCobertura="3">
-		<SumaAsegurada>0</SumaAsegurada>
-		<TipoSuma>0</TipoSuma>
-		<Deducible>10</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	  <Coberturas NoCobertura="4">
-		<SumaAsegurada>2000000</SumaAsegurada>
-		<TipoSuma>0</TipoSuma>
-		<Deducible>0</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	  <Coberturas NoCobertura="5">
-		<SumaAsegurada>250000</SumaAsegurada>
-		<TipoSuma>0</TipoSuma>
-		<Deducible>0</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	  <Coberturas NoCobertura="7">
-		<SumaAsegurada/>
-		<TipoSuma>0</TipoSuma>
-		<Deducible>0</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	  <Coberturas NoCobertura="6">
-		<SumaAsegurada>100000</SumaAsegurada>
-		<TipoSuma>0</TipoSuma>
-		<Deducible>0</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	  <Coberturas NoCobertura="14">
-		<SumaAsegurada>90</SumaAsegurada>
-		<TipoSuma>0</TipoSuma>
-		<Deducible>0</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	  <Coberturas NoCobertura="47">
-		<SumaAsegurada>1000000</SumaAsegurada>
-		<TipoSuma>14</TipoSuma>
-		<Deducible>0</Deducible>
-		<Prima>0</Prima>
-	  </Coberturas>
-	</DatosVehiculo>
-	<DatosGenerales>
-	  <FechaEmision>2018-10-26</FechaEmision>
-	  <FechaInicio>2018-10-26</FechaInicio>
-	  <FechaTermino>2019-10-26</FechaTermino>
-	  <Moneda>0</Moneda>
-	  <Agente>74285</Agente>
-	  <FormaPago>C</FormaPago>
-	  <TarifaValores>LINEA</TarifaValores>
-	  <TarifaCuotas>LINEA</TarifaCuotas>
-	  <TarifaDerechos>LINEA</TarifaDerechos>
-	  <Plazo/>
-	  <Agencia/>
-	  <Contrato/>
-	  <PorcentajeDescuento>20</PorcentajeDescuento>
-	  <ConsideracionesAdicionalesDG NoConsideracion="1">
-		<TipoRegla>1</TipoRegla>
-		<ValorRegla>2</ValorRegla>
-	  </ConsideracionesAdicionalesDG>
-	  <ConsideracionesAdicionalesDG NoConsideracion="4">
-		<TipoRegla>1</TipoRegla>
-		<ValorRegla>1</ValorRegla>
-	  </ConsideracionesAdicionalesDG>
-	</DatosGenerales>
-	<Primas>
-	  <PrimaNeta/>
-	  <Derecho>500</Derecho>
-	  <Recargo/>
-	  <Impuesto/>
-	  <PrimaTotal/>
-	  <Comision/>
-	</Primas>
-	<CodigoError/>
-  </Movimiento>
-</Movimientos>
-XML;
-		// $xml = simplexml_load_file($xmlstr);
-		// dd($xmlstr);
-		// var_dump($this->clientCotiza->__getFunctions());  
-		$client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlstr));
-		$xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
-		$response = json_decode(json_encode($xml), true);
-		dd($response);
-		// dd($this->clientCotiza->__getLastResponse()); 
-	  } catch (SoapFault $fault) {
-		trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
 	  }
 	}
 
@@ -256,12 +114,32 @@ XML;
 	{
 	  // dd($request->all());
 	  $cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
-	  // dd($cliente);
 	  if($cliente == null){
 		return response()->json(['error'=>"datos no encontrado"],404);
 
 	  }
 	  else{
+	  	$marca = $cliente->auto->marca->nombre;
+		$submarca= $cliente->auto->submarca->nombre;
+		$modelo = $cliente->auto->submarca->anio;
+		$descripcion= $cliente->auto->version->descripcion;
+		// dd($cliente);
+		if (!$cliente->auto->version->camis_qualitas) {
+			$result = $this->getModelos("Servicio Particular", $marca, $modelo, $submarca, $descripcion);
+			if($result){
+				$cliente->auto->version->camis_qualitas = $result['version']['CAMIS'];
+				$cliente->auto->version->save();
+			}
+			else{
+				return response()->json(['error'=>"No se encontro modelo"],404);
+			}
+			// dd($result['version']['CAMIS']);
+		}
+		$camis = $cliente->auto->version->camis_qualitas;
+		$modelo = $cliente->auto->submarca->anio;
+		$version = $cliente->auto->version;
+		$dig =(int)$cliente->auto->version->dig;
+		// dd($camis." ".$cliente->auto->version->dig);
 		$fecha = Carbon::now()->toDateString();
 		$fecha_t = Carbon::parse($fecha);
 		$fecha_t = $fecha_t->addYears(1)->toDateString();
@@ -335,8 +213,8 @@ XML;
 		</ConsideracionesAdicionalesDA>
 	  </DatosAsegurado>
 	  <DatosVehiculo NoInciso="1">
-		<ClaveAmis>$cliente->c_amis</ClaveAmis>
-		<Modelo>$cliente->modelo_auto</Modelo>
+		<ClaveAmis>$camis</ClaveAmis>
+		<Modelo>$modelo</Modelo>
 		<DescripcionVehiculo></DescripcionVehiculo>
 		<Uso>$cliente->uso</Uso>
 		<Servicio>$cliente->servicio</Servicio>
@@ -414,7 +292,7 @@ XML;
 		<PorcentajeDescuento>20</PorcentajeDescuento>
 		<ConsideracionesAdicionalesDG NoConsideracion="1">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>$cliente->dig</ValorRegla>
+		  <ValorRegla>$dig</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
@@ -471,8 +349,8 @@ XML;
 		</ConsideracionesAdicionalesDA>
 	  </DatosAsegurado>
 	  <DatosVehiculo NoInciso="1">
-		<ClaveAmis>$cliente->c_amis</ClaveAmis>
-		<Modelo>$cliente->modelo_auto</Modelo>
+		<ClaveAmis>$camis</ClaveAmis>
+		<Modelo>$modelo</Modelo>
 		<DescripcionVehiculo></DescripcionVehiculo>
 		<Uso>1</Uso>
 		<Servicio>1</Servicio>
@@ -544,7 +422,7 @@ XML;
 		<PorcentajeDescuento>20</PorcentajeDescuento>
 		<ConsideracionesAdicionalesDG NoConsideracion="1">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>$cliente->dig</ValorRegla>
+		  <ValorRegla>$dig</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
@@ -601,8 +479,8 @@ XML;
 		</ConsideracionesAdicionalesDA>
 	  </DatosAsegurado>
 	  <DatosVehiculo NoInciso="1">
-		<ClaveAmis>$cliente->c_amis</ClaveAmis>
-		<Modelo>$cliente->modelo_auto</Modelo>
+		<ClaveAmis>$camis</ClaveAmis>
+		<Modelo>$modelo</Modelo>
 		<DescripcionVehiculo></DescripcionVehiculo>
 		<Uso>1</Uso>
 		<Servicio>1</Servicio>
@@ -674,7 +552,7 @@ XML;
 		<PorcentajeDescuento>20</PorcentajeDescuento>
 		<ConsideracionesAdicionalesDG NoConsideracion="1">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>$cliente->dig</ValorRegla>
+		  <ValorRegla>$dig</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
@@ -846,22 +724,4 @@ XML;
 		  	return $cobertura;
 		}
 	  }
-
-	  public function generalSeguro()
-	  {
-	  	try{
-		  	var_dump($this->clientAuthGS->__getTypes());
-		  	// var_dump($this->clientCotGS->__getFunctions());
-		  	dd($this->clientAuthGS->obtenerToken(['arg0'=>["usuario"=>'ATC0','password'=>'2r2kGdeUA0']]));
-		  	// dd($this->clientCotGS->__getTypes());
-
-	  	}
-	  	catch (SoapFault $fault) {
-			trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
-	  	}
-	  }
-
-
-
-
 }

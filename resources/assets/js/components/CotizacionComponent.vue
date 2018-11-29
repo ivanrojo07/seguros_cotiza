@@ -7,9 +7,10 @@
     			<div class="col-sm-6 d-none d-sm-block p-2">
     				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 		              <a class="nav-link active" id="v-pills-Uso-tab"  data-toggle="pill" href="#v-pills-Uso" role="tab" aria-controls="v-pills-Uso" aria-selected="true">Uso: {{cliente.uso_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto}}</a>
+		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto.nombre}}</a>
+		              <a class="nav-link disabled" id="v-pills-Submarca-tab" data-toggle="pill" href="#v-pills-Submarca" role="tab" aria-controls="v-pills-Submarca" aria-selected="false">Tipo: {{cliente.submarca_auto.nombre}}</a>
 		              <a class="nav-link disabled" id="v-pills-Modelo-tab" data-toggle="pill"  href="#v-pills-Modelo" role="tab" aria-controls="v-pills-Modelo" aria-selected="false">Modelo: {{cliente.modelo_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:  {{cliente.descripcion_auto.cTipo}} {{cliente.descripcion_auto.cVersion}}</a>
+		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:  {{cliente.descripcion_auto.descripcion}}</a>
 		              <a class="nav-link disabled" id="v-pills-CP-tab" data-toggle="pill"  href="#v-pills-CP" role="tab" aria-controls="v-pills-CP" aria-selected="false">CP: {{cliente.cp}}</a>
 		              <a class="nav-link disabled" id="v-pills-Nombre-tab" data-toggle="pill" href="#v-pills-Nombre"  role="tab" aria-controls="v-pills-Nombre" aria-selected="false">Nombre: {{cliente.nombre}} {{cliente.appaterno}} {{cliente.apmaterno}}</a>
 		              <a class="nav-link disabled" id="v-pills-Celular-tab" data-toggle="pill"  href="#v-pills-Celular" role="tab" aria-controls="v-pills-Celular" aria-selected="false">Celular: {{cliente.telefono}}</a>
@@ -54,7 +55,25 @@
 		                        </div>
 		                        <div class="card-body">
 		                            <select v-model="cliente.marca_auto" size="3" class="list-group list-group-flush col">
-										<option v-for="marca in marcas" :value="marca.cMarcaLarga" class="list-group-item text-center text-dark seleccionador">{{marca.cMarcaLarga}}</option>
+										<option v-for="marca in marcas" :value="marca" class="list-group-item text-center text-dark seleccionador">{{marca.nombre}}</option>
+									</select>
+									<div class="row">
+										<div class="col-12 mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Uso-tab').click();">Atras</button>
+										</div>
+									</div>
+		                        </div>
+		                    </div>
+		                </div>
+		                 <!--SUBMARCA-->
+		                <div class="tab-pane fade" v-show="marca" id="v-pills-Submarca" role="tabpanel" aria-albelledby="v-pills-Submarca-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Tipo
+		                        </div>
+		                        <div class="card-body">
+		                            <select v-model="cliente.submarca_auto" size="3" class="list-group list-group-flush col">
+										<option v-for="submarca in submarcas" :value="submarca" class="list-group-item text-center text-dark seleccionador">{{submarca.nombre}}</option>
 									</select>
 									<div class="row">
 										<div class="col-12 mt-3 d-block d-sm-none">
@@ -72,7 +91,7 @@
 		                        </div>
 		                        <div class="card-body">
 		                            <select class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
-		                            	<option v-for="anio in anios" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
+		                            	<option v-for="anio in modelos" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
 		                            </select>
 		                            <div class="row">
 										<div class="col-12 mt-3 d-block d-sm-none">
@@ -94,7 +113,7 @@
 		                        		<label>No se encontraron resultados</label>
 		                        	</div>
 		                            <select v-show="!loader && this.descripciones.length != 0" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
-		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Tipo: {{descripcion.cTipo}} Version: {{descripcion.cVersion}} Transmision: {{ descripcion.cTransmision == "A" ? 'Automatica' : 'Estandar'}}</option>
+		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">{{descripcion.descripcion}}</option>
 		                            </select>
 		                            <div class="row">
 										<div class="col-12 mt-3 d-block d-sm-none">
@@ -113,13 +132,16 @@
 		                        <div class="card-body">
 	                             	<div class="form-group">
 		                                <input type="number" class="form-control" v-model="cliente.cp" placeholder="CP: 000000" id="valorCP">
+		                                <div class="alert alert-danger" v-show="alert_cp">
+  											<strong>{{alert_cp}}</strong>
+										</div>
 		                            </div>
 		                            <div class="row">
 										<div class="col mt-3 d-block d-sm-none">
 											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Descripcion-tab').click();">Atras</button>
 										</div>
 										<div class="col mt-3 d-flex justify-content-end">
-                        					<button type="button" id="6_1" class="btn btn-primary seleccionador" @click="nextPill('cp')">Siguiente</button>
+                        					<button type="button" class="btn btn-primary seleccionador" @click="nextPill('cp')">Siguiente</button>
 											
 										</div>
 									</div>
@@ -253,12 +275,10 @@
 </template>
 
 <script>
-function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp,nombre,appaterno,apmaterno,telefono,email,sexo,f_nac}){
+function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefono,email,sexo,f_nac}){
 	this.cotizacion = cotizacion;
 	this.uso_auto = uso_auto;
-	this.marca_auto=marca_auto;
-	this.modelo_auto=modelo_auto;
-	this.descripcion_auto= { cVersion : descripcion_auto};
+	this.auto = auto;
 	this.cp = cp;
 	this.nombre= nombre;
 	this.appaterno = appaterno;
@@ -281,9 +301,13 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     			descripciones:[],
     			anios:[],
     			marcas: [],
-    			pills:['v-pills-Uso','v-pills-Marca','v-pills-Modelo','v-pills-Descripcion','v-pills-CP','v-pills-Nombre','v-pills-Celular','v-pills-Correo','v-pills-Sexo','v-pills-Nacimiento'],
+    			submarcas:[],
+    			modelos:[],
+    			pills:['v-pills-Uso','v-pills-Marca','v-pills-Submarca','v-pills-Modelo','v-pills-Descripcion','v-pills-CP','v-pills-Nombre','v-pills-Celular','v-pills-Correo','v-pills-Sexo','v-pills-Nacimiento'],
+    			alert_cp:"",
     			uso: true,
     			marca: false,
+    			submarca:false,
     			modelo: false,
     			loader:true,
     			descripcion:false,
@@ -313,9 +337,21 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     				if(this.searchOption == false){
     					this.cliente.descripcion_auto="";
     				}
+    				this.getSubmarcas(this.cliente.marca_auto.id);
     				// this.showPill('v-pills-Marca');
+    				$('#v-pills-Submarca-tab').removeClass('disabled');
+    				// $('#v-pills-Submarca-tab').addClass('disabled');
+    				$('#v-pills-Submarca-tab').click();
+    			}
+    		},
+    		'cliente.submarca_auto':function(newV,oldV){
+    			if (newV != "") {
+    				this.submarca = true;
+    				if(this.searchOption == false){
+    					this.cliente.descripcion_auto="";
+    				}
+    				this.getModelos(this.cliente.submarca_auto.id);
     				$('#v-pills-Modelo-tab').removeClass('disabled');
-    				// $('#v-pills-Modelo-tab').addClass('disabled');
     				$('#v-pills-Modelo-tab').click();
     			}
     		},
@@ -328,7 +364,7 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     				}
     				$('#v-pills-Descripcion-tab').removeClass('disabled');
     				// $('#v-pills-Descripcion-tab').addClass('disabled');
-    				this.getDescripciones(this.cliente.uso_auto,this.cliente.marca_auto,this.cliente.modelo_auto);
+    				this.getDescripciones(this.cliente.submarca_auto.id,this.cliente.modelo_auto);
     				$('#v-pills-Descripcion-tab').click();
     			}
     		},
@@ -353,7 +389,7 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     	},
     	created(){
     		this.getMarcas();
-    		this.getModelos();
+    		// this.getModelos();
     	},
     	methods:{
     		searchCliente(cotizacion){
@@ -370,9 +406,11 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     					// this.cliente = new Cliente(res.data.cotizacion);
     					this.cliente.cotizacion =res.data.cotizacion.cotizacion;
 						this.cliente.uso_auto =res.data.cotizacion.uso_auto;
-						this.cliente.marca_auto=res.data.cotizacion.marca_auto;
-						this.cliente.modelo_auto=res.data.cotizacion.modelo_auto;
-						this.cliente.descripcion_auto={ cTipo: res.data.cotizacion.tipo_auto, cVersion : res.data.cotizacion.descripcion_auto};
+						this.cliente.descripcion_auto = res.data.cotizacion.auto.version;
+						this.cliente.marca_auto = res.data.cotizacion.auto.marca;
+						this.cliente.modelo_auto = res.data.cotizacion.auto.submarca.anio;
+						this.cliente.submarca_auto = res.data.cotizacion.auto.submarca;
+						// this.cliente.auto = res.data.cotizacion.auto;
 						this.cliente.cp =res.data.cotizacion.cp;
 						this.cliente.nombre=res.data.cotizacion.nombre;
 						this.cliente.appaterno =res.data.cotizacion.appaterno;
@@ -397,12 +435,49 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
 
     		},
     		getMarcas(){
-    			let url = './api/marcas';
+    			let url = './api/getMarcas';
     			axios.get(url).then(res=>{
     				console.log("res",res);
     				this.marcas = res.data.marcas;
     			}).catch(error=>{
     				console.log('error',error);
+
+    			})
+    		},
+    		getSubmarcas(marca){
+    			let url = `./api/getSubmarcas/${marca}`;
+    			axios.get(url).then(res=>{
+    				console.log('res submarcas',res);
+    				if (res.data.submarcas) {
+    					this.submarcas = res.data.submarcas;
+    				}
+    			}).catch(error=>{
+    				console.log('error submarcas',error);
+				});
+    		},
+    		getModelos(submarca){
+    			let url = `./api/getModelos/${submarca}`;
+    			axios.get(url).then(res=>{
+    				console.log('res modelos',res);
+    				if (res.data.modelos) {
+    					this.modelos = res.data.modelos;
+    					this.modelos = this.modelos.reverse();
+    				}
+    			}).catch(error=>{
+    				console.log('error modelos',error);
+				});
+    		},
+    		getDescripciones(submarca,modelo){
+    			this.loader = true;
+            	$('#descripcion').append('<div class="loader"></div>');
+    			let url = `./api/getVersiones/${submarca}/${modelo}`;
+    			axios.get(url).then(res=>{
+    				this.loader = false;
+    				console.log('getDescripciones res',res);
+    				this.descripciones = res.data.versiones
+    			}).catch(err=>{
+
+    				console.log('getDescripciones err',err);
     			})
     		},
     		// showPill(etiqueta){
@@ -418,14 +493,39 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     		// },
     		nextPill(input){
     			if (input == "cp" && this.cliente.cp != "") {
-    				// console.log('si')
-    				// window.axios.defaults.headers.common['X-CSRF-TOKEN'] = "";
-    						// token.content
-    				this.nombre = true;
+    				console.log('si entra');
     				// this.showPill('v-pills-Marca');
-    				$('#v-pills-Nombre-tab').removeClass('disabled');
-    				// $('#v-pills-Nombre-tab').addClass('disabled');
-    				$('#v-pills-Nombre-tab').click();
+    				// this.nombre = true;
+    				// this.cliente.cestado = '10';
+
+    				// $('#v-pills-Nombre-tab').removeClass('disabled');
+    				// // $('#v-pills-Nombre-tab').addClass('disabled');
+    				// $('#v-pills-Nombre-tab').click();
+	    			let url = `./api/cp/${this.cliente.cp}`;
+    				axios.get(url).then(
+    					res=>{
+    						if(res.data.response){
+    							this.alert_cp = 
+    							this.nombre = true;
+    							this.alert_cp = "";
+    							console.log('si entra');
+			    				// this.showPill('v-pills-Marca');
+			    				this.cliente.cestado = res.data.response[0].cestado;
+
+			    				$('#v-pills-Nombre-tab').removeClass('disabled');
+			    				// $('#v-pills-Nombre-tab').addClass('disabled');
+			    				$('#v-pills-Nombre-tab').click();
+    						}
+    						console.log(res);
+    					}).catch(
+    					err=>{
+    						if(err.response.data.error){
+    							this.nombre = false;
+    							$('#v-pills-Nombre-tab').addClass('disabled');
+    							this.alert_cp = err.response.data.error;
+    						}
+    					})
+    				
     			}
     			if (input == "nombre" && this.cliente.nombre != "" && this.cliente.appaterno != "") {
     				// console.log('si')
@@ -460,29 +560,17 @@ function Cliente({cotizacion,uso_auto,marca_auto,modelo_auto,descripcion_auto,cp
     				$('#v-pills-Nacimiento-tab').click();
     			}
     		},
-    		getDescripciones(uso, marca,modelo){
-    			this.loader = true;
-            	$('#descripcion').append('<div class="loader"></div>');
-    			let url = `./api/modelos/${uso}/${marca}/${modelo}`;
-    			axios.get(url).then(res=>{
-    				this.loader = false;
-    				console.log('getDescripciones res',res);
-    				this.descripciones = res.data.descripciones
-    			}).catch(err=>{
+    		
+    		// getModelos(){
+    		// 	var currentYear = new Date().getFullYear()+1;
+    		// 	var startYear = 1999;
+      //       	startYear = startYear || 1980;
+      //       	while ( startYear <= currentYear ) {
+      //               this.anios.push(startYear++);
+      //       	} 
 
-    				console.log('getDescripciones err',err);
-    			})
-    		},
-    		getModelos(){
-    			var currentYear = new Date().getFullYear()+1;
-    			var startYear = 1999;
-            	startYear = startYear || 1980;
-            	while ( startYear <= currentYear ) {
-                    this.anios.push(startYear++);
-            	} 
-
-            	this.anios = this.anios.reverse();
-    		},
+      //       	this.anios = this.anios.reverse();
+    		// },
     		sendCotizacion(cliente){
     			let params = cliente;
     			let url = "./api/cotizacion";
