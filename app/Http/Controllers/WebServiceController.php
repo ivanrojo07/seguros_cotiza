@@ -14,7 +14,7 @@ class WebServiceController extends Controller
 		  'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false),
 		  'http'=> array('header'=>array('Content-Type:application/soap+xml; charset=utf-8'))
 		);
-		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 180, 'stream_context' => stream_context_create($this->opts) );
+		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 500,'keep_alive' => 0, 'cache_wsdl' => WSDL_CACHE_NONE, 'stream_context' => stream_context_create($this->opts) );
 		$this->opts1=['http'=>['header'=>["Content-Type:text/xml;charset=utf-8"]]];
 		$this->params1=array ( 'encoding' => 'UTF-8','soap_version' => SOAP_1_2, 'trace' => 1, 'stream_context' => stream_context_create($this->opts1) );
 			// 'soap_version'=> SOAP_1_1,
@@ -27,19 +27,6 @@ class WebServiceController extends Controller
 		$this->clientTarifa = new SoapClient($this->urlTarifa,$this->params);
 		$this->clientCotiza = new SoapClient($this->urlCotiza,$this->params1);
 		$this->clientCotizaImpresion= new SoapClient($this->urlCotizaImpresion,$this->params);
-
-		  // DATOS GENERAL DE SEGUROS
-		$this->urlAuthGS = "http://gdswas.mx:9080/gsautos-wsDesa/soap/autenticacionWS?wsdl";
-		$this->urlCotGS = "http://gdswas.mx:9080/gsautos-wsDesa/soap/cotizacionEmisionWS?wsdl";
-		try{
-			$this->clientAuthGS = new SoapClient($this->urlAuthGS,$this->params);
-			
-			$this->clientCotGS = new SoapClient($this->urlCotGS,$this->params);
-		}
-		catch(SoapFault $fault){
-			dd($fault);
-		}
-
 
 	}
 	public function getMarcas()
@@ -60,6 +47,227 @@ class WebServiceController extends Controller
 		
 		dd($fault);
 	  }
+	}
+
+	public function emitirPoliza(){
+		$cliente = Cliente::find(4);
+		$nacimiento = new Carbon($cliente->f_nac);
+		$nacimiento = $nacimiento->format('d-m-Y');
+		// dd($nacimiento);
+		$dig = $cliente->auto->version->dig;
+		// dd($dig);
+		try{
+			$xmlPoliza = 
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<Movimientos>
+	<Movimiento TipoMovimiento="3" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
+		<DatosAsegurado NoAsegurado="">
+			<Nombre>$cliente->appaterno $cliente->apmaterno $cliente->nombre</Nombre>
+			<Direccion>Norte 58-A, 3644</Direccion>
+			<Colonia>Mártires de Río Blanco</Colonia>
+			<Poblacion>GAM</Poblacion>
+			<Estado>9</Estado>
+			<CodigoPostal>07880</CodigoPostal>
+			<NoEmpleado/>
+			<Agrupador/>
+			<?asegurado persona fisica?>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>1</TipoRegla>
+				<ValorRegla>3644</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>2</TipoRegla>
+				<ValorRegla>1</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>3</TipoRegla>
+				<ValorRegla>México</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>4</TipoRegla>
+				<ValorRegla>$cliente->nombre</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>5</TipoRegla>
+				<ValorRegla>$cliente->appaterno</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>6</TipoRegla>
+				<ValorRegla>$cliente->apmaterno</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>7</TipoRegla>
+				<ValorRegla>5</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>19</TipoRegla>
+				<ValorRegla>1</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>20</TipoRegla>
+				<ValorRegla>$nacimiento</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>21</TipoRegla>
+				<ValorRegla>1</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>23</TipoRegla>
+				<ValorRegla>2</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>24</TipoRegla>
+				<ValorRegla>32</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>25</TipoRegla>
+				<ValorRegla>8</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>26</TipoRegla>
+				<ValorRegla>$cliente->email</ValorRegla>
+			</ConsideracionesAdicionalesDA>	
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>27</TipoRegla>
+				<ValorRegla>ROOG921021HDFJRL01</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>28</TipoRegla>
+				<ValorRegla>ROOG921021IS2</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>36</TipoRegla>
+				<ValorRegla>$cliente->nombre</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>37</TipoRegla>
+				<ValorRegla>$cliente->appaterno</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>38</TipoRegla>
+				<ValorRegla>$cliente->apmaterno</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>39</TipoRegla>
+				<ValorRegla>1</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>47</TipoRegla>
+				<ValorRegla>ROOG921021HDFJRL01</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>48</TipoRegla>
+				<ValorRegla>ROOG921021IS2</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+		</DatosAsegurado>
+		<DatosVehiculo NoInciso="1">
+			<ClaveAmis>02188</ClaveAmis>
+			<Modelo>2016</Modelo>
+			<DescripcionVehiculo/>
+			<Uso>1</Uso>
+			<Servicio>1</Servicio>
+			<Paquete>1</Paquete>
+			<Motor>123456123456</Motor>
+			<Serie>9876585231462545</Serie>
+			<Coberturas NoCobertura="1">
+			  <SumaAsegurada>0</SumaAsegurada>
+			  <TipoSuma>0</TipoSuma>
+			  <Deducible>5</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="3">
+			  <SumaAsegurada>0</SumaAsegurada>
+			  <TipoSuma>0</TipoSuma>
+			  <Deducible>10</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="4">
+			  <SumaAsegurada>2000000</SumaAsegurada>
+			  <TipoSuma>0</TipoSuma>
+			  <Deducible>0</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="5">
+			  <SumaAsegurada>250000</SumaAsegurada>
+			  <TipoSuma>0</TipoSuma>
+			  <Deducible>0</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="7">
+			  <SumaAsegurada/>
+			  <TipoSuma>0</TipoSuma>
+			  <Deducible>0</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="6">
+			  <SumaAsegurada>100000</SumaAsegurada>
+			  <TipoSuma>0</TipoSuma>
+			  <Deducible>0</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="13">
+				<SumaAsegurada>0</SumaAsegurada>
+				<TipoSuma>0</TipoSuma>
+				<Deducible>1500</Deducible>
+				<Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="14">
+			  <SumaAsegurada>90</SumaAsegurada>
+			  <TipoSuma>0</TipoSuma>
+			  <Deducible>0</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+			<Coberturas NoCobertura="47">
+			  <SumaAsegurada>1000000</SumaAsegurada>
+			  <TipoSuma>14</TipoSuma>
+			  <Deducible>0</Deducible>
+			  <Prima>0</Prima>
+			</Coberturas>
+		</DatosVehiculo>
+		<DatosGenerales>
+			<FechaEmision>2018-12-03</FechaEmision>
+			<FechaInicio>2018-12-03</FechaInicio>
+			<FechaTermino>2019-12-03</FechaTermino>
+			<Moneda>0</Moneda>
+			<Agente>74285</Agente>
+			<FormaPago>C</FormaPago>
+			<TarifaValores>LINEA</TarifaValores>
+			<TarifaCuotas>LINEA</TarifaCuotas>
+			<TarifaDerechos>LINEA</TarifaDerechos>
+			<Plazo/>
+			<Agencia/>
+			<Contrato/>
+			<PorcentajeDescuento>20</PorcentajeDescuento>
+			<ConsideracionesAdicionalesDG NoConsideracion="1">
+			  <TipoRegla>1</TipoRegla>
+			  <ValorRegla>$dig</ValorRegla>
+			</ConsideracionesAdicionalesDG>
+			<ConsideracionesAdicionalesDG NoConsideracion="4">
+			  <TipoRegla>1</TipoRegla>
+			  <ValorRegla>1</ValorRegla>
+			</ConsideracionesAdicionalesDG>
+		</DatosGenerales>
+		<Primas>
+			<PrimaNeta/>
+			<Derecho>500</Derecho>
+			<Recargo/>
+			<Impuesto/>
+			<PrimaTotal/>
+			<Comision/>
+	  	</Primas>
+		<CodigoError/>
+	</Movimiento>
+</Movimientos>
+XML;
+			$client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlPoliza));
+			$xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
+			$response = json_decode(json_encode($xml), true);
+			dd($response['Movimiento']);
+
+		}catch(SoapFault $fault){
+			dd($fault);
+		}
 	}
 	public function getModelos($uso,$marca,$modelo)
 	{
@@ -205,8 +413,8 @@ class WebServiceController extends Controller
 	  </Coberturas>
 	</DatosVehiculo>
 	<DatosGenerales>
-	  <FechaEmision>2018-10-26</FechaEmision>
-	  <FechaInicio>2018-10-26</FechaInicio>
+	  <FechaEmision>2018-11-29</FechaEmision>
+	  <FechaInicio>2018-11-29</FechaInicio>
 	  <FechaTermino>2019-10-26</FechaTermino>
 	  <Moneda>0</Moneda>
 	  <Agente>74285</Agente>
@@ -245,7 +453,7 @@ XML;
 		$client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlstr));
 		$xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
 		$response = json_decode(json_encode($xml), true);
-		dd($response);
+		dd($response['Movimiento']);
 		// dd($this->clientCotiza->__getLastResponse()); 
 	  } catch (SoapFault $fault) {
 		trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
@@ -840,6 +1048,7 @@ XML;
 		  	}
 		  	  	$cobertura = [
 		  		'Nombre'=>"Qualitas",
+		  		'NoCotizacion'=>$response['Movimiento']['@attributes']['NoCotizacion'],
 				'Primas'=>$response['Movimiento']['Primas'],
 				'Coberturas'=>$coberturas
 		  	];

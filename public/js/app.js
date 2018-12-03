@@ -50230,74 +50230,79 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-            props: ['cliente', 'getcotizacion', 'alert'],
-            data: function data() {
-                        return {
-                                    loader: true,
-                                    cotizacion: null,
-                                    cotizacionesQualitas: [],
-                                    cotizacionesGS: [],
-                                    error: null
-                        };
-            },
+    props: ['cliente', 'getcotizacion', 'alert'],
+    data: function data() {
+        return {
+            loader: true,
+            cotizacion: null,
+            cotizacionesQualitas: [],
+            cotizacionesGS: [],
+            error: null
+        };
+    },
 
-            watch: {
-                        'getcotizacion.value': function getcotizacionValue(newVal, oldVal) {
-                                    // body...
-                                    this.getCoberturasGS(this.cliente.cotizacion);
-                                    this.getCoberturas(this.cliente.cotizacion);
-                        }
-            },
-            methods: {
-                        getCoberturas: function getCoberturas(cotizacion) {
-                                    var _this = this;
+    watch: {
+        'getcotizacion.value': function getcotizacionValue(newVal, oldVal) {
+            // body...
+            this.getCoberturasGS(this.cliente.cotizacion);
+            this.getCoberturas(this.cliente.cotizacion);
+        }
+    },
+    methods: {
+        getCoberturas: function getCoberturas(cotizacion) {
+            var _this = this;
 
-                                    var url = './api/getCoberturasQ';
-                                    var params = { cotizacion: cotizacion };
-                                    axios.post(url, params).then(function (res) {
-                                                console.log('coberturas res', res);
-                                                _this.error = res.data.error;
-                                                // console.log(this.error.length);
-                                                console.log(res.data);
-                                                if (!_this.error) {
-                                                            _this.cotizacionesQualitas.push({ 'imagen': './img/qua.png', 'response': res.data });
-                                                            // this.loader = false;
-                                                }
-                                    }).catch(function (err) {
-                                                console.log('coberturas err', err);
-                                    });
-                        },
-                        getCoberturasGS: function getCoberturasGS(cotizacion) {
-                                    var _this2 = this;
+            var url = './api/getCoberturasQ';
+            var params = { cotizacion: cotizacion };
+            axios.post(url, params).then(function (res) {
+                console.log('coberturas res', res);
+                _this.error = res.data.error;
+                // console.log(this.error.length);
+                console.log(res.data);
+                if (!_this.error) {
+                    _this.cotizacionesQualitas.push({ 'imagen': './img/qua.png', 'response': res.data });
+                    // this.loader = false;
+                }
+            }).catch(function (err) {
+                console.log('coberturas err', err);
+            });
+        },
+        getCoberturasGS: function getCoberturasGS(cotizacion) {
+            var _this2 = this;
 
-                                    var url = "./api/getCotizacionGS";
-                                    var params = { cotizacion: cotizacion };
-                                    axios.post(url, params).then(function (res) {
-                                                console.log("general res", res.data);
-                                                _this2.loader = false;
-                                                _this2.cotizacionesGS = { "img": './img/GENERAL-DE-SEGUROS-LOGO.png', 'cotizacion': res.data.cotizacion };
-                                    }).catch(function (error) {
-                                                _this2.loader = false;
-                                                _this2.cotizacionesGS = null;
-                                                console.log('general err', error);
-                                    });
-                        },
-                        infoCotizacion: function infoCotizacion(cotiza) {
-                                    console.log(cotiza);
-                                    this.cotizacion = cotiza;
-                        }
-            },
-            filters: {
-                        'int': function int(value) {
-                                    if (!value) return '';
-                                    var val = (value / 1).toFixed(2).replace(',', '.');
-                                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        }
-            },
-            created: function created() {},
-            mounted: function mounted() {
-                        console.log('Polizas Component mounted.');
-            }
+            var url = "./api/getCotizacionGS";
+            var params = { cotizacion: cotizacion };
+            axios.post(url, params).then(function (res) {
+                console.log("general res", res.data);
+                _this2.loader = false;
+                _this2.cotizacionesGS = { "img": './img/GENERAL-DE-SEGUROS-LOGO.png', 'cotizacion': res.data.cotizacion };
+            }).catch(function (error) {
+                _this2.loader = false;
+                _this2.cotizacionesGS = null;
+                console.log('general err', error);
+            });
+        },
+        infoCotizacion: function infoCotizacion(cotiza) {
+            console.log(cotiza);
+            this.cotizacion = cotiza;
+        },
+        seleccionarCotizacion: function seleccionarCotizacion(cotizacion) {
+            $("#paso3-tab").removeClass("disabled");
+            $("#paso3-tab").click();
+            console.log(cotizacion);
+        }
+    },
+    filters: {
+        'int': function int(value) {
+            if (!value) return '';
+            var val = (value / 1).toFixed(2).replace(',', '.');
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    },
+    created: function created() {},
+    mounted: function mounted() {
+        console.log('Polizas Component mounted.');
+    }
 });
 
 /***/ }),
@@ -50808,7 +50813,35 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(8, true)
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-4" },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-primary seleccionador",
+                                                          attrs: {
+                                                            type: "button",
+                                                            id: "9_1"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.seleccionarCotizacion(
+                                                                cotizacion
+                                                                  .response
+                                                                  .amplia
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Elegir")]
+                                                      )
+                                                    ]
+                                                  )
                                                 ]
                                               )
                                             ]
@@ -51052,7 +51085,7 @@ var render = function() {
                                                                 ]
                                                               ),
                                                               _vm._v(" "),
-                                                              _vm._m(9, true)
+                                                              _vm._m(8, true)
                                                             ]
                                                           )
                                                         ],
@@ -51264,7 +51297,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(10, true)
+                                                  _vm._m(9, true)
                                                 ]
                                               )
                                             ]
@@ -51508,7 +51541,7 @@ var render = function() {
                                                                 ]
                                                               ),
                                                               _vm._v(" "),
-                                                              _vm._m(11, true)
+                                                              _vm._m(10, true)
                                                             ]
                                                           )
                                                         ],
@@ -51714,7 +51747,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(12, true)
+                                                  _vm._m(11, true)
                                                 ]
                                               )
                                             ]
@@ -51958,7 +51991,7 @@ var render = function() {
                                                                 ]
                                                               ),
                                                               _vm._v(" "),
-                                                              _vm._m(13, true)
+                                                              _vm._m(12, true)
                                                             ]
                                                           )
                                                         ],
@@ -52142,21 +52175,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
       _c("div", { staticClass: "coti" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-4" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary seleccionador",
-          attrs: { type: "button", id: "9_1" }
-        },
-        [_vm._v("Elegir")]
-      )
     ])
   },
   function() {

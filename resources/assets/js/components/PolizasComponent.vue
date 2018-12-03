@@ -203,7 +203,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-Qualitas" @click="infoCotizacion(cotizacion.response.amplia)">Información</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="seleccionarCotizacion(cotizacion.response.amplia)">Elegir</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -552,7 +552,12 @@
     		infoCotizacion(cotiza){
                 console.log(cotiza);
     			this.cotizacion = cotiza;
-    		}
+    		},
+            seleccionarCotizacion(cotizacion){
+                $("#paso3-tab").removeClass("disabled");
+                $("#paso3-tab").click();
+                console.log(cotizacion);
+            }
     	},
     	filters:{
     		'int': function (value) {

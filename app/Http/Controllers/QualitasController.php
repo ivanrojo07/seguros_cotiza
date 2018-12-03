@@ -718,6 +718,7 @@ XML;
 		  	}
 		  	  	$cobertura = [
 		  		'Nombre'=>"Qualitas",
+		  		'NoCotizacion'=>$response['Movimiento']['@attributes']['NoCotizacion'],
 				'Primas'=>$response['Movimiento']['Primas'],
 				'Coberturas'=>$coberturas
 		  	];

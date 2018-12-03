@@ -59,6 +59,7 @@ class CodigoPostal extends Command
                             'poblacion'=>$value['d_asenta'],
                             'estado' =>$value['d_estado'],
                             'ciudad' =>$value['d_ciudad'],
+                            'codigo_municipio' =>$value['c_mnpio'],
                             'cestado' => $value->c_estado,
                         ]);
                     }

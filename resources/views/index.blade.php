@@ -37,8 +37,9 @@
                     <polizas v-bind:cliente="cliente" :getcotizacion="getcotizacion" :alert="alert"></polizas>
                 </div>
                 
+                
                 {{-- @include('pasos.paso1') --}}
-                {{-- @include('pasos.paso2') --}}
+                @include('pasos.paso2')
                 @include('pasos.paso3')
                 @include('pasos.paso4')
             </div>

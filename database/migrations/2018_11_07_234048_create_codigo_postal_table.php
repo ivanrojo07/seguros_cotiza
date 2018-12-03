@@ -20,6 +20,7 @@ class CreateCodigoPostalTable extends Migration
             $table->string('poblacion')->nullable();
             $table->string('municipio')->nullable();
             $table->string('estado')->nullable();
+            $table->integer('codigo_municipio');
             $table->string('ciudad')->nullable();
             $table->timestamps();
         });

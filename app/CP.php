@@ -18,6 +18,7 @@ class CP extends Model
 		'municipio',
 		'estado',
 		'ciudad',
+        'codigo_municipio'
     ];
 
     protected $hidden=[
