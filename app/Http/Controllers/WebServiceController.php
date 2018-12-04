@@ -50,7 +50,7 @@ class WebServiceController extends Controller
 	}
 
 	public function emitirPoliza(){
-		$cliente = Cliente::find(4);
+		$cliente = Cliente::find(1);
 		$nacimiento = new Carbon($cliente->f_nac);
 		$nacimiento = $nacimiento->format('d-m-Y');
 		// dd($nacimiento);

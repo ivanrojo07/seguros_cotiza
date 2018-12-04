@@ -46,7 +46,7 @@ class CodigoPostal extends Command
         for ($i = 0; $i <= 31 ; $i++) {
             \Excel::filter('chunk')->selectSheetsByIndex($i)
                 ->load(storage_path("/app/public/CPdescarga.xls"),null,null,true,null)
-                ->chunk(3000, function($results) {
+                ->chunk(11000, function($results) {
                 set_time_limit(0);
                 // dd($results);
                 if($results->count()) {
