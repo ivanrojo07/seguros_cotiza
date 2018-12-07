@@ -438,7 +438,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			let url = './api/getMarcas';
     			axios.get(url).then(res=>{
     				console.log("res",res);
-    				this.marcas = res.data.marcas;
+    				this.marcas = res.data.marcas.sort();
     			}).catch(error=>{
     				console.log('error',error);
 
@@ -449,7 +449,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			axios.get(url).then(res=>{
     				console.log('res submarcas',res);
     				if (res.data.submarcas) {
-    					this.submarcas = res.data.submarcas;
+    					this.submarcas = res.data.submarcas.sort();
     				}
     			}).catch(error=>{
     				console.log('error submarcas',error);
@@ -474,7 +474,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			axios.get(url).then(res=>{
     				this.loader = false;
     				console.log('getDescripciones res',res);
-    				this.descripciones = res.data.versiones
+    				this.descripciones = res.data.versiones.sort();
     			}).catch(err=>{
 
     				console.log('getDescripciones err',err);

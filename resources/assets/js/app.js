@@ -20,6 +20,7 @@ window.Vue = require('vue');
  */
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('cotizacion', require('./components/CotizacionComponent.vue'));
+Vue.component('formulario',require('./components/FormComponent.vue'));
 Vue.component('polizas',require('./components/PolizasComponent.vue'));
 const app = new Vue({
     el: '#app',
@@ -49,6 +50,9 @@ const app = new Vue({
             message:"",
             class:""
         },
+        
+        gs: {},
+       
 
     },
     

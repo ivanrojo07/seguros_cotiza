@@ -24,6 +24,7 @@ Route::get('/marcas',"QualitasController@getMarcas");
 Route::get('/modelos/{uso}/{marca}/{modelo}',"QualitasController@getModelos");
 Route::get('/tarifas','WebServiceController@getTarifas');
 Route::get('/emitir','WebServiceController@emitirPoliza');
+Route::get('/emitirGS','GeneralSegurosController@emitir');
 Route::post('/cotizacion','ClienteController@store');
 Route::post('/searchCliente','ClienteController@search');
 Route::post('/getCoberturasQ','QualitasController@getCobertura');

@@ -50,13 +50,16 @@ class WebServiceController extends Controller
 	}
 
 	public function emitirPoliza(){
-		$cliente = Cliente::find(1);
+		$cliente = Cliente::find(3);
 		$nacimiento = new Carbon($cliente->f_nac);
 		$nacimiento = $nacimiento->format('d-m-Y');
-		// dd($nacimiento);
+		// dd($cliente);
+		$modelo = (int)$cliente->auto->submarca->anio;
+		$camis = (int)$cliente->auto->version->camis_qualitas;
 		$dig = $cliente->auto->version->dig;
-		// dd($dig);
+		// dd($dig." ".$cliente->auto->version->camis_qualitas);
 		try{
+			// dd($this->clientCotizaImpresion->__getTypes());
 			$xmlPoliza = 
 <<<XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -64,9 +67,9 @@ class WebServiceController extends Controller
 	<Movimiento TipoMovimiento="3" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
 		<DatosAsegurado NoAsegurado="">
 			<Nombre>$cliente->appaterno $cliente->apmaterno $cliente->nombre</Nombre>
-			<Direccion>Norte 58-A, 3644</Direccion>
+			<Direccion>Norte 48-A, 3644</Direccion>
 			<Colonia>Mártires de Río Blanco</Colonia>
-			<Poblacion>GAM</Poblacion>
+			<Poblacion>5</Poblacion>
 			<Estado>9</Estado>
 			<CodigoPostal>07880</CodigoPostal>
 			<NoEmpleado/>
@@ -130,11 +133,11 @@ class WebServiceController extends Controller
 			</ConsideracionesAdicionalesDA>	
 			<ConsideracionesAdicionalesDA NoConsideracion="40">
 				<TipoRegla>27</TipoRegla>
-				<ValorRegla>ROOG921021HDFJRL01</ValorRegla>
+				<ValorRegla>ROOG921021HDFJRL24</ValorRegla>
 			</ConsideracionesAdicionalesDA>
 			<ConsideracionesAdicionalesDA NoConsideracion="40">
 				<TipoRegla>28</TipoRegla>
-				<ValorRegla>ROOG921021IS2</ValorRegla>
+				<ValorRegla>ROOG921021Iz2</ValorRegla>
 			</ConsideracionesAdicionalesDA>
 			<ConsideracionesAdicionalesDA NoConsideracion="40">
 				<TipoRegla>36</TipoRegla>
@@ -154,22 +157,26 @@ class WebServiceController extends Controller
 			</ConsideracionesAdicionalesDA>
 			<ConsideracionesAdicionalesDA NoConsideracion="40">
 				<TipoRegla>47</TipoRegla>
-				<ValorRegla>ROOG921021HDFJRL01</ValorRegla>
+				<ValorRegla>ROOG921021HDFJRL24</ValorRegla>
 			</ConsideracionesAdicionalesDA>
 			<ConsideracionesAdicionalesDA NoConsideracion="40">
 				<TipoRegla>48</TipoRegla>
-				<ValorRegla>ROOG921021IS2</ValorRegla>
+				<ValorRegla>ROOG921021IZ2</ValorRegla>
 			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+        		<TipoRegla>70</TipoRegla>
+        		<ValorRegla>83112329</ValorRegla>
+      		</ConsideracionesAdicionalesDA>
 		</DatosAsegurado>
 		<DatosVehiculo NoInciso="1">
-			<ClaveAmis>02188</ClaveAmis>
-			<Modelo>2016</Modelo>
+			<ClaveAmis>$camis</ClaveAmis>
+			<Modelo>$modelo</Modelo>
 			<DescripcionVehiculo/>
 			<Uso>1</Uso>
 			<Servicio>1</Servicio>
 			<Paquete>1</Paquete>
-			<Motor>123456123456</Motor>
-			<Serie>9876585231462545</Serie>
+			<Motor>2563158974</Motor>
+			<Serie>9876555231462545</Serie>
 			<Coberturas NoCobertura="1">
 			  <SumaAsegurada>0</SumaAsegurada>
 			  <TipoSuma>0</TipoSuma>
@@ -226,9 +233,9 @@ class WebServiceController extends Controller
 			</Coberturas>
 		</DatosVehiculo>
 		<DatosGenerales>
-			<FechaEmision>2018-12-03</FechaEmision>
-			<FechaInicio>2018-12-03</FechaInicio>
-			<FechaTermino>2019-12-03</FechaTermino>
+			<FechaEmision>2018-12-05</FechaEmision>
+			<FechaInicio>2018-12-05</FechaInicio>
+			<FechaTermino>2019-12-05</FechaTermino>
 			<Moneda>0</Moneda>
 			<Agente>74285</Agente>
 			<FormaPago>C</FormaPago>
@@ -263,7 +270,15 @@ XML;
 			$client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlPoliza));
 			$xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
 			$response = json_decode(json_encode($xml), true);
-			dd($response['Movimiento']);
+			var_dump($response['Movimiento']);
+			$noPoliza = $response['Movimiento']['@attributes']['NoOTra'];
+			$noEndoso = $response['Movimiento']['@attributes']['NoEndoso'];
+			$noNegocio= $response['Movimiento']['@attributes']['NoNegocio'];
+			$agente = $response['Movimiento']['DatosGenerales']['Agente'];
+			$noInciso = $response['Movimiento']['DatosVehiculo']['@attributes']['NoInciso'];
+			$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>$noInciso,'ImpPol'=>1,'ImpRec'=>1,'ImpAnexo'=>1,'Ramo'=>"4",'formaPol'=>"polizaf1co_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>$noNegocio,'Agente'=>$agente,'Usuario'=>"linea",'Password'=>"linea"]);
+			dd($impresion);
+			
 
 		}catch(SoapFault $fault){
 			dd($fault);

@@ -231,7 +231,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -353,7 +353,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -474,7 +474,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -501,6 +501,7 @@
     		'cliente',
     		'getcotizacion',
             'alert',
+            'gs'
     	],
     	data(){
     		return{
@@ -509,6 +510,7 @@
     			cotizacionesQualitas:[],
                 cotizacionesGS:[],
     			error:null,
+                setCotizacion: null,
     		}
     	},
     	watch:{
@@ -557,6 +559,15 @@
                 $("#paso3-tab").removeClass("disabled");
                 $("#paso3-tab").click();
                 console.log(cotizacion);
+            },
+            emitirgs(cotizacion_id,paquete){
+                console.log(this.cotizacionesGS.cotizacion.id,paquete);
+
+                this.setCotizacion = {formulario: "GS",id: cotizacion_id,paquete:paquete};
+                this.$emit("emitirgs", this.setCotizacion);
+                // console.log(this.gs);
+                $("#paso3-tab").removeClass("disabled");
+                $("#paso3-tab").click();
             }
     	},
     	filters:{
