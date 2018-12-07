@@ -44,7 +44,7 @@
 							<label class="control-label">
 								Apellido Paterno
 							</label>
-							<input type="text" name="apepat" class="form-control" v-model="generalseguro.cliente.apepat">
+							<input type="text" name="apepat" class="form-control" v-model="generalseguro.cliente.apepat" required>
 						</div>
 						<div class="form-group col-4">
 							<label class="control-label">
@@ -93,31 +93,31 @@
 						</div>
 						<div class="form-group col-4">
 							<label class="control-label" for="calle">Calle</label>
-							<input type="text" name="calle" class="form-control" v-model="generalseguro.cliente.calle">
+							<input type="text" name="calle" class="form-control" v-model="generalseguro.cliente.calle" required>
 						</div>
 						<div class="form-group col-4">
 							<label for="num" class="control-label">Número exterior</label>
-							<input type="text" name="num" class="form-control" v-model="generalseguro.cliente.num">
+							<input type="text" name="num" class="form-control" v-model="generalseguro.cliente.num" required>
 						</div>
 						<div class="form-group col-4">
 							<label class="control-label" for="cp">Código Postal</label>
-							<input type="text" name="cp" class="form-control" v-model="generalseguro.cliente.cp">
+							<input type="text" name="cp" class="form-control" v-model="generalseguro.cliente.cp" required>
 						</div>
 						<div class="form-group col-4">
 							<label class="control-label" for="colonia">Colonia</label>
-							<input type="text" name="colonia" class="form-control" v-model="generalseguro.cliente.colonia">
+							<input type="text" name="colonia" class="form-control" v-model="generalseguro.cliente.colonia" required>
 						</div>
 						<div class="form-group col-4">
 							<label class="control-label" for="municip">Delegación o Municipio</label>
-							<input type="text" name="municip" class="form-control" v-model="generalseguro.cliente.municip">
+							<input type="text" name="municip" class="form-control" v-model="generalseguro.cliente.municip" required>
 						</div>
 						<div class="form-group col-4">
 							<label class="control-label" for="poblaci">Delegación o Población</label>
-							<input type="text" name="poblaci" class="form-control" v-model="generalseguro.cliente.poblaci">
+							<input type="text" name="poblaci" class="form-control" v-model="generalseguro.cliente.poblaci" required>
 						</div>
 						<div class="form-group col-4">
 							<label for="fnac" class="control-label" v-text="generalseguro.cliente.tipo_persona == 'F' ? 'Fecha de nacimiento' : 'Fecha de constitución'"></label>
-							<input type="date" name="fnac" class="form-control" v-model="generalseguro.cliente.fnac">
+							<input type="date" name="fnac" class="form-control" v-model="generalseguro.cliente.fnac" required>
 						</div>
 						<div class="form-group col-4">
 							<label for="nacionalidad" class="control-label">Nacionalidad</label>
@@ -127,9 +127,9 @@
 								<option value="2">Extranjera</option>
 							</select>
 						</div>
-						<div class="form-group col-4" v-if="generalseguro.cliente.nacionalidad == 2">
+						<div class="form-group col-12" v-if="generalseguro.cliente.nacionalidad == 2">
 							<label for="domicilio_original" class="control-label">Domicilio original (extranjeros)</label>
-							<input type="text" name="domicilio_original" class="form-control" v-model="generalseguro.cliente.domicilio_original">
+							<input type="text" name="domicilio_original" class="form-control" v-model="generalseguro.cliente.domicilio_original" required>
 						</div>
 						<div class="form-group col-4"  v-if="generalseguro.cliente.tipo_persona == 'F'">
 							<label for="ocupacion" class="control-label">Ocupación</label>
@@ -159,7 +159,7 @@
 						</div>
 						<div class="form-group col-4">
 							<label for="email" class="control-label">Correo electronico</label>
-							<input type="email" name="email" class="form-control" v-model="generalseguro.cliente.email">
+							<input type="email" name="email" class="form-control" v-model="generalseguro.cliente.email" required>
 						</div>
 						<div class="form-group col-4">
 							<label for="web" class="control-label">Pagina web</label>
@@ -167,14 +167,14 @@
 						</div>
 						<div class="form-group col-4">
 							<label for="contacto" class="control-label">Forma en que se entero de la pagina</label>
-							<select name="contacto" id="contacto" class="form-control" v-model="generalseguro.cliente.contacto">
+							<select name="contacto" id="contacto" class="form-control" v-model="generalseguro.cliente.contacto" required>
 								<option value="">Seleccione el medío por el que se entero</option>
 								<option v-for="contacto in tipocontactos" :value="contacto.id.cveCco">{{contacto.id.desCco}}</option>
 							</select>
 						</div>
 						<div class="form-group col-4">
 							<label for="ingresos" class="control-label">Fuente de ingresos</label>
-							<input type="text" name="ingresos" class="form-control" v-model="generalseguro.cliente.ingresos">
+							<input type="text" name="ingresos" class="form-control" v-model="generalseguro.cliente.ingresos" required>
 						</div>
 						<div class="form-group col-4" v-if="generalseguro.cliente.tipo_persona == 'M'">
 							<label for="administrador" class="control-label">Tipo de administrador de la empresa</label>
@@ -193,7 +193,7 @@
 	                            </label>
 	                        </div>
 	                        <div class="form-check col-12">
-	                            <input class="form-check-input" type="radio" name="cargo_pub" id="radioNCargo" v-model="generalseguro.cliente.cargo_pub" value="N">
+	                            <input class="form-check-input" type="radio" name="cargo_pub" id="radioNCargo" v-model="generalseguro.cliente.cargo_pub" value="N" checked>
 	                            <label class="form-check-label" for="radioNCargo">
 	                             No
 	                            </label>
@@ -201,11 +201,11 @@
 						</div>
 						<div class="form-group col-4" v-if="generalseguro.cliente.cargo_pub == 'S'">
 							<label for="nombre_cargo" class="control-label">Nombre del cargo público ejercido</label>
-							<input type="text" name="nombre_cargo" class="form-control" v-model="generalseguro.cliente.nombre_cargo">
+							<input type="text" name="nombre_cargo" class="form-control" v-model="generalseguro.cliente.nombre_cargo" required>
 						</div>
 						<div class="form-group col-4" v-if="generalseguro.cliente.cargo_pub == 'S'">
 							<label for="periodo_cargo" class="control-label">Periodo en donde ejercio el cargo</label>
-							<input type="text" name="periodo_cargo" class="form-control" v-model="generalseguro.cliente.periodo_cargo">
+							<input type="text" name="periodo_cargo" class="form-control" v-model="generalseguro.cliente.periodo_cargo" required>
 						</div>
 						<div class="form-group col-4">
 							<label for="apoderado" class="control-label">¿Tiene apoderado legal?</label>
@@ -256,14 +256,14 @@
 								<option v-for="pago in gs.paquete.formasPagoDTO" :value="pago.idFormaPago">{{pago.nombre}}</option>
 							</select>
 						</div>
-						<div class="col-8" v-if="detallePago">
+						<div class="col-8" v-if="JSON.stringify(detallePago)!='{}'">
 							<h6>PAGO {{detallePago.nombre}}</h6>
 							<p class="control-label">Total de pagos: {{detallePago.divisor}}</p>
-							<p class="control-label">Pago Inicial: {{detallePago.reciboini | int}}</p>
-							<p class="control-label" v-if="detallePago.nombre === 'SEMESTRAL'">Semestre: {{detallePago.recibosub | int}}</p>
-                            <p class="control-label" v-else-if="detallePago.nombre === 'TRIMESTRAL'">Trimeste: {{detallePago.recibosub | int}}</p>
-                            <p class="control-label" v-else-if="detallePago.nombre === 'MENSUAL'">Mensualidad: {{detallePago.recibosub | int}}</p>
-                            <p class="control-label">Prima total: {{detallePago.primaTotal | int}}</p>
+							<p class="control-label">Pago Inicial: ${{detallePago.reciboini | int}}</p>
+							<p class="control-label" v-if="detallePago.nombre === 'SEMESTRAL'">Semestre: ${{detallePago.recibosub | int}}</p>
+                            <p class="control-label" v-else-if="detallePago.nombre === 'TRIMESTRAL'">Trimeste: ${{detallePago.recibosub | int}}</p>
+                            <p class="control-label" v-else-if="detallePago.nombre === 'MENSUAL'">Mensualidad: ${{detallePago.recibosub | int}}</p>
+                            <p class="control-label">Prima total: ${{detallePago.primaTotal | int}}</p>
 						</div>
 					</div>
 					<div class="row">
@@ -364,15 +364,21 @@
 		},
 		methods:{
 			'formaPago':function(){
-				var result = this.gs.paquete.formasPagoDTO.find(obj=>{
-					// console.log(obj);
-					if (obj.idFormaPago === this.generalseguro.cotizacion.id_pago) {
-						return obj;
-					}
-					// var obj.id === this.generalseguro.cotizacion.id_pago;
-				});
-				this.detallePago = result;
-				console.log(detallePago);
+				if (this.generalseguro.cotizacion.id_pago == "" ) {
+					this.detallePago = {};
+					console.log(this.detallePago);
+				} else {
+					var result = this.gs.paquete.formasPagoDTO.find(obj=>{
+						// console.log(obj);
+						if (obj.idFormaPago === this.generalseguro.cotizacion.id_pago) {
+							return obj;
+						}
+						// var obj.id === this.generalseguro.cotizacion.id_pago;
+					});
+					this.detallePago = result;
+					
+				}
+				console.log(this.detallePago);
 			},
 			'getEdoCivil':function(){
 				let url="./api/getEstadoCivil";

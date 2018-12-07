@@ -474,7 +474,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			axios.get(url).then(res=>{
     				this.loader = false;
     				console.log('getDescripciones res',res);
-    				this.descripciones = res.data.versiones.sort();
+    				this.descripciones = res.data.versiones;
     			}).catch(err=>{
 
     				console.log('getDescripciones err',err);

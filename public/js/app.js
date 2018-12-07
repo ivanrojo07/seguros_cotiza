@@ -47988,7 +47988,7 @@ function Cliente(_ref) {
             axios.get(url).then(function (res) {
                 _this5.loader = false;
                 console.log('getDescripciones res', res);
-                _this5.descripciones = res.data.versiones.sort();
+                _this5.descripciones = res.data.versiones;
             }).catch(function (err) {
 
                 console.log('getDescripciones err', err);
@@ -50098,15 +50098,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		'formaPago': function formaPago() {
 			var _this = this;
 
-			var result = this.gs.paquete.formasPagoDTO.find(function (obj) {
-				// console.log(obj);
-				if (obj.idFormaPago === _this.generalseguro.cotizacion.id_pago) {
-					return obj;
-				}
-				// var obj.id === this.generalseguro.cotizacion.id_pago;
-			});
-			this.detallePago = result;
-			console.log(detallePago);
+			if (this.generalseguro.cotizacion.id_pago == "") {
+				this.detallePago = {};
+				console.log(this.detallePago);
+			} else {
+				var result = this.gs.paquete.formasPagoDTO.find(function (obj) {
+					// console.log(obj);
+					if (obj.idFormaPago === _this.generalseguro.cotizacion.id_pago) {
+						return obj;
+					}
+					// var obj.id === this.generalseguro.cotizacion.id_pago;
+				});
+				this.detallePago = result;
+			}
+			console.log(this.detallePago);
 		},
 		'getEdoCivil': function getEdoCivil() {
 			var _this2 = this;
@@ -50383,7 +50388,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "apepat" },
+                        attrs: { type: "text", name: "apepat", required: "" },
                         domProps: { value: _vm.generalseguro.cliente.apepat },
                         on: {
                           input: function($event) {
@@ -50713,7 +50718,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "calle" },
+                    attrs: { type: "text", name: "calle", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.calle },
                     on: {
                       input: function($event) {
@@ -50747,7 +50752,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "num" },
+                    attrs: { type: "text", name: "num", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.num },
                     on: {
                       input: function($event) {
@@ -50781,7 +50786,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "cp" },
+                    attrs: { type: "text", name: "cp", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.cp },
                     on: {
                       input: function($event) {
@@ -50815,7 +50820,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "colonia" },
+                    attrs: { type: "text", name: "colonia", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.colonia },
                     on: {
                       input: function($event) {
@@ -50849,7 +50854,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "municip" },
+                    attrs: { type: "text", name: "municip", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.municip },
                     on: {
                       input: function($event) {
@@ -50883,7 +50888,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "poblaci" },
+                    attrs: { type: "text", name: "poblaci", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.poblaci },
                     on: {
                       input: function($event) {
@@ -50923,7 +50928,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "date", name: "fnac" },
+                    attrs: { type: "date", name: "fnac", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.fnac },
                     on: {
                       input: function($event) {
@@ -51004,7 +51009,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _vm.generalseguro.cliente.nacionalidad == 2
-                  ? _c("div", { staticClass: "form-group col-4" }, [
+                  ? _c("div", { staticClass: "form-group col-12" }, [
                       _c(
                         "label",
                         {
@@ -51025,7 +51030,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "domicilio_original" },
+                        attrs: {
+                          type: "text",
+                          name: "domicilio_original",
+                          required: ""
+                        },
                         domProps: {
                           value: _vm.generalseguro.cliente.domicilio_original
                         },
@@ -51301,7 +51310,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "email", name: "email" },
+                    attrs: { type: "email", name: "email", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.email },
                     on: {
                       input: function($event) {
@@ -51374,7 +51383,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { name: "contacto", id: "contacto" },
+                      attrs: { name: "contacto", id: "contacto", required: "" },
                       on: {
                         change: function($event) {
                           var $$selectedVal = Array.prototype.filter
@@ -51432,7 +51441,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "ingresos" },
+                    attrs: { type: "text", name: "ingresos", required: "" },
                     domProps: { value: _vm.generalseguro.cliente.ingresos },
                     on: {
                       input: function($event) {
@@ -51583,7 +51592,8 @@ var render = function() {
                         type: "radio",
                         name: "cargo_pub",
                         id: "radioNCargo",
-                        value: "N"
+                        value: "N",
+                        checked: ""
                       },
                       domProps: {
                         checked: _vm._q(
@@ -51634,7 +51644,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "nombre_cargo" },
+                        attrs: {
+                          type: "text",
+                          name: "nombre_cargo",
+                          required: ""
+                        },
                         domProps: {
                           value: _vm.generalseguro.cliente.nombre_cargo
                         },
@@ -51675,7 +51689,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "periodo_cargo" },
+                        attrs: {
+                          type: "text",
+                          name: "periodo_cargo",
+                          required: ""
+                        },
                         domProps: {
                           value: _vm.generalseguro.cliente.periodo_cargo
                         },
@@ -52044,7 +52062,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm.detallePago
+                JSON.stringify(_vm.detallePago) != "{}"
                   ? _c("div", { staticClass: "col-8" }, [
                       _c("h6", [
                         _vm._v("PAGO " + _vm._s(_vm.detallePago.nombre))
@@ -52058,7 +52076,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("p", { staticClass: "control-label" }, [
                         _vm._v(
-                          "Pago Inicial: " +
+                          "Pago Inicial: $" +
                             _vm._s(_vm._f("int")(_vm.detallePago.reciboini))
                         )
                       ]),
@@ -52066,14 +52084,14 @@ var render = function() {
                       _vm.detallePago.nombre === "SEMESTRAL"
                         ? _c("p", { staticClass: "control-label" }, [
                             _vm._v(
-                              "Semestre: " +
+                              "Semestre: $" +
                                 _vm._s(_vm._f("int")(_vm.detallePago.recibosub))
                             )
                           ])
                         : _vm.detallePago.nombre === "TRIMESTRAL"
                           ? _c("p", { staticClass: "control-label" }, [
                               _vm._v(
-                                "Trimeste: " +
+                                "Trimeste: $" +
                                   _vm._s(
                                     _vm._f("int")(_vm.detallePago.recibosub)
                                   )
@@ -52082,7 +52100,7 @@ var render = function() {
                           : _vm.detallePago.nombre === "MENSUAL"
                             ? _c("p", { staticClass: "control-label" }, [
                                 _vm._v(
-                                  "Mensualidad: " +
+                                  "Mensualidad: $" +
                                     _vm._s(
                                       _vm._f("int")(_vm.detallePago.recibosub)
                                     )
@@ -52092,7 +52110,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("p", { staticClass: "control-label" }, [
                         _vm._v(
-                          "Prima total: " +
+                          "Prima total: $" +
                             _vm._s(_vm._f("int")(_vm.detallePago.primaTotal))
                         )
                       ])
