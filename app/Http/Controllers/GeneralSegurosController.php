@@ -48,7 +48,14 @@ class GeneralSegurosController extends Controller
 
     public function getClient($url)
     {
-    	return new SoapClient($url,$this->params);
+        try{
+            $client = new SoapClient($url,$this->params);
+    	   return $client;
+
+        }
+        catch(FatalErrorException $error){
+            dd($error);
+        }
     }
 
     public function getToken()
@@ -187,74 +194,153 @@ class GeneralSegurosController extends Controller
     }
 
     public function emitir(){
-        $cliente = Cliente::find(2);
+        $cliente = Cliente::find(3);
         $clientSOAP = $this->getClient($this->urlCotiza);
         // dd($clientSOAP->__getTypes());
-        $emitir = $clientSOAP->emitirCotizacion([
-            'arg0'=>[
-                'token'=>$this->token,
-                'cliente'=>[
-                    'cve_cli' =>0,
-                    'suc_emi'=>0,
-                    'fis_mor'=>"F",
-                    'nom_cli'=>$cliente->nombre,
-                    'ape_pat'=>$cliente->appaterno,
-                    'ape_mat'=>$cliente->apmaterno,
-                    'raz_soc'=>"",
-                    'ane_cli'=>"",
-                    'rfc_cli'=>"ROOG921021IS2",
-                    'cve_ele'=>"",
-                    'curpcli'=>"ROOG921021HDFJRL01",
-                    'sexocli'=>1,
-                    'edo_civ'=>1,
-                    'cal_cli'=>"Norte 58-A",
-                    'num_cli'=>"3468",
-                    'cod_pos'=>$cliente->cp,
-                    'colonia'=>"Martires de Río Blanco",
-                    'municip'=>"Gustavo A. Madero",
-                    'poblaci'=>"Gustavo A. Madero",
-                    'cve_est'=>"1",
-                    'fec_nac'=>$cliente->f_nac,
-                    'nac_ext'=>1,
-                    'ocu_pro'=>185,
-                    'act_gir'=>165,
-                    'telefo1'=>$cliente->telefono,
-                    'telefo2'=>"",
-                    'telefo3'=>"",
-                    'cor_ele'=>$cliente->email,
-                    'pag_web'=>"",
-                    'can_con'=>4,
-                    'fue_ing'=>"trabajo",
-                    'adm_con'=>"",
-                    'car_pub'=>"N",
-                    'nom_car'=>"",
-                    'per_car'=>"",
-                    'apo_cli'=>"N",
-                    'dom_ori'=>"",
-                    'num_pas'=>"",
-                    'usu_cap'=>"",
-                    'usu_aut'=>"",
-                    'fec_alt'=>"",
-                    'fec_act'=>"",
-                    'sta_cli'=>"",
-                    'descuento'=>""
-                ],
-                'datosIncisoEmision'=>[
-                    'numeroMotor'=>"123465789",
-                    'numeroPlacas'=>"123adsf",
-                    'numeroSerie'=>"a12s3s3543a3g34a3a4g"
-                ],
-                'idAgenteCompartido'=>0,
-                'idCliente'=>0,
-                'idCotizacion'=>896029,
-                'idFormaPago'=>4,
-                'idPaquete'=>2,
-                'inicioVigencia'=>'2018-12-04',
-                'porcenComisionAgente2'=>""
-            ]
-        ]);
-        dd($emitir);
+        try{
+
+            $emitir = $clientSOAP->emitirCotizacion([
+                'arg0'=>[
+                    'token'=>$this->token,
+                    'cliente'=>[
+                        'cve_cli' =>0,
+                        'suc_emi'=>0,
+                        'fis_mor'=>"F",
+                        'nom_cli'=>$cliente->nombre,
+                        'ape_pat'=>$cliente->appaterno,
+                        'ape_mat'=>$cliente->apmaterno,
+                        'raz_soc'=>"",
+                        'ane_cli'=>"",
+                        'rfc_cli'=>"ROOG921021IS2",
+                        'cve_ele'=>"",
+                        'curpcli'=>"ROOG921021HDFJRL01",
+                        'sexocli'=>1,
+                        'edo_civ'=>1,
+                        'cal_cli'=>"Norte 58-A",
+                        'num_cli'=>"3468",
+                        'cod_pos'=>$cliente->cp,
+                        'colonia'=>"Martires de Río Blanco",
+                        'municip'=>"Gustavo A. Madero",
+                        'poblaci'=>"Gustavo A. Madero",
+                        'cve_est'=>"1",
+                        'fec_nac'=>$cliente->f_nac,
+                        'nac_ext'=>1,
+                        'ocu_pro'=>185,
+                        'act_gir'=>165,
+                        'telefo1'=>$cliente->telefono,
+                        'telefo2'=>"",
+                        'telefo3'=>"",
+                        'cor_ele'=>$cliente->email,
+                        'pag_web'=>"",
+                        'can_con'=>4,
+                        'fue_ing'=>"trabajo",
+                        'adm_con'=>"",
+                        'car_pub'=>"N",
+                        'nom_car'=>"",
+                        'per_car'=>"",
+                        'apo_cli'=>"N",
+                        'dom_ori'=>"",
+                        'num_pas'=>"",
+                        'usu_cap'=>"",
+                        'usu_aut'=>"",
+                        'fec_alt'=>"",
+                        'fec_act'=>"",
+                        'sta_cli'=>"",
+                        'descuento'=>""
+                    ],
+                    'datosIncisoEmision'=>[
+                        'numeroMotor'=>"123465789",
+                        'numeroPlacas'=>"123adsf",
+                        'numeroSerie'=>"a12s3s3543a3g34a3a4g"
+                    ],
+                    'idAgenteCompartido'=>0,
+                    'idCliente'=>0,
+                    'idCotizacion'=>896029,
+                    'idFormaPago'=>4,
+                    'idPaquete'=>2,
+                    'inicioVigencia'=>'2018-12-08',
+                    'porcenComisionAgente2'=>""
+                ]
+            ]);
+            dd($emitir);
+        }
+        catch(FatalErrorException $error){
+            dd($error);
+        }
         dd($cliente);
+    }
+    public function sendGS(Request $request)
+    {
+        
+        // dd($request->all());
+        // dd($request->rfc);
+        $clientSOAP = $this->getClient($this->urlCotiza);
+        $emitir = $clientSOAP->emitirCotizacion([
+                'arg0'=>[
+                    'token'=>$this->token,
+                    'cliente'=>[
+                        'cve_cli' =>0,
+                        'suc_emi'=>0,
+                        'fis_mor'=>$request->tipo_persona,
+                        'nom_cli'=>$request->nombre,
+                        'ape_pat'=>$request->apepat,
+                        'ape_mat'=>$request->apemat,
+                        'raz_soc'=>$request->razsoc,
+                        'ane_cli'=>"",
+                        'rfc_cli'=>$request->rfc,
+                        'cve_ele'=>$request->elector,
+                        'curpcli'=>$request->curp,
+                        'sexocli'=>$request->sexo,
+                        'edo_civ'=>$request->edoCivil,
+                        'cal_cli'=>$request->calle,
+                        'num_cli'=>$request->num,
+                        'cod_pos'=>$request->cp,
+                        'colonia'=>$request->colonia,
+                        'municip'=>$request->municip,
+                        'poblaci'=>$request->poblaci,
+                        'cve_est'=>"1",
+                        'fec_nac'=>$request->fnac,
+                        'nac_ext'=>$request->nacionalidad,
+                        'ocu_pro'=>$request->ocupacion,
+                        'act_gir'=>$request->giro,
+                        'telefo1'=>$request->telefono1,
+                        'telefo2'=>$request->telefono2,
+                        'telefo3'=>$request->telefono3,
+                        'cor_ele'=>$request->email,
+                        'pag_web'=>$request->web,
+                        'can_con'=>$request->contacto,
+                        'fue_ing'=>$request->ingresos,
+                        'adm_con'=>$request->administrador,
+                        'car_pub'=>$request->cargo_pub,
+                        'nom_car'=>$request->nombre_cargo,
+                        'per_car'=>$request->periodo_cargo,
+                        'apo_cli'=>$request->apoderado,
+                        'dom_ori'=>$request->domicilio_original,
+                        'num_pas'=>$request->pasaporte,
+                        'usu_cap'=>"",
+                        'usu_aut'=>"",
+                        'fec_alt'=>"",
+                        'fec_act'=>"",
+                        'sta_cli'=>"",
+                        'descuento'=>""
+                    ],
+                    'datosIncisoEmision'=>[
+                        'numeroMotor'=>$request->num_motor,
+                        'numeroPlacas'=>$request->num_placas,
+                        'numeroSerie'=>$request->num_serie
+                    ],
+                    'idAgenteCompartido'=>0,
+                    'idCliente'=>0,
+                    'idCotizacion'=>(int)$request->cotizacion_id,
+                    'idFormaPago'=>(int)$request->id_pago,
+                    'idPaquete'=>(int)$request->idpaquete,
+                    'inicioVigencia'=>date("Y-m-d"),
+                    'porcenComisionAgente2'=>""
+                ]
+            ]);
+        $arr = json_decode(json_encode($emitir),true);
+        dd($arr);
+        
     }
 
 

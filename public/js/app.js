@@ -50018,12 +50018,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['cliente', 'alert', 'gs'],
 	data: function data() {
 		return {
 			gsImage: null,
+			csrf: null,
 			generalseguro: {
 				cliente: {
 					tipo_persona: "F",
@@ -50095,6 +50097,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created: function created() {},
 
 	methods: {
+		'sendGS': function sendGS() {
+			console.log('enviado');
+		},
 		'formaPago': function formaPago() {
 			var _this = this;
 
@@ -50179,6 +50184,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.getGiros();
 		this.getContactos();
 		this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+		this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
 	}
 });
 
@@ -50194,1835 +50200,814 @@ var render = function() {
     _c("div", { staticClass: "row m-3" }, [
       _c("div", { staticClass: "col-12 m-2 p-2" }, [
         _vm.gs.formulario === "GS"
-          ? _c("form", [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-6" }, [
-                  _c("img", { staticClass: "col", attrs: { src: _vm.gsImage } })
-                ]),
-                _vm._v(" "),
-                _vm._m(0)
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
+          ? _c(
+              "form",
+              {
+                attrs: { method: "POST", action: "./sendGS" },
+                on: { submit: _vm.sendGS }
+              },
+              [
                 _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.generalseguro.cotizacion.id_cotizacion,
-                      expression: "generalseguro.cotizacion.id_cotizacion"
-                    }
-                  ],
-                  attrs: { type: "hidden", name: "cotizacion_id" },
-                  domProps: {
-                    value: _vm.generalseguro.cotizacion.id_cotizacion
-                  },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.generalseguro.cotizacion,
-                        "id_cotizacion",
-                        $event.target.value
-                      )
-                    }
-                  }
+                  attrs: { type: "hidden", name: "_token" },
+                  domProps: { value: _vm.csrf }
                 }),
                 _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-12" }, [
-                  _c("label", { staticClass: "control-label" }, [
-                    _vm._v("Tipo de persona:")
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-6" }, [
+                    _c("img", {
+                      staticClass: "col",
+                      attrs: { src: _vm.gsImage }
+                    })
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-check col-12" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.tipo_persona,
-                          expression: "generalseguro.cliente.tipo_persona"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        name: "tipo_persona",
-                        id: "radioF",
-                        value: "F",
-                        checked: ""
-                      },
-                      domProps: {
-                        checked: _vm._q(
-                          _vm.generalseguro.cliente.tipo_persona,
-                          "F"
-                        )
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.$set(
-                            _vm.generalseguro.cliente,
-                            "tipo_persona",
-                            "F"
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "radioF" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t                             Fisica\n\t                            "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-check col-12" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.tipo_persona,
-                          expression: "generalseguro.cliente.tipo_persona"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        name: "tipo_persona",
-                        id: "radioM",
-                        value: "M"
-                      },
-                      domProps: {
-                        checked: _vm._q(
-                          _vm.generalseguro.cliente.tipo_persona,
-                          "M"
-                        )
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.$set(
-                            _vm.generalseguro.cliente,
-                            "tipo_persona",
-                            "M"
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "radioM" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t                             Moral\n\t                            "
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _vm.generalseguro.cliente.tipo_persona == "F"
-                ? _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "form-group col-4" }, [
-                      _c("label", { staticClass: "control-label" }, [
-                        _vm._v("\n\t\t\t\t\t\t\t\tNombre(s)\n\t\t\t\t\t\t\t")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.generalseguro.cliente.nombre,
-                            expression: "generalseguro.cliente.nombre"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", name: "nombre", required: "" },
-                        domProps: { value: _vm.generalseguro.cliente.nombre },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.generalseguro.cliente,
-                              "nombre",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-4" }, [
-                      _c("label", { staticClass: "control-label" }, [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t\tApellido Paterno\n\t\t\t\t\t\t\t"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.generalseguro.cliente.apepat,
-                            expression: "generalseguro.cliente.apepat"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", name: "apepat", required: "" },
-                        domProps: { value: _vm.generalseguro.cliente.apepat },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.generalseguro.cliente,
-                              "apepat",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-4" }, [
-                      _c("label", { staticClass: "control-label" }, [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t\tApellido Materno\n\t\t\t\t\t\t\t"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.generalseguro.cliente.apemat,
-                            expression: "generalseguro.cliente.apemat"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", name: "apepat" },
-                        domProps: { value: _vm.generalseguro.cliente.apemat },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.generalseguro.cliente,
-                              "apemat",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.generalseguro.cliente.tipo_persona == "M"
-                ? _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "form-group col-12" }, [
-                      _c("label", { staticClass: "control-label" }, [
-                        _vm._v("\n\t\t\t\t\t\t\t\tRazón Social\n\t\t\t\t\t\t\t")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.generalseguro.cliente.razsoc,
-                            expression: "generalseguro.cliente.razsoc"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", name: "apepat", required: "" },
-                        domProps: { value: _vm.generalseguro.cliente.razsoc },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.generalseguro.cliente,
-                              "razsoc",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c("label", { staticClass: "control-label" }, [
-                    _vm._v("\n\t\t\t\t\t\t\t\tRFC\n\t\t\t\t\t\t\t")
-                  ]),
-                  _vm._v(" "),
+                  _vm._m(0)
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.generalseguro.cliente.rfc,
-                        expression: "generalseguro.cliente.rfc"
+                        value: _vm.generalseguro.cotizacion.id_cotizacion,
+                        expression: "generalseguro.cotizacion.id_cotizacion"
                       }
                     ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "rfc", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.rfc },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "rfc",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "elector" } },
-                    [_vm._v("Clave de credencial de Elector")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.elector,
-                        expression: "generalseguro.cliente.elector"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "elector" },
-                    domProps: { value: _vm.generalseguro.cliente.elector },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "elector",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "curp" } },
-                    [_vm._v("CURP")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.curp,
-                        expression: "generalseguro.cliente.curp"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "curp" },
-                    domProps: { value: _vm.generalseguro.cliente.curp },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "curp",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _vm.generalseguro.cliente.tipo_persona == "F"
-                  ? _c("div", { staticClass: "form-group col-4" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "control-label",
-                          attrs: { for: "sexo" }
-                        },
-                        [_vm._v("Sexo")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.generalseguro.cliente.sexo,
-                              expression: "generalseguro.cliente.sexo"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { name: "sexo", required: "" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.generalseguro.cliente,
-                                "sexo",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
-                        },
-                        [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("Seleccione su sexo")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "1" } }, [
-                            _vm._v("Masculino")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "2" } }, [
-                            _vm._v("Femenino")
-                          ])
-                        ]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.generalseguro.cliente.tipo_persona == "F"
-                  ? _c("div", { staticClass: "form-group col-4" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "control-label",
-                          attrs: { for: "edoCivil" }
-                        },
-                        [_vm._v("Estado Civil")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.generalseguro.cliente.edoCivil,
-                              expression: "generalseguro.cliente.edoCivil"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { name: "edoCivil", required: "" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.generalseguro.cliente,
-                                "edoCivil",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
-                        },
-                        [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("Seleccione su estado civil")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.estadosCiviles, function(edocivil) {
-                            return _c(
-                              "option",
-                              { domProps: { value: edocivil.id } },
-                              [_vm._v(_vm._s(edocivil.descripcion))]
-                            )
-                          })
-                        ],
-                        2
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "calle" } },
-                    [_vm._v("Calle")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.calle,
-                        expression: "generalseguro.cliente.calle"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "calle", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.calle },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "calle",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "num" } },
-                    [_vm._v("Número exterior")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.num,
-                        expression: "generalseguro.cliente.num"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "num", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.num },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "num",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "cp" } },
-                    [_vm._v("Código Postal")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.cp,
-                        expression: "generalseguro.cliente.cp"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "cp", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.cp },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "cp",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "colonia" } },
-                    [_vm._v("Colonia")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.colonia,
-                        expression: "generalseguro.cliente.colonia"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "colonia", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.colonia },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "colonia",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "municip" } },
-                    [_vm._v("Delegación o Municipio")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.municip,
-                        expression: "generalseguro.cliente.municip"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "municip", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.municip },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "municip",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "poblaci" } },
-                    [_vm._v("Delegación o Población")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.poblaci,
-                        expression: "generalseguro.cliente.poblaci"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "poblaci", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.poblaci },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "poblaci",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c("label", {
-                    staticClass: "control-label",
-                    attrs: { for: "fnac" },
+                    attrs: { type: "hidden", name: "cotizacion_id" },
                     domProps: {
-                      textContent: _vm._s(
-                        _vm.generalseguro.cliente.tipo_persona == "F"
-                          ? "Fecha de nacimiento"
-                          : "Fecha de constitución"
-                      )
+                      value: _vm.generalseguro.cotizacion.id_cotizacion
+                    },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.generalseguro.cotizacion,
+                          "id_cotizacion",
+                          $event.target.value
+                        )
+                      }
                     }
                   }),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.fnac,
-                        expression: "generalseguro.cliente.fnac"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "date", name: "fnac", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.fnac },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "fnac",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "nacionalidad" }
-                    },
-                    [_vm._v("Nacionalidad")]
-                  ),
+                  _vm._m(1),
                   _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.nacionalidad,
-                          expression: "generalseguro.cliente.nacionalidad"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        name: "nacionalidad",
-                        id: "nacionalidad",
-                        required: ""
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.generalseguro.cliente,
-                            "nacionalidad",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Seleccione su nacionalidad")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "1" } }, [
-                        _vm._v("Mexicana")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "2" } }, [
-                        _vm._v("Extranjera")
-                      ])
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _vm.generalseguro.cliente.nacionalidad == 2
-                  ? _c("div", { staticClass: "form-group col-12" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "control-label",
-                          attrs: { for: "domicilio_original" }
-                        },
-                        [_vm._v("Domicilio original (extranjeros)")]
-                      ),
-                      _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-12" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Tipo de persona:")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
                       _c("input", {
                         directives: [
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.generalseguro.cliente.domicilio_original,
-                            expression:
-                              "generalseguro.cliente.domicilio_original"
+                            value: _vm.generalseguro.cliente.tipo_persona,
+                            expression: "generalseguro.cliente.tipo_persona"
                           }
                         ],
-                        staticClass: "form-control",
+                        staticClass: "form-check-input",
                         attrs: {
-                          type: "text",
-                          name: "domicilio_original",
-                          required: ""
+                          type: "radio",
+                          name: "tipo_persona",
+                          id: "radioF",
+                          value: "F",
+                          checked: ""
                         },
                         domProps: {
-                          value: _vm.generalseguro.cliente.domicilio_original
+                          checked: _vm._q(
+                            _vm.generalseguro.cliente.tipo_persona,
+                            "F"
+                          )
                         },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
+                          change: function($event) {
                             _vm.$set(
                               _vm.generalseguro.cliente,
-                              "domicilio_original",
-                              $event.target.value
+                              "tipo_persona",
+                              "F"
                             )
                           }
                         }
-                      })
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.generalseguro.cliente.tipo_persona == "F"
-                  ? _c("div", { staticClass: "form-group col-4" }, [
+                      }),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
-                          staticClass: "control-label",
-                          attrs: { for: "ocupacion" }
-                        },
-                        [_vm._v("Ocupación")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.generalseguro.cliente.ocupacion,
-                              expression: "generalseguro.cliente.ocupacion"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            name: "ocupacion",
-                            id: "ocupacion",
-                            required: ""
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.generalseguro.cliente,
-                                "ocupacion",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioF" }
                         },
                         [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("Seleccione su ocupacion")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.ocupaciones, function(ocupacion) {
-                            return _c(
-                              "option",
-                              { domProps: { value: ocupacion.cveTit } },
-                              [_vm._v(_vm._s(ocupacion.desTit))]
-                            )
-                          })
-                        ],
-                        2
+                          _vm._v(
+                            "\n\t                             Fisica\n\t                            "
+                          )
+                        ]
                       )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "giro" } },
-                    [_vm._v("Actividad o Giro")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.giro,
-                          expression: "generalseguro.cliente.giro"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "giro", id: "giro", required: "" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.generalseguro.cliente,
-                            "giro",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.tipo_persona,
+                            expression: "generalseguro.cliente.tipo_persona"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "tipo_persona",
+                          id: "radioM",
+                          value: "M"
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.generalseguro.cliente.tipo_persona,
+                            "M"
                           )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(
+                              _vm.generalseguro.cliente,
+                              "tipo_persona",
+                              "M"
+                            )
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Seleccione el giro o actividad")
-                      ]),
+                      }),
                       _vm._v(" "),
-                      _vm._l(_vm.giros, function(giro) {
-                        return _c(
-                          "option",
-                          { domProps: { value: giro.id.cveGir } },
-                          [_vm._v(_vm._s(giro.id.descGir))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "telefono1" }
-                    },
-                    [_vm._v("Telefono")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.telefono1,
-                        expression: "generalseguro.cliente.telefono1"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "tel",
-                      name: "telefono1",
-                      id: "telefono",
-                      required: ""
-                    },
-                    domProps: { value: _vm.generalseguro.cliente.telefono1 },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "telefono1",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "telefono2" }
-                    },
-                    [_vm._v("Telefono")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.telefono2,
-                        expression: "generalseguro.cliente.telefono2"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "tel", name: "telefono2", id: "telefono" },
-                    domProps: { value: _vm.generalseguro.cliente.telefono2 },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "telefono2",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "telefono3" }
-                    },
-                    [_vm._v("Telefono")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.telefono3,
-                        expression: "generalseguro.cliente.telefono3"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "tel", name: "telefono3", id: "telefono" },
-                    domProps: { value: _vm.generalseguro.cliente.telefono3 },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "telefono3",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "email" } },
-                    [_vm._v("Correo electronico")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.email,
-                        expression: "generalseguro.cliente.email"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "email", name: "email", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.email },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "email",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "web" } },
-                    [_vm._v("Pagina web")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.web,
-                        expression: "generalseguro.cliente.web"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "url", name: "web" },
-                    domProps: { value: _vm.generalseguro.cliente.web },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "web",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "contacto" }
-                    },
-                    [_vm._v("Forma en que se entero de la pagina")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.contacto,
-                          expression: "generalseguro.cliente.contacto"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "contacto", id: "contacto", required: "" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.generalseguro.cliente,
-                            "contacto",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Seleccione el medío por el que se entero")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.tipocontactos, function(contacto) {
-                        return _c(
-                          "option",
-                          { domProps: { value: contacto.id.cveCco } },
-                          [_vm._v(_vm._s(contacto.id.desCco))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "ingresos" }
-                    },
-                    [_vm._v("Fuente de ingresos")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.ingresos,
-                        expression: "generalseguro.cliente.ingresos"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "ingresos", required: "" },
-                    domProps: { value: _vm.generalseguro.cliente.ingresos },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "ingresos",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _vm.generalseguro.cliente.tipo_persona == "M"
-                  ? _c("div", { staticClass: "form-group col-4" }, [
                       _c(
                         "label",
                         {
-                          staticClass: "control-label",
-                          attrs: { for: "administrador" }
-                        },
-                        [_vm._v("Tipo de administrador de la empresa")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.generalseguro.cliente.administrador,
-                              expression: "generalseguro.cliente.administrador"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            name: "administrador",
-                            id: "administrador",
-                            required: ""
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.generalseguro.cliente,
-                                "administrador",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioM" }
                         },
                         [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("Seleccione el tipo de administrador")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "u" } }, [
-                            _vm._v("Administrador único")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "c" } }, [
-                            _vm._v("Consejo")
-                          ])
+                          _vm._v(
+                            "\n\t                             Moral\n\t                            "
+                          )
                         ]
                       )
                     ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "cargo_pub" }
-                    },
-                    [_vm._v("¿Ocupo algun cargo público?")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-check col-12" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.cargo_pub,
-                          expression: "generalseguro.cliente.cargo_pub"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        name: "cargo_pub",
-                        id: "radioSCargo",
-                        value: "S"
-                      },
-                      domProps: {
-                        checked: _vm._q(
-                          _vm.generalseguro.cliente.cargo_pub,
-                          "S"
-                        )
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.$set(_vm.generalseguro.cliente, "cargo_pub", "S")
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "radioSCargo" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t                             Si\n\t                            "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-check col-12" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.cargo_pub,
-                          expression: "generalseguro.cliente.cargo_pub"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        name: "cargo_pub",
-                        id: "radioNCargo",
-                        value: "N",
-                        checked: ""
-                      },
-                      domProps: {
-                        checked: _vm._q(
-                          _vm.generalseguro.cliente.cargo_pub,
-                          "N"
-                        )
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.$set(_vm.generalseguro.cliente, "cargo_pub", "N")
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "radioNCargo" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t                             No\n\t                            "
-                        )
-                      ]
-                    )
                   ])
                 ]),
                 _vm._v(" "),
-                _vm.generalseguro.cliente.cargo_pub == "S"
-                  ? _c("div", { staticClass: "form-group col-4" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "control-label",
-                          attrs: { for: "nombre_cargo" }
-                        },
-                        [_vm._v("Nombre del cargo público ejercido")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.generalseguro.cliente.nombre_cargo,
-                            expression: "generalseguro.cliente.nombre_cargo"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "nombre_cargo",
-                          required: ""
-                        },
-                        domProps: {
-                          value: _vm.generalseguro.cliente.nombre_cargo
-                        },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                _vm.generalseguro.cliente.tipo_persona == "F"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("\n\t\t\t\t\t\t\t\tNombre(s)\n\t\t\t\t\t\t\t")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.generalseguro.cliente.nombre,
+                              expression: "generalseguro.cliente.nombre"
                             }
-                            _vm.$set(
-                              _vm.generalseguro.cliente,
-                              "nombre_cargo",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "nombre", required: "" },
+                          domProps: { value: _vm.generalseguro.cliente.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.generalseguro.cliente,
+                                "nombre",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Paterno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.generalseguro.cliente.apepat,
+                              expression: "generalseguro.cliente.apepat"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apepat", required: "" },
+                          domProps: { value: _vm.generalseguro.cliente.apepat },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.generalseguro.cliente,
+                                "apepat",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Materno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.generalseguro.cliente.apemat,
+                              expression: "generalseguro.cliente.apemat"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apepat" },
+                          domProps: { value: _vm.generalseguro.cliente.apemat },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.generalseguro.cliente,
+                                "apemat",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.generalseguro.cliente.cargo_pub == "S"
-                  ? _c("div", { staticClass: "form-group col-4" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "control-label",
-                          attrs: { for: "periodo_cargo" }
-                        },
-                        [_vm._v("Periodo en donde ejercio el cargo")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.generalseguro.cliente.periodo_cargo,
-                            expression: "generalseguro.cliente.periodo_cargo"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "periodo_cargo",
-                          required: ""
-                        },
-                        domProps: {
-                          value: _vm.generalseguro.cliente.periodo_cargo
-                        },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                _vm.generalseguro.cliente.tipo_persona == "M"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-12" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tRazón Social\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.generalseguro.cliente.razsoc,
+                              expression: "generalseguro.cliente.razsoc"
                             }
-                            _vm.$set(
-                              _vm.generalseguro.cliente,
-                              "periodo_cargo",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apepat", required: "" },
+                          domProps: { value: _vm.generalseguro.cliente.razsoc },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.generalseguro.cliente,
+                                "razsoc",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
+                        })
+                      ])
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "apoderado" }
-                    },
-                    [_vm._v("¿Tiene apoderado legal?")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-check col" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("\n\t\t\t\t\t\t\t\tRFC\n\t\t\t\t\t\t\t")
+                    ]),
+                    _vm._v(" "),
                     _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.generalseguro.cliente.apoderado,
-                          expression: "generalseguro.cliente.apoderado"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        name: "apoderado",
-                        id: "radioAS",
-                        value: "S"
-                      },
-                      domProps: {
-                        checked: _vm._q(
-                          _vm.generalseguro.cliente.apoderado,
-                          "S"
-                        )
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.$set(_vm.generalseguro.cliente, "apoderado", "S")
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "radioAS" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t                            \tSi\n\t                            "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-check col" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cliente.apoderado,
-                          expression: "generalseguro.cliente.apoderado"
-                        }
-                      ],
-                      staticClass: "form-check-input",
-                      attrs: {
-                        type: "radio",
-                        name: "apoderado",
-                        id: "radioAN",
-                        value: "N",
-                        checked: ""
-                      },
-                      domProps: {
-                        checked: _vm._q(
-                          _vm.generalseguro.cliente.apoderado,
-                          "N"
-                        )
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.$set(_vm.generalseguro.cliente, "apoderado", "N")
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "form-check-label",
-                        attrs: { for: "radioAN" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t                            \tNo\n\t                            "
-                        )
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "pasaporte" }
-                    },
-                    [_vm._v("Número de pasaporte")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.cliente.pasaporte,
-                        expression: "generalseguro.cliente.pasaporte"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "number", name: "pasaporte", min: "0" },
-                    domProps: { value: _vm.generalseguro.cliente.pasaporte },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.cliente,
-                          "pasaporte",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "num_motor" }
-                    },
-                    [_vm._v("Número de motor")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.auto.num_motor,
-                        expression: "generalseguro.auto.num_motor"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "num_motor", required: "" },
-                    domProps: { value: _vm.generalseguro.auto.num_motor },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.auto,
-                          "num_motor",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "num_placas" }
-                    },
-                    [_vm._v("Placas")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.auto.num_placas,
-                        expression: "generalseguro.auto.num_placas"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "num_placas", required: "" },
-                    domProps: { value: _vm.generalseguro.auto.num_placas },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.auto,
-                          "num_placas",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label",
-                      attrs: { for: "num_serie" }
-                    },
-                    [_vm._v("Número de serie")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.generalseguro.auto.num_serie,
-                        expression: "generalseguro.auto.num_serie"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "num_serie", required: "" },
-                    domProps: { value: _vm.generalseguro.auto.num_serie },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.generalseguro.auto,
-                          "num_serie",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-12 mt-3" }, [
-                  _c("h6", [
-                    _vm._v(
-                      "Seguro a contratar: " + _vm._s(_vm.gs.paquete.nombre)
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.generalseguro.cotizacion.idpaquete,
-                      expression: "generalseguro.cotizacion.idpaquete"
-                    }
-                  ],
-                  attrs: { type: "hidden", name: "idpaquete" },
-                  domProps: { value: _vm.generalseguro.cotizacion.idpaquete },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.generalseguro.cotizacion,
-                        "idpaquete",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "control-label", attrs: { for: "id_pago" } },
-                    [_vm._v("Forma de pago")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.generalseguro.cotizacion.id_pago,
-                          expression: "generalseguro.cotizacion.id_pago"
+                          value: _vm.generalseguro.cliente.rfc,
+                          expression: "generalseguro.cliente.rfc"
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { name: "id_pago", id: "id_pago", required: "" },
+                      attrs: { type: "text", name: "rfc", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.rfc },
                       on: {
-                        change: [
-                          function($event) {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "rfc",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "elector" }
+                      },
+                      [_vm._v("Clave de credencial de Elector")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.elector,
+                          expression: "generalseguro.cliente.elector"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "elector" },
+                      domProps: { value: _vm.generalseguro.cliente.elector },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "elector",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "curp" } },
+                      [_vm._v("CURP")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.curp,
+                          expression: "generalseguro.cliente.curp"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "curp" },
+                      domProps: { value: _vm.generalseguro.cliente.curp },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "curp",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.generalseguro.cliente.tipo_persona == "F"
+                    ? _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "sexo" }
+                          },
+                          [_vm._v("Sexo")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.generalseguro.cliente.sexo,
+                                expression: "generalseguro.cliente.sexo"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { name: "sexo", required: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.generalseguro.cliente,
+                                  "sexo",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Seleccione su sexo")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "1" } }, [
+                              _vm._v("Masculino")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2" } }, [
+                              _vm._v("Femenino")
+                            ])
+                          ]
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.generalseguro.cliente.tipo_persona == "F"
+                    ? _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "edoCivil" }
+                          },
+                          [_vm._v("Estado Civil")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.generalseguro.cliente.edoCivil,
+                                expression: "generalseguro.cliente.edoCivil"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { name: "edoCivil", required: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.generalseguro.cliente,
+                                  "edoCivil",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Seleccione su estado civil")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.estadosCiviles, function(edocivil) {
+                              return _c(
+                                "option",
+                                { domProps: { value: edocivil.id } },
+                                [_vm._v(_vm._s(edocivil.descripcion))]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "calle" } },
+                      [_vm._v("Calle")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.calle,
+                          expression: "generalseguro.cliente.calle"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "calle", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.calle },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "calle",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "num" } },
+                      [_vm._v("Número exterior")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.num,
+                          expression: "generalseguro.cliente.num"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "num", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.num },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "num",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "cp" } },
+                      [_vm._v("Código Postal")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.cp,
+                          expression: "generalseguro.cliente.cp"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "cp", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.cp },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "cp",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "colonia" }
+                      },
+                      [_vm._v("Colonia")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.colonia,
+                          expression: "generalseguro.cliente.colonia"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "colonia", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.colonia },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "colonia",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "municip" }
+                      },
+                      [_vm._v("Delegación o Municipio")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.municip,
+                          expression: "generalseguro.cliente.municip"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "municip", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.municip },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "municip",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "poblaci" }
+                      },
+                      [_vm._v("Delegación o Población")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.poblaci,
+                          expression: "generalseguro.cliente.poblaci"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "poblaci", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.poblaci },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "poblaci",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", {
+                      staticClass: "control-label",
+                      attrs: { for: "fnac" },
+                      domProps: {
+                        textContent: _vm._s(
+                          _vm.generalseguro.cliente.tipo_persona == "F"
+                            ? "Fecha de nacimiento"
+                            : "Fecha de constitución"
+                        )
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.fnac,
+                          expression: "generalseguro.cliente.fnac"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "date", name: "fnac", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.fnac },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "fnac",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "nacionalidad" }
+                      },
+                      [_vm._v("Nacionalidad")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.nacionalidad,
+                            expression: "generalseguro.cliente.nacionalidad"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "nacionalidad",
+                          id: "nacionalidad",
+                          required: ""
+                        },
+                        on: {
+                          change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
                                 return o.selected
@@ -52032,94 +51017,1171 @@ var render = function() {
                                 return val
                               })
                             _vm.$set(
-                              _vm.generalseguro.cotizacion,
-                              "id_pago",
+                              _vm.generalseguro.cliente,
+                              "nacionalidad",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
                             )
-                          },
-                          function($event) {
-                            _vm.formaPago()
                           }
-                        ]
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Seleccione su forma de pago")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.gs.paquete.formasPagoDTO, function(pago) {
-                        return _c(
-                          "option",
-                          { domProps: { value: pago.idFormaPago } },
-                          [_vm._v(_vm._s(pago.nombre))]
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione su nacionalidad")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "1" } }, [
+                          _vm._v("Mexicana")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "2" } }, [
+                          _vm._v("Extranjera")
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm.generalseguro.cliente.nacionalidad == 2
+                    ? _c("div", { staticClass: "form-group col-12" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "domicilio_original" }
+                          },
+                          [_vm._v("Domicilio original (extranjeros)")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.generalseguro.cliente.domicilio_original,
+                              expression:
+                                "generalseguro.cliente.domicilio_original"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "domicilio_original",
+                            required: ""
+                          },
+                          domProps: {
+                            value: _vm.generalseguro.cliente.domicilio_original
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.generalseguro.cliente,
+                                "domicilio_original",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.generalseguro.cliente.tipo_persona == "F"
+                    ? _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "ocupacion" }
+                          },
+                          [_vm._v("Ocupación")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.generalseguro.cliente.ocupacion,
+                                expression: "generalseguro.cliente.ocupacion"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              name: "ocupacion",
+                              id: "ocupacion",
+                              required: ""
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.generalseguro.cliente,
+                                  "ocupacion",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Seleccione su ocupacion")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.ocupaciones, function(ocupacion) {
+                              return _c(
+                                "option",
+                                { domProps: { value: ocupacion.cveTit } },
+                                [_vm._v(_vm._s(ocupacion.desTit))]
+                              )
+                            })
+                          ],
+                          2
                         )
-                      })
-                    ],
-                    2
-                  )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "giro" } },
+                      [_vm._v("Actividad o Giro")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.giro,
+                            expression: "generalseguro.cliente.giro"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "giro", id: "giro", required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.generalseguro.cliente,
+                              "giro",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione el giro o actividad")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.giros, function(giro) {
+                          return _c(
+                            "option",
+                            { domProps: { value: giro.id.cveGir } },
+                            [_vm._v(_vm._s(giro.id.descGir))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "telefono1" }
+                      },
+                      [_vm._v("Telefono")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.telefono1,
+                          expression: "generalseguro.cliente.telefono1"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "tel",
+                        name: "telefono1",
+                        id: "telefono",
+                        required: ""
+                      },
+                      domProps: { value: _vm.generalseguro.cliente.telefono1 },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "telefono1",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "telefono2" }
+                      },
+                      [_vm._v("Telefono")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.telefono2,
+                          expression: "generalseguro.cliente.telefono2"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "tel", name: "telefono2", id: "telefono" },
+                      domProps: { value: _vm.generalseguro.cliente.telefono2 },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "telefono2",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "telefono3" }
+                      },
+                      [_vm._v("Telefono")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.telefono3,
+                          expression: "generalseguro.cliente.telefono3"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "tel", name: "telefono3", id: "telefono" },
+                      domProps: { value: _vm.generalseguro.cliente.telefono3 },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "telefono3",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "email" } },
+                      [_vm._v("Correo electronico")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.email,
+                          expression: "generalseguro.cliente.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "email", name: "email", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "email",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "web" } },
+                      [_vm._v("Pagina web")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.web,
+                          expression: "generalseguro.cliente.web"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "url", name: "web" },
+                      domProps: { value: _vm.generalseguro.cliente.web },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "web",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "contacto" }
+                      },
+                      [_vm._v("Forma en que se entero de la pagina")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.contacto,
+                            expression: "generalseguro.cliente.contacto"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "contacto",
+                          id: "contacto",
+                          required: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.generalseguro.cliente,
+                              "contacto",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione el medío por el que se entero")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.tipocontactos, function(contacto) {
+                          return _c(
+                            "option",
+                            { domProps: { value: contacto.id.cveCco } },
+                            [_vm._v(_vm._s(contacto.id.desCco))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "ingresos" }
+                      },
+                      [_vm._v("Fuente de ingresos")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.ingresos,
+                          expression: "generalseguro.cliente.ingresos"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "ingresos", required: "" },
+                      domProps: { value: _vm.generalseguro.cliente.ingresos },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "ingresos",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.generalseguro.cliente.tipo_persona == "M"
+                    ? _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "administrador" }
+                          },
+                          [_vm._v("Tipo de administrador de la empresa")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.generalseguro.cliente.administrador,
+                                expression:
+                                  "generalseguro.cliente.administrador"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              name: "administrador",
+                              id: "administrador",
+                              required: ""
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.generalseguro.cliente,
+                                  "administrador",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Seleccione el tipo de administrador")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "u" } }, [
+                              _vm._v("Administrador único")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "c" } }, [
+                              _vm._v("Consejo")
+                            ])
+                          ]
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "cargo_pub" }
+                      },
+                      [_vm._v("¿Ocupo algun cargo público?")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.cargo_pub,
+                            expression: "generalseguro.cliente.cargo_pub"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "cargo_pub",
+                          id: "radioSCargo",
+                          value: "S"
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.generalseguro.cliente.cargo_pub,
+                            "S"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(
+                              _vm.generalseguro.cliente,
+                              "cargo_pub",
+                              "S"
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioSCargo" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Si\n\t                            "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.cargo_pub,
+                            expression: "generalseguro.cliente.cargo_pub"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "cargo_pub",
+                          id: "radioNCargo",
+                          value: "N",
+                          checked: ""
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.generalseguro.cliente.cargo_pub,
+                            "N"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(
+                              _vm.generalseguro.cliente,
+                              "cargo_pub",
+                              "N"
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioNCargo" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             No\n\t                            "
+                          )
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.generalseguro.cliente.cargo_pub == "S"
+                    ? _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "nombre_cargo" }
+                          },
+                          [_vm._v("Nombre del cargo público ejercido")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.generalseguro.cliente.nombre_cargo,
+                              expression: "generalseguro.cliente.nombre_cargo"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "nombre_cargo",
+                            required: ""
+                          },
+                          domProps: {
+                            value: _vm.generalseguro.cliente.nombre_cargo
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.generalseguro.cliente,
+                                "nombre_cargo",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.generalseguro.cliente.cargo_pub == "S"
+                    ? _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "periodo_cargo" }
+                          },
+                          [_vm._v("Periodo en donde ejercio el cargo")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.generalseguro.cliente.periodo_cargo,
+                              expression: "generalseguro.cliente.periodo_cargo"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "periodo_cargo",
+                            required: ""
+                          },
+                          domProps: {
+                            value: _vm.generalseguro.cliente.periodo_cargo
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.generalseguro.cliente,
+                                "periodo_cargo",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "apoderado" }
+                      },
+                      [_vm._v("¿Tiene apoderado legal?")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.apoderado,
+                            expression: "generalseguro.cliente.apoderado"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "apoderado",
+                          id: "radioAS",
+                          value: "S"
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.generalseguro.cliente.apoderado,
+                            "S"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(
+                              _vm.generalseguro.cliente,
+                              "apoderado",
+                              "S"
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioAS" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                            \tSi\n\t                            "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cliente.apoderado,
+                            expression: "generalseguro.cliente.apoderado"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "apoderado",
+                          id: "radioAN",
+                          value: "N",
+                          checked: ""
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.generalseguro.cliente.apoderado,
+                            "N"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(
+                              _vm.generalseguro.cliente,
+                              "apoderado",
+                              "N"
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioAN" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                            \tNo\n\t                            "
+                          )
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "pasaporte" }
+                      },
+                      [_vm._v("Número de pasaporte")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.cliente.pasaporte,
+                          expression: "generalseguro.cliente.pasaporte"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "number", name: "pasaporte", min: "0" },
+                      domProps: { value: _vm.generalseguro.cliente.pasaporte },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.cliente,
+                            "pasaporte",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
                 ]),
                 _vm._v(" "),
-                JSON.stringify(_vm.detallePago) != "{}"
-                  ? _c("div", { staticClass: "col-8" }, [
-                      _c("h6", [
-                        _vm._v("PAGO " + _vm._s(_vm.detallePago.nombre))
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "control-label" }, [
-                        _vm._v(
-                          "Total de pagos: " + _vm._s(_vm.detallePago.divisor)
+                _c("div", { staticClass: "row" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "num_motor" }
+                      },
+                      [_vm._v("Número de motor")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.auto.num_motor,
+                          expression: "generalseguro.auto.num_motor"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "num_motor", required: "" },
+                      domProps: { value: _vm.generalseguro.auto.num_motor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.auto,
+                            "num_motor",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "num_placas" }
+                      },
+                      [_vm._v("Placas")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.auto.num_placas,
+                          expression: "generalseguro.auto.num_placas"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "num_placas", required: "" },
+                      domProps: { value: _vm.generalseguro.auto.num_placas },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.auto,
+                            "num_placas",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "num_serie" }
+                      },
+                      [_vm._v("Número de serie")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.generalseguro.auto.num_serie,
+                          expression: "generalseguro.auto.num_serie"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "num_serie", required: "" },
+                      domProps: { value: _vm.generalseguro.auto.num_serie },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.generalseguro.auto,
+                            "num_serie",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-12 mt-3" }, [
+                    _c("h6", [
+                      _vm._v(
+                        "Seguro a contratar: " + _vm._s(_vm.gs.paquete.nombre)
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.generalseguro.cotizacion.idpaquete,
+                        expression: "generalseguro.cotizacion.idpaquete"
+                      }
+                    ],
+                    attrs: { type: "hidden", name: "idpaquete" },
+                    domProps: { value: _vm.generalseguro.cotizacion.idpaquete },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.generalseguro.cotizacion,
+                          "idpaquete",
+                          $event.target.value
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "control-label" }, [
-                        _vm._v(
-                          "Pago Inicial: $" +
-                            _vm._s(_vm._f("int")(_vm.detallePago.reciboini))
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm.detallePago.nombre === "SEMESTRAL"
-                        ? _c("p", { staticClass: "control-label" }, [
-                            _vm._v(
-                              "Semestre: $" +
-                                _vm._s(_vm._f("int")(_vm.detallePago.recibosub))
-                            )
-                          ])
-                        : _vm.detallePago.nombre === "TRIMESTRAL"
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label",
+                        attrs: { for: "id_pago" }
+                      },
+                      [_vm._v("Forma de pago")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.generalseguro.cotizacion.id_pago,
+                            expression: "generalseguro.cotizacion.id_pago"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "id_pago", id: "id_pago", required: "" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.generalseguro.cotizacion,
+                                "id_pago",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            function($event) {
+                              _vm.formaPago()
+                            }
+                          ]
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione su forma de pago")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.gs.paquete.formasPagoDTO, function(pago) {
+                          return _c(
+                            "option",
+                            { domProps: { value: pago.idFormaPago } },
+                            [_vm._v(_vm._s(pago.nombre))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  JSON.stringify(_vm.detallePago) != "{}"
+                    ? _c("div", { staticClass: "col-8" }, [
+                        _c("h6", [
+                          _vm._v("PAGO " + _vm._s(_vm.detallePago.nombre))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "Total de pagos: " + _vm._s(_vm.detallePago.divisor)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "Pago Inicial: $" +
+                              _vm._s(_vm._f("int")(_vm.detallePago.reciboini))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.detallePago.nombre === "SEMESTRAL"
                           ? _c("p", { staticClass: "control-label" }, [
                               _vm._v(
-                                "Trimeste: $" +
+                                "Semestre: $" +
                                   _vm._s(
                                     _vm._f("int")(_vm.detallePago.recibosub)
                                   )
                               )
                             ])
-                          : _vm.detallePago.nombre === "MENSUAL"
+                          : _vm.detallePago.nombre === "TRIMESTRAL"
                             ? _c("p", { staticClass: "control-label" }, [
                                 _vm._v(
-                                  "Mensualidad: $" +
+                                  "Trimeste: $" +
                                     _vm._s(
                                       _vm._f("int")(_vm.detallePago.recibosub)
                                     )
                                 )
                               ])
-                            : _vm._e(),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "control-label" }, [
-                        _vm._v(
-                          "Prima total: $" +
-                            _vm._s(_vm._f("int")(_vm.detallePago.primaTotal))
-                        )
+                            : _vm.detallePago.nombre === "MENSUAL"
+                              ? _c("p", { staticClass: "control-label" }, [
+                                  _vm._v(
+                                    "Mensualidad: $" +
+                                      _vm._s(
+                                        _vm._f("int")(_vm.detallePago.recibosub)
+                                      )
+                                  )
+                                ])
+                              : _vm._e(),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "Prima total: $" +
+                              _vm._s(_vm._f("int")(_vm.detallePago.primaTotal))
+                          )
+                        ])
                       ])
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _vm._m(3)
-            ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _vm._m(3)
+              ]
+            )
           : _vm._e(),
         _vm._v(" "),
         _vm.gs.formulario === "ql"
@@ -52162,7 +52224,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "col d-flex justify-content-center" }, [
         _c(
           "button",
-          { staticClass: "btn btn-primary btn-lg", attrs: { type: "button" } },
+          { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
           [_vm._v("Enviar")]
         )
       ])

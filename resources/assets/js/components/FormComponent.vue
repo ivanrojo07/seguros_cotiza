@@ -3,7 +3,8 @@
 		<div class="row m-3">
 			<div class="col-12 m-2 p-2">
 				<!-- <form> -->
-				<form v-if="gs.formulario === 'GS'">
+				<form v-if="gs.formulario === 'GS'" @submit="sendGS" method="POST" action="./sendGS">
+					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="col-6">
 							<img :src="gsImage" class="col">
@@ -268,7 +269,7 @@
 					</div>
 					<div class="row">
 						<div class="col d-flex justify-content-center">
-							<button type="button" class="btn btn-primary btn-lg">Enviar</button>
+							<button type="submit" class="btn btn-primary btn-lg">Enviar</button>
 						</div>
 					</div>
 				</form>
@@ -292,6 +293,7 @@
 		data(){
 			return{
 				gsImage:null,
+				csrf: null,
 				generalseguro:{
 					cliente:{
 						tipo_persona:"F",
@@ -363,6 +365,9 @@
 			
 		},
 		methods:{
+			'sendGS':function(){
+				console.log('enviado');
+			},
 			'formaPago':function(){
 				if (this.generalseguro.cotizacion.id_pago == "" ) {
 					this.detallePago = {};
@@ -438,6 +443,7 @@
 			this.getGiros();
 			this.getContactos();
 			this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+			this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
 		}
 	}
 </script>
