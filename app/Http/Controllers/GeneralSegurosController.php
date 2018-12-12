@@ -340,6 +340,14 @@ class GeneralSegurosController extends Controller
             ]);
         $arr = json_decode(json_encode($emitir),true);
         dd($arr);
+
+        if($arr['return']['exito']){
+            return view('generalseguros.pago',['response'=>$arr]);
+            
+        }
+        else{
+            dd($arr);
+        }
         
     }
 

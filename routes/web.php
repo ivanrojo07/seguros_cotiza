@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('index');
 });
 Route::post('sendGS','GeneralSegurosController@sendGS');
+Route::get('pago','GeneralSegurosController@vista');
 // Route::get('/excel', function(){
 //     ini_set('memory_limit', '-1');
 //     for ($i = 0; $i <= 31 ; $i++) {

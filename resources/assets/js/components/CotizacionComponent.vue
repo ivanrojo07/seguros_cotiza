@@ -1,6 +1,5 @@
 <template>
     <div>
-    	
   		<!-- Crear cotización -->
     	<div class="tab-pane">
     		<div class="row m-0 p-1 no-gutters">

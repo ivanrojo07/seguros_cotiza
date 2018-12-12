@@ -30,7 +30,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="tab-pane fade {{-- show active --}}" id="paso1" role="tabpanel" aria-labelledby="paso1-tab">
+                <div class="tab-pane fade show active" id="paso1" role="tabpanel" aria-labelledby="paso1-tab">
                     <cotizacion v-bind:cliente="cliente" :getcotizacion="getcotizacion" :alert="alert"></cotizacion>
                 </div>
                 <div class="tab-pane fade" id="paso2" role="tabpanel" aria-labelledby="paso2-tab">
