@@ -55887,7 +55887,36 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(8, true)
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-4" },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-primary seleccionador",
+                                                          attrs: {
+                                                            type: "button",
+                                                            id: "9_1"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.emitirqua(
+                                                                cotizacion
+                                                                  .response
+                                                                  .amplia,
+                                                                3
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Elegir")]
+                                                      )
+                                                    ]
+                                                  )
                                                 ]
                                               )
                                             ]
@@ -56376,7 +56405,36 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(9, true)
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-4" },
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn btn-primary seleccionador",
+                                                          attrs: {
+                                                            type: "button",
+                                                            id: "9_1"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.emitirqua(
+                                                                cotizacion
+                                                                  .response
+                                                                  .amplia,
+                                                                4
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Elegir")]
+                                                      )
+                                                    ]
+                                                  )
                                                 ]
                                               )
                                             ]
@@ -56723,15 +56781,6 @@ var staticRenderFns = [
           attrs: { type: "button", "data-dismiss": "modal" }
         },
         [_vm._v("Cerrar")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary seleccionador",
-          attrs: { type: "button", id: "9" }
-        },
-        [_vm._v("Seleccionar")]
       )
     ])
   },
@@ -56759,15 +56808,6 @@ var staticRenderFns = [
           attrs: { type: "button", "data-dismiss": "modal" }
         },
         [_vm._v("Cerrar")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary seleccionador",
-          attrs: { type: "button", id: "9" }
-        },
-        [_vm._v("Seleccionar")]
       )
     ])
   },
@@ -56843,36 +56883,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
       _c("div", { staticClass: "coti" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-4" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary seleccionador",
-          attrs: { type: "button", id: "9_1" }
-        },
-        [_vm._v("Elegir")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-4" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary seleccionador",
-          attrs: { type: "button", id: "9_1" }
-        },
-        [_vm._v("Elegir")]
-      )
     ])
   }
 ]

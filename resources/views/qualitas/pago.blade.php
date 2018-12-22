@@ -57,9 +57,9 @@
                                 @if ($key == 0)
                                     Texto (Certificado de Responsabilidad Civil)
                                 @elseif($key == 1)
-                                    Recibo
+                                    Recibo de cobro
                                 @else
-                                    Póliza
+                                    Póliza de seguro de Automóvil
                                 @endif
                                 </a>
 							</div>

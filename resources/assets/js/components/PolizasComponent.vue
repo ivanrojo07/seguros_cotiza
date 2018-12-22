@@ -44,7 +44,7 @@
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button>
+                   <!--  <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button>
+                    <!-- <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
                     </div>
                 </div>
             </div>
@@ -325,7 +325,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-Qualitas" @click="infoCotizacion(cotizacion.response.limitada)">Información</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirqua(cotizacion.response.amplia, 3)">Elegir</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -446,7 +446,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-Qualitas" @click="infoCotizacion(cotizacion.response.rc)">Información</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirqua(cotizacion.response.amplia, 4)">Elegir</button>
                                                     </div>
                                                 </div>
                                             </div>
