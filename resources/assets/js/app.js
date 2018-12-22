@@ -51,7 +51,7 @@ const app = new Vue({
             class:""
         },
         
-        gs: {},
+        cotizacion: {},
        
 
     },

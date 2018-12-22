@@ -3,7 +3,8 @@
 		<div class="row m-3">
 			<div class="col-12 m-2 p-2">
 				<!-- <form> -->
-				<form v-if="gs.formulario === 'GS'" @submit="sendGS" method="POST" action="./sendGS">
+					<!-- <h6>{{cotizacion}}</h6> -->
+				<form v-if="cotizacion.nombre === 'GS'" @submit="sendGS" method="POST" action="./sendGS">
 					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="col-6">
@@ -247,14 +248,14 @@
 					</div>
 					<div class="row">
 						<div class="col-12 mt-3">
-							<h6>Seguro a contratar: {{gs.paquete.nombre}}</h6>
+							<h6>Seguro a contratar: {{cotizacion.paquete.nombre}}</h6>
 						</div>
 						<input type="hidden" name="idpaquete" v-model="generalseguro.cotizacion.idpaquete">
 						<div class="form-group col-4">
 							<label for="id_pago" class="control-label">Forma de pago</label>
 							<select name="id_pago" id="id_pago" class="form-control" v-model="generalseguro.cotizacion.id_pago" required @change="formaPago()">
 								<option value="">Seleccione su forma de pago</option>
-								<option v-for="pago in gs.paquete.formasPagoDTO" :value="pago.idFormaPago">{{pago.nombre}}</option>
+								<option v-for="pago in cotizacion.paquete.formasPagoDTO" :value="pago.idFormaPago">{{pago.nombre}}</option>
 							</select>
 						</div>
 						<div class="col-8" v-if="JSON.stringify(detallePago)!='{}'">
@@ -273,8 +274,245 @@
 						</div>
 					</div>
 				</form>
-				<form v-if="gs.formulario === 'ql'">
-					<label>formulario Qualitas</label>
+				<form v-if="cotizacion.Nombre === 'Qualitas'" @submit="sendQua" method="POST" action="./sendQua">
+					<input type="hidden" name="_token" :value="csrf" />
+					<input type="hidden" name="cotizacion" :value="qualitas.cotizacion">
+					<input type="hidden" name="paquete_id" :value="qualitas.vehiculo.paquete">
+					<input type="hidden" name="poblacion" :value="qualitas.cliente.poblacion">
+					<input type="hidden" name="municipio" :value="qualitas.cliente.municipio">
+					<input type="hidden" name="estado" :Value="qualitas.cliente.estado">
+					<input type="hidden" name="ciudad" :Value="qualitas.cliente.ciudad">
+					<input type="hidden" name="cod_estado" :Value="qualitas.cliente.cod_estado">
+					<input type="hidden" name="cod_municipio" :Value="qualitas.cliente.cod_municipio">
+					<div v-if="qualitas.cliente.contratante == '1'">
+						<input type="hidden" name="nombre_cont" v-model="qualitas.cliente.nombre_cont">
+						<input type="hidden" name="apepat_cont" v-model="qualitas.cliente.appaterno_cont">
+						<input type="hidden" name="apemat_cont" v-model="qualitas.cliente.apmaterno_cont">
+						<input type="hidden" name="curp_cont" v-model="qualitas.cliente.curp_cont">
+						<input type="hidden" name="rfc_cont" v-model="qualitas.cliente.rfc_cont">
+						<input type="hidden" name="tipo_persona_cont" v-model="qualitas.cliente.tipo_persona_cont">
+					</div>
+					<div class="row">
+						<div class="col-6">
+							<img :src="quaImage" class="col">
+						</div>
+						<div class="col-6">
+							<h5 class="mt-3 ml-3">Qualitas</h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 mt-3">
+							<h6>Datos del asegurado:</h6>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">Tipo de persona:</label>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="qualitas.cliente.tipo_persona" value="1" checked>
+	                            <label class="form-check-label" for="radioF">
+	                             Fisica
+	                            </label>
+	                        </div>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioM" v-model="qualitas.cliente.tipo_persona" value="2">
+	                            <label class="form-check-label" for="radioM">
+	                             Moral
+	                            </label>
+	                        </div>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">El asegurado y el contratante son la misma persona:</label>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" id="radioCS" v-model="qualitas.cliente.contratante" value="1" checked>
+	                            <label class="form-check-label" for="radioCS">
+	                             Si
+	                            </label>
+	                        </div>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" id="radioCN" v-model="qualitas.cliente.contratante" value="0">
+	                            <label class="form-check-label" for="radioCN">
+	                             No
+	                            </label>
+	                        </div>
+						</div>
+					</div>
+					<div class="row" v-if="qualitas.cliente.tipo_persona == '1'">
+						<div class="form-group col-4">
+							<label class="control-label">
+								Nombre(s)
+							</label>
+							<input class="form-control" type="text" name="nombre" v-model="qualitas.cliente.nombre" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">
+								Apellido Paterno
+							</label>
+							<input type="text" name="apepat" class="form-control" v-model="qualitas.cliente.appaterno" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">
+								Apellido Materno
+							</label>
+							<input type="text" name="apemat" class="form-control" v-model="qualitas.cliente.apmaterno">
+						</div>
+					</div>
+					<div class="row" v-if="qualitas.cliente.tipo_persona == '2'">
+						<div class="form-group col-12">
+							<label class="control-label">
+								Razón Social
+							</label>
+							<input type="text" name="razsoc" class="form-control" v-model="qualitas.cliente.razsoc" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-4">
+							<label for="curp" class="control-label">C.U.R.P.</label>
+							<input class="form-control" type="text" name="curp" v-model="qualitas.cliente.curp">
+						</div>
+						<div class="form-group col-4">
+							<label for="rfc" class="control-label">R.F.C.</label>
+							<input class="form-control" type="text" name="rfc" v-model="qualitas.cliente.rfc">
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Fecha de nacimiento</label>
+							<input class="form-control" type="date" name="f_nac" v-model="qualitas.cliente.f_nac">
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Email</label>
+							<input class="form-control" type="email" name="email" v-model="qualitas.cliente.email">
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Número telefonico</label>
+							<input class="form-control" type="text" name="telefono" v-model="qualitas.cliente.telefono">
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Calle</label>
+							<input class="form-control" type="text" name="calle" v-model="qualitas.cliente.calle">
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Número Exterior</label>
+							<input class="form-control" type="text" name="ext" v-model="qualitas.cliente.ext">
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Número Interior</label>
+							<input class="form-control" type="text" name="int" v-model="qualitas.cliente.int">
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">C.P.</label>
+							<input class="form-control" type="text" name="cp" v-model="qualitas.cliente.cp">
+						</div>
+						<div class="form-group col-8">
+							<label class="control-label">Población</label>
+							<select class="form-control" v-model="selectPobla" required="">
+								<option value="">Seleccione su Población</option>
+								<option v-for="poblacion in qualitasPobla" :value="poblacion">{{poblacion.poblacion}}, {{poblacion.municipio}}, {{poblacion.estado}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Nacionalidad</label>
+							<select class="form-control" name="nacionalidad" v-model="qualitas.cliente.nacionalidad" required="">
+								<option value="">Seleccione su nacionalidad</option>
+								<option value="1">Mexicana</option>
+								<option value="2">Extranjera</option>
+							</select>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Ocupación</label>
+							<select class="form-control" name="ocupacion" v-model="qualitas.cliente.ocupacion" required>
+								<option value="">Seleccione su ocupación</option>
+								<option v-for="ocupacion in qualitasOcupaciones" :value="ocupacion.codigo">{{ocupacion.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Giro comercial</label>
+							<select class="form-control" name="giro" v-model="qualitas.cliente.giro" required>
+								<option value="">Seleccione su giro comercial</option>
+								<option v-for="giro in qualitasGiros" :value="giro.codigo">{{giro.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Profesión</label>
+							<select class="form-control" name="profesion" v-model="qualitas.cliente.profesion" required>
+								<option value="">Seleccione su profesión</option>
+								<option v-for="profesion in qualitasProfesiones" :value="profesion.codigo">{{profesion.descripcion}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="row" v-if="qualitas.cliente.contratante == 0">
+						<div class="col-12 mt-3">
+							<h6>Datos del contratante:</h6>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">Tipo de persona:</label>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_persona_cont" id="radioF_cont" v-model="qualitas.cliente.tipo_persona_cont" value="1" checked>
+	                            <label class="form-check-label" for="radioF_cont">
+	                             Fisica
+	                            </label>
+	                        </div>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_persona_cont" id="radioM_cont" v-model="qualitas.cliente.tipo_persona_cont" value="2">
+	                            <label class="form-check-label" for="radioM_cont">
+	                             Moral
+	                            </label>
+	                        </div>
+						</div>
+					</div>
+					<div class="row" v-if="qualitas.cliente.contratante == 0 && qualitas.cliente.tipo_persona_cont == '1'">
+						<div class="form-group col-4">
+							<label class="control-label">
+								Nombre(s)
+							</label>
+							<input class="form-control" type="text" name="nombre_cont" v-model="qualitas.cliente.nombre_cont" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">
+								Apellido Paterno
+							</label>
+							<input type="text" name="apepat_cont" class="form-control" v-model="qualitas.cliente.appaterno_cont" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">
+								Apellido Materno
+							</label>
+							<input type="text" name="apemat_cont" class="form-control" v-model="qualitas.cliente.apmaterno_cont">
+						</div>
+					</div>
+					<div class="row" v-if="qualitas.cliente.tipo_persona_cont == '2'">
+						<div class="form-group col-12">
+							<label class="control-label">
+								Razón Social
+							</label>
+							<input type="text" name="razsoc_cont" class="form-control" v-model="qualitas.cliente.razsoc_cont" required>
+						</div>
+					</div>
+					<div class="row" v-if="qualitas.cliente.contratante == 0">
+						<div class="form-group col-4">
+							<label for="curp_cont" class="control-label">C.U.R.P.</label>
+							<input class="form-control" type="text" name="curp_cont" v-model="qualitas.cliente.curp_cont">
+						</div>
+						<div class="form-group col-4">
+							<label for="rfc_cont" class="control-label">R.F.C.</label>
+							<input class="form-control" type="text" name="rfc_cont" v-model="qualitas.cliente.rfc_cont">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 mt-3">
+							<h6>Datos del automovil:</h6>
+						</div>
+						<div class="col-6">
+							<label for="serie" class="control-label">Número de serie</label>
+							<input type="text" class="form-control" name="serie" v-model="qualitas.vehiculo.serie">
+						</div>
+						<div class="col-6">
+							<label class="control-label">Número de motor</label>
+							<input type="text" class="form-control" name="num_motor" v-model="qualitas.vehiculo.num_motor">
+						</div>
+					</div>
+					<div class="row">
+						<div class="mt-3 col d-flex justify-content-center">
+							<button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -288,12 +526,57 @@
 		props:[
 			'cliente',
 			'alert',
-			'gs'
+			'cotizacion'
 		],
 		data(){
 			return{
 				gsImage:null,
+				quaImage:null,
 				csrf: null,
+				qualitas:{
+					cotizacion:"",
+					cliente:{
+						cliente_id:"",
+						contratante:"1",
+						razsoc:"",
+						nombre:"",
+						appaterno:"",
+						apmaterno:"",
+						calle:"",
+						ext:"",
+						int:"",
+						poblacion:"",
+						municipio:"",
+						estado:"",
+						ciudad:"",
+						cod_estado:"",
+						cod_municipio:"",
+						cp:"",
+						pais:"",
+						tipo_persona:"1",
+						f_nac:"",
+						nacionalidad:"",
+						ocupacion:"",
+						giro:"",
+						profesion:"",
+						email:"",
+						curp:"",
+						rfc:"",
+						razsoc_cont:"",
+						nombre_cont:"",
+						appaterno_cont:"",
+						apmaterno_cont:"",
+						tipo_persona_cont:"1",
+						curp_cont:"",
+						rfc_cont:"",
+						telefono:""
+					},
+					vehiculo:{
+						num_motor:"",
+						serie:"",
+						paquete:""
+					}
+				},
 				generalseguro:{
 					cliente:{
 						tipo_persona:"F",
@@ -342,6 +625,11 @@
 						idpaquete:""
 					},
 				},
+				selectPobla:{},
+				qualitasPobla:[],
+				qualitasGiros:[],
+				qualitasProfesiones:[],
+				qualitasOcupaciones:[],
 				estadosCiviles:[],
 				ocupaciones:[],
 				giros:[],
@@ -351,29 +639,106 @@
 			}
 		},
 		watch:{
-			"gs.id":function (new_value,old_value) {
+			"cotizacion.id":function (new_value,old_value) {
 				// body...
 				console.log(new_value);
 				this.generalseguro.cotizacion.id_cotizacion = new_value;
 			},
-			'gs.paquete.id':function(new_value,old_value){
+			'cotizacion.paquete.id':function(new_value,old_value){
 				console.log(new_value);
 				this.generalseguro.cotizacion.idpaquete = new_value;
+			},
+			'cotizacion.paquetequa':function(new_value,old_value){
+				console.log(new_value);
+				this.qualitas.vehiculo.paquete = new_value;
+			},
+			'cliente.cotizacion':function(new_value,old_value){
+				console.log(new_value);
+				this.qualitas.cotizacion = new_value;
+			},
+			'qualitas.cliente.cp':_.debounce(function(new_value){
+				this.selectPobla = "";
+				this.searchCP(new_value);
+			},500),
+			'selectPobla':function (new_value,old_value) {
+				console.log(new_value);
+				if (new_value !== "") {
+					this.qualitas.cliente.poblacion = new_value.poblacion;
+					this.qualitas.cliente.municipio = new_value.municipio;
+					this.qualitas.cliente.ciudad = new_value.ciudad;
+					this.qualitas.cliente.estado= new_value.estado;
+					this.qualitas.cliente.cod_estado = new_value.cestado;
+					this.qualitas.cliente.cod_municipio = new_value.codigo_municipio;
+				}
+				else{
+					this.qualitas.cliente.poblacion = "";
+					this.qualitas.cliente.municipio = "";
+					this.qualitas.cliente.ciudad = "";
+					this.qualitas.cliente.estado="";
+					this.qualitas.cliente.cod_estado = "";
+					this.qualitas.cliente.cod_municipio = "";
+				}
+			},
+			'qualitas.cliente.nombre': function(new_value,old_value){
+				if (this.qualitas.cliente.contratante == 1) {
+					this.qualitas.cliente.nombre_cont = new_value;
+				} else {}
+			},
+			'qualitas.cliente.appaterno': function(new_value,old_value){
+				if (this.qualitas.cliente.contratante == 1) {
+					this.qualitas.cliente.appaterno_cont = new_value;
+				} else {}
+			},
+			'qualitas.cliente.apmaterno': function(new_value,old_value){
+				if (this.qualitas.cliente.contratante == 1) {
+					this.qualitas.cliente.apmaterno_cont = new_value;
+				} else {}
+			},
+			'qualitas.cliente.curp': function(new_value,old_value){
+				if (this.qualitas.cliente.contratante == 1) {
+					this.qualitas.cliente.curp_cont = new_value;
+				} else {}
+			},
+			'qualitas.cliente.rfc': function(new_value,old_value){
+				if (this.qualitas.cliente.contratante == 1) {
+					this.qualitas.cliente.rfc_cont = new_value;
+				} else {}
+			},
+			'qualitas.cliente.tipo_persona': function(new_value,old_value){
+				if (this.qualitas.cliente.contratante == 1) {
+					this.qualitas.cliente.tipo_persona_cont = new_value;
+				} else {}
 			}
+
 		},
 		created(){
 			
 		},
 		methods:{
+			'searchCP':function (cp) {
+				// body...
+				let url= `./api/cp/${cp}`;
+				axios.get(url).then(res=>{
+					console.log(res.data);
+					if(res.data.response){
+						this.qualitasPobla = res.data.response;
+					}
+				}).catch(err=>{
+					console.log(err);
+				})
+			},
 			'sendGS':function(){
 				console.log('enviado');
+			},
+			'sendQua': function(){
+				// TODO
 			},
 			'formaPago':function(){
 				if (this.generalseguro.cotizacion.id_pago == "" ) {
 					this.detallePago = {};
 					console.log(this.detallePago);
 				} else {
-					var result = this.gs.paquete.formasPagoDTO.find(obj=>{
+					var result = this.cotizacion.paquete.formasPagoDTO.find(obj=>{
 						// console.log(obj);
 						if (obj.idFormaPago === this.generalseguro.cotizacion.id_pago) {
 							return obj;
@@ -443,7 +808,49 @@
 			this.getGiros();
 			this.getContactos();
 			this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+			this.quaImage = "./img/qua.png";
 			this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
+			this.qualitasGiros=[
+				{ codigo: '0010', descripcion: 'Industrial'},
+				{ codigo: '0020', descripcion: 'Comercial'},
+				{ codigo: '0030', descripcion: 'Servicios'},
+				{ codigo: '0031', descripcion: 'Servicio Públicos'},
+				{ codigo: '0032', descripcion: 'Servicio Privados'},
+				{ codigo: '0033', descripcion: 'Transporte'},
+				{ codigo: '0034', descripcion: 'Turismo'},
+				{ codigo: '0035', descripcion: 'Instituciones Financieras'},
+				{ codigo: '0036', descripcion: 'Educación'},
+				{ codigo: '0037', descripcion: 'Salubridad'},
+				{ codigo: '0038', descripcion: 'Fianzas y Seguros'}
+			];
+			this.qualitasOcupaciones=[
+				{codigo:'0001',descripcion:'Comerciante'},
+				{codigo:'0002',descripcion:'Empleado'},
+				{codigo:'0003',descripcion:'Empresario'},
+				{codigo:'0004',descripcion:'Permisionario'},
+				{codigo:'0005',descripcion:'Otro'},
+				{codigo:'0006',descripcion:'Transportista'},
+				{codigo:'0007',descripcion:'Hogar'}
+			];
+			this.qualitasProfesiones=[
+				{codigo:'0001',descripcion:'Administrador'},
+				{codigo:'0002',descripcion:'Abogado'},
+				{codigo:'0003',descripcion:'Arquitecto'},
+				{codigo:'0004',descripcion:'Actuario'},
+				{codigo:'0005',descripcion:'Contador'},
+				{codigo:'0006',descripcion:'Docente'},
+				{codigo:'0007',descripcion:'Economista'},
+				{codigo:'0008',descripcion:'Ingeniero'},
+				{codigo:'0009',descripcion:'Medico'},
+				{codigo:'0010',descripcion:'Psicólogo'},
+				{codigo:'0011',descripcion:'Odontólogo'},
+				{codigo:'0012',descripcion:'Químico'},
+				{codigo:'0013',descripcion:'Biólogo'},
+				{codigo:'0014',descripcion:'Sociólogo'},
+				{codigo:'0015',descripcion:'Periodista'},
+				{codigo:'0016',descripcion:'Otro'},
+				{codigo:'0017',descripcion:'Ninguna'}
+			];
 		}
 	}
 </script>

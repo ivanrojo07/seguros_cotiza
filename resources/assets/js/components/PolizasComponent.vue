@@ -203,7 +203,7 @@
                                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-Qualitas" @click="infoCotizacion(cotizacion.response.amplia)">Información</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="seleccionarCotizacion(cotizacion.response.amplia)">Elegir</button>
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirqua(cotizacion.response.amplia, 1)">Elegir</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -563,8 +563,17 @@
             emitirgs(cotizacion_id,paquete){
                 console.log(this.cotizacionesGS.cotizacion.id,paquete);
 
-                this.setCotizacion = {formulario: "GS",id: cotizacion_id,paquete:paquete};
+                this.setCotizacion = {nombre: "GS",id: cotizacion_id,paquete:paquete};
                 this.$emit("emitirgs", this.setCotizacion);
+                // console.log(this.gs);
+                $("#paso3-tab").removeClass("disabled");
+                $("#paso3-tab").click();
+            },
+            emitirqua(cotizacion,paquete){
+                cotizacion.paquetequa = paquete;
+                console.log(cotizacion);
+                this.setCotizacion = cotizacion;
+                this.$emit("emitirqua", this.setCotizacion);
                 // console.log(this.gs);
                 $("#paso3-tab").removeClass("disabled");
                 $("#paso3-tab").click();

@@ -14048,7 +14048,7 @@ var app = new Vue({
             class: ""
         },
 
-        gs: {}
+        cotizacion: {}
 
     }
 
@@ -50018,13 +50018,296 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['cliente', 'alert', 'gs'],
+	props: ['cliente', 'alert', 'cotizacion'],
 	data: function data() {
 		return {
 			gsImage: null,
+			quaImage: null,
 			csrf: null,
+			qualitas: {
+				cotizacion: "",
+				cliente: {
+					cliente_id: "",
+					contratante: "1",
+					razsoc: "",
+					nombre: "",
+					appaterno: "",
+					apmaterno: "",
+					calle: "",
+					ext: "",
+					int: "",
+					poblacion: "",
+					municipio: "",
+					estado: "",
+					ciudad: "",
+					cod_estado: "",
+					cod_municipio: "",
+					cp: "",
+					pais: "",
+					tipo_persona: "1",
+					f_nac: "",
+					nacionalidad: "",
+					ocupacion: "",
+					giro: "",
+					profesion: "",
+					email: "",
+					curp: "",
+					rfc: "",
+					razsoc_cont: "",
+					nombre_cont: "",
+					appaterno_cont: "",
+					apmaterno_cont: "",
+					tipo_persona_cont: "1",
+					curp_cont: "",
+					rfc_cont: "",
+					telefono: ""
+				},
+				vehiculo: {
+					num_motor: "",
+					serie: "",
+					paquete: ""
+				}
+			},
 			generalseguro: {
 				cliente: {
 					tipo_persona: "F",
@@ -50073,6 +50356,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					idpaquete: ""
 				}
 			},
+			selectPobla: {},
+			qualitasPobla: [],
+			qualitasGiros: [],
+			qualitasProfesiones: [],
+			qualitasOcupaciones: [],
 			estadosCiviles: [],
 			ocupaciones: [],
 			giros: [],
@@ -50083,32 +50371,110 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	watch: {
-		"gs.id": function gsId(new_value, old_value) {
+		"cotizacion.id": function cotizacionId(new_value, old_value) {
 			// body...
 			console.log(new_value);
 			this.generalseguro.cotizacion.id_cotizacion = new_value;
 		},
-		'gs.paquete.id': function gsPaqueteId(new_value, old_value) {
+		'cotizacion.paquete.id': function cotizacionPaqueteId(new_value, old_value) {
 			console.log(new_value);
 			this.generalseguro.cotizacion.idpaquete = new_value;
+		},
+		'cotizacion.paquetequa': function cotizacionPaquetequa(new_value, old_value) {
+			console.log(new_value);
+			this.qualitas.vehiculo.paquete = new_value;
+		},
+		'cliente.cotizacion': function clienteCotizacion(new_value, old_value) {
+			console.log(new_value);
+			this.qualitas.cotizacion = new_value;
+		},
+		'qualitas.cliente.cp': _.debounce(function (new_value) {
+			this.selectPobla = "";
+			this.searchCP(new_value);
+		}, 500),
+		'selectPobla': function selectPobla(new_value, old_value) {
+			console.log(new_value);
+			if (new_value !== "") {
+				this.qualitas.cliente.poblacion = new_value.poblacion;
+				this.qualitas.cliente.municipio = new_value.municipio;
+				this.qualitas.cliente.ciudad = new_value.ciudad;
+				this.qualitas.cliente.estado = new_value.estado;
+				this.qualitas.cliente.cod_estado = new_value.cestado;
+				this.qualitas.cliente.cod_municipio = new_value.codigo_municipio;
+			} else {
+				this.qualitas.cliente.poblacion = "";
+				this.qualitas.cliente.municipio = "";
+				this.qualitas.cliente.ciudad = "";
+				this.qualitas.cliente.estado = "";
+				this.qualitas.cliente.cod_estado = "";
+				this.qualitas.cliente.cod_municipio = "";
+			}
+		},
+		'qualitas.cliente.nombre': function qualitasClienteNombre(new_value, old_value) {
+			if (this.qualitas.cliente.contratante == 1) {
+				this.qualitas.cliente.nombre_cont = new_value;
+			} else {}
+		},
+		'qualitas.cliente.appaterno': function qualitasClienteAppaterno(new_value, old_value) {
+			if (this.qualitas.cliente.contratante == 1) {
+				this.qualitas.cliente.appaterno_cont = new_value;
+			} else {}
+		},
+		'qualitas.cliente.apmaterno': function qualitasClienteApmaterno(new_value, old_value) {
+			if (this.qualitas.cliente.contratante == 1) {
+				this.qualitas.cliente.apmaterno_cont = new_value;
+			} else {}
+		},
+		'qualitas.cliente.curp': function qualitasClienteCurp(new_value, old_value) {
+			if (this.qualitas.cliente.contratante == 1) {
+				this.qualitas.cliente.curp_cont = new_value;
+			} else {}
+		},
+		'qualitas.cliente.rfc': function qualitasClienteRfc(new_value, old_value) {
+			if (this.qualitas.cliente.contratante == 1) {
+				this.qualitas.cliente.rfc_cont = new_value;
+			} else {}
+		},
+		'qualitas.cliente.tipo_persona': function qualitasClienteTipo_persona(new_value, old_value) {
+			if (this.qualitas.cliente.contratante == 1) {
+				this.qualitas.cliente.tipo_persona_cont = new_value;
+			} else {}
 		}
+
 	},
 	created: function created() {},
 
 	methods: {
+		'searchCP': function searchCP(cp) {
+			var _this = this;
+
+			// body...
+			var url = './api/cp/' + cp;
+			axios.get(url).then(function (res) {
+				console.log(res.data);
+				if (res.data.response) {
+					_this.qualitasPobla = res.data.response;
+				}
+			}).catch(function (err) {
+				console.log(err);
+			});
+		},
 		'sendGS': function sendGS() {
 			console.log('enviado');
 		},
+		'sendQua': function sendQua() {
+			// TODO
+		},
 		'formaPago': function formaPago() {
-			var _this = this;
+			var _this2 = this;
 
 			if (this.generalseguro.cotizacion.id_pago == "") {
 				this.detallePago = {};
 				console.log(this.detallePago);
 			} else {
-				var result = this.gs.paquete.formasPagoDTO.find(function (obj) {
+				var result = this.cotizacion.paquete.formasPagoDTO.find(function (obj) {
 					// console.log(obj);
-					if (obj.idFormaPago === _this.generalseguro.cotizacion.id_pago) {
+					if (obj.idFormaPago === _this2.generalseguro.cotizacion.id_pago) {
 						return obj;
 					}
 					// var obj.id === this.generalseguro.cotizacion.id_pago;
@@ -50118,52 +50484,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			console.log(this.detallePago);
 		},
 		'getEdoCivil': function getEdoCivil() {
-			var _this2 = this;
+			var _this3 = this;
 
 			var url = "./api/getEstadoCivil";
 			axios.get(url).then(function (res) {
 				console.log(res);
 				if (res.data.estadosCivil) {
-					_this2.estadosCiviles = res.data.estadosCivil.sort();
+					_this3.estadosCiviles = res.data.estadosCivil.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
 			});
 		},
 		'getOcupaciones': function getOcupaciones() {
-			var _this3 = this;
+			var _this4 = this;
 
 			var url = "./api/getTitulos";
 			axios.get(url).then(function (res) {
 				console.log(res);
 				if (res.data.titulos) {
-					_this3.ocupaciones = res.data.titulos.sort();
+					_this4.ocupaciones = res.data.titulos.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
 			});
 		},
 		'getGiros': function getGiros() {
-			var _this4 = this;
+			var _this5 = this;
 
 			var url = "./api/getGiros";
 			axios.get(url).then(function (res) {
 				console.log(res);
 				if (res.data.giros) {
-					_this4.giros = res.data.giros.sort();
+					_this5.giros = res.data.giros.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
 			});
 		},
 		'getContactos': function getContactos() {
-			var _this5 = this;
+			var _this6 = this;
 
 			var url = "./api/getContactos";
 			axios.get(url).then(function (res) {
 				console.log(res.data);
 				if (res.data.tiposContacto) {
-					_this5.tipocontactos = res.data.tiposContacto.sort();
+					_this6.tipocontactos = res.data.tiposContacto.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
@@ -50183,7 +50549,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.getGiros();
 		this.getContactos();
 		this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+		this.quaImage = "./img/qua.png";
 		this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
+		this.qualitasGiros = [{ codigo: '0010', descripcion: 'Industrial' }, { codigo: '0020', descripcion: 'Comercial' }, { codigo: '0030', descripcion: 'Servicios' }, { codigo: '0031', descripcion: 'Servicio Públicos' }, { codigo: '0032', descripcion: 'Servicio Privados' }, { codigo: '0033', descripcion: 'Transporte' }, { codigo: '0034', descripcion: 'Turismo' }, { codigo: '0035', descripcion: 'Instituciones Financieras' }, { codigo: '0036', descripcion: 'Educación' }, { codigo: '0037', descripcion: 'Salubridad' }, { codigo: '0038', descripcion: 'Fianzas y Seguros' }];
+		this.qualitasOcupaciones = [{ codigo: '0001', descripcion: 'Comerciante' }, { codigo: '0002', descripcion: 'Empleado' }, { codigo: '0003', descripcion: 'Empresario' }, { codigo: '0004', descripcion: 'Permisionario' }, { codigo: '0005', descripcion: 'Otro' }, { codigo: '0006', descripcion: 'Transportista' }, { codigo: '0007', descripcion: 'Hogar' }];
+		this.qualitasProfesiones = [{ codigo: '0001', descripcion: 'Administrador' }, { codigo: '0002', descripcion: 'Abogado' }, { codigo: '0003', descripcion: 'Arquitecto' }, { codigo: '0004', descripcion: 'Actuario' }, { codigo: '0005', descripcion: 'Contador' }, { codigo: '0006', descripcion: 'Docente' }, { codigo: '0007', descripcion: 'Economista' }, { codigo: '0008', descripcion: 'Ingeniero' }, { codigo: '0009', descripcion: 'Medico' }, { codigo: '0010', descripcion: 'Psicólogo' }, { codigo: '0011', descripcion: 'Odontólogo' }, { codigo: '0012', descripcion: 'Químico' }, { codigo: '0013', descripcion: 'Biólogo' }, { codigo: '0014', descripcion: 'Sociólogo' }, { codigo: '0015', descripcion: 'Periodista' }, { codigo: '0016', descripcion: 'Otro' }, { codigo: '0017', descripcion: 'Ninguna' }];
 	}
 });
 
@@ -50198,7 +50568,7 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "row m-3" }, [
       _c("div", { staticClass: "col-12 m-2 p-2" }, [
-        _vm.gs.formulario === "GS"
+        _vm.cotizacion.nombre === "GS"
           ? _c(
               "form",
               {
@@ -52025,7 +52395,8 @@ var render = function() {
                   _c("div", { staticClass: "col-12 mt-3" }, [
                     _c("h6", [
                       _vm._v(
-                        "Seguro a contratar: " + _vm._s(_vm.gs.paquete.nombre)
+                        "Seguro a contratar: " +
+                          _vm._s(_vm.cotizacion.paquete.nombre)
                       )
                     ])
                   ]),
@@ -52108,7 +52479,9 @@ var render = function() {
                           _vm._v("Seleccione su forma de pago")
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.gs.paquete.formasPagoDTO, function(pago) {
+                        _vm._l(_vm.cotizacion.paquete.formasPagoDTO, function(
+                          pago
+                        ) {
                           return _c(
                             "option",
                             { domProps: { value: pago.idFormaPago } },
@@ -52183,8 +52556,1559 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.gs.formulario === "ql"
-          ? _c("form", [_c("label", [_vm._v("formulario Qualitas")])])
+        _vm.cotizacion.Nombre === "Qualitas"
+          ? _c(
+              "form",
+              {
+                attrs: { method: "POST", action: "./sendQua" },
+                on: { submit: _vm.sendQua }
+              },
+              [
+                _c("input", {
+                  attrs: { type: "hidden", name: "_token" },
+                  domProps: { value: _vm.csrf }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "cotizacion" },
+                  domProps: { value: _vm.qualitas.cotizacion }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "paquete_id" },
+                  domProps: { value: _vm.qualitas.vehiculo.paquete }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "poblacion" },
+                  domProps: { value: _vm.qualitas.cliente.poblacion }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "municipio" },
+                  domProps: { value: _vm.qualitas.cliente.municipio }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: {
+                    type: "hidden",
+                    name: "estado",
+                    Value: _vm.qualitas.cliente.estado
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: {
+                    type: "hidden",
+                    name: "ciudad",
+                    Value: _vm.qualitas.cliente.ciudad
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: {
+                    type: "hidden",
+                    name: "cod_estado",
+                    Value: _vm.qualitas.cliente.cod_estado
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: {
+                    type: "hidden",
+                    name: "cod_municipio",
+                    Value: _vm.qualitas.cliente.cod_municipio
+                  }
+                }),
+                _vm._v(" "),
+                _vm.qualitas.cliente.contratante == "1"
+                  ? _c("div", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.nombre_cont,
+                            expression: "qualitas.cliente.nombre_cont"
+                          }
+                        ],
+                        attrs: { type: "hidden", name: "nombre_cont" },
+                        domProps: { value: _vm.qualitas.cliente.nombre_cont },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "nombre_cont",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.appaterno_cont,
+                            expression: "qualitas.cliente.appaterno_cont"
+                          }
+                        ],
+                        attrs: { type: "hidden", name: "apepat_cont" },
+                        domProps: {
+                          value: _vm.qualitas.cliente.appaterno_cont
+                        },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "appaterno_cont",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.apmaterno_cont,
+                            expression: "qualitas.cliente.apmaterno_cont"
+                          }
+                        ],
+                        attrs: { type: "hidden", name: "apemat_cont" },
+                        domProps: {
+                          value: _vm.qualitas.cliente.apmaterno_cont
+                        },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "apmaterno_cont",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.curp_cont,
+                            expression: "qualitas.cliente.curp_cont"
+                          }
+                        ],
+                        attrs: { type: "hidden", name: "curp_cont" },
+                        domProps: { value: _vm.qualitas.cliente.curp_cont },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "curp_cont",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.rfc_cont,
+                            expression: "qualitas.cliente.rfc_cont"
+                          }
+                        ],
+                        attrs: { type: "hidden", name: "rfc_cont" },
+                        domProps: { value: _vm.qualitas.cliente.rfc_cont },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "rfc_cont",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.tipo_persona_cont,
+                            expression: "qualitas.cliente.tipo_persona_cont"
+                          }
+                        ],
+                        attrs: { type: "hidden", name: "tipo_persona_cont" },
+                        domProps: {
+                          value: _vm.qualitas.cliente.tipo_persona_cont
+                        },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "tipo_persona_cont",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-6" }, [
+                    _c("img", {
+                      staticClass: "col",
+                      attrs: { src: _vm.quaImage }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(4)
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-6" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Tipo de persona:")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.tipo_persona,
+                            expression: "qualitas.cliente.tipo_persona"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "tipo_persona",
+                          id: "radioF",
+                          value: "1",
+                          checked: ""
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.qualitas.cliente.tipo_persona,
+                            "1"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(_vm.qualitas.cliente, "tipo_persona", "1")
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioF" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Fisica\n\t                            "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.tipo_persona,
+                            expression: "qualitas.cliente.tipo_persona"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "tipo_persona",
+                          id: "radioM",
+                          value: "2"
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.qualitas.cliente.tipo_persona,
+                            "2"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(_vm.qualitas.cliente, "tipo_persona", "2")
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioM" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Moral\n\t                            "
+                          )
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-6" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v(
+                        "El asegurado y el contratante son la misma persona:"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.contratante,
+                            expression: "qualitas.cliente.contratante"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          id: "radioCS",
+                          value: "1",
+                          checked: ""
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.qualitas.cliente.contratante, "1")
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(_vm.qualitas.cliente, "contratante", "1")
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioCS" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Si\n\t                            "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.contratante,
+                            expression: "qualitas.cliente.contratante"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: { type: "radio", id: "radioCN", value: "0" },
+                        domProps: {
+                          checked: _vm._q(_vm.qualitas.cliente.contratante, "0")
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(_vm.qualitas.cliente, "contratante", "0")
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioCN" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             No\n\t                            "
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.qualitas.cliente.tipo_persona == "1"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("\n\t\t\t\t\t\t\t\tNombre(s)\n\t\t\t\t\t\t\t")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.nombre,
+                              expression: "qualitas.cliente.nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "nombre", required: "" },
+                          domProps: { value: _vm.qualitas.cliente.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "nombre",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Paterno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.appaterno,
+                              expression: "qualitas.cliente.appaterno"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apepat", required: "" },
+                          domProps: { value: _vm.qualitas.cliente.appaterno },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "appaterno",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Materno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.apmaterno,
+                              expression: "qualitas.cliente.apmaterno"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apemat" },
+                          domProps: { value: _vm.qualitas.cliente.apmaterno },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "apmaterno",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.qualitas.cliente.tipo_persona == "2"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-12" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tRazón Social\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.razsoc,
+                              expression: "qualitas.cliente.razsoc"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "razsoc", required: "" },
+                          domProps: { value: _vm.qualitas.cliente.razsoc },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "razsoc",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "curp" } },
+                      [_vm._v("C.U.R.P.")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.curp,
+                          expression: "qualitas.cliente.curp"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "curp" },
+                      domProps: { value: _vm.qualitas.cliente.curp },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "curp",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "rfc" } },
+                      [_vm._v("R.F.C.")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.rfc,
+                          expression: "qualitas.cliente.rfc"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "rfc" },
+                      domProps: { value: _vm.qualitas.cliente.rfc },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "rfc",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Fecha de nacimiento")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.f_nac,
+                          expression: "qualitas.cliente.f_nac"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "date", name: "f_nac" },
+                      domProps: { value: _vm.qualitas.cliente.f_nac },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "f_nac",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Email")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.email,
+                          expression: "qualitas.cliente.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "email", name: "email" },
+                      domProps: { value: _vm.qualitas.cliente.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "email",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Número telefonico")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.telefono,
+                          expression: "qualitas.cliente.telefono"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "telefono" },
+                      domProps: { value: _vm.qualitas.cliente.telefono },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "telefono",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Calle")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.calle,
+                          expression: "qualitas.cliente.calle"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "calle" },
+                      domProps: { value: _vm.qualitas.cliente.calle },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "calle",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Número Exterior")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.ext,
+                          expression: "qualitas.cliente.ext"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "ext" },
+                      domProps: { value: _vm.qualitas.cliente.ext },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "ext",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Número Interior")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.int,
+                          expression: "qualitas.cliente.int"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "int" },
+                      domProps: { value: _vm.qualitas.cliente.int },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "int",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("C.P.")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.cliente.cp,
+                          expression: "qualitas.cliente.cp"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "cp" },
+                      domProps: { value: _vm.qualitas.cliente.cp },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.cliente,
+                            "cp",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-8" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Población")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selectPobla,
+                            expression: "selectPobla"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.selectPobla = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione su Población")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.qualitasPobla, function(poblacion) {
+                          return _c(
+                            "option",
+                            { domProps: { value: poblacion } },
+                            [
+                              _vm._v(
+                                _vm._s(poblacion.poblacion) +
+                                  ", " +
+                                  _vm._s(poblacion.municipio) +
+                                  ", " +
+                                  _vm._s(poblacion.estado)
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Nacionalidad")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.nacionalidad,
+                            expression: "qualitas.cliente.nacionalidad"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "nacionalidad", required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "nacionalidad",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione su nacionalidad")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "1" } }, [
+                          _vm._v("Mexicana")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "2" } }, [
+                          _vm._v("Extranjera")
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Ocupación")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.ocupacion,
+                            expression: "qualitas.cliente.ocupacion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "ocupacion", required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "ocupacion",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione su ocupación")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.qualitasOcupaciones, function(ocupacion) {
+                          return _c(
+                            "option",
+                            { domProps: { value: ocupacion.codigo } },
+                            [_vm._v(_vm._s(ocupacion.descripcion))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Giro comercial")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.giro,
+                            expression: "qualitas.cliente.giro"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "giro", required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "giro",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione su giro comercial")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.qualitasGiros, function(giro) {
+                          return _c(
+                            "option",
+                            { domProps: { value: giro.codigo } },
+                            [_vm._v(_vm._s(giro.descripcion))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Profesión")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qualitas.cliente.profesion,
+                            expression: "qualitas.cliente.profesion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "profesion", required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.qualitas.cliente,
+                              "profesion",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione su profesión")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.qualitasProfesiones, function(profesion) {
+                          return _c(
+                            "option",
+                            { domProps: { value: profesion.codigo } },
+                            [_vm._v(_vm._s(profesion.descripcion))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.qualitas.cliente.contratante == 0
+                  ? _c("div", { staticClass: "row" }, [
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-6" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("Tipo de persona:")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-check col-12" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.qualitas.cliente.tipo_persona_cont,
+                                expression: "qualitas.cliente.tipo_persona_cont"
+                              }
+                            ],
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "tipo_persona_cont",
+                              id: "radioF_cont",
+                              value: "1",
+                              checked: ""
+                            },
+                            domProps: {
+                              checked: _vm._q(
+                                _vm.qualitas.cliente.tipo_persona_cont,
+                                "1"
+                              )
+                            },
+                            on: {
+                              change: function($event) {
+                                _vm.$set(
+                                  _vm.qualitas.cliente,
+                                  "tipo_persona_cont",
+                                  "1"
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "radioF_cont" }
+                            },
+                            [
+                              _vm._v(
+                                "\n\t                             Fisica\n\t                            "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-check col-12" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.qualitas.cliente.tipo_persona_cont,
+                                expression: "qualitas.cliente.tipo_persona_cont"
+                              }
+                            ],
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "tipo_persona_cont",
+                              id: "radioM_cont",
+                              value: "2"
+                            },
+                            domProps: {
+                              checked: _vm._q(
+                                _vm.qualitas.cliente.tipo_persona_cont,
+                                "2"
+                              )
+                            },
+                            on: {
+                              change: function($event) {
+                                _vm.$set(
+                                  _vm.qualitas.cliente,
+                                  "tipo_persona_cont",
+                                  "2"
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "radioM_cont" }
+                            },
+                            [
+                              _vm._v(
+                                "\n\t                             Moral\n\t                            "
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.qualitas.cliente.contratante == 0 &&
+                _vm.qualitas.cliente.tipo_persona_cont == "1"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("\n\t\t\t\t\t\t\t\tNombre(s)\n\t\t\t\t\t\t\t")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.nombre_cont,
+                              expression: "qualitas.cliente.nombre_cont"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "nombre_cont",
+                            required: ""
+                          },
+                          domProps: { value: _vm.qualitas.cliente.nombre_cont },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "nombre_cont",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Paterno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.appaterno_cont,
+                              expression: "qualitas.cliente.appaterno_cont"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "apepat_cont",
+                            required: ""
+                          },
+                          domProps: {
+                            value: _vm.qualitas.cliente.appaterno_cont
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "appaterno_cont",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Materno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.apmaterno_cont,
+                              expression: "qualitas.cliente.apmaterno_cont"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apemat_cont" },
+                          domProps: {
+                            value: _vm.qualitas.cliente.apmaterno_cont
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "apmaterno_cont",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.qualitas.cliente.tipo_persona_cont == "2"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-12" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tRazón Social\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.razsoc_cont,
+                              expression: "qualitas.cliente.razsoc_cont"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "razsoc_cont",
+                            required: ""
+                          },
+                          domProps: { value: _vm.qualitas.cliente.razsoc_cont },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "razsoc_cont",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.qualitas.cliente.contratante == 0
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "curp_cont" }
+                          },
+                          [_vm._v("C.U.R.P.")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.curp_cont,
+                              expression: "qualitas.cliente.curp_cont"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "curp_cont" },
+                          domProps: { value: _vm.qualitas.cliente.curp_cont },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "curp_cont",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "rfc_cont" }
+                          },
+                          [_vm._v("R.F.C.")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qualitas.cliente.rfc_cont,
+                              expression: "qualitas.cliente.rfc_cont"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "rfc_cont" },
+                          domProps: { value: _vm.qualitas.cliente.rfc_cont },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.qualitas.cliente,
+                                "rfc_cont",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _vm._m(7),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-6" }, [
+                    _c(
+                      "label",
+                      { staticClass: "control-label", attrs: { for: "serie" } },
+                      [_vm._v("Número de serie")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.vehiculo.serie,
+                          expression: "qualitas.vehiculo.serie"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "serie" },
+                      domProps: { value: _vm.qualitas.vehiculo.serie },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.vehiculo,
+                            "serie",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-6" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Número de motor")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qualitas.vehiculo.num_motor,
+                          expression: "qualitas.vehiculo.num_motor"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "num_motor" },
+                      domProps: { value: _vm.qualitas.vehiculo.num_motor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.qualitas.vehiculo,
+                            "num_motor",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(8)
+              ]
+            )
           : _vm._e()
       ])
     ])
@@ -52221,6 +54145,52 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col d-flex justify-content-center" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
+          [_vm._v("Enviar")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-6" }, [
+      _c("h5", { staticClass: "mt-3 ml-3" }, [_vm._v("Qualitas")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 mt-3" }, [
+      _c("h6", [_vm._v("Datos del asegurado:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 mt-3" }, [
+      _c("h6", [_vm._v("Datos del contratante:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 mt-3" }, [
+      _c("h6", [_vm._v("Datos del automovil:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "mt-3 col d-flex justify-content-center" }, [
         _c(
           "button",
           { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
@@ -52856,8 +54826,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         emitirgs: function emitirgs(cotizacion_id, paquete) {
             console.log(this.cotizacionesGS.cotizacion.id, paquete);
 
-            this.setCotizacion = { formulario: "GS", id: cotizacion_id, paquete: paquete };
+            this.setCotizacion = { nombre: "GS", id: cotizacion_id, paquete: paquete };
             this.$emit("emitirgs", this.setCotizacion);
+            // console.log(this.gs);
+            $("#paso3-tab").removeClass("disabled");
+            $("#paso3-tab").click();
+        },
+        emitirqua: function emitirqua(cotizacion, paquete) {
+            cotizacion.paquetequa = paquete;
+            console.log(cotizacion);
+            this.setCotizacion = cotizacion;
+            this.$emit("emitirqua", this.setCotizacion);
             // console.log(this.gs);
             $("#paso3-tab").removeClass("disabled");
             $("#paso3-tab").click();
@@ -53401,10 +55380,11 @@ var render = function() {
                                                             click: function(
                                                               $event
                                                             ) {
-                                                              _vm.seleccionarCotizacion(
+                                                              _vm.emitirqua(
                                                                 cotizacion
                                                                   .response
-                                                                  .amplia
+                                                                  .amplia,
+                                                                1
                                                               )
                                                             }
                                                           }

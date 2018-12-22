@@ -1,7 +1,4 @@
 <?php
-use App\CP;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Excel;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +15,7 @@ Route::get('/', function () {
     return view('index');
 });
 Route::post('sendGS','GeneralSegurosController@sendGS');
+Route::post('sendQua','QualitasController@emitirPoliza');
 Route::get('pago','GeneralSegurosController@vista');
 // Route::get('/excel', function(){
 //     ini_set('memory_limit', '-1');

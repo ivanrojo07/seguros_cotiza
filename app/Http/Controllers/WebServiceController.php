@@ -233,9 +233,9 @@ class WebServiceController extends Controller
 			</Coberturas>
 		</DatosVehiculo>
 		<DatosGenerales>
-			<FechaEmision>2018-12-05</FechaEmision>
-			<FechaInicio>2018-12-05</FechaInicio>
-			<FechaTermino>2019-12-05</FechaTermino>
+			<FechaEmision>2018-12-19</FechaEmision>
+			<FechaInicio>2018-12-19</FechaInicio>
+			<FechaTermino>2019-12-19</FechaTermino>
 			<Moneda>0</Moneda>
 			<Agente>74285</Agente>
 			<FormaPago>C</FormaPago>
@@ -250,7 +250,7 @@ class WebServiceController extends Controller
 			  <TipoRegla>1</TipoRegla>
 			  <ValorRegla>$dig</ValorRegla>
 			</ConsideracionesAdicionalesDG>
-			<ConsideracionesAdicionalesDG NoConsideracion="4">
+			<ConsideracionesAdicionalesDG NoConsideracion="04">
 			  <TipoRegla>1</TipoRegla>
 			  <ValorRegla>1</ValorRegla>
 			</ConsideracionesAdicionalesDG>
@@ -270,13 +270,13 @@ XML;
 			$client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlPoliza));
 			$xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
 			$response = json_decode(json_encode($xml), true);
-			var_dump($response['Movimiento']);
+			dd($response['Movimiento']);
 			$noPoliza = $response['Movimiento']['@attributes']['NoOTra'];
 			$noEndoso = $response['Movimiento']['@attributes']['NoEndoso'];
 			$noNegocio= $response['Movimiento']['@attributes']['NoNegocio'];
 			$agente = $response['Movimiento']['DatosGenerales']['Agente'];
 			$noInciso = $response['Movimiento']['DatosVehiculo']['@attributes']['NoInciso'];
-			$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>$noInciso,'ImpPol'=>1,'ImpRec'=>1,'ImpAnexo'=>1,'Ramo'=>"4",'formaPol'=>"polizaf1co_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>$noNegocio,'Agente'=>$agente,'Usuario'=>"linea",'Password'=>"linea"]);
+			$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>"0003428964",'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>"0001",'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>"04",'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>"000000",'NoNegocio'=>"5545",'Agente'=>"74285",'Usuario'=>"Hola",'Password'=>"102030"]);
 			dd($impresion);
 			
 

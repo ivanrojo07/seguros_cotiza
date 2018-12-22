@@ -724,5 +724,222 @@ XML;
 		  	];
 		  	return $cobertura;
 		}
-	  }
+	}
+
+	public function emitirPoliza(Request $request)
+	{
+		// dd($request->all());
+		$cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
+		// dd($cliente);
+		// dd($cliente);
+		$hoy = Carbon::now();
+		$hoyFor = $hoy->format('Y-m-d');
+		// dd($hoy->addYear(1)->format('Y-m-d'));
+		$vencimiento = $hoy->addYear(1)->format('Y-m-d');
+		$nacimiento = new Carbon($request->f_nac);
+		$nacimiento = $nacimiento->format('d-m-Y');
+		// dd($nacimiento);
+		$modelo = (int)$cliente->auto->submarca->anio;
+		$camis = (int)$cliente->auto->version->camis_qualitas;
+		$dig = $cliente->auto->version->dig;
+		$xmlpoliza=
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<Movimientos>
+	<Movimiento TipoMovimiento="3" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
+		<DatosAsegurado NoAsegurado="">
+			<Nombre>$request->apepat $request->apemat $request->nombre</Nombre>
+			<Direccion>$request->calle, $request->ext</Direccion>
+			<Colonia>$request->poblacion</Colonia>
+			<Poblacion>$request->municipio</Poblacion>
+			<Estado>$request->cod_estado</Estado>
+			<CodigoPostal>$request->cp</CodigoPostal>
+			<NoEmpleado/>
+			<Agrupador/>
+			<?asegurado persona fisica?>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>1</TipoRegla>
+				<ValorRegla>$request->ext</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>2</TipoRegla>
+				<ValorRegla>$request->int</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>3</TipoRegla>
+				<ValorRegla>México</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>4</TipoRegla>
+				<ValorRegla>$request->nombre</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>5</TipoRegla>
+				<ValorRegla>$request->apepat</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>6</TipoRegla>
+				<ValorRegla>$request->apemat</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>7</TipoRegla>
+				<ValorRegla>$request->cod_municipio</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>19</TipoRegla>
+				<ValorRegla>$request->tipo_persona</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>20</TipoRegla>
+				<ValorRegla>$nacimiento</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>21</TipoRegla>
+				<ValorRegla>$request->nacionalidad</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>23</TipoRegla>
+				<ValorRegla>$request->ocupacion</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>24</TipoRegla>
+				<ValorRegla>$request->giro</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>25</TipoRegla>
+				<ValorRegla>$request->profesion</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>26</TipoRegla>
+				<ValorRegla>$request->email</ValorRegla>
+			</ConsideracionesAdicionalesDA>	
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>27</TipoRegla>
+				<ValorRegla>$request->curp</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>28</TipoRegla>
+				<ValorRegla>$request->rfc</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>36</TipoRegla>
+				<ValorRegla>$request->nombre_cont</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>37</TipoRegla>
+				<ValorRegla>$request->apepat_cont</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>38</TipoRegla>
+				<ValorRegla>$request->apemat_cont</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>39</TipoRegla>
+				<ValorRegla>$request->tipo_persona_cont</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>47</TipoRegla>
+				<ValorRegla>$request->curp_cont</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+				<TipoRegla>48</TipoRegla>
+				<ValorRegla>$request->rfc_cont</ValorRegla>
+			</ConsideracionesAdicionalesDA>
+			<ConsideracionesAdicionalesDA NoConsideracion="40">
+        		<TipoRegla>70</TipoRegla>
+        		<ValorRegla>$request->telefono</ValorRegla>
+      		</ConsideracionesAdicionalesDA>
+		</DatosAsegurado>
+		<DatosVehiculo NoInciso="1">
+			<ClaveAmis>$camis</ClaveAmis>
+			<Modelo>$modelo</Modelo>
+			<DescripcionVehiculo/>
+			<Uso>1</Uso>
+			<Servicio>1</Servicio>
+			<Paquete>$request->paquete_id</Paquete>
+			<Motor>$request->num_motor</Motor>
+			<Serie>$request->serie</Serie>
+		</DatosVehiculo>
+		<DatosGenerales>
+			<FechaEmision>$hoyFor</FechaEmision>
+			<FechaInicio>$hoyFor</FechaInicio>
+			<FechaTermino>$vencimiento</FechaTermino>
+			<Moneda>0</Moneda>
+			<Agente>74285</Agente>
+			<FormaPago>C</FormaPago>
+			<TarifaValores>LINEA</TarifaValores>
+			<TarifaCuotas>LINEA</TarifaCuotas>
+			<TarifaDerechos>LINEA</TarifaDerechos>
+			<Plazo/>
+			<Agencia/>
+			<Contrato/>
+			<PorcentajeDescuento>20</PorcentajeDescuento>
+			<ConsideracionesAdicionalesDG NoConsideracion="1">
+			  <TipoRegla>1</TipoRegla>
+			  <ValorRegla>$dig</ValorRegla>
+			</ConsideracionesAdicionalesDG>
+			<ConsideracionesAdicionalesDG NoConsideracion="04">
+			  <TipoRegla>1</TipoRegla>
+			  <ValorRegla>1</ValorRegla>
+			</ConsideracionesAdicionalesDG>
+		</DatosGenerales>
+		<Primas>
+			<PrimaNeta/>
+			<Derecho>500</Derecho>
+			<Recargo/>
+			<Impuesto/>
+			<PrimaTotal/>
+			<Comision/>
+	  	</Primas>
+		<CodigoError/>
+	</Movimiento>
+</Movimientos>
+XML;
+
+		try{
+			$client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlpoliza));
+			$xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
+			$response = json_decode(json_encode($xml), true);
+			// dd($response['Movimiento']);
+			if($response['Movimiento']['CodigoError']){
+				if (substr($response['Movimiento']['CodigoError'],0,4) == "0041") {
+					// dd($response['Movimiento']['CodigoError']);
+					// "0003433914"
+					$noPoliza = substr( $response['Movimiento']['CodigoError'],-16,10);
+					$noEndoso = substr( $response['Movimiento']['CodigoError'],-6,6);
+					$ramo = substr( $response['Movimiento']['CodigoError'],-18,2);
+					$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>"0001",'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>$ramo,'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>"5545",'Agente'=>"74285",'Usuario'=>"Hola",'Password'=>"102030"]);
+					$urlString = $impresion->RecuperaImpresionPruebaResult;
+
+				}
+				else{
+
+					return response()->json(['error'=>$response['Movimiento']['CodigoError']],500);
+				}
+			}
+			else{
+				$noPoliza = substr( $response['Movimiento']['@attributes']['NoPoliza'],2,10);
+				$noEndoso = substr( $response['Movimiento']['@attributes']['NoPoliza'],12,6);
+				$ramo = substr( $response['Movimiento']['@attributes']['NoPoliza'],0,2);
+				$noNegocio= $response['Movimiento']['@attributes']['NoNegocio'];
+				$agente = $response['Movimiento']['DatosGenerales']['Agente'];
+				$noInciso = $response['Movimiento']['DatosVehiculo']['@attributes']['NoInciso'];
+				// var_dump($noPoliza);
+				// var_dump($noEndoso);
+				// var_dump($ramo);
+				$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>$noInciso,'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>$ramo,'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>$noNegocio,'Agente'=>$agente,'Usuario'=>"Hola",'Password'=>"102030"]);
+				$urlString = $impresion->RecuperaImpresionPruebaResult;
+			}
+			$urls=[];
+			foreach (explode('|',$urlString) as $url) {
+				array_push($urls,$url);
+			}
+			return view('qualitas.pago',['urls'=>$urls,'noPoliza'=>$noPoliza]);
+			dd($urls);
+		}
+		catch(SoapFault $fault){
+			dd($fault);
+		}
+
+	}
 }
