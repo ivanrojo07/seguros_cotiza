@@ -935,7 +935,7 @@ XML;
 				array_push($urls,$url);
 			}
 			return view('qualitas.pago',['urls'=>$urls,'noPoliza'=>$noPoliza]);
-			dd($urls);
+			// dd($urls);
 		}
 		catch(SoapFault $fault){
 			dd($fault);

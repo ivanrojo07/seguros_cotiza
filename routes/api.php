@@ -45,3 +45,24 @@ Route::post('/getCotizacionGS','GeneralSegurosController@getCotizacion');
 Route::get('/getCoberturasGS/{cotizacion}/{paquete}','GeneralSegurosController@getCoberturas');
 
 Route::get('/cp/{cp}','CPController@get');
+
+// ANA SEGUROS
+Route::get('/pruebaANA','API\AnaController@prueba');
+Route::get('/bancosANA','API\AnaController@bancos');
+Route::get('/categoriasANA','API\AnaController@categorias');
+Route::get('/cpANA/{estado}/{ciudad}','API\AnaController@codigoPostales');
+Route::get('/coloniaANA/{estado}/{ciudad}/{cp}','API\AnaController@colonias');
+Route::get('/colorANA','API\AnaController@colores');
+Route::get('/municipiosANA/{estado}','API\AnaController@delMuns');
+Route::get('/estadosANA','API\AnaController@estados');
+Route::get('/formaPagosANA','API\AnaController@formaPagos');
+Route::get('/giroEmpresaANA','API\AnaController@giros');
+Route::get('/identificacionesANA','API\AnaController@identificaciones');
+Route::get('/marcasANA/{modelo}','API\AnaController@marcas');
+Route::get('/modelosANA','API\AnaController@modelos');
+Route::get('/nacionalidadANA','API\AnaController@nacionalidades');
+Route::get('/ocupacionANA','API\AnaController@ocupaciones');
+Route::get('/submarcaANA/{marca}/{modelo}','API\AnaController@subMarcas');
+Route::post('/emitirANA/{tipo}','API\AnaController@transaccion');
+Route::get('/vehiculoANA/{marca}/{submarca}/{modelo}','API\AnaController@vehiculo');
+Route::get('/catVehANA/{modeloMin}/{modeloMax}','API\AnaController@catalogoVehi');
