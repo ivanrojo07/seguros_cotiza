@@ -23,8 +23,8 @@ Route::get('/marcas',"QualitasController@getMarcas");
 
 Route::get('/modelos/{uso}/{marca}/{modelo}',"QualitasController@getModelos");
 Route::get('/tarifas','WebServiceController@getTarifas');
-Route::get('/emitir','WebServiceController@emitirPoliza');
-Route::get('/emitirGS','GeneralSegurosController@emitir');
+// Route::get('/emitir','WebServiceController@emitirPoliza');
+// Route::get('/emitirGS','GeneralSegurosController@emitir');
 Route::post('/cotizacion','ClienteController@store');
 Route::post('/searchCliente','ClienteController@search');
 Route::post('/getCoberturasQ','QualitasController@getCobertura');
@@ -63,6 +63,6 @@ Route::get('/modelosANA','API\AnaController@modelos');
 Route::get('/nacionalidadANA','API\AnaController@nacionalidades');
 Route::get('/ocupacionANA','API\AnaController@ocupaciones');
 Route::get('/submarcaANA/{marca}/{modelo}','API\AnaController@subMarcas');
-Route::post('/emitirANA/{tipo}','API\AnaController@transaccion');
+Route::post('/emitirANA','API\AnaController@transaccion');
 Route::get('/vehiculoANA/{marca}/{submarca}/{modelo}','API\AnaController@vehiculo');
 Route::get('/catVehANA/{modeloMin}/{modeloMax}','API\AnaController@catalogoVehi');

@@ -47772,6 +47772,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 function Cliente(_ref) {
     var cotizacion = _ref.cotizacion,
@@ -47814,7 +47822,9 @@ function Cliente(_ref) {
             marca: false,
             submarca: false,
             modelo: false,
-            loader: true,
+            loader_desc: true,
+            loader_tipo: true,
+            loader_modelo: true,
             descripcion: false,
             cp: false,
             nombre: false,
@@ -47954,8 +47964,11 @@ function Cliente(_ref) {
         getSubmarcas: function getSubmarcas(marca) {
             var _this3 = this;
 
+            this.loader_tipo = true;
             var url = './api/getSubmarcas/' + marca;
+            $('#descripcion').append('<div class="loader"></div>');
             axios.get(url).then(function (res) {
+                _this3.loader_tipo = false;
                 console.log('res submarcas', res);
                 if (res.data.submarcas) {
                     _this3.submarcas = res.data.submarcas.sort();
@@ -47967,9 +47980,11 @@ function Cliente(_ref) {
         getModelos: function getModelos(submarca) {
             var _this4 = this;
 
+            this.loader_modelo = true;
             var url = './api/getModelos/' + submarca;
             axios.get(url).then(function (res) {
                 console.log('res modelos', res);
+                _this4.loader_modelo = false;
                 if (res.data.modelos) {
                     _this4.modelos = res.data.modelos;
                     _this4.modelos = _this4.modelos.reverse();
@@ -47981,11 +47996,11 @@ function Cliente(_ref) {
         getDescripciones: function getDescripciones(submarca, modelo) {
             var _this5 = this;
 
-            this.loader = true;
+            this.loader_desc = true;
             $('#descripcion').append('<div class="loader"></div>');
             var url = './api/getVersiones/' + submarca + '/' + modelo;
             axios.get(url).then(function (res) {
-                _this5.loader = false;
+                _this5.loader_desc = false;
                 console.log('getDescripciones res', res);
                 _this5.descripciones = res.data.versiones;
             }).catch(function (err) {
@@ -48482,16 +48497,6 @@ var render = function() {
                                       attrs: { value: "Servicio Particular" }
                                     },
                                     [_vm._v("Servicio Particular")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    {
-                                      staticClass:
-                                        "list-group-item text-center text-dark seleccionador",
-                                      attrs: { value: "Servicio Público" }
-                                    },
-                                    [_vm._v("Servicio Público")]
                                   )
                                 ]
                               )
@@ -48609,10 +48614,51 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "card-body" }, [
+                        _c("div", {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.loader_tipo,
+                              expression: "loader_tipo"
+                            }
+                          ],
+                          staticClass: "loader"
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  !_vm.loader_tipo && this.submarca.length == 0,
+                                expression:
+                                  "!loader_tipo && this.submarca.length == 0"
+                              }
+                            ]
+                          },
+                          [
+                            _c("label", [
+                              _vm._v("No se encontraron resultados")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "select",
                           {
                             directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  !_vm.loader_tipo && this.submarca.length != 0,
+                                expression:
+                                  "!loader_tipo && this.submarca.length != 0"
+                              },
                               {
                                 name: "model",
                                 rawName: "v-model",
@@ -48688,10 +48734,51 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "card-body" }, [
+                        _c("div", {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.loader_modelo,
+                              expression: "loader_modelo"
+                            }
+                          ],
+                          staticClass: "loader"
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  !_vm.loader_modelo && this.modelo.length == 0,
+                                expression:
+                                  "!loader_modelo && this.modelo.length == 0"
+                              }
+                            ]
+                          },
+                          [
+                            _c("label", [
+                              _vm._v("No se encontraron resultados")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "select",
                           {
                             directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  !_vm.loader_modelo && this.modelo.length != 0,
+                                expression:
+                                  "!loader_modelo && this.modelo.length != 0"
+                              },
                               {
                                 name: "model",
                                 rawName: "v-model",
@@ -48772,8 +48859,8 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.loader,
-                              expression: "loader"
+                              value: _vm.loader_desc,
+                              expression: "loader_desc"
                             }
                           ],
                           staticClass: "loader"
@@ -48787,9 +48874,10 @@ var render = function() {
                                 name: "show",
                                 rawName: "v-show",
                                 value:
-                                  !_vm.loader && this.descripciones.length == 0,
+                                  !_vm.loader_desc &&
+                                  this.descripciones.length == 0,
                                 expression:
-                                  "!loader && this.descripciones.length == 0"
+                                  "!loader_desc && this.descripciones.length == 0"
                               }
                             ]
                           },
@@ -48808,9 +48896,10 @@ var render = function() {
                                 name: "show",
                                 rawName: "v-show",
                                 value:
-                                  !_vm.loader && this.descripciones.length != 0,
+                                  !_vm.loader_desc &&
+                                  this.descripciones.length != 0,
                                 expression:
-                                  "!loader && this.descripciones.length != 0"
+                                  "!loader_desc && this.descripciones.length != 0"
                               },
                               {
                                 name: "model",
@@ -54778,9 +54867,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // body...
             this.getCoberturasGS(this.cliente.cotizacion);
             this.getCoberturas(this.cliente.cotizacion);
+            this.getCoberturasAna(this.cliente.cotizacion);
         }
     },
     methods: {
+        getCoberturasAna: function getCoberturasAna(cotizacion) {
+            var url = './api/emitirANA';
+            var params = { tipo: "C", cotizacion: cotizacion };
+            axios.post(url, params).then(function (res) {
+                console.log('coberturas ana', res);
+            }).catch(function (err) {
+                console.log('coberturas ana error', err);
+            });
+        },
         getCoberturas: function getCoberturas(cotizacion) {
             var _this = this;
 

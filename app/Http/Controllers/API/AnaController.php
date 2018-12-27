@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
+use App\Cliente;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use SoapClient;
 
 class AnaController extends Controller
@@ -311,8 +312,88 @@ class AnaController extends Controller
             dd($fault);
         }
     }
-    public function transaccion(Request $request,$tipo)
+    public function searchMarca($marca,$modelo)
     {
+        $marcajson = $this->marcas($modelo);
+        $marcas = json_decode(json_encode($marcajson))->original->marcas;
+        foreach ($marcas as $value) {
+            if ($value->descripcion == $marca) {
+                $marcaANA = $value;
+            }
+        }
+        if ($marcaANA) {
+            return $marcaANA;
+        }
+        else{
+            return null;
+        }
+    }
+    public function searchSubmarca($submarca,$marca_id,$modelo){
+        $submarcasJSON=$this->subMarcas($marca_id, $modelo);
+        $submarcas = json_decode(json_encode($submarcasJSON))->original->submarcas;
+        foreach ($submarcas as $value) {
+            if($value->descripcion == $submarca){
+                $submarcaANA=$value;
+            }
+        }
+        if ($submarcaANA) {
+            return $submarcaANA;
+        } else {
+            return null;
+        }
+    }
+    public function searchVehiculo($descripcion,$marca_id,$submarca_id,$modelo)
+    {
+        // dd($descripcion." ".$marca_id." ".$submarca_id." ".$modelo);
+        $descripcionesJSON=$this->vehiculo($marca_id, $submarca_id, $modelo);
+        $descripciones = json_decode(json_encode($descripcionesJSON))->original->vehiculos;
+        // $porcentajes =[];
+        $porc_piv=0;
+        foreach ($descripciones as $value) {
+            similar_text($descripcion,$value->descripcion,$porcentaje);
+            if($porcentaje>=$porc_piv){
+                $porc_piv= $porcentaje;
+                $descripcionANA=$value;
+            }
+            // dd($porcentaje);
+            // array_push($porcentajes,['objeto'=>$value,'porcentaje'=>$porcentaje]);
+
+        }
+        // dd($porcentajes);
+        // var_dump($descripciones);
+        if($descripcionANA){
+            return $descripcionANA;
+        }
+        else{
+            return null;
+        }
+
+    }
+    public function transaccion(Request $request)
+    {
+        // dd($request->all());
+        $cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
+        if($cliente == null){
+            return response()->json(['error'=>"datos no encontrado"],404);
+
+        }
+        else{
+            $marca = $cliente->auto->marca->nombre;
+            $submarca= $cliente->auto->submarca->nombre;
+            $modelo = $cliente->auto->submarca->anio;
+            $descripcion= $cliente->auto->version->descripcion;
+            $marcaANA = $this->searchMarca($marca,$modelo);
+            if($marcaANA){
+                $submarcaANA = $this->searchSubmarca($submarca,$marcaANA->id,$modelo);
+                if ($submarcaANA) {
+                    $descripcionANA=$this->searchVehiculo($descripcion,$marcaANA->id,$submarcaANA->id,$modelo);
+                }
+            }
+            if($descripcionANA){
+                $planes=['1','3','4'];
+                dd($descripcionANA);
+            }
+        }
         try{
             $client = new SoapClient($this->url,$this->params);
             $submarcasXML = $client->Transaccion(["XML"=>"#TODO","TipoTransaccion"=>$tipo,"Usuario"=>"14275","Clave"=>"kdEDyC9F"]);

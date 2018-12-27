@@ -518,9 +518,19 @@
     			// body...
                 this.getCoberturasGS(this.cliente.cotizacion);
     			this.getCoberturas(this.cliente.cotizacion);
+                this.getCoberturasAna(this.cliente.cotizacion);
     		}
     	},
     	methods:{
+            getCoberturasAna(cotizacion){
+                let url = './api/emitirANA';
+                let params = {tipo:"C",cotizacion:cotizacion};
+                axios.post(url,params).then(res=>{
+                    console.log('coberturas ana',res);
+                }).catch(err=>{
+                    console.log('coberturas ana error',err);
+                })
+            },
     		getCoberturas(cotizacion){
     			let url = './api/getCoberturasQ';
     			let params = {cotizacion:cotizacion};

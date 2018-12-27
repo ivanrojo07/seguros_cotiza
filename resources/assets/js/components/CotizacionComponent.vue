@@ -38,7 +38,7 @@
     										<div class="card-body">
     											<select v-model="cliente.uso_auto" size="3" class="list-group list-group-flush col mr-0 ml-0"  style="overflow-y: hidden;">
     												<option value="Servicio Particular" class="list-group-item text-center text-dark seleccionador">Servicio Particular</option>
-                                    				<option value="Servicio Público" class="list-group-item text-center text-dark seleccionador">Servicio Público</option>
+                                    				<!-- <option value="Servicio Público" class="list-group-item text-center text-dark seleccionador">Servicio Público</option> -->
     											</select>
     										</div>
     									</div>
@@ -71,7 +71,11 @@
 		                            Tipo
 		                        </div>
 		                        <div class="card-body">
-		                            <select v-model="cliente.submarca_auto" size="3" class="list-group list-group-flush col">
+		                        	<div v-show="loader_tipo" class="loader"></div>
+		                        	<div v-show="!loader_tipo && this.submarca.length == 0">
+		                        		<label>No se encontraron resultados</label>
+		                        	</div>
+		                            <select v-show="!loader_tipo && this.submarca.length != 0" v-model="cliente.submarca_auto" size="3" class="list-group list-group-flush col">
 										<option v-for="submarca in submarcas" :value="submarca" class="list-group-item text-center text-dark seleccionador">{{submarca.nombre}}</option>
 									</select>
 									<div class="row">
@@ -89,7 +93,11 @@
 		                            Modelo
 		                        </div>
 		                        <div class="card-body">
-		                            <select class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
+		                        	<div v-show="loader_modelo" class="loader"></div>
+		                        	<div v-show="!loader_modelo && this.modelo.length == 0">
+		                        		<label>No se encontraron resultados</label>
+		                        	</div>
+		                            <select v-show="!loader_modelo && this.modelo.length != 0" class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
 		                            	<option v-for="anio in modelos" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
 		                            </select>
 		                            <div class="row">
@@ -107,11 +115,11 @@
 		                            Descripcion
 		                        </div>
 		                        <div class="card-body">
-		                        	<div v-show="loader" class="loader"></div>
-		                        	<div v-show="!loader && this.descripciones.length == 0">
+		                        	<div v-show="loader_desc" class="loader"></div>
+		                        	<div v-show="!loader_desc && this.descripciones.length == 0">
 		                        		<label>No se encontraron resultados</label>
 		                        	</div>
-		                            <select v-show="!loader && this.descripciones.length != 0" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
+		                            <select v-show="!loader_desc && this.descripciones.length != 0" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
 		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">{{descripcion.descripcion}}</option>
 		                            </select>
 		                            <div class="row">
@@ -308,7 +316,9 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			marca: false,
     			submarca:false,
     			modelo: false,
-    			loader:true,
+    			loader_desc:true,
+    			loader_tipo:true,
+    			loader_modelo:true,
     			descripcion:false,
     			cp:false,
     			nombre:false,
@@ -444,8 +454,11 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			})
     		},
     		getSubmarcas(marca){
+    			this.loader_tipo=true;
     			let url = `./api/getSubmarcas/${marca}`;
+    			$('#descripcion').append('<div class="loader"></div>');
     			axios.get(url).then(res=>{
+    				this.loader_tipo = false;
     				console.log('res submarcas',res);
     				if (res.data.submarcas) {
     					this.submarcas = res.data.submarcas.sort();
@@ -455,9 +468,11 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
 				});
     		},
     		getModelos(submarca){
+    			this.loader_modelo=true;
     			let url = `./api/getModelos/${submarca}`;
     			axios.get(url).then(res=>{
     				console.log('res modelos',res);
+    				this.loader_modelo=false;
     				if (res.data.modelos) {
     					this.modelos = res.data.modelos;
     					this.modelos = this.modelos.reverse();
@@ -467,11 +482,11 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
 				});
     		},
     		getDescripciones(submarca,modelo){
-    			this.loader = true;
+    			this.loader_desc = true;
             	$('#descripcion').append('<div class="loader"></div>');
     			let url = `./api/getVersiones/${submarca}/${modelo}`;
     			axios.get(url).then(res=>{
-    				this.loader = false;
+    				this.loader_desc = false;
     				console.log('getDescripciones res',res);
     				this.descripciones = res.data.versiones;
     			}).catch(err=>{
