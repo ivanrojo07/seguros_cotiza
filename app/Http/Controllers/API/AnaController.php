@@ -23,7 +23,7 @@ class AnaController extends Controller
             'encoding'=>'UTF-8',
             'verifypeer'=>false,
             'verifyhost'=>false,
-            'soap_version'=>SOAP_1_1,
+            'soap_version'=>SOAP_1_2,
             'trace'=>1,
             'exceptions'=>1,
             'connection_timeout'=>5000,
@@ -49,10 +49,14 @@ class AnaController extends Controller
         try{
             $client = new SoapClient($this->url,$this->params);
             $bancosXML = $client->Bancos(["Negocio"=>"1195","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-            $bancosResp = json_decode(json_encode(simplexml_load_string($bancosXML->BancosResult)),true);
-            // dd($bancosResp['bancos']);
-            if (isset($bancosResp['bancos'])) {
-                $bancos = $bancosResp['bancos'];
+            $bancos=[];
+            foreach (simplexml_load_string($bancosXML->BancosResult)->bancos as $key=>$value) {
+                $object = json_decode(json_encode($value),true);
+                array_push($bancos, ['id'=>$object['@attributes']['id'],'descripcion'=>$object[0]]);
+                // dd($object[0]);
+            }
+            if (isset($bancos)) {
+                // $bancos = $bancosResp['bancos'];
                 return response()->json(['bancos'=>$bancos],201);
             }
             else{
@@ -69,7 +73,7 @@ class AnaController extends Controller
             $client = new SoapClient($this->url,$this->params);
             $categoriasXML = $client->Categoria(["Negocio"=>"1195","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
             $categoriasResp = json_decode(json_encode(simplexml_load_string($categoriasXML->CategoriaResult)),true);
-            // dd($categoriasResp);
+            dd($categoriasResp);
             if (isset($categoriasResp['categorias'])) {
                 $categorias = $categoriasResp['categorias'];
                 return response()->json(['categorias'=>$categorias],201);
@@ -86,10 +90,15 @@ class AnaController extends Controller
         try{
             $client = new SoapClient($this->url,$this->params);
             $codigoPostalXML = $client->CodigoPostal(["Estado"=>$estado,"Ciudad"=>$ciudad,"Negocio"=>"1195","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-            $codigoPostalResp = json_decode(json_encode(simplexml_load_string($codigoPostalXML->CodigoPostalResult)),true);
-            // dd($codigoPostalResp);
-            if (isset($codigoPostalResp['cp'])) {
-                $codigoPostal = $codigoPostalResp['cp'];
+            // dd(simplexml_load_string($codigoPostalXML->CodigoPostalResult)->cp);
+            $codigoPostal=[];
+            foreach (simplexml_load_string($codigoPostalXML->CodigoPostalResult)->cp as $value) {
+                $object = json_decode(json_encode($value),true);
+                array_push($codigoPostal, ['id'=>$object['@attributes']['id'],'descripcion'=>$object[0]]);
+
+            }
+            // dd($codigoPostal);
+            if (isset($codigoPostal)) {
                 return response()->json(['Codigo Postal'=>$codigoPostal],201);
             }
             else{
@@ -104,12 +113,15 @@ class AnaController extends Controller
         try{
             $client = new SoapClient($this->url,$this->params);
             $coloniaXML = $client->Colonia(["Estado"=>$estado,"Ciudad"=>$ciudad,"CP"=>$cp,"Negocio"=>"1195","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-            // dd($coloniaXML);
-            $coloniaResp = json_decode(json_encode(simplexml_load_string($coloniaXML->ColoniaResult)),true);
-            // dd($coloniaResp);
-            if (isset($coloniaResp['colonia'])) {
-                $colonia = $coloniaResp['colonia'];
-                return response()->json(['colonia'=>$colonia],201);
+            // dd(simplexml_load_string($coloniaXML->ColoniaResult)->colonia);
+            $colonias=[];
+            foreach(simplexml_load_string($coloniaXML->ColoniaResult)->colonia as $value){
+                $object=json_decode(json_encode($value),true);
+                array_push($colonias,['id'=>$object['@attributes']['id'],'descripcion'=>$object[0]]);
+            }
+            // dd($colonias);
+            if (isset($colonias)) {
+                return response()->json(['colonias'=>$colonias],201);
             }
             else{
                 return response()->json(['error'=>"Colonias no encontradas",404]);
@@ -142,11 +154,13 @@ class AnaController extends Controller
         try{
             $client = new SoapClient($this->url,$this->params);
             $municipioXML = $client->DelMun(["Estado"=>$estado,"Negocio"=>"1195","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-            // dd($municipioXML);
-            $municipioResp = json_decode(json_encode(simplexml_load_string($municipioXML->DelMunResult)),true);
-            // dd($municipioResp);
-            if (isset($municipioResp['delmun'])) {
-                $municipios = $municipioResp['delmun'];
+            // dd(simplexml_load_string($municipioXML->DelMunResult)->delmun);
+            $municipios=[];
+            foreach (simplexml_load_string($municipioXML->DelMunResult)->delmun as $value) {
+                $object = json_decode(json_encode($value),true);
+                array_push($municipios, ['id'=>$object['@attributes']['id'],'descripcion'=>$object[0]]);
+            }
+            if (isset($municipios)) {
                 return response()->json(['municipios'=>$municipios],201);
             }
             else{
@@ -161,11 +175,12 @@ class AnaController extends Controller
         try{
             $client = new SoapClient($this->url,$this->params);
             $estadosXML = $client->EDOS(["Negocio"=>"1195","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-            // dd($estadosXML);
-            $estadoResp = json_decode(json_encode(simplexml_load_string($estadosXML->EDOSResult)),true);
-            // dd($estadoResp['estado']);
-            if (isset($estadoResp['estado'])) {
-                $estados = $estadoResp['estado'];
+            $estados=[];
+            foreach (simplexml_load_string($estadosXML->EDOSResult)->estado as $key=>$value) {
+                $object = json_decode(json_encode($value),true);
+                array_push($estados, ['id'=>$object['@attributes']['id'],'descripcion'=>$object[0]]);
+            }
+            if (isset($estados)) {
                 return response()->json(['estados'=>$estados],201);
             }
             else{
