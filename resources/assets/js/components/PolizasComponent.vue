@@ -523,8 +523,8 @@
     	},
     	methods:{
             getCoberturasAna(cotizacion){
-                let url = './api/emitirANA';
-                let params = {tipo:"C",cotizacion:cotizacion};
+                let url = './api/cotizacionANA';
+                let params = {cotizacion:cotizacion};
                 axios.post(url,params).then(res=>{
                     console.log('coberturas ana',res);
                 }).catch(err=>{

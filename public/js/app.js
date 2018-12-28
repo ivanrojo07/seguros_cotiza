@@ -54872,8 +54872,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         getCoberturasAna: function getCoberturasAna(cotizacion) {
-            var url = './api/emitirANA';
-            var params = { tipo: "C", cotizacion: cotizacion };
+            var url = './api/cotizacionANA';
+            var params = { cotizacion: cotizacion };
             axios.post(url, params).then(function (res) {
                 console.log('coberturas ana', res);
             }).catch(function (err) {

@@ -63,6 +63,6 @@ Route::get('/modelosANA','API\AnaController@modelos');
 Route::get('/nacionalidadANA','API\AnaController@nacionalidades');
 Route::get('/ocupacionANA','API\AnaController@ocupaciones');
 Route::get('/submarcaANA/{marca}/{modelo}','API\AnaController@subMarcas');
-Route::post('/emitirANA','API\AnaController@transaccion');
+Route::post('/cotizacionANA','API\AnaController@cotizacion');
 Route::get('/vehiculoANA/{marca}/{submarca}/{modelo}','API\AnaController@vehiculo');
 Route::get('/catVehANA/{modeloMin}/{modeloMax}','API\AnaController@catalogoVehi');
