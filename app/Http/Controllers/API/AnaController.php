@@ -50,145 +50,6 @@ class AnaController extends Controller
     {
        // dd($request->all());
         $cliente = Cliente::where('cotizacion',"a23c339006")->first();
-        if($cliente == null){
-            return response()->json(['error'=>"datos no encontrado"],404);
-
-        }
-        else{
-            $marca = $cliente->auto->marca->nombre;
-            $submarca= $cliente->auto->submarca->nombre;
-            $modelo = $cliente->auto->submarca->anio;
-            $descripcion= $cliente->auto->version->descripcion;
-            $marcaANA = $this->searchMarca($marca,$modelo);
-            if($marcaANA){
-                $submarcaANA = $this->searchSubmarca($submarca,$marcaANA->id,$modelo);
-                // dd($submarca);
-                if ($submarcaANA) {
-                    $descripcionANA=$this->searchVehiculo($descripcion,$marcaANA->id,$submarcaANA->id,$modelo);
-                    // dd($descripcionANA);
-                }
-            }
-            if($descripcionANA){
-                $planes=['1','3','4'];
-                $clave_amis=$descripcionANA->clave;
-                // dd($clave_amis);
-                $pagosJSON=$this->formaPagos();
-                $pagos = json_decode(json_encode($pagosJSON))->original->formapagos;
-                $estadoANA=$cliente->cestado."001";
-                $poblacion = CP::where('cestado',$cliente->cestado)->first()->estado;
-                $fecha = Carbon::now();
-                $fecha_hoy=$fecha->format('d/m/Y');
-                // dd($fecha_hoy);
-                $fecha_t = Carbon::parse($fecha);
-                $fecha_t = $fecha_t->addYears(1)->format('d/m/Y');
-                // dd($fecha_t);
-                // dd($poblacion);
-                $respuestasAmplia=[];
-                $respuestasLimitada=[];
-                $respuestasRC=[];
-                foreach ($pagos as $pago) {                        
-$xmlAMPLIA = <<<XML
-<transacciones xmlns="">
-    <transaccion version="1" tipotransaccion="$pago->id" cotizacion="" negocio="1195" tiponegocio="">
-        <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="1" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
-            <cobertura id="02" desc="" sa="" tipo="3" ded="5" pma=""/>
-            <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
-            <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
-            <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="09" desc="" sa="Auto Sustituto" tipo="" ded="" pma=""/>
-            <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
-            <cobertura id="13" desc="" sa="2" tipo="" ded="" pma=""/>
-            <cobertura id="25" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="26" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="27" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="34" desc="" sa="2000000" tipo="" ded="" pma=""/>
-            <cobertura id="35" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="40" desc="" sa="" tipo="" ded="50" pma=""/>
-        </vehiculo>
-        <asegurado id="" nombre="" paterno="" materno="" calle="" numerointerior="" numeroexterior="" colonia="" poblacion="" estado="$estadoANA" cp="" pais="" tipopersona=""/>
-        <poliza id="" tipo="A" endoso="" fecemision="" feciniciovig="$fecha_hoy" fecterminovig="$fecha_t" moneda="0" bonificacion="0" formapago="$pago->id" agente="14275" tarifacuotas="1804" tarifavalores="1804" tarifaderechos="1804" beneficiario="" politicacancelacion="1"/>
-        <prima primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision=""/>
-        <recibo id="" feciniciovig="" fecterminovig="" primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision="" cadenaoriginal="" sellodigital="" fecemision="" serie="" folio="" horaemision="" numeroaprobacion="" anoaprobacion="" numseriecertificado=""/>
-        <error/>
-    </transaccion>
-</transacciones>
-XML;
-$xmlLIMITADA=<<<XML
-<transacciones xmlns="">
-    <transaccion version="1" tipotransaccion="$pago->id" cotizacion="" negocio="1195" tiponegocio="">
-        <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="3" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
-            <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
-      <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
-            <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
-            <cobertura id="13" desc="" sa="2" tipo="" ded="" pma=""/>
-            <cobertura id="25" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="26" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="34" desc="" sa="2000000" tipo="" ded="" pma=""/>
-        </vehiculo>
-        <asegurado id="" nombre="" paterno="" materno="" calle="" numerointerior="" numeroexterior="" colonia="" poblacion="" estado="$estadoANA" cp="" pais="" tipopersona=""/>
-        <poliza id="" tipo="A" endoso="" fecemision="" feciniciovig="$fecha_hoy" fecterminovig="$fecha_t" moneda="0" bonificacion="0" formapago="$pago->id" agente="14275" tarifacuotas="1804" tarifavalores="1804" tarifaderechos="1804" beneficiario="" politicacancelacion="1"/>
-        <prima primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision=""/>
-        <recibo id="" feciniciovig="" fecterminovig="" primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision="" cadenaoriginal="" sellodigital="" fecemision="" serie="" folio="" horaemision="" numeroaprobacion="" anoaprobacion="" numseriecertificado=""/>
-        <error/>
-    </transaccion>
-</transacciones>
-XML;
-$xmlRC=<<<XML
-<transacciones xmlns="">
-    <transaccion version="1" tipotransaccion="$pago->id" cotizacion="" negocio="1195" tiponegocio="">
-        <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="4" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
-      <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
-            <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
-            <cobertura id="13" desc="" sa="2" tipo="" ded="" pma=""/>
-            <cobertura id="25" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="26" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="34" desc="" sa="2000000" tipo="" ded="" pma=""/>
-        </vehiculo>
-        <asegurado id="" nombre="" paterno="" materno="" calle="" numerointerior="" numeroexterior="" colonia="" poblacion="" estado="01001" cp="" pais="" tipopersona=""/>
-        <poliza id="" tipo="A" endoso="" fecemision="" feciniciovig="$fecha_hoy" fecterminovig="$fecha_t" moneda="0" bonificacion="0" formapago="$pago->id" agente="14275" tarifacuotas="1804" tarifavalores="1804" tarifaderechos="1804" beneficiario="" politicacancelacion="1"/>
-        <prima primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision=""/>
-        <recibo id="" feciniciovig="" fecterminovig="" primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision="" cadenaoriginal="" sellodigital="" fecemision="" serie="" folio="" horaemision="" numeroaprobacion="" anoaprobacion="" numseriecertificado=""/>
-        <error/>
-    </transaccion>
-</transacciones>
-
-XML;
-            // var_dump($xmlAMPLIA);
-                    try{
-                        $client = new SoapClient($this->urlPHP,$this->params);
-                        // $transaccionXML = ;
-                        $respTextAmplia=$client->TransaccionText(["XML"=>$xmlAMPLIA,"Tipo"=>"Cotizacion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-                        $respTextLimitada=$client->TransaccionText(["XML"=>$xmlLIMITADA,"Tipo"=>"Cotizacion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-                        $respTextRC=$client->TransaccionText(["XML"=>$xmlRC,"Tipo"=>"Cotizacion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-                    // TODO
-                    $arrayRespLimitada=json_decode(json_encode(simplexml_load_string($respTextLimitada->TransaccionTextResult)),true);
-                    $arrayRespAmplia = json_decode(json_encode(simplexml_load_string($respTextAmplia->TransaccionTextResult)),true);
-                    $arrayRespRC=json_decode(json_encode(simplexml_load_string($respTextRC->TransaccionTextResult)),true);
-                    array_push($respuestasAmplia,[$pago->descripcion=>$arrayRespAmplia]);
-                    array_push($respuestasLimitada,[$pago->descripcion=>$arrayRespLimitada]);
-                    array_push($respuestasRC,[$pago->descripcion=>$arrayRespRC]);
-                    // if (isset($submarcasResp['submarca'])) {
-                    //     $submarcas = $submarcasResp['submarca'];
-                    //     return response()->json(['submarcas'=>$submarcas],201);
-                    // }
-                    // else{
-                    //     return response()->json(['error'=>"Sub-Marcas no encontradas",404]);
-                    // }
-                    }catch(SoapFault $fault){
-                        dd($fault);
-                    }
-                }
-                $respuestas=[
-                    'AMPLIA'=>$respuestasAmplia,
-                    'LIMITADA'=>$respuestasLimitada,
-                    'RC'=>$respuestasRC
-                ];
-                return response()->json(['ANASeguro'=>$respuestas],201);
-            }
-        }
-        
     }
 
     public function bancos(){
@@ -627,9 +488,76 @@ XML;
                     $arrayRespLimitada=json_decode(json_encode(simplexml_load_string($respTextLimitada->TransaccionTextResult)),true);
                     $arrayRespAmplia = json_decode(json_encode(simplexml_load_string($respTextAmplia->TransaccionTextResult)),true);
                     $arrayRespRC=json_decode(json_encode(simplexml_load_string($respTextRC->TransaccionTextResult)),true);
-                    array_push($respuestasAmplia,[$pago->descripcion=>$arrayRespAmplia]);
-                    array_push($respuestasLimitada,[$pago->descripcion=>$arrayRespLimitada]);
-                    array_push($respuestasRC,[$pago->descripcion=>$arrayRespRC]);
+                    $coberturasAmplia=[];
+                    foreach ($arrayRespAmplia['transaccion']['vehiculo']['cobertura'] as $cobertura) {
+                        // dd($cobertura);
+                        array_push($coberturasAmplia,$cobertura['@attributes']);
+                    }
+                    $recibosAmplia=[];
+                    foreach ($arrayRespAmplia['transaccion']['recibo'] as $recibo) {
+                        if ($pago->descripcion == "CONTADO") {
+                            array_push($recibosAmplia,$recibo);
+                        } else {
+                            array_push($recibosAmplia,$recibo["@attributes"]);
+                        }
+                    }
+                    array_push($respuestasAmplia,
+                        [
+                            $pago->descripcion=>[
+                                "vehiculo"=>$arrayRespAmplia['transaccion']['vehiculo']['@attributes'],
+                                "coberturas"=>$coberturasAmplia,
+                                "prima"=>$arrayRespAmplia['transaccion']['prima']['@attributes'],
+                                "recibos"=>$recibosAmplia
+                            ]
+                        ]
+                    );
+                    $coberturasLimitada=[];
+                    foreach ($arrayRespLimitada['transaccion']['vehiculo']['cobertura'] as $cobertura) {
+                        // dd($cobertura);
+                        array_push($coberturasLimitada,$cobertura['@attributes']);
+                    }
+                    $recibosLimitada=[];
+                    foreach ($arrayRespLimitada['transaccion']['recibo'] as $recibo) {
+                        if ($pago->descripcion == "CONTADO") {
+                            array_push($recibosLimitada,$recibo);
+                        } else {
+                            array_push($recibosLimitada,$recibo["@attributes"]);
+                        }
+                    }
+                    array_push($respuestasLimitada,
+                        [
+                            $pago->descripcion=>[
+                                "vehiculo"=>$arrayRespLimitada['transaccion']['vehiculo']['@attributes'],
+                                "coberturas"=>$coberturasLimitada,
+                                "prima"=>$arrayRespLimitada['transaccion']['prima']['@attributes'],
+                                "recibos"=>$recibosLimitada
+                            ]
+                        ]
+                    );
+                    $coberturasRC=[];
+                    foreach ($arrayRespRC['transaccion']['vehiculo']['cobertura'] as $cobertura) {
+                        // dd($cobertura);
+                        array_push($coberturasRC,$cobertura['@attributes']);
+                    }
+                    $recibosRC=[];
+                    foreach ($arrayRespRC['transaccion']['recibo'] as $recibo) {
+                        //NO SE PUEDE ACCEDER AL ATTRIBUTOS
+                        if ($pago->descripcion == "CONTADO") {
+                            array_push($recibosRC,$recibo);
+                        } else {
+                            array_push($recibosRC,$recibo["@attributes"]);
+                        }
+                    }
+                    array_push($respuestasRC,
+                        [
+                            $pago->descripcion=>[
+                                "vehiculo"=>$arrayRespRC['transaccion']['vehiculo']['@attributes'],
+                                "coberturas"=>$coberturasRC,
+                                "prima"=>$arrayRespRC['transaccion']['prima']['@attributes'],
+                                "recibos"=>$recibosRC
+                            ]
+                        ]
+                    );
                     // if (isset($submarcasResp['submarca'])) {
                     //     $submarcas = $submarcasResp['submarca'];
                     //     return response()->json(['submarcas'=>$submarcas],201);
@@ -641,14 +569,14 @@ XML;
                         dd($fault);
                     }
                 }
+                // dd($respuestasAmplia);
                 $respuestas=[
                     'AMPLIA'=>$respuestasAmplia,
                     'LIMITADA'=>$respuestasLimitada,
                     'RC'=>$respuestasRC
                 ];
-                dd($respuestas);
+                return response()->json(['ANASeguros'=>$respuestas]);
             }
-            dd("fin");
         }
        
     }

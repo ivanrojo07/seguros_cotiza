@@ -210,34 +210,70 @@
                                         </div>
                                     </div>
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6"  v-if="cotizacionesGS">
-                                    <div v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
-                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
-                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                            <div class="card-body">
-                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                    <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
-                                                    <p class="col-6">${{pago.primaTotal | int}}</p>
-                                                    <p class="col-6 card-title">PAGO INICIAL:</p>
-                                                    <p class="col-6">${{pago.reciboini | int}}</p>
-                                                    <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
-                                                    <p class="col-6" v-if="pago.nombre != 'CONTADO'">
-                                                        ${{pago.recibosub | int}}
-                                                    </p>
-                                                </div>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                        <div v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
+                                            <div class="card" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
+                                                <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                        <p class="col-6"><strong>{{pago.nombre}}:</strong></p>
+                                                        <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                        <p class="col-6">PAGO INICIAL:</p>
+                                                        <p class="col-6">${{pago.reciboini | int}}</p>
+                                                        <p class="col-6" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                        <p class="col-6" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                        <p class="col-6" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                        <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                            ${{pago.recibosub | int}}
+                                                        </p>
                                                     </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-4">
+                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                        
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="cotizacionesANA">
+                                        <div v-if="cotizacionesANA.AMPLIA">
+                                            <div class="card">
+                                                <img class="card-img-top" :src="anaImage" alt="Ana Seguros">
+                                                <div class="card-body">
+                                                    <div class="row" v-for="pago in cotizacionesANA.AMPLIA">
+                                                        <p class="col-6" v-if="pago.CONTADO"><strong>CONTADO:</strong></p>
+                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.CONTADO">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL"><strong>SEMESTRAL:</strong></p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[0].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">SEMESTRE:</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[1].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL"><strong>TRIMESTRAL:</strong></p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[0].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">TRIMESTRES:</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[1].primatotal | int}}</p>
+                                                    </div>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-4">
+                                                            <!-- TODO -->
+                                                           <!--  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button> -->
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <!-- TODO -->
+                                                            <!-- <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -509,8 +545,12 @@
     			cotizacion:null,
     			cotizacionesQualitas:[],
                 cotizacionesGS:[],
+                cotizacionesANA:[],
     			error:null,
                 setCotizacion: null,
+                anaImage:null,
+                gsImage:null,
+                quaImage:null,
     		}
     	},
     	watch:{
@@ -526,7 +566,10 @@
                 let url = './api/cotizacionANA';
                 let params = {cotizacion:cotizacion};
                 axios.post(url,params).then(res=>{
-                    console.log('coberturas ana',res);
+                    if(res.data.ANASeguros){
+                        this.cotizacionesANA=res.data.ANASeguros;
+                        console.log(this.cotizacionesANA);
+                    }
                 }).catch(err=>{
                     console.log('coberturas ana error',err);
                 })
@@ -599,8 +642,9 @@
     	created(){
     	},
     	mounted(){
-    		console.log('Polizas Component mounted.');
-
+            this.anaImage="./img/ana1.png";
+            this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+            this.quaImage = "./img/qua.png";
     	}
 	}
 </script>
