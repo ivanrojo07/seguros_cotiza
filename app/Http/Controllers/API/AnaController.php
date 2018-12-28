@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\CP;
 use App\Cliente;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use SoapClient;
 
@@ -387,30 +389,75 @@ class AnaController extends Controller
                 $submarcaANA = $this->searchSubmarca($submarca,$marcaANA->id,$modelo);
                 if ($submarcaANA) {
                     $descripcionANA=$this->searchVehiculo($descripcion,$marcaANA->id,$submarcaANA->id,$modelo);
+                    // dd($descripcionANA);
                 }
             }
             if($descripcionANA){
                 $planes=['1','3','4'];
-                dd($descripcionANA);
+                $clave_amis=$descripcionANA->clave;
+                // dd($clave_amis);
+                $pagosJSON=$this->formaPagos();
+                $pagos = json_decode(json_encode($pagosJSON))->original->formapagos;
+                $estadoANA=$cliente->cestado."001";
+                $poblacion = CP::where('cestado',$cliente->cestado)->first()->estado;
+                $fecha = Carbon::now();
+                $fecha_hoy=$fecha->format('d/m/Y');
+                // dd($fecha_hoy);
+                $fecha_t = Carbon::parse($fecha);
+                $fecha_t = $fecha_t->addYears(1)->format('d/m/Y');
+                // dd($fecha_t);
+                // dd($poblacion);
+
+                foreach ($pagos as $pago) {                        
+$xmlAMPLIA = <<<XML
+<transacciones xmlns="">
+    <transaccion version="1" tipotransaccion="$pago->id" cotizacion="" negocio="1195" tiponegocio="">
+        <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="1" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
+            <cobertura id="02" desc="" sa="" tipo="3" ded="5" pma=""/>
+            <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
+            <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
+            <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
+            <cobertura id="09" desc="" sa="Auto Sustituto" tipo="" ded="" pma=""/>
+            <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
+            <cobertura id="13" desc="" sa="2" tipo="" ded="" pma=""/>
+            <cobertura id="25" desc="" sa="1000000" tipo="" ded="" pma=""/>
+            <cobertura id="26" desc="" sa="1000000" tipo="" ded="" pma=""/>
+            <cobertura id="27" desc="" sa="" tipo="" ded="" pma=""/>
+            <cobertura id="34" desc="" sa="2000000" tipo="" ded="" pma=""/>
+            <cobertura id="35" desc="" sa="" tipo="" ded="" pma=""/>
+            <cobertura id="40" desc="" sa="" tipo="" ded="50" pma=""/>
+        </vehiculo>
+        <asegurado id="" nombre="" paterno="" materno="" calle="" numerointerior="" numeroexterior="" colonia="" poblacion="" estado="$estadoANA" cp="" pais="" tipopersona=""/>
+        <poliza id="" tipo="A" endoso="" fecemision="" feciniciovig="$fecha_hoy" fecterminovig="$fecha_t" moneda="0" bonificacion="0" formapago="$pago->id" agente="14275" tarifacuotas="1804" tarifavalores="1804" tarifaderechos="1804" beneficiario="" politicacancelacion="1"/>
+        <prima primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision=""/>
+        <recibo id="" feciniciovig="" fecterminovig="" primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision="" cadenaoriginal="" sellodigital="" fecemision="" serie="" folio="" horaemision="" numeroaprobacion="" anoaprobacion="" numseriecertificado=""/>
+        <error/>
+    </transaccion>
+</transacciones>
+XML;
+            var_dump($xmlAMPLIA);
+                }
+                try{
+                    $client = new SoapClient($this->url,$this->params);
+                    // $transaccionXML = ;
+                    dd($client->Transaccion(["XML"=>$xmlAMPLIA,"TipoTransaccion"=>$request->tipo,"Usuario"=>"14275","Clave"=>"kdEDyC9F"]));
+                // TODO
+                // $submarcasResp = json_decode(json_encode(simplexml_load_string($submarcasXML->SubMarcaResult)),true);
+                // dd($submarcasResp);
+                // if (isset($submarcasResp['submarca'])) {
+                //     $submarcas = $submarcasResp['submarca'];
+                //     return response()->json(['submarcas'=>$submarcas],201);
+                // }
+                // else{
+                //     return response()->json(['error'=>"Sub-Marcas no encontradas",404]);
+                // }
+                }catch(SoapFault $fault){
+                    dd($fault);
+                }
             }
+            dd("fin");
         }
-        try{
-            $client = new SoapClient($this->url,$this->params);
-            $submarcasXML = $client->Transaccion(["XML"=>"#TODO","TipoTransaccion"=>$tipo,"Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-            // TODO
-            // dd($submarcasXML);
-            // $submarcasResp = json_decode(json_encode(simplexml_load_string($submarcasXML->SubMarcaResult)),true);
-            // dd($submarcasResp);
-            // if (isset($submarcasResp['submarca'])) {
-            //     $submarcas = $submarcasResp['submarca'];
-            //     return response()->json(['submarcas'=>$submarcas],201);
-            // }
-            // else{
-            //     return response()->json(['error'=>"Sub-Marcas no encontradas",404]);
-            // }
-        }catch(SoapFault $fault){
-            dd($fault);
-        }
+       
     }
     public function vehiculo($marca,$submarca,$modelo)
     {
