@@ -79,6 +79,7 @@ class GeneralSegurosController extends Controller
     	$soapClient = $this->getClient($this->urlCotiza);
     	// dd($soapClient->__getTypes());
     	try{
+            // dd($cliente->tipoServicio);
 	    	$res = $soapClient->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>$cliente->cp,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>$cliente->auto->version->amis_gs,"conductorMenor30"=>$cliente->menor30,'modelo'=>$cliente->auto->submarca->anio,'tipoServicio'=>$cliente->tipoServicio,'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
 			$response = json_decode(json_encode($res),true);
 	    	// dd($response);
@@ -186,9 +187,14 @@ class GeneralSegurosController extends Controller
     			return response()->json(['cotizacion_id'=>$response['return']['idCotizacion'],$key=>$value ]);
     		}
     		else{
-    			
-    			$value = $response['return'][$key];
-    			return response()->json([$key=>$value]);
+    			if(array_key_exists(0,$response['return'][$key])){
+    			     $value = $response['return'][$key];
+    			     return response()->json([$key=>$value]);
+                }
+                else{
+                    $value = [$response['return'][$key]];
+                    return response()->json([$key=>$value]);
+                }
     		}
     	}
     }

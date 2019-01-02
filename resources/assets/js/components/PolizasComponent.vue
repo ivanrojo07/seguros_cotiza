@@ -49,6 +49,54 @@
                 </div>
             </div>
         </div>
+        <!-- Modal ANA -->
+        <div id="modal-Info-ANA" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="ANAModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <div class="col-4 p-2">
+                                <img :src="anaImage" class="rounded" alt="Ana Seguros">
+                            </div>
+                            <div class="col ml-3 p-2">
+                                <h5 class="modal-title" id="exampleModalLabel">ANA Seguros</h5>
+                            </div>
+                    </div>
+                    <div class="modal-body">
+                        <div v-if="cotizacion" class="row p-0">
+                            <div class="col-12 p-0">
+                                <div class="row m-1">
+                                    <div class="col-6">
+                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                            <a v-for="(cobertura, index) in cotizacion.coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#cobertura-'+index" role="tab" aria-controls="cobertura-1" aria-selected="true">{{cobertura.desc}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 p-2">
+                                        <div class="tab-content" id="v-pills-tabContent">
+                                            <div v-for="(cobertura, index) in cotizacion.coberturas" class="tab-pane fade" :id="'cobertura-'+index" role="tabpanel" aria-labelledby="cobertura-1-tab">
+                                                <h4>            
+                                                    Descripción {{cobertura.desc}}
+                                                </h4>
+                                                <h5 v-if="cobertura.sa">Suma asegurada:</h5>
+                                                <p v-if="cobertura.sa">{{cobertura.sa}}</p>
+                                                <h5 v-if="cobertura.ded">Deducible:</h5>
+                                                <p v-if="cobertura.ded">{{ cobertura.ded }}</p>
+                                                <h5 v-if="cobertura.pma">Prima:</h5>
+                                                <p v-if="cobertura.pma">{{cobertura.pma}}</p>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                   <!--  <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Modal GS -->
         <div id="modal-Info-GS" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="qualitasModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -264,11 +312,11 @@
                                                     <div class="row justify-content-between">
                                                         <div class="col-4">
                                                             <!-- TODO -->
-                                                           <!--  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button> -->
+                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-ANA" @click="infoAna(cotizacionesANA.AMPLIA)">Información</button>
                                                         </div>
                                                         <div class="col-4">
                                                             <!-- TODO -->
-                                                            <!-- <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button> -->
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(cotizacionesANA.AMPLIA)">Elegir</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -368,33 +416,70 @@
                                         </div>
                                     </div>
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="cotizacionesGS">
-                                    <div v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
-                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
-                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                            <div class="card-body">
-                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                    <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
-                                                    <p class="col-6">${{pago.primaTotal | int}}</p>
-                                                    <p class="col-6 card-title">PAGO INICIAL:</p>
-                                                    <p class="col-6">${{pago.reciboini | int}}</p>
-                                                    <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
-                                                    <p class="col-6" v-if="pago.nombre != 'CONTADO'">
-                                                        ${{pago.recibosub | int}}
-                                                    </p>
-                                                </div>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                        <div v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
+                                            <div class="card" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
+                                                <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
+                                                        <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
+                                                        <p class="col-6">${{pago.primaTotal | int}}</p>
+                                                        <p class="col-6 card-title">PAGO INICIAL:</p>
+                                                        <p class="col-6">${{pago.reciboini | int}}</p>
+                                                        <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
+                                                        <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
+                                                        <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
+                                                        <p class="col-6" v-if="pago.nombre != 'CONTADO'">
+                                                            ${{pago.recibosub | int}}
+                                                        </p>
                                                     </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-4">
+                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="cotizacionesANA">
+                                        <div v-if="cotizacionesANA.LIMITADA">
+                                            <div class="card">
+                                                <img class="card-img-top" :src="anaImage" alt="Ana Seguros">
+                                                <div class="card-body">
+                                                    <div class="row" v-for="pago in cotizacionesANA.LIMITADA">
+                                                        <p class="col-6" v-if="pago.CONTADO"><strong>CONTADO:</strong></p>
+                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.CONTADO">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL"><strong>SEMESTRAL:</strong></p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[0].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">SEMESTRE:</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[1].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL"><strong>TRIMESTRAL:</strong></p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[0].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">TRIMESTRES:</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[1].primatotal | int}}</p>
+                                                    </div>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-4">
+                                                            <!-- TODO -->
+                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-ANA" @click="infoAna(cotizacionesANA.LIMITADA)">Información</button>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <!-- TODO -->
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(cotizacionesANA.LIMITADA)">Elegir</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -517,6 +602,43 @@
                                         </div>
                                     </div>
                                     </div>
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="cotizacionesANA">
+                                        <div v-if="cotizacionesANA.RC">
+                                            <div class="card">
+                                                <img class="card-img-top" :src="anaImage" alt="Ana Seguros">
+                                                <div class="card-body">
+                                                    <div class="row" v-for="pago in cotizacionesANA.RC">
+                                                        <p class="col-6" v-if="pago.CONTADO"><strong>CONTADO:</strong></p>
+                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.CONTADO">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL"><strong>SEMESTRAL:</strong></p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[0].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">SEMESTRE:</p>
+                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[1].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL"><strong>TRIMESTRAL:</strong></p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.prima.primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">PAGO INICIAL:</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[0].primatotal | int}}</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">TRIMESTRES:</p>
+                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[1].primatotal | int}}</p>
+                                                    </div>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-4">
+                                                            <!-- TODO -->
+                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-ANA" @click="infoAna(cotizacionesANA.RC)">Información</button>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <!-- TODO -->
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(cotizacionesANA.RC)">Elegir</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -603,6 +725,14 @@
                     console.log('general err',error);
                 })
 
+            },
+            infoAna(cotiza){
+                // console.log(cotiza[0].CONTADO);
+                this.cotizacion=cotiza[0].CONTADO;
+                console.log(this.setCotizacion);
+            },
+            emitirANA(cotiza){
+                console.log(cotiza);
             },
     		infoCotizacion(cotiza){
                 console.log(cotiza);

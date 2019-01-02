@@ -37,6 +37,7 @@
     										</div>
     										<div class="card-body">
     											<select v-model="cliente.uso_auto" size="3" class="list-group list-group-flush col mr-0 ml-0"  style="overflow-y: hidden;">
+    												<option value="" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Seleccione el uso que se da al vehiculo</option>
     												<option value="Servicio Particular" class="list-group-item text-center text-dark seleccionador">Servicio Particular</option>
                                     				<!-- <option value="Servicio Público" class="list-group-item text-center text-dark seleccionador">Servicio Público</option> -->
     											</select>
@@ -54,6 +55,7 @@
 		                        </div>
 		                        <div class="card-body">
 		                            <select v-model="cliente.marca_auto" size="3" class="list-group list-group-flush col">
+		                            	<option value="" class="list-group-item text-center text-dark seleccionador">Seleccione su marca</option>
 										<option v-for="marca in marcas" :value="marca" class="list-group-item text-center text-dark seleccionador">{{marca.nombre}}</option>
 									</select>
 									<div class="row">
@@ -76,6 +78,7 @@
 		                        		<label>No se encontraron resultados</label>
 		                        	</div>
 		                            <select v-show="!loader_tipo && this.submarca.length != 0" v-model="cliente.submarca_auto" size="3" class="list-group list-group-flush col">
+		                            	<option value="" class="list-group-item text-center text-dark seleccionador">Seleccione su tipo</option>
 										<option v-for="submarca in submarcas" :value="submarca" class="list-group-item text-center text-dark seleccionador">{{submarca.nombre}}</option>
 									</select>
 									<div class="row">
@@ -98,6 +101,7 @@
 		                        		<label>No se encontraron resultados</label>
 		                        	</div>
 		                            <select v-show="!loader_modelo && this.modelo.length != 0" class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
+		                            	<option value=""  class="list-group-item text-center text-dark seleccionador">Seleccione su modelo</option>
 		                            	<option v-for="anio in modelos" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
 		                            </select>
 		                            <div class="row">
@@ -120,6 +124,7 @@
 		                        		<label>No se encontraron resultados</label>
 		                        	</div>
 		                            <select v-show="!loader_desc && this.descripciones.length != 0" class="list-group list-group-flush col" v-model="cliente.descripcion_auto" size="3">
+		                            	<option value="" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Seleccione la descripcion de su auto</option>
 		                            	<option v-for="descripcion in descripciones" :value="descripcion" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">{{descripcion.descripcion}}</option>
 		                            </select>
 		                            <div class="row">
