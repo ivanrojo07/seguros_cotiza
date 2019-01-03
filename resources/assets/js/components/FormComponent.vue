@@ -514,6 +514,86 @@
 						</div>
 					</div>
 				</form>
+				<form v-if="cotizacion.nombre === 'ANASeguros'" @submit="sendANA" method="POST" action="./sendANA">
+					<div class="row">
+						<div class="offset-1 col-3">
+							<img :src="anaImage" class="col">
+						</div>
+						<div class="offset-1 col-6">
+							<h5 class="mt-3 ml-3">ANA Seguros</h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 mt-3">
+							<h6>Datos del asegurado:</h6>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">Tipo de persona:</label>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="ana.cliente.tipo_persona" value="1" checked>
+	                            <label class="form-check-label" for="radioF">
+	                             Fisica
+	                            </label>
+	                        </div>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioM" v-model="ana.cliente.tipo_persona" value="2">
+	                            <label class="form-check-label" for="radioM">
+	                             Moral
+	                            </label>
+	                        </div>
+						</div>
+					</div>
+					<div class="row" v-if="ana.cliente.tipo_persona == '1'">
+						<div class="form-group col-4">
+							<label class="control-label">
+								Nombre(s)
+							</label>
+							<input class="form-control" type="text" name="nombre" v-model="ana.cliente.nombre" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">
+								Apellido Paterno
+							</label>
+							<input type="text" name="apepat" class="form-control" v-model="ana.cliente.appat" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">
+								Apellido Materno
+							</label>
+							<input type="text" name="apemat" class="form-control" v-model="ana.cliente.apmat">
+						</div>
+					</div>
+					<div class="row" v-if="ana.cliente.tipo_persona == '2'">
+						<div class="form-group col-12">
+							<label class="control-label">
+								Razón Social
+							</label>
+							<input class="form-control" type="text" name="nombre" v-model="ana.cliente.nombre" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-4">
+							<label class="control-label">Correo electrónico:</label>
+							<input class="form-control" type="email" name="correo" v-model="ana.cliente.correo" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Telefono</label>
+							<input class="form-control" type="text" name="telefono" v-model="ana.cliente.telefono" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">R.F.C.:</label>
+							<input class="form-control" type="text" name="rfc" v-model="ana.cliente.rfc" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Estado:</label>
+							<select class="form-control" name="estado" v-model="ana.cliente.estado" required>
+								<option value="">Seleccione el estado en donde vive</option>
+								<option v-for="estado in anaestados" :value="estado.id">{{estado.descripcion}}</option>
+							</select>
+						</div>
+
+					</div>
+				</form>
 			</div>
 		</div>
 		<!-- <pre>
@@ -532,6 +612,7 @@
 			return{
 				gsImage:null,
 				quaImage:null,
+				anaImage:null,
 				csrf: null,
 				qualitas:{
 					cotizacion:"",
@@ -625,12 +706,55 @@
 						idpaquete:""
 					},
 				},
+				ana:{
+					cliente:{
+						tipo_persona:"1",
+						nombre:"",
+						apepat:"",
+						apemat:"",
+						rfc:"",
+						curp:"",
+						calle:"",
+						num_int:"",
+						num_ext:"",
+						poblacion:"",
+						estado:"",
+						codigo_postal:"",
+						pais:"MEXICO",
+						telefono:"",
+						correo:"",
+						nacionalidad:"",
+						identificacion:"",
+						num_identif:"",
+						ocupacion:"",
+						f_nac:"",
+						giro:"",
+						administrador:"",
+						nacionalidad_adm:"",
+						representante:"",
+						nacionalidad_representante:""
+					},
+					vehiculo:{
+						amis:"",
+						placas:"",
+						serie:"",
+						motor:"",
+						modelo:"",
+						color:"",
+					},
+					cotizacion:{
+						plan:"",
+						pago:"",
+
+					}
+				},
 				selectPobla:{},
 				qualitasPobla:[],
 				qualitasGiros:[],
 				qualitasProfesiones:[],
 				qualitasOcupaciones:[],
 				estadosCiviles:[],
+				anaestados:[],
 				ocupaciones:[],
 				giros:[],
 				tipocontactos:[],
@@ -708,6 +832,9 @@
 				if (this.qualitas.cliente.contratante == 1) {
 					this.qualitas.cliente.tipo_persona_cont = new_value;
 				} else {}
+			},
+			'ana.cliente.estado':function(new_value,old_value){
+				this.getMunicipios(new_value);
 			}
 
 		},
@@ -733,6 +860,9 @@
 			'sendQua': function(){
 				// TODO
 			},
+			'sendANA':function(){
+				// TODO
+			},
 			'formaPago':function(){
 				if (this.generalseguro.cotizacion.id_pago == "" ) {
 					this.detallePago = {};
@@ -749,6 +879,25 @@
 					
 				}
 				console.log(this.detallePago);
+			},
+			'getEstados':function(){
+				let url="./api/estadosANA";
+				axios.get(url).then(res=>{
+					console.log(res.data);
+					this.anaestados=res.data.estados
+				}).catch(err=>{
+					console.log(err);
+				});
+			},
+			'getMunicipios':function(estado_id){
+				let url = `./api/municipiosANA/${estado_id}`;
+				axios.get(url).then(res=>{
+					console.log(res.data);
+					// 
+				}).catch(err=>{
+					console.log(err);
+				});
+
 			},
 			'getEdoCivil':function(){
 				let url="./api/getEstadoCivil";
@@ -807,6 +956,8 @@
 			this.getOcupaciones();
 			this.getGiros();
 			this.getContactos();
+			this.getEstados();
+			this.anaImage="./img/ana1.png";
 			this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
 			this.quaImage = "./img/qua.png";
 			this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;

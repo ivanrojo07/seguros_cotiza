@@ -50418,6 +50418,86 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['cliente', 'alert', 'cotizacion'],
@@ -50425,6 +50505,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			gsImage: null,
 			quaImage: null,
+			anaImage: null,
 			csrf: null,
 			qualitas: {
 				cotizacion: "",
@@ -50518,12 +50599,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					idpaquete: ""
 				}
 			},
+			ana: {
+				cliente: {
+					tipo_persona: "1",
+					nombre: "",
+					apepat: "",
+					apemat: "",
+					rfc: "",
+					curp: "",
+					calle: "",
+					num_int: "",
+					num_ext: "",
+					poblacion: "",
+					estado: "",
+					codigo_postal: "",
+					pais: "MEXICO",
+					telefono: "",
+					correo: "",
+					nacionalidad: "",
+					identificacion: "",
+					num_identif: "",
+					ocupacion: "",
+					f_nac: "",
+					giro: "",
+					administrador: "",
+					nacionalidad_adm: "",
+					representante: "",
+					nacionalidad_representante: ""
+				},
+				vehiculo: {
+					amis: "",
+					placas: "",
+					serie: "",
+					motor: "",
+					modelo: "",
+					color: ""
+				},
+				cotizacion: {
+					plan: "",
+					pago: ""
+
+				}
+			},
 			selectPobla: {},
 			qualitasPobla: [],
 			qualitasGiros: [],
 			qualitasProfesiones: [],
 			qualitasOcupaciones: [],
 			estadosCiviles: [],
+			anaestados: [],
 			ocupaciones: [],
 			giros: [],
 			tipocontactos: [],
@@ -50601,6 +50725,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (this.qualitas.cliente.contratante == 1) {
 				this.qualitas.cliente.tipo_persona_cont = new_value;
 			} else {}
+		},
+		'ana.cliente.estado': function anaClienteEstado(new_value, old_value) {
+			this.getMunicipios(new_value);
 		}
 
 	},
@@ -50627,6 +50754,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		'sendQua': function sendQua() {
 			// TODO
 		},
+		'sendANA': function sendANA() {
+			// TODO
+		},
 		'formaPago': function formaPago() {
 			var _this2 = this;
 
@@ -50645,53 +50775,73 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}
 			console.log(this.detallePago);
 		},
-		'getEdoCivil': function getEdoCivil() {
+		'getEstados': function getEstados() {
 			var _this3 = this;
+
+			var url = "./api/estadosANA";
+			axios.get(url).then(function (res) {
+				console.log(res.data);
+				_this3.anaestados = res.data.estados;
+			}).catch(function (err) {
+				console.log(err);
+			});
+		},
+		'getMunicipios': function getMunicipios(estado_id) {
+			var url = './api/municipiosANA/' + estado_id;
+			axios.get(url).then(function (res) {
+				console.log(res.data);
+				// 
+			}).catch(function (err) {
+				console.log(err);
+			});
+		},
+		'getEdoCivil': function getEdoCivil() {
+			var _this4 = this;
 
 			var url = "./api/getEstadoCivil";
 			axios.get(url).then(function (res) {
 				console.log(res);
 				if (res.data.estadosCivil) {
-					_this3.estadosCiviles = res.data.estadosCivil.sort();
+					_this4.estadosCiviles = res.data.estadosCivil.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
 			});
 		},
 		'getOcupaciones': function getOcupaciones() {
-			var _this4 = this;
+			var _this5 = this;
 
 			var url = "./api/getTitulos";
 			axios.get(url).then(function (res) {
 				console.log(res);
 				if (res.data.titulos) {
-					_this4.ocupaciones = res.data.titulos.sort();
+					_this5.ocupaciones = res.data.titulos.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
 			});
 		},
 		'getGiros': function getGiros() {
-			var _this5 = this;
+			var _this6 = this;
 
 			var url = "./api/getGiros";
 			axios.get(url).then(function (res) {
 				console.log(res);
 				if (res.data.giros) {
-					_this5.giros = res.data.giros.sort();
+					_this6.giros = res.data.giros.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
 			});
 		},
 		'getContactos': function getContactos() {
-			var _this6 = this;
+			var _this7 = this;
 
 			var url = "./api/getContactos";
 			axios.get(url).then(function (res) {
 				console.log(res.data);
 				if (res.data.tiposContacto) {
-					_this6.tipocontactos = res.data.tiposContacto.sort();
+					_this7.tipocontactos = res.data.tiposContacto.sort();
 				}
 			}).catch(function (err) {
 				console.log(err);
@@ -50710,6 +50860,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.getOcupaciones();
 		this.getGiros();
 		this.getContactos();
+		this.getEstados();
+		this.anaImage = "./img/ana1.png";
 		this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
 		this.quaImage = "./img/qua.png";
 		this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
@@ -54271,6 +54423,412 @@ var render = function() {
                 _vm._m(8)
               ]
             )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.cotizacion.nombre === "ANASeguros"
+          ? _c(
+              "form",
+              {
+                attrs: { method: "POST", action: "./sendANA" },
+                on: { submit: _vm.sendANA }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "offset-1 col-3" }, [
+                    _c("img", {
+                      staticClass: "col",
+                      attrs: { src: _vm.anaImage }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(9)
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _vm._m(10),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-6" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Tipo de persona:")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ana.cliente.tipo_persona,
+                            expression: "ana.cliente.tipo_persona"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "tipo_persona",
+                          id: "radioF",
+                          value: "1",
+                          checked: ""
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.ana.cliente.tipo_persona, "1")
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(_vm.ana.cliente, "tipo_persona", "1")
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioF" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Fisica\n\t                            "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ana.cliente.tipo_persona,
+                            expression: "ana.cliente.tipo_persona"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "tipo_persona",
+                          id: "radioM",
+                          value: "2"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.ana.cliente.tipo_persona, "2")
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(_vm.ana.cliente, "tipo_persona", "2")
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioM" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Moral\n\t                            "
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.ana.cliente.tipo_persona == "1"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("\n\t\t\t\t\t\t\t\tNombre(s)\n\t\t\t\t\t\t\t")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ana.cliente.nombre,
+                              expression: "ana.cliente.nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "nombre", required: "" },
+                          domProps: { value: _vm.ana.cliente.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ana.cliente,
+                                "nombre",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Paterno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ana.cliente.appat,
+                              expression: "ana.cliente.appat"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apepat", required: "" },
+                          domProps: { value: _vm.ana.cliente.appat },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ana.cliente,
+                                "appat",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tApellido Materno\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ana.cliente.apmat,
+                              expression: "ana.cliente.apmat"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "apemat" },
+                          domProps: { value: _vm.ana.cliente.apmat },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ana.cliente,
+                                "apmat",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ana.cliente.tipo_persona == "2"
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "form-group col-12" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tRazón Social\n\t\t\t\t\t\t\t"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ana.cliente.nombre,
+                              expression: "ana.cliente.nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", name: "nombre", required: "" },
+                          domProps: { value: _vm.ana.cliente.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.ana.cliente,
+                                "nombre",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Correo electrónico:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.ana.cliente.correo,
+                          expression: "ana.cliente.correo"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "email", name: "correo", required: "" },
+                      domProps: { value: _vm.ana.cliente.correo },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.ana.cliente,
+                            "correo",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Telefono")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.ana.cliente.telefono,
+                          expression: "ana.cliente.telefono"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "telefono", required: "" },
+                      domProps: { value: _vm.ana.cliente.telefono },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.ana.cliente,
+                            "telefono",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("R.F.C.:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.ana.cliente.rfc,
+                          expression: "ana.cliente.rfc"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "rfc", required: "" },
+                      domProps: { value: _vm.ana.cliente.rfc },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.ana.cliente, "rfc", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-4" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Estado:")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ana.cliente.estado,
+                            expression: "ana.cliente.estado"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "estado", required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.ana.cliente,
+                              "estado",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Seleccione el estado en donde vive")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.anaestados, function(estado) {
+                          return _c(
+                            "option",
+                            { domProps: { value: estado.id } },
+                            [_vm._v(_vm._s(estado.descripcion))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                ])
+              ]
+            )
           : _vm._e()
       ])
     ])
@@ -54359,6 +54917,22 @@ var staticRenderFns = [
           [_vm._v("Enviar")]
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "offset-1 col-6" }, [
+      _c("h5", { staticClass: "mt-3 ml-3" }, [_vm._v("ANA Seguros")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 mt-3" }, [
+      _c("h6", [_vm._v("Datos del asegurado:")])
     ])
   }
 ]
@@ -55158,8 +55732,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.cotizacion = cotiza[0].CONTADO;
             console.log(this.setCotizacion);
         },
-        emitirANA: function emitirANA(cotiza) {
-            console.log(cotiza);
+        emitirANA: function emitirANA(key, cotiza) {
+            this.setCotizacion = { nombre: "ANASeguros", cotizacion: { tipo: key, info: cotiza } };
+            this.$emit("emitirana", this.setCotizacion);
+            $("#paso3-tab").removeClass("disabled");
+            $("#paso3-tab").click();
         },
         infoCotizacion: function infoCotizacion(cotiza) {
             console.log(cotiza);
@@ -56607,6 +57184,7 @@ var render = function() {
                                                                   $event
                                                                 ) {
                                                                   _vm.emitirANA(
+                                                                    "AMPLIA",
                                                                     _vm
                                                                       .cotizacionesANA
                                                                       .AMPLIA
@@ -57581,6 +58159,7 @@ var render = function() {
                                                                   $event
                                                                 ) {
                                                                   _vm.emitirANA(
+                                                                    "LIMITADA",
                                                                     _vm
                                                                       .cotizacionesANA
                                                                       .LIMITADA
@@ -58548,6 +59127,7 @@ var render = function() {
                                                                   $event
                                                                 ) {
                                                                   _vm.emitirANA(
+                                                                    "RC",
                                                                     _vm
                                                                       .cotizacionesANA
                                                                       .RC
@@ -58764,7 +59344,7 @@ if (false) {
 /* 52 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: Missing binding C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\node-sass\\vendor\\win32-x64-64\\binding.node\nNode Sass could not find a binding for your current environment: Windows 64-bit with Node.js 10.x\n\nFound bindings for the following environments:\n  - Windows 64-bit with Node.js 8.x\n\nThis usually happens because your environment has changed since running `npm install`.\nRun `npm rebuild node-sass` to download the binding for your current environment.\n    at module.exports (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\node-sass\\lib\\binding.js:15:13)\n    at Object.<anonymous> (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\node-sass\\lib\\index.js:14:35)\n    at Module._compile (internal/modules/cjs/loader.js:689:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)\n    at Module.load (internal/modules/cjs/loader.js:599:32)\n    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)\n    at Function.Module._load (internal/modules/cjs/loader.js:530:3)\n    at Module.require (internal/modules/cjs/loader.js:637:17)\n    at require (internal/modules/cjs/helpers.js:22:18)\n    at Object.<anonymous> (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\sass-loader\\lib\\loader.js:3:14)\n    at Module._compile (internal/modules/cjs/loader.js:689:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)\n    at Module.load (internal/modules/cjs/loader.js:599:32)\n    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)\n    at Function.Module._load (internal/modules/cjs/loader.js:530:3)\n    at Module.require (internal/modules/cjs/loader.js:637:17)\n    at require (internal/modules/cjs/helpers.js:22:18)\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:13:17)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at runLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\NormalModule.js:195:19)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:170:18\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:27:11)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\loader-runner\\lib\\LoaderRunner.js:362:2)\n    at NormalModule.doBuild (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\NormalModule.js:182:3)\n    at NormalModule.build (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\NormalModule.js:275:15)\n    at Compilation.buildModule (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\Compilation.js:157:10)\n    at moduleFactory.create (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\Compilation.js:460:10)\n    at factory (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\NormalModuleFactory.js:243:5)\n    at applyPluginsAsyncWaterfall (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\NormalModuleFactory.js:94:13)\n    at C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\tapable\\lib\\Tapable.js:268:11\n    at NormalModuleFactory.params.normalModuleFactory.plugin (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\CompatibilityPlugin.js:52:5)\n    at NormalModuleFactory.applyPluginsAsyncWaterfall (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\tapable\\lib\\Tapable.js:272:13)\n    at resolver (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\NormalModuleFactory.js:69:10)\n    at process.nextTick (C:\\xampp\\htdocs\\seguros_cotiza\\node_modules\\webpack\\lib\\NormalModuleFactory.js:196:7)\n    at process._tickCallback (internal/process/next_tick.js:61:11)");
 
 /***/ })
 /******/ ]);

@@ -316,7 +316,7 @@
                                                         </div>
                                                         <div class="col-4">
                                                             <!-- TODO -->
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(cotizacionesANA.AMPLIA)">Elegir</button>
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA('AMPLIA',cotizacionesANA.AMPLIA)">Elegir</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -474,7 +474,7 @@
                                                         </div>
                                                         <div class="col-4">
                                                             <!-- TODO -->
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(cotizacionesANA.LIMITADA)">Elegir</button>
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA('LIMITADA',cotizacionesANA.LIMITADA)">Elegir</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -632,7 +632,7 @@
                                                         </div>
                                                         <div class="col-4">
                                                             <!-- TODO -->
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(cotizacionesANA.RC)">Elegir</button>
+                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA('RC',cotizacionesANA.RC)">Elegir</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -731,8 +731,12 @@
                 this.cotizacion=cotiza[0].CONTADO;
                 console.log(this.setCotizacion);
             },
-            emitirANA(cotiza){
-                console.log(cotiza);
+            emitirANA(key,cotiza){
+                this.setCotizacion={nombre:"ANASeguros",cotizacion:{tipo:key,info:cotiza}};
+                this.$emit("emitirana" , this.setCotizacion);
+                $("#paso3-tab").removeClass("disabled");
+                $("#paso3-tab").click();
+
             },
     		infoCotizacion(cotiza){
                 console.log(cotiza);

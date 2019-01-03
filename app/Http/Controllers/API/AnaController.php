@@ -49,7 +49,94 @@ class AnaController extends Controller
     public function prueba()
     {
        // dd($request->all());
-        $cliente = Cliente::where('cotizacion',"a23c339006")->first();
+        $cliente = Cliente::where('cotizacion',"8290fea1f0")->first();
+        // dd($cliente);
+        $marca = $cliente->auto->marca->nombre;
+            $submarca= $cliente->auto->submarca->nombre;
+            $modelo = $cliente->auto->submarca->anio;
+            $descripcion= $cliente->auto->version->descripcion;
+            $marcaANA = $this->searchMarca($marca,$modelo);
+            if($marcaANA){
+                $submarcaANA = $this->searchSubmarca($submarca,$marcaANA->id,$modelo);
+                // dd($submarca);
+                if ($submarcaANA) {
+                    $descripcionANA=$this->searchVehiculo($descripcion,$marcaANA->id,$submarcaANA->id,$modelo);
+                    // dd($descripcionANA);
+                }
+            }
+            if($descripcionANA){
+                // dd($descripcionANA);
+                $clave_amis=$descripcionANA->clave;
+                $fecha = Carbon::now();
+                $fecha_hoy=$fecha->format('d/m/Y');
+                // dd($fecha_hoy);
+                $fecha_t = Carbon::parse($fecha);
+                $fecha_t = $fecha_t->addYears(1)->format('d/m/Y');
+                $xmlAmplia=
+<<<XML
+<transacciones xmlns="">
+  <transaccion version="1" tipotransaccion="E" cotizacion="" negocio="1195" tiponegocio="">
+    <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="1" motor="S123455446446" serie="S342342332423423D" repuve="" placas="UTRF-65" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="09007" poblacion="Martires de Rio Blanco" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
+            <cobertura id="02" desc="" sa="" tipo="3" ded="5" pma=""/>
+            <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
+            <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
+            <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
+            <cobertura id="09" desc="" sa="Auto Sustituto" tipo="" ded="" pma=""/>
+            <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
+            <cobertura id="13" desc="" sa="2" tipo="" ded="" pma=""/>
+            <cobertura id="25" desc="" sa="1000000" tipo="" ded="" pma=""/>
+            <cobertura id="26" desc="" sa="1000000" tipo="" ded="" pma=""/>
+            <cobertura id="27" desc="" sa="" tipo="" ded="" pma=""/>
+            <cobertura id="34" desc="" sa="2000000" tipo="" ded="" pma=""/>
+            <cobertura id="35" desc="" sa="" tipo="" ded="" pma=""/>
+            <cobertura id="40" desc="" sa="" tipo="" ded="50" pma=""/>
+        </vehiculo>
+        <asegurado id="" nombre="Guillermo Iván" paterno="Rojo" materno="Orea" calle="Norte 58-A" numerointerior="1" numeroexterior="3644" colonia="Martires de Rio Blanco" poblacion="07" estado="09007" cp="07880" pais="MEXICO" tipopersona="1">
+            <argumento id="2" tipo="" campo="" valor="ivanrojo07@gmail.com"/>
+            <argumento id="3" tipo="" campo="" valor="5521507436"/>
+            <argumento id="4" tipo="" campo="" valor="ROOG921021IS2"/>
+            <argumento id="5" tipo="" campo="" valor="ROOG921021HDFJRL01"/>
+            <argumento id="6" tipo="" campo="" valor="M1"/>
+            <argumento id="7" tipo="" campo="" valor="C3"/>
+            <argumento id="8" tipo="" campo="" valor="123456789012"/>
+            <argumento id="9" tipo="" campo="" valor="O1"/>
+        </asegurado>
+        <poliza id="" tipo="A" endoso="" fecemision="" feciniciovig="$fecha_hoy" fecterminovig="$fecha_t" moneda="0" bonificacion="0" formapago="C" agente="14275" tarifacuotas="1804" tarifavalores="1804" tarifaderechos="1804" beneficiario="" politicacancelacion="1"/>
+        <prima primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision=""/>
+        <recibo id="" feciniciovig="" fecterminovig="" primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision="" cadenaoriginal="" sellodigital="" fecemision="" serie="" folio="" horaemision="" numeroaprobacion="" anoaprobacion="" numseriecertificado=""/>
+        <error/>
+    </transaccion>
+</transacciones>
+
+XML;
+            try{
+                $client = new SoapClient($this->urlPHP,$this->params);
+                $res =$client->TransaccionText(["XML"=>$xmlAmplia,"Tipo"=>"Emision","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
+                // dd($res);
+                $array= json_decode(json_encode(simplexml_load_string($res->TransaccionTextResult)),true);
+                // dd($array);
+                $xmlImpr=<<<XML
+<transacciones xmlns="">
+    <transaccion version="1" tipotransaccion="I" negocio="1195">
+        <poliza id="011932765" endoso="000000" inciso="1" link=""/>
+        <error/>
+    </transaccion>
+</transacciones>
+XML;
+                $resImp =$client->TransaccionText(["XML"=>$xmlImpr,"Tipo"=>"Impresion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
+                // dd($res);
+                $array= json_decode(json_encode(simplexml_load_string($resImp->TransaccionTextResult)),true);
+                dd($array);
+            }
+            catch(SoapFault $fault){
+                dd($fault);
+            }
+            }
+
+    }
+
+    public function emitirPoliza(Request $request){
+        
     }
 
     public function bancos(){
