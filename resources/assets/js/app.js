@@ -18,10 +18,12 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('cotizacion', require('./components/CotizacionComponent.vue'));
-Vue.component('formulario',require('./components/FormComponent.vue'));
-Vue.component('polizas',require('./components/PolizasComponent.vue'));
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('cotizacion', require('./components/CotizacionComponent.vue').default);
+Vue.component('formulario',require('./components/FormComponent.vue').default);
+Vue.component('polizas',require('./components/PolizasComponent.vue').default);
+var emojis = require('emojis-list');
+console.log("emoji",emojis[26]);
 const app = new Vue({
     el: '#app',
     data:{

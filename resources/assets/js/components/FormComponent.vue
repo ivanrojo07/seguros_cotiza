@@ -280,10 +280,10 @@
 					<input type="hidden" name="paquete_id" :value="qualitas.vehiculo.paquete">
 					<input type="hidden" name="poblacion" :value="qualitas.cliente.poblacion">
 					<input type="hidden" name="municipio" :value="qualitas.cliente.municipio">
-					<input type="hidden" name="estado" :Value="qualitas.cliente.estado">
-					<input type="hidden" name="ciudad" :Value="qualitas.cliente.ciudad">
-					<input type="hidden" name="cod_estado" :Value="qualitas.cliente.cod_estado">
-					<input type="hidden" name="cod_municipio" :Value="qualitas.cliente.cod_municipio">
+					<input type="hidden" name="estado" :value="qualitas.cliente.estado">
+					<input type="hidden" name="ciudad" :value="qualitas.cliente.ciudad">
+					<input type="hidden" name="cod_estado" :value="qualitas.cliente.cod_estado">
+					<input type="hidden" name="cod_municipio" :value="qualitas.cliente.cod_municipio">
 					<div v-if="qualitas.cliente.contratante == '1'">
 						<input type="hidden" name="nombre_cont" v-model="qualitas.cliente.nombre_cont">
 						<input type="hidden" name="apepat_cont" v-model="qualitas.cliente.appaterno_cont">
@@ -515,6 +515,7 @@
 					</div>
 				</form>
 				<form v-if="cotizacion.nombre === 'ANASeguros'" @submit="sendANA" method="POST" action="./sendANA">
+					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="offset-1 col-3">
 							<img :src="anaImage" class="col">
@@ -554,13 +555,13 @@
 							<label class="control-label">
 								Apellido Paterno
 							</label>
-							<input type="text" name="apepat" class="form-control" v-model="ana.cliente.appat" required>
+							<input type="text" name="apepat" class="form-control" v-model="ana.cliente.apepat" required>
 						</div>
 						<div class="form-group col-4">
 							<label class="control-label">
 								Apellido Materno
 							</label>
-							<input type="text" name="apemat" class="form-control" v-model="ana.cliente.apmat">
+							<input type="text" name="apemat" class="form-control" v-model="ana.cliente.apemat">
 						</div>
 					</div>
 					<div class="row" v-if="ana.cliente.tipo_persona == '2'">
@@ -584,6 +585,17 @@
 							<label class="control-label">R.F.C.:</label>
 							<input class="form-control" type="text" name="rfc" v-model="ana.cliente.rfc" required>
 						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label">C.U.R.P.:</label>
+							<input class="form-control" type="text" name="curp" v-model="ana.cliente.curp" required>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label">Nacionalidad:</label>
+							<select class="form-control" name="nacionalidad" v-model="ana.cliente.nacionalidad" required>
+								<option value="">Seleccione su nacionalidad</option>
+								<option v-for="nacion in nacionalidadANA" :value="nacion.id">{{nacion.descripcion}}</option>
+							</select>
+						</div>
 						<div class="form-group col-4">
 							<label class="control-label">Estado:</label>
 							<select class="form-control" name="estado" v-model="ana.cliente.estado" required>
@@ -591,7 +603,149 @@
 								<option v-for="estado in anaestados" :value="estado.id">{{estado.descripcion}}</option>
 							</select>
 						</div>
-
+						<div class="form-group col-4">
+							<label class="control-label">Municipio:</label>
+							<select class="form-control" name="municipio_id" v-model="ana.cliente.municipio_id" required>
+								<option value="">Seleccione la alcaldía o municipio en donde vive</option>
+								<option v-for="municipio in anamunicipios" :value="municipio.id" @click="ana.cliente.municipio = municipio.descripcion">{{municipio.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Código Postal:</label>
+							<select class="form-control" name="codigo_postal" v-model="ana.cliente.codigo_postal" required>
+								<option value="">Seleccione el código postal en donde vive</option>
+								<option v-for="cp in anacp" :value="cp.id">{{cp.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Población:</label>
+							<select class="form-control" name="poblacion" v-model="ana.cliente.poblacion" required>
+								<option value="">Seleccione la población en donde vive</option>
+								<option v-for="poblacion in anacolonias" :value="poblacion.descripcion">{{poblacion.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Calle:</label>
+							<input type="text" name="calle" v-model="ana.cliente.calle" class="form-control" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Número interior:</label>
+							<input type="text" name="num_int" v-model="ana.cliente.num_int" class="form-control" required>
+						</div>
+						<div class="form-group col-4">
+							<label class="control-label">Número exterior:</label>
+							<input type="text" name="num_ext" v-model="ana.cliente.num_ext" class="form-control" required>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label">Tipo de Identificación:</label>
+							<select class="form-control" name="identificacion" v-model="ana.cliente.identificacion" required>
+								<option value="">Seleccione su identificacion</option>
+								<option v-for="identificacion in anaidentificaciones" :value="identificacion.id">{{identificacion.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label">Número de identificacion:</label>
+							<input class="form-control" type="text" name="num_identif" v-model="ana.cliente.num_identif" required>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label">Ocupación:</label>
+							<select class="form-control" name="ocupacion" v-model="ana.cliente.ocupacion" required>
+								<option value="">Seleccione su ocupación</option>
+								<option v-for="ocupacion in anaocupaciones" :value="ocupacion.id">{{ocupacion.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label">Fecha de nacimiento:</label>
+							<input class="form-control" type="date" name="f_nac" v-model="ana.cliente.f_nac" required>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label">Giro de la empresa:</label>
+							<select class="form-control" name="giro" v-model="ana.cliente.giro" required>
+								<option value="">Seleccione su ocupación</option>
+								<option v-for="giro in anagiros" :value="giro.id">{{giro.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label">Nombre completo del administrador:</label>
+							<input class="form-control" type="text" name="administrador" v-model="ana.cliente.administrador" required>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label">Nacionalidad del administrador:</label>
+							<select class="form-control" name="nacionalidad_adm" v-model="ana.cliente.nacionalidad_adm" required>
+								<option value="">Seleccione la nacionalidad de su administrador</option>
+								<option v-for="nacion in nacionalidadANA" :value="nacion.id">{{nacion.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label">Nombre completo del representante legal:</label>
+							<input class="form-control" type="text" name="representante" v-model="ana.cliente.representante" required>
+						</div>
+						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label">Nacionalidad del representante legal:</label>
+							<select class="form-control" name="nacionalidad_representante" v-model="ana.cliente.nacionalidad_representante" required>
+								<option value="">Seleccione la nacionalidad de su representante legal</option>
+								<option v-for="nacion in nacionalidadANA" :value="nacion.id">{{nacion.descripcion}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 mt-3">
+							<h6>Datos del vehiculo:</h6>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">Color</label>
+							<select class="form-control" name="color" v-model="ana.vehiculo.color" required>
+								<option value="">Seleccione el color de su vehiculo</option>
+								<option v-for="color in anacolores" :value="color.id">{{color.descripcion}}</option>
+							</select>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">Motor</label>
+							<input class="form-control" type="text" name="color" v-model="ana.vehiculo.motor" required>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">Número de serie</label>
+							<input class="form-control" type="text" name="serie" v-model="ana.vehiculo.serie" required>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label">Placas</label>
+							<input class="form-control" type="text" name="placas" v-model="ana.vehiculo.placas" required>
+						</div>
+						<input type="hidden" name="amis" :value="cotizacion.cotizacion.info[0].CONTADO.vehiculo.amis">
+						<input type="hidden" name="modelo" :value="cotizacion.cotizacion.info[0].CONTADO.vehiculo.modelo">
+					</div>
+					<div class="row">
+						<div class="col-12 mt-3">
+							<h6>Seguro a contratar: ANA Seguros {{cotizacion.cotizacion.tipo}}</h6>
+						</div>
+						<input type="hidden" name="plan" :value="cotizacion.cotizacion.tipo">
+						<div class="form-group col-4">
+							<label for="pago" class="control-label">Forma de pago</label>
+							<select name="pago" id="pago" class="form-control" v-model="ana.cotizacion.pago" required @change="formaPagoAna()">
+								<option value="">Seleccione su forma de pago</option>
+								<option v-for="pago in anapagos" :value="pago.descripcion">{{pago.descripcion}}</option>
+							</select>
+						</div>
+						<div class="col-8" v-if="JSON.stringify(anapagosinfo)!='{}'">
+							<h6>PAGO {{anapagosinfo.tipo}}</h6>
+						 	<p class="control-label" v-if="anapagosinfo.tipo == 'CONTADO'"><strong>CONTADO:</strong></p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'CONTADO'">${{anapagosinfo.info.prima.primatotal | int}}</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'CONTADO'">PAGO INICIAL:</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'CONTADO'">${{anapagosinfo.info.prima.primatotal | int}}</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'SEMESTRAL'"><strong>SEMESTRAL:</strong></p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'SEMESTRAL'">${{anapagosinfo.info.prima.primatotal | int}}</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'SEMESTRAL'">PAGO INICIAL:</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'SEMESTRAL'">${{anapagosinfo.info.recibos[0].primatotal | int}}</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'SEMESTRAL'">SEMESTRE:</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'SEMESTRAL'">${{anapagosinfo.info.recibos[1].primatotal | int}}</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'"><strong>TRIMESTRAL:</strong></p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'">${{anapagosinfo.info.prima.primatotal | int}}</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'">PAGO INICIAL:</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'">${{anapagosinfo.info.recibos[0].primatotal | int}}</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'">TRIMESTRES:</p>
+                            <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'">${{anapagosinfo.info.recibos[1].primatotal | int}}</p>
+                            <p class="control-label">Prima total: ${{anapagosinfo.info.prima.primatotal | int}}</p>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -614,6 +768,48 @@
 				quaImage:null,
 				anaImage:null,
 				csrf: null,
+				ana:{
+					cliente:{
+						tipo_persona:"1",
+						nombre:"",
+						apepat:"",
+						apemat:"",
+						rfc:"",
+						curp:"",
+						calle:"",
+						num_int:"",
+						num_ext:"",
+						poblacion:"",
+						municipio_id:"",
+						estado:"",
+						codigo_postal:"",
+						pais:"MEXICO",
+						telefono:"",
+						correo:"",
+						nacionalidad:"",
+						identificacion:"",
+						num_identif:"",
+						ocupacion:"",
+						f_nac:"",
+						giro:"",
+						administrador:"",
+						nacionalidad_adm:"",
+						representante:"",
+						nacionalidad_representante:""
+					},
+					vehiculo:{
+						amis:"",
+						placas:"",
+						serie:"",
+						motor:"",
+						modelo:"",
+						color:"",
+					},
+					cotizacion:{
+						plan:"",
+						pago:"",
+					}
+				},
 				qualitas:{
 					cotizacion:"",
 					cliente:{
@@ -706,48 +902,6 @@
 						idpaquete:""
 					},
 				},
-				ana:{
-					cliente:{
-						tipo_persona:"1",
-						nombre:"",
-						apepat:"",
-						apemat:"",
-						rfc:"",
-						curp:"",
-						calle:"",
-						num_int:"",
-						num_ext:"",
-						poblacion:"",
-						estado:"",
-						codigo_postal:"",
-						pais:"MEXICO",
-						telefono:"",
-						correo:"",
-						nacionalidad:"",
-						identificacion:"",
-						num_identif:"",
-						ocupacion:"",
-						f_nac:"",
-						giro:"",
-						administrador:"",
-						nacionalidad_adm:"",
-						representante:"",
-						nacionalidad_representante:""
-					},
-					vehiculo:{
-						amis:"",
-						placas:"",
-						serie:"",
-						motor:"",
-						modelo:"",
-						color:"",
-					},
-					cotizacion:{
-						plan:"",
-						pago:"",
-
-					}
-				},
 				selectPobla:{},
 				qualitasPobla:[],
 				qualitasGiros:[],
@@ -755,6 +909,15 @@
 				qualitasOcupaciones:[],
 				estadosCiviles:[],
 				anaestados:[],
+				anamunicipios:[],
+				anacp:[],
+				anacolonias:[],
+				anaNacionalidades:[],
+				anaidentificaciones:[],
+				anagiros:[],
+				anacolores:[],
+				anapagos:[],
+				anapagosinfo:{},
 				ocupaciones:[],
 				giros:[],
 				tipocontactos:[],
@@ -833,8 +996,24 @@
 					this.qualitas.cliente.tipo_persona_cont = new_value;
 				} else {}
 			},
+			'ana.cliente.tipo_persona':function (new_value,old_value) {
+						
+				if (new_value=="2") {
+					this.ana.cliente.nombre="";
+					this.getGirosANA();
+				}
+			},
 			'ana.cliente.estado':function(new_value,old_value){
 				this.getMunicipios(new_value);
+				this.ana.cliente.municipio_id = "";
+			},
+			'ana.cliente.municipio_id':function(new_value,old_value){
+				this.getCP(this.ana.cliente.estado,new_value);
+				this.ana.cliente.codigo_postal="";
+			},
+			'ana.cliente.codigo_postal':function(new_value,old_value){
+				this.getColonias(this.ana.cliente.estado,this.ana.cliente.municipio_id,new_value);
+				this.ana.cliente.poblacion="";
 			}
 
 		},
@@ -842,6 +1021,68 @@
 			
 		},
 		methods:{
+			'getGirosANA':function(){
+				let url="./api/giroEmpresaANA";
+				axios.get(url).then(res=>{
+					console.log(res.data);
+					this.anagiros = res.data.giros;
+				}).catch(err=>{
+					console.log(err);
+				})
+			},
+			'getNacionalidadANA':function(){
+				let url='./api/nacionalidadANA';
+				axios.get(url).then(res=>{
+					console.log(res.data);
+					this.nacionalidadANA=res.data.nacionalidades;
+				}).catch(err=>{
+					console.log(err)
+				})
+			},
+			'getIdentificacionesANA':function(){
+				let url="./api/identificacionesANA";
+				axios.get(url).then(res=>{
+					// console.log(res.data);
+					this.anaidentificaciones=res.data.identificaciones;
+				}).catch(err=>{
+					console.log(err)
+				});
+			},
+			'getOcupacionANA':function(){
+				let url="./api/ocupacionANA";
+				axios.get(url).then(res=>{
+					// console.log(res.data);
+					this.anaocupaciones=res.data.ocupaciones;
+				}).catch(err=>{
+					console.log(err);
+				});
+			},
+			'getColorANA':function(){
+				let url="./api/colorANA";
+				axios.get(url).then(res=>{
+					this.anacolores=res.data.colores;
+				}).catch(err=>{
+					console.log(err)
+				})
+			},
+			'getPagosANA':function () {
+				let url="./api/formaPagosANA";
+				axios.get(url).then(res=>{
+					this.anapagos=res.data.formapagos;
+				}).catch(err=>{
+					console.log(err);
+				})
+			},
+			'formaPagoAna':function() {
+				var pago = this.ana.cotizacion.pago
+				for (var i = 0; i < this.cotizacion.cotizacion.info.length; i++) {
+					console.log(this.cotizacion.cotizacion.info[i]);
+					if (this.cotizacion.cotizacion.info[i][pago]) {
+						this.anapagosinfo = {"tipo":pago,'info':this.cotizacion.cotizacion.info[i][pago]};
+					}
+				}
+				// this.anapagosinfo= 
+			},
 			'searchCP':function (cp) {
 				// body...
 				let url= `./api/cp/${cp}`;
@@ -883,8 +1124,10 @@
 			'getEstados':function(){
 				let url="./api/estadosANA";
 				axios.get(url).then(res=>{
-					console.log(res.data);
-					this.anaestados=res.data.estados
+					// console.log(res.data);
+					if (res.data.estados) {
+						this.anaestados=res.data.estados
+					}
 				}).catch(err=>{
 					console.log(err);
 				});
@@ -893,11 +1136,36 @@
 				let url = `./api/municipiosANA/${estado_id}`;
 				axios.get(url).then(res=>{
 					console.log(res.data);
+					if (res.data.municipios) {
+						this.anamunicipios=res.data.municipios;
+					}
 					// 
 				}).catch(err=>{
 					console.log(err);
 				});
 
+			},
+			'getCP':function(estado_id,municipio_id){
+				let url=`./api/cpANA/${estado_id}/${municipio_id}`;
+				axios.get(url).then(res=>{
+					// console.log(res.data);
+					if(res.data['Codigo Postal']){
+						this.anacp=res.data['Codigo Postal'];
+					}
+				}).catch(err=>{
+					console.log(err)
+				});
+			},
+			'getColonias':function(estado_id,municipio_id,cp_id){
+				let url=`./api/coloniaANA/${estado_id}/${municipio_id}/${cp_id}`;
+				axios.get(url).then(res=>{
+					console.log(res.data);
+					if (res.data.colonias) {
+						this.anacolonias=res.data.colonias;
+					}
+				}).catch(err=>{
+					console.log(err);
+				})
 			},
 			'getEdoCivil':function(){
 				let url="./api/getEstadoCivil";
@@ -957,6 +1225,11 @@
 			this.getGiros();
 			this.getContactos();
 			this.getEstados();
+			this.getNacionalidadANA();
+			this.getIdentificacionesANA();
+			this.getOcupacionANA();
+			this.getColorANA();
+			this.getPagosANA();
 			this.anaImage="./img/ana1.png";
 			this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
 			this.quaImage = "./img/qua.png";
