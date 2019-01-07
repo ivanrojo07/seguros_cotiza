@@ -106,8 +106,7 @@
                             <img src="img/GENERAL-DE-SEGUROS-LOGO.png" style="width: 100%!important; height: 25%!important;" class="rounded" alt="...">
                         </div>
                         <div class="col ml-3 p-2">
-                            <h5 class="modal-title" v-if="cotizacion" id="exampleModalLabel"> General de Seguros: {{cotizacion.nombre}}</h5>
-
+                            <h5 class="modal-title" v-if="cotizacion" id="exampleModalLabel">General de Seguros: {{cotizacion.nombre}}</h5>
                         </div>
                     </div>
                     <div class="modal-body">
@@ -116,12 +115,12 @@
                                 <div class="row m-1">
                                     <div class="col-6">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            <a v-for="(cobertura, index) in cotizacion.coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#cobertura-'+index" role="tab" aria-controls="cobertura-1" aria-selected="true">{{cobertura.descripcion}}</a>
+                                            <a v-for="(cobertura, index) in cotizacion.coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#coberturaGS-'+index" role="tab" aria-controls="'coberturaGS-'+index" aria-selected="true">{{cobertura.descripcion}}</a>
                                         </div>
                                     </div>
                                     <div class="col-6 p-2">
                                         <div class="tab-content" id="v-pills-tabContent">
-                                            <div v-for="(cobertura, index) in cotizacion.coberturas" class="tab-pane fade" :id="'cobertura-'+index" role="tabpanel" aria-labelledby="cobertura-1-tab">
+                                            <div v-for="(cobertura, index) in cotizacion.coberturas" class="tab-pane fade" :id="'coberturaGS-'+index" role="tabpanel" :aria-labelledby="'coberturaGS-'+index+'-tab'">
                                                 <h4>            
                                                     Descripción {{cobertura.descripcion}}
                                                 </h4>
@@ -136,8 +135,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <!-- <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <!-- <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
                     </div>
                 </div>
             </div>

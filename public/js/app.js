@@ -3216,6 +3216,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cliente', 'alert', 'cotizacion'],
   data: function data() {
@@ -3848,7 +3853,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -48556,7 +48560,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", name: "color", required: "" },
+                      attrs: { type: "text", name: "motor", required: "" },
                       domProps: { value: _vm.ana.vehiculo.motor },
                       on: {
                         input: function($event) {
@@ -48588,7 +48592,12 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", name: "serie", required: "" },
+                      attrs: {
+                        type: "text",
+                        name: "serie",
+                        pattern: "[A-Z0-9]{17,17}",
+                        required: ""
+                      },
                       domProps: { value: _vm.ana.vehiculo.serie },
                       on: {
                         input: function($event) {
@@ -48906,7 +48915,9 @@ var render = function() {
                         ])
                       ])
                     : _vm._e()
-                ])
+                ]),
+                _vm._v(" "),
+                _vm._m(12)
               ]
             )
           : _vm._e()
@@ -49021,6 +49032,20 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-12 mt-3" }, [
       _c("h6", [_vm._v("Datos del vehiculo:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col d-flex justify-content-center" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
+          [_vm._v("Enviar")]
+        )
+      ])
     ])
   }
 ]
@@ -49347,8 +49372,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          " General de Seguros: " +
-                            _vm._s(_vm.cotizacion.nombre)
+                          "General de Seguros: " + _vm._s(_vm.cotizacion.nombre)
                         )
                       ]
                     )
@@ -49383,9 +49407,9 @@ var render = function() {
                                   attrs: {
                                     id: "cobertura-" + index + "-tab",
                                     "data-toggle": "pill",
-                                    href: "#cobertura-" + index,
+                                    href: "#coberturaGS-" + index,
                                     role: "tab",
-                                    "aria-controls": "cobertura-1",
+                                    "aria-controls": "'coberturaGS-'+index",
                                     "aria-selected": "true"
                                   }
                                 },
@@ -49412,9 +49436,10 @@ var render = function() {
                                 {
                                   staticClass: "tab-pane fade",
                                   attrs: {
-                                    id: "cobertura-" + index,
+                                    id: "coberturaGS-" + index,
                                     role: "tabpanel",
-                                    "aria-labelledby": "cobertura-1-tab"
+                                    "aria-labelledby":
+                                      "coberturaGS-" + index + "-tab"
                                   }
                                 },
                                 [

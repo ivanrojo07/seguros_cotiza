@@ -701,11 +701,11 @@
 						</div>
 						<div class="form-group col-6">
 							<label class="control-label">Motor</label>
-							<input class="form-control" type="text" name="color" v-model="ana.vehiculo.motor" required>
+							<input class="form-control" type="text" name="motor" v-model="ana.vehiculo.motor" required>
 						</div>
 						<div class="form-group col-6">
 							<label class="control-label">Número de serie</label>
-							<input class="form-control" type="text" name="serie" v-model="ana.vehiculo.serie" required>
+							<input class="form-control" type="text" name="serie" pattern="[A-Z0-9]{17,17}" v-model="ana.vehiculo.serie" required>
 						</div>
 						<div class="form-group col-6">
 							<label class="control-label">Placas</label>
@@ -745,6 +745,11 @@
                             <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'">TRIMESTRES:</p>
                             <p class="control-label" v-if="anapagosinfo.tipo == 'TRIMESTRAL'">${{anapagosinfo.info.recibos[1].primatotal | int}}</p>
                             <p class="control-label">Prima total: ${{anapagosinfo.info.prima.primatotal | int}}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col d-flex justify-content-center">
+							<button type="submit" class="btn btn-primary btn-lg">Enviar</button>
 						</div>
 					</div>
 				</form>
