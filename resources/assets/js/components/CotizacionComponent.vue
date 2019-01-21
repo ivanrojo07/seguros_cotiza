@@ -6,9 +6,9 @@
     			<div class="col-sm-6 d-none d-sm-block p-2">
     				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 		              <a class="nav-link active" id="v-pills-Uso-tab"  data-toggle="pill" href="#v-pills-Uso" role="tab" aria-controls="v-pills-Uso" aria-selected="true">Uso: {{cliente.uso_auto}}</a>
-		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto.nombre}}</a>
-		              <a class="nav-link disabled" id="v-pills-Submarca-tab" data-toggle="pill" href="#v-pills-Submarca" role="tab" aria-controls="v-pills-Submarca" aria-selected="false">Tipo: {{cliente.submarca_auto.nombre}}</a>
 		              <a class="nav-link disabled" id="v-pills-Modelo-tab" data-toggle="pill"  href="#v-pills-Modelo" role="tab" aria-controls="v-pills-Modelo" aria-selected="false">Modelo: {{cliente.modelo_auto}}</a>
+		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto.descripcion}}</a>
+		              <a class="nav-link disabled" id="v-pills-Submarca-tab" data-toggle="pill" href="#v-pills-Submarca" role="tab" aria-controls="v-pills-Submarca" aria-selected="false">Tipo: {{cliente.submarca_auto.descripcion}}</a>
 		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:  {{cliente.descripcion_auto.descripcion}}</a>
 		              <a class="nav-link disabled" id="v-pills-CP-tab" data-toggle="pill"  href="#v-pills-CP" role="tab" aria-controls="v-pills-CP" aria-selected="false">CP: {{cliente.cp}}</a>
 		              <a class="nav-link disabled" id="v-pills-Nombre-tab" data-toggle="pill" href="#v-pills-Nombre"  role="tab" aria-controls="v-pills-Nombre" aria-selected="false">Nombre: {{cliente.nombre}} {{cliente.appaterno}} {{cliente.apmaterno}}</a>
@@ -47,8 +47,50 @@
     							</div>
     						</div>
     					</div>
+    					<!--MODELO-->
+		                <div class="tab-pane fade" v-show="modelo" id="v-pills-Modelo" role="tabpanel" aria-albelledby="v-pills-Modelo-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Modelo
+		                        </div>
+		                        <div class="card-body">
+		                            <select class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
+		                            	<option value=""  class="list-group-item text-center text-dark seleccionador">Seleccione su modelo</option>
+		                            	<option v-for="anio in modelos" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
+		                            </select>
+		                            <div class="row">
+										<div class="col-12 mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Marca-tab').click();">Atras</button>
+										</div>
+									</div>
+		                        </div>
+		                    </div>
+		                </div>
 						 <!--MARCA-->
 		                <div class="tab-pane fade" v-show="marca" id="v-pills-Marca" role="tabpanel" aria-albelledby="v-pills-Marca-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                            Marca
+		                        </div>
+		                        <div class="card-body">
+		                        	<div v-show="loader_marca" class="loader"></div>
+		                        	<div v-show="!loader_marca && this.marcas.length == 0">
+		                        		<label>No se encontraron resultados</label>
+		                        	</div>
+		                            <select v-show="!loader_marca && this.marcas.length != 0" v-model="cliente.marca_auto" size="3" class="list-group list-group-flush col">
+		                            	<option value="" class="list-group-item text-center text-dark seleccionador">Seleccione su marca</option>
+										<option v-for="marca in marcas" :value="marca" class="list-group-item text-center text-dark seleccionador">{{marca.descripcion}}</option>
+									</select>
+									<div class="row">
+										<div class="col-12 mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Uso-tab').click();">Atras</button>
+										</div>
+									</div>
+		                        </div>
+		                    </div>
+		                </div>
+						 <!--MARCA-->
+		                <!-- <div class="tab-pane fade" v-show="marca" id="v-pills-Marca" role="tabpanel" aria-albelledby="v-pills-Marca-tab">
 		                    <div class="card p-0">
 		                        <div class="card-header">
 		                            Marca
@@ -65,7 +107,7 @@
 									</div>
 		                        </div>
 		                    </div>
-		                </div>
+		                </div> -->
 		                 <!--SUBMARCA-->
 		                <div class="tab-pane fade" v-show="marca" id="v-pills-Submarca" role="tabpanel" aria-albelledby="v-pills-Submarca-tab">
 		                    <div class="card p-0">
@@ -79,7 +121,7 @@
 		                        	</div>
 		                            <select v-show="!loader_tipo && this.submarca.length != 0" v-model="cliente.submarca_auto" size="3" class="list-group list-group-flush col">
 		                            	<option value="" class="list-group-item text-center text-dark seleccionador">Seleccione su tipo</option>
-										<option v-for="submarca in submarcas" :value="submarca" class="list-group-item text-center text-dark seleccionador">{{submarca.nombre}}</option>
+										<option v-for="submarca in submarcas" :value="submarca" class="list-group-item text-center text-dark seleccionador">{{submarca.descripcion}}</option>
 									</select>
 									<div class="row">
 										<div class="col-12 mt-3 d-block d-sm-none">
@@ -90,7 +132,7 @@
 		                    </div>
 		                </div>
 		                 <!--MODELO-->
-		                <div class="tab-pane fade" v-show="modelo" id="v-pills-Modelo" role="tabpanel" aria-albelledby="v-pills-Modelo-tab">
+		               <!--  <div class="tab-pane fade" v-show="modelo" id="v-pills-Modelo" role="tabpanel" aria-albelledby="v-pills-Modelo-tab">
 		                    <div class="card p-0">
 		                        <div class="card-header">
 		                            Modelo
@@ -111,7 +153,7 @@
 									</div>
 		                        </div>
 		                    </div>
-		                </div>
+		                </div> -->
 		                  <!--Descripcion-->
 		                <div class="tab-pane fade" v-show="descripcion" id="v-pills-Descripcion" role="tabpanel" aria-albelledby="v-pills-Descripcion-tab" >
 		                    <div class="card p-0">
@@ -321,6 +363,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			marca: false,
     			submarca:false,
     			modelo: false,
+    			loader_marca:true,
     			loader_desc:true,
     			loader_tipo:true,
     			loader_modelo:true,
@@ -340,9 +383,28 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			if (newValue != "") {
     				this.marca = true;
     				// this.showPill('v-pills-Marca');
+    				// $('#v-pills-Marca-tab').removeClass('disabled');
+    				// // $('#v-pills-Marca-tab').addClass('disabled');
+    				// $('#v-pills-Marca-tab').click();
+    				$('#v-pills-Modelo-tab').removeClass('disabled');
+    				$('#v-pills-Modelo-tab').click();
+    				this.modelo = true;
+    			}
+    		},
+    		'cliente.modelo_auto':function(newV,oldV){
+    			if (newV != "") {
+    				this.marca = true;
+    				// this.descripcion = true;
+    				// if(this.searchOption == false){
+    				// 	this.cliente.descripcion_auto="";
+    				// }
+    				this.getMarcas(this.cliente.modelo_auto)
     				$('#v-pills-Marca-tab').removeClass('disabled');
-    				// $('#v-pills-Marca-tab').addClass('disabled');
     				$('#v-pills-Marca-tab').click();
+    				// $('#v-pills-Descripcion-tab').removeClass('disabled');
+    				// $('#v-pills-Descripcion-tab').addClass('disabled');
+    				// this.getDescripciones(this.cliente.submarca_auto.id,this.cliente.modelo_auto);
+    				// $('#v-pills-Descripcion-tab').click();
     			}
     		},
     		'cliente.marca_auto': function(newValue,oldValue){
@@ -360,17 +422,6 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     		},
     		'cliente.submarca_auto':function(newV,oldV){
     			if (newV != "") {
-    				this.submarca = true;
-    				if(this.searchOption == false){
-    					this.cliente.descripcion_auto="";
-    				}
-    				this.getModelos(this.cliente.submarca_auto.id);
-    				$('#v-pills-Modelo-tab').removeClass('disabled');
-    				$('#v-pills-Modelo-tab').click();
-    			}
-    		},
-    		'cliente.modelo_auto':function(newV,oldV){
-    			if (newV != "") {
     				this.descripcion = true;
     				// this.showPill('v-pills-Marca');
     				if(this.searchOption == false){
@@ -378,7 +429,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     				}
     				$('#v-pills-Descripcion-tab').removeClass('disabled');
     				// $('#v-pills-Descripcion-tab').addClass('disabled');
-    				this.getDescripciones(this.cliente.submarca_auto.id,this.cliente.modelo_auto);
+    				this.getDescripciones(this.cliente.submarca_auto.id,this.cliente.modelo_auto,this.cliente.marca_auto.id);
     				$('#v-pills-Descripcion-tab').click();
     			}
     		},
@@ -402,7 +453,8 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     		},
     	},
     	created(){
-    		this.getMarcas();
+    		// this.getMarcas();
+    		this.getModelos();
     		// this.getModelos();
     	},
     	methods:{
@@ -448,10 +500,50 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
 
 
     		},
-    		getMarcas(){
-    			let url = './api/getMarcas';
+    // 		getMarcas(){
+    // 			let url = './api/getMarcas';
+    // 			axios.get(url).then(res=>{
+    // 				console.log("res",res);
+    // 				this.marcas = res.data.marcas.sort();
+    // 			}).catch(error=>{
+    // 				console.log('error',error);
+
+    // 			})
+    // 		},
+    // 		getSubmarcas(marca){
+    // 			this.loader_tipo=true;
+    // 			let url = `./api/getSubmarcas/${marca}`;
+    // 			$('#descripcion').append('<div class="loader"></div>');
+    // 			axios.get(url).then(res=>{
+    // 				this.loader_tipo = false;
+    // 				console.log('res submarcas',res);
+    // 				if (res.data.submarcas) {
+    // 					this.submarcas = res.data.submarcas.sort();
+    // 				}
+    // 			}).catch(error=>{
+    // 				console.log('error submarcas',error);
+				// });
+    // 		},
+    // 		getModelos(submarca){
+    // 			this.loader_modelo=true;
+    // 			let url = `./api/getModelos/${submarca}`;
+    // 			axios.get(url).then(res=>{
+    // 				console.log('res modelos',res);
+    // 				this.loader_modelo=false;
+    // 				if (res.data.modelos) {
+    // 					this.modelos = res.data.modelos;
+    // 					this.modelos = this.modelos.reverse();
+    // 				}
+    // 			}).catch(error=>{
+    // 				console.log('error modelos',error);
+				// });
+    // 		},
+    		getMarcas(modelo){
+    			this.loader_marca=true;
+    			let url = `./api/marcasANA/${modelo}`;
     			axios.get(url).then(res=>{
-    				console.log("res",res);
+    				this.loader_marca = false;
+    				console.log("res marcas",res);
     				this.marcas = res.data.marcas.sort();
     			}).catch(error=>{
     				console.log('error',error);
@@ -460,7 +552,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     		},
     		getSubmarcas(marca){
     			this.loader_tipo=true;
-    			let url = `./api/getSubmarcas/${marca}`;
+    			let url = `./api/submarcaANA/${marca}/${this.cliente.modelo_auto}`;
     			$('#descripcion').append('<div class="loader"></div>');
     			axios.get(url).then(res=>{
     				this.loader_tipo = false;
@@ -472,28 +564,28 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     				console.log('error submarcas',error);
 				});
     		},
-    		getModelos(submarca){
-    			this.loader_modelo=true;
-    			let url = `./api/getModelos/${submarca}`;
+    		getModelos(){
+    			let url = `./api/modelosANA`;
     			axios.get(url).then(res=>{
     				console.log('res modelos',res);
     				this.loader_modelo=false;
     				if (res.data.modelos) {
     					this.modelos = res.data.modelos;
-    					this.modelos = this.modelos.reverse();
+    					// this.modelos = this.modelos.reverse();
     				}
     			}).catch(error=>{
     				console.log('error modelos',error);
 				});
     		},
-    		getDescripciones(submarca,modelo){
+    		getDescripciones(submarca,modelo,marca){
     			this.loader_desc = true;
+    			// console.log(marca);
             	$('#descripcion').append('<div class="loader"></div>');
-    			let url = `./api/getVersiones/${submarca}/${modelo}`;
+    			let url = `./api/vehiculoANA/${marca}/${submarca}/${modelo}`;
     			axios.get(url).then(res=>{
     				this.loader_desc = false;
     				console.log('getDescripciones res',res);
-    				this.descripciones = res.data.versiones;
+    				this.descripciones = res.data.vehiculos;
     			}).catch(err=>{
 
     				console.log('getDescripciones err',err);

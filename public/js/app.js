@@ -2051,6 +2051,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 function Cliente(_ref) {
   var cotizacion = _ref.cotizacion,
       auto = _ref.auto,
@@ -2092,6 +2134,7 @@ function Cliente(_ref) {
       marca: false,
       submarca: false,
       modelo: false,
+      loader_marca: true,
       loader_desc: true,
       loader_tipo: true,
       loader_modelo: true,
@@ -2109,10 +2152,28 @@ function Cliente(_ref) {
     'cliente.uso_auto': function clienteUso_auto(newValue, oldValue) {
       if (newValue != "") {
         this.marca = true; // this.showPill('v-pills-Marca');
+        // $('#v-pills-Marca-tab').removeClass('disabled');
+        // // $('#v-pills-Marca-tab').addClass('disabled');
+        // $('#v-pills-Marca-tab').click();
 
-        $('#v-pills-Marca-tab').removeClass('disabled'); // $('#v-pills-Marca-tab').addClass('disabled');
+        $('#v-pills-Modelo-tab').removeClass('disabled');
+        $('#v-pills-Modelo-tab').click();
+        this.modelo = true;
+      }
+    },
+    'cliente.modelo_auto': function clienteModelo_auto(newV, oldV) {
+      if (newV != "") {
+        this.marca = true; // this.descripcion = true;
+        // if(this.searchOption == false){
+        // 	this.cliente.descripcion_auto="";
+        // }
 
-        $('#v-pills-Marca-tab').click();
+        this.getMarcas(this.cliente.modelo_auto);
+        $('#v-pills-Marca-tab').removeClass('disabled');
+        $('#v-pills-Marca-tab').click(); // $('#v-pills-Descripcion-tab').removeClass('disabled');
+        // $('#v-pills-Descripcion-tab').addClass('disabled');
+        // this.getDescripciones(this.cliente.submarca_auto.id,this.cliente.modelo_auto);
+        // $('#v-pills-Descripcion-tab').click();
       }
     },
     'cliente.marca_auto': function clienteMarca_auto(newValue, oldValue) {
@@ -2132,19 +2193,6 @@ function Cliente(_ref) {
     },
     'cliente.submarca_auto': function clienteSubmarca_auto(newV, oldV) {
       if (newV != "") {
-        this.submarca = true;
-
-        if (this.searchOption == false) {
-          this.cliente.descripcion_auto = "";
-        }
-
-        this.getModelos(this.cliente.submarca_auto.id);
-        $('#v-pills-Modelo-tab').removeClass('disabled');
-        $('#v-pills-Modelo-tab').click();
-      }
-    },
-    'cliente.modelo_auto': function clienteModelo_auto(newV, oldV) {
-      if (newV != "") {
         this.descripcion = true; // this.showPill('v-pills-Marca');
 
         if (this.searchOption == false) {
@@ -2153,7 +2201,7 @@ function Cliente(_ref) {
 
         $('#v-pills-Descripcion-tab').removeClass('disabled'); // $('#v-pills-Descripcion-tab').addClass('disabled');
 
-        this.getDescripciones(this.cliente.submarca_auto.id, this.cliente.modelo_auto);
+        this.getDescripciones(this.cliente.submarca_auto.id, this.cliente.modelo_auto, this.cliente.marca_auto.id);
         $('#v-pills-Descripcion-tab').click();
       }
     },
@@ -2177,7 +2225,8 @@ function Cliente(_ref) {
     }
   },
   created: function created() {
-    this.getMarcas(); // this.getModelos();
+    // this.getMarcas();
+    this.getModelos(); // this.getModelos();
   },
   methods: {
     searchCliente: function searchCliente(cotizacion) {
@@ -2224,12 +2273,51 @@ function Cliente(_ref) {
         }
       });
     },
-    getMarcas: function getMarcas() {
+    // 		getMarcas(){
+    // 			let url = './api/getMarcas';
+    // 			axios.get(url).then(res=>{
+    // 				console.log("res",res);
+    // 				this.marcas = res.data.marcas.sort();
+    // 			}).catch(error=>{
+    // 				console.log('error',error);
+    // 			})
+    // 		},
+    // 		getSubmarcas(marca){
+    // 			this.loader_tipo=true;
+    // 			let url = `./api/getSubmarcas/${marca}`;
+    // 			$('#descripcion').append('<div class="loader"></div>');
+    // 			axios.get(url).then(res=>{
+    // 				this.loader_tipo = false;
+    // 				console.log('res submarcas',res);
+    // 				if (res.data.submarcas) {
+    // 					this.submarcas = res.data.submarcas.sort();
+    // 				}
+    // 			}).catch(error=>{
+    // 				console.log('error submarcas',error);
+    // });
+    // 		},
+    // 		getModelos(submarca){
+    // 			this.loader_modelo=true;
+    // 			let url = `./api/getModelos/${submarca}`;
+    // 			axios.get(url).then(res=>{
+    // 				console.log('res modelos',res);
+    // 				this.loader_modelo=false;
+    // 				if (res.data.modelos) {
+    // 					this.modelos = res.data.modelos;
+    // 					this.modelos = this.modelos.reverse();
+    // 				}
+    // 			}).catch(error=>{
+    // 				console.log('error modelos',error);
+    // });
+    // 		},
+    getMarcas: function getMarcas(modelo) {
       var _this2 = this;
 
-      var url = './api/getMarcas';
+      this.loader_marca = true;
+      var url = "./api/marcasANA/".concat(modelo);
       axios.get(url).then(function (res) {
-        console.log("res", res);
+        _this2.loader_marca = false;
+        console.log("res marcas", res);
         _this2.marcas = res.data.marcas.sort();
       }).catch(function (error) {
         console.log('error', error);
@@ -2239,7 +2327,7 @@ function Cliente(_ref) {
       var _this3 = this;
 
       this.loader_tipo = true;
-      var url = "./api/getSubmarcas/".concat(marca);
+      var url = "./api/submarcaANA/".concat(marca, "/").concat(this.cliente.modelo_auto);
       $('#descripcion').append('<div class="loader"></div>');
       axios.get(url).then(function (res) {
         _this3.loader_tipo = false;
@@ -2252,33 +2340,32 @@ function Cliente(_ref) {
         console.log('error submarcas', error);
       });
     },
-    getModelos: function getModelos(submarca) {
+    getModelos: function getModelos() {
       var _this4 = this;
 
-      this.loader_modelo = true;
-      var url = "./api/getModelos/".concat(submarca);
+      var url = "./api/modelosANA";
       axios.get(url).then(function (res) {
         console.log('res modelos', res);
         _this4.loader_modelo = false;
 
         if (res.data.modelos) {
-          _this4.modelos = res.data.modelos;
-          _this4.modelos = _this4.modelos.reverse();
+          _this4.modelos = res.data.modelos; // this.modelos = this.modelos.reverse();
         }
       }).catch(function (error) {
         console.log('error modelos', error);
       });
     },
-    getDescripciones: function getDescripciones(submarca, modelo) {
+    getDescripciones: function getDescripciones(submarca, modelo, marca) {
       var _this5 = this;
 
-      this.loader_desc = true;
+      this.loader_desc = true; // console.log(marca);
+
       $('#descripcion').append('<div class="loader"></div>');
-      var url = "./api/getVersiones/".concat(submarca, "/").concat(modelo);
+      var url = "./api/vehiculoANA/".concat(marca, "/").concat(submarca, "/").concat(modelo);
       axios.get(url).then(function (res) {
         _this5.loader_desc = false;
         console.log('getDescripciones res', res);
-        _this5.descripciones = res.data.versiones;
+        _this5.descripciones = res.data.vehiculos;
       }).catch(function (err) {
         console.log('getDescripciones err', err);
       });
@@ -42029,6 +42116,22 @@ var render = function() {
                 {
                   staticClass: "nav-link disabled",
                   attrs: {
+                    id: "v-pills-Modelo-tab",
+                    "data-toggle": "pill",
+                    href: "#v-pills-Modelo",
+                    role: "tab",
+                    "aria-controls": "v-pills-Modelo",
+                    "aria-selected": "false"
+                  }
+                },
+                [_vm._v("Modelo: " + _vm._s(_vm.cliente.modelo_auto))]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link disabled",
+                  attrs: {
                     id: "v-pills-Marca-tab",
                     "data-toggle": "pill",
                     href: "#v-pills-Marca",
@@ -42037,7 +42140,7 @@ var render = function() {
                     "aria-selected": "false"
                   }
                 },
-                [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto.nombre))]
+                [_vm._v("Marca: " + _vm._s(_vm.cliente.marca_auto.descripcion))]
               ),
               _vm._v(" "),
               _c(
@@ -42053,23 +42156,11 @@ var render = function() {
                     "aria-selected": "false"
                   }
                 },
-                [_vm._v("Tipo: " + _vm._s(_vm.cliente.submarca_auto.nombre))]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link disabled",
-                  attrs: {
-                    id: "v-pills-Modelo-tab",
-                    "data-toggle": "pill",
-                    href: "#v-pills-Modelo",
-                    role: "tab",
-                    "aria-controls": "v-pills-Modelo",
-                    "aria-selected": "false"
-                  }
-                },
-                [_vm._v("Modelo: " + _vm._s(_vm.cliente.modelo_auto))]
+                [
+                  _vm._v(
+                    "Tipo: " + _vm._s(_vm.cliente.submarca_auto.descripcion)
+                  )
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -42375,6 +42466,98 @@ var render = function() {
                       {
                         name: "show",
                         rawName: "v-show",
+                        value: _vm.modelo,
+                        expression: "modelo"
+                      }
+                    ],
+                    staticClass: "tab-pane fade",
+                    attrs: {
+                      id: "v-pills-Modelo",
+                      role: "tabpanel",
+                      "aria-albelledby": "v-pills-Modelo-tab"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "card p-0" }, [
+                      _c("div", { staticClass: "card-header" }, [
+                        _vm._v(
+                          "\n\t\t                            Modelo\n\t\t                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cliente.modelo_auto,
+                                expression: "cliente.modelo_auto"
+                              }
+                            ],
+                            staticClass: "list-group list-group-flush col",
+                            attrs: { size: "3" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.cliente,
+                                  "modelo_auto",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              {
+                                staticClass:
+                                  "list-group-item text-center text-dark seleccionador",
+                                attrs: { value: "" }
+                              },
+                              [_vm._v("Seleccione su modelo")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.modelos, function(anio) {
+                              return _c(
+                                "option",
+                                {
+                                  staticClass:
+                                    "list-group-item text-center text-dark seleccionador",
+                                  domProps: { value: anio }
+                                },
+                                [_vm._v(_vm._s(anio))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
                         value: _vm.marca,
                         expression: "marca"
                       }
@@ -42395,10 +42578,51 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "card-body" }, [
+                        _c("div", {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.loader_marca,
+                              expression: "loader_marca"
+                            }
+                          ],
+                          staticClass: "loader"
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  !_vm.loader_marca && this.marcas.length == 0,
+                                expression:
+                                  "!loader_marca && this.marcas.length == 0"
+                              }
+                            ]
+                          },
+                          [
+                            _c("label", [
+                              _vm._v("No se encontraron resultados")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "select",
                           {
                             directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  !_vm.loader_marca && this.marcas.length != 0,
+                                expression:
+                                  "!loader_marca && this.marcas.length != 0"
+                              },
                               {
                                 name: "model",
                                 rawName: "v-model",
@@ -42447,14 +42671,14 @@ var render = function() {
                                     "list-group-item text-center text-dark seleccionador",
                                   domProps: { value: marca }
                                 },
-                                [_vm._v(_vm._s(marca.nombre))]
+                                [_vm._v(_vm._s(marca.descripcion))]
                               )
                             })
                           ],
                           2
                         ),
                         _vm._v(" "),
-                        _vm._m(0)
+                        _vm._m(1)
                       ])
                     ])
                   ]
@@ -42580,140 +42804,7 @@ var render = function() {
                                     "list-group-item text-center text-dark seleccionador",
                                   domProps: { value: submarca }
                                 },
-                                [_vm._v(_vm._s(submarca.nombre))]
-                              )
-                            })
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _vm._m(1)
-                      ])
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.modelo,
-                        expression: "modelo"
-                      }
-                    ],
-                    staticClass: "tab-pane fade",
-                    attrs: {
-                      id: "v-pills-Modelo",
-                      role: "tabpanel",
-                      "aria-albelledby": "v-pills-Modelo-tab"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "card p-0" }, [
-                      _c("div", { staticClass: "card-header" }, [
-                        _vm._v(
-                          "\n\t\t                            Modelo\n\t\t                        "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "card-body" }, [
-                        _c("div", {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.loader_modelo,
-                              expression: "loader_modelo"
-                            }
-                          ],
-                          staticClass: "loader"
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value:
-                                  !_vm.loader_modelo && this.modelo.length == 0,
-                                expression:
-                                  "!loader_modelo && this.modelo.length == 0"
-                              }
-                            ]
-                          },
-                          [
-                            _c("label", [
-                              _vm._v("No se encontraron resultados")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value:
-                                  !_vm.loader_modelo && this.modelo.length != 0,
-                                expression:
-                                  "!loader_modelo && this.modelo.length != 0"
-                              },
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.cliente.modelo_auto,
-                                expression: "cliente.modelo_auto"
-                              }
-                            ],
-                            staticClass: "list-group list-group-flush col",
-                            attrs: { size: "3" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.cliente,
-                                  "modelo_auto",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              {
-                                staticClass:
-                                  "list-group-item text-center text-dark seleccionador",
-                                attrs: { value: "" }
-                              },
-                              [_vm._v("Seleccione su modelo")]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.modelos, function(anio) {
-                              return _c(
-                                "option",
-                                {
-                                  staticClass:
-                                    "list-group-item text-center text-dark seleccionador",
-                                  domProps: { value: anio }
-                                },
-                                [_vm._v(_vm._s(anio))]
+                                [_vm._v(_vm._s(submarca.descripcion))]
                               )
                             })
                           ],
@@ -43504,44 +43595,44 @@ var staticRenderFns = [
           "button",
           {
             staticClass: "btn btn-primary",
-            attrs: { type: "button", onclick: "$('#v-pills-Uso-tab').click();" }
-          },
-          [_vm._v("Atras")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12 mt-3 d-block d-sm-none" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { type: "button", onclick: "$('#v-pills-Uso-tab').click();" }
-          },
-          [_vm._v("Atras")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12 mt-3 d-block d-sm-none" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
             attrs: {
               type: "button",
               onclick: "$('#v-pills-Marca-tab').click();"
             }
+          },
+          [_vm._v("Atras")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12 mt-3 d-block d-sm-none" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", onclick: "$('#v-pills-Uso-tab').click();" }
+          },
+          [_vm._v("Atras")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12 mt-3 d-block d-sm-none" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", onclick: "$('#v-pills-Uso-tab').click();" }
           },
           [_vm._v("Atras")]
         )

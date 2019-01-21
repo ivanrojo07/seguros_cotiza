@@ -58,18 +58,19 @@ class ClienteController extends Controller
         $cliente->auto()->save($auto);
         $marca = new Marca([
             'id_gs'=>$request->marca_auto['id'],
-            'nombre'=>$request->marca_auto['nombre']
+            'nombre'=>$request->marca_auto['descripcion']
         ]);
         $auto->marca()->save($marca);
         $submarca=new Submarca([
-            "id_gs"=>$request->submarca_auto['id'],
-            "nombre"=>$request->submarca_auto['nombre'],
-            "id_seg_gs"=>$request->submarca_auto['idSegmento'],
+            // "id_gs"=>$request->submarca_auto['id'],
+            "nombre"=>$request->submarca_auto['descripcion'],
+            // "id_seg_gs"=>$request->submarca_auto['idSegmento'],
+            "id_seg_gs"=>"1",
             "anio"=>$request->modelo_auto,
         ]);
         $auto->submarca()->save($submarca);
         $version = new Version([
-            'amis_gs'=>$request->descripcion_auto['amis'],
+            'amis_gs'=>$request->descripcion_auto['clave'],
             'descripcion'=>$request->descripcion_auto['descripcion'],
         ]);
 

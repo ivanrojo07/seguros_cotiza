@@ -16,16 +16,15 @@ class GeneralSegurosController extends Controller
     public function __construct(){
 
     	$this->opts = array(
-		  'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false),
 		  'http'=> array('header'=>array('Content-Type:application/soap+xml; charset=utf-8'))
 		);
-		$this->params = array ('encoding' => 'UTF-8', 'verifypeer' => false, 'verifyhost' => false, 'soap_version' => SOAP_1_1, 'trace' => 1, 'exceptions' => 1, "connection_timeout" => 500,'keep_alive' => 0, 'cache_wsdl' => WSDL_CACHE_NONE, 'stream_context' => stream_context_create($this->opts) );
+		$this->params = array ('encoding' => 'UTF-8', 'soap_version' => SOAP_1_1,'stream_context' => stream_context_create($this->opts) );
     	 // DATOS GENERAL DE SEGUROS
-		$this->urlAuth = "http://gdswas.mx:9080/gsautos-wsDesa/soap/autenticacionWS?wsdl";
-		$this->urlCotiza = "http://gdswas.mx:9080/gsautos-wsDesa/soap/cotizacionEmisionWS?wsdl";
-		$this->urlCat = "http://gdswas.mx:9080/gsautos-wsDesa/soap/catalogosWS?wsdl";
-		$this->urlCatAuto = "http://gdswas.mx:9080/gsautos-wsDesa/soap/catalogoAutosWS?wsdl";
-		$this->urlCober = "http://gdswas.mx:9080/gsautos-wsDesa/soap/catalogoCoberturasWS?wsdl";
+		$this->urlAuth = "http://201.151.228.153:9080/gsautos-wsDesa/soap/autenticacionWS?wsdl";
+		$this->urlCotiza = "http://201.151.228.153:9080/gsautos-wsDesa/soap/cotizacionEmisionWS?wsdl";
+		$this->urlCat = "http://201.151.228.153:9080/gsautos-wsDesa/soap/catalogosWS?wsdl";
+		$this->urlCatAuto = "http://201.151.228.153:9080/gsautos-wsDesa/soap/catalogoAutosWS?wsdl";
+		$this->urlCober = "http://201.151.228.153:9080/gsautos-wsDesa/soap/catalogoCoberturasWS?wsdl";
 		try{
 			$this->clientAuthGS = $this->getClient($this->urlAuth);
 			
@@ -198,88 +197,12 @@ class GeneralSegurosController extends Controller
     		}
     	}
     }
-
-    public function emitir(){
-        $cliente = Cliente::find(3);
-        $clientSOAP = $this->getClient($this->urlCotiza);
-        // dd($clientSOAP->__getTypes());
-        try{
-
-            $emitir = $clientSOAP->emitirCotizacion([
-                'arg0'=>[
-                    'token'=>$this->token,
-                    'cliente'=>[
-                        'cve_cli' =>0,
-                        'suc_emi'=>0,
-                        'fis_mor'=>"F",
-                        'nom_cli'=>$cliente->nombre,
-                        'ape_pat'=>$cliente->appaterno,
-                        'ape_mat'=>$cliente->apmaterno,
-                        'raz_soc'=>"",
-                        'ane_cli'=>"",
-                        'rfc_cli'=>"ROOG921021IS2",
-                        'cve_ele'=>"",
-                        'curpcli'=>"ROOG921021HDFJRL01",
-                        'sexocli'=>1,
-                        'edo_civ'=>1,
-                        'cal_cli'=>"Norte 58-A",
-                        'num_cli'=>"3468",
-                        'cod_pos'=>$cliente->cp,
-                        'colonia'=>"Martires de Río Blanco",
-                        'municip'=>"Gustavo A. Madero",
-                        'poblaci'=>"Gustavo A. Madero",
-                        'cve_est'=>"1",
-                        'fec_nac'=>$cliente->f_nac,
-                        'nac_ext'=>1,
-                        'ocu_pro'=>185,
-                        'act_gir'=>165,
-                        'telefo1'=>$cliente->telefono,
-                        'telefo2'=>"",
-                        'telefo3'=>"",
-                        'cor_ele'=>$cliente->email,
-                        'pag_web'=>"",
-                        'can_con'=>4,
-                        'fue_ing'=>"trabajo",
-                        'adm_con'=>"",
-                        'car_pub'=>"N",
-                        'nom_car'=>"",
-                        'per_car'=>"",
-                        'apo_cli'=>"N",
-                        'dom_ori'=>"",
-                        'num_pas'=>"",
-                        'usu_cap'=>"",
-                        'usu_aut'=>"",
-                        'fec_alt'=>"",
-                        'fec_act'=>"",
-                        'sta_cli'=>"",
-                        'descuento'=>""
-                    ],
-                    'datosIncisoEmision'=>[
-                        'numeroMotor'=>"123465789",
-                        'numeroPlacas'=>"123adsf",
-                        'numeroSerie'=>"a12s3s3543a3g34a3a4g"
-                    ],
-                    'idAgenteCompartido'=>0,
-                    'idCliente'=>0,
-                    'idCotizacion'=>896029,
-                    'idFormaPago'=>4,
-                    'idPaquete'=>2,
-                    'inicioVigencia'=>'2018-12-08',
-                    'porcenComisionAgente2'=>""
-                ]
-            ]);
-            dd($emitir);
-        }
-        catch(FatalErrorException $error){
-            dd($error);
-        }
-        dd($cliente);
-    }
     public function sendGS(Request $request)
     {
         
         // dd($request->all());
         // dd($request->rfc);
+        ini_set('default_socket_timeout', 600);
         $clientSOAP = $this->getClient($this->urlCotiza);
         $emitir = $clientSOAP->emitirCotizacion([
                 'arg0'=>[
