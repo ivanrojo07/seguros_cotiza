@@ -9,6 +9,7 @@ class Version extends Model
     //
 
     protected $fillable=[
+        'amis_ana',
     	'amis_gs',
     	'descripcion',
     	'camis_qualitas',

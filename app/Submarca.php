@@ -8,8 +8,9 @@ class Submarca extends Model
 {
     //
     protected $fillable=[
+        'id_ana',
+        'nombre',
     	'id_gs',
-    	'nombre',
     	'id_seg_gs',
     	'anio'
     ];

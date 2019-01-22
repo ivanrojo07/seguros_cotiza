@@ -72,39 +72,145 @@ class GeneralSegurosController extends Controller
     	}
     }
 
+    public function setMarca($marca)
+    {
+        // dd($marca);
+        try{
+
+            $client = $this->getClient($this->urlCatAuto);
+            $res = $client->wsListarMarcas(['arg0'=>["token"=>$this->token]]);
+            if ($res->return->exito) {
+                foreach ($res->return->marcas as $marca_gs) {
+                    if($marca_gs->nombre == $marca->nombre){
+                        $marca->id_gs = $marca_gs->id;
+                        $marca->save();
+                        return $marca_gs->id;
+                    }
+                }
+                
+            } else {
+                
+            }
+
+        }catch(SoapFault $fault){
+            dd($fault);
+        }
+    }
+
+    public function setSubMarca($marca_id,$submarca)
+    {
+        try{
+            // dd($marca);
+            $client = $this->getClient($this->urlCatAuto);
+            $res = $client->wsListarSubMarcas(['arg0'=>['token'=>$this->token,'idMarca'=>$marca_id]]);
+            if ($res->return->exito) {
+                foreach ($res->return->submarcas as $submarca_gs) {
+                    if($submarca_gs->nombre == $submarca->nombre){
+                        $submarca->id_gs = $submarca_gs->id;
+                        $submarca->id_seg_gs = $submarca_gs->idSegmento;
+                        $submarca->save();
+                        return $submarca->id_gs;
+                    }
+                }
+            }
+            // dd($res);
+        }
+        catch(SoapFault $fault){
+
+        }
+    }
+
+    public function setVersion($submarca_id,$modelo, $version)
+    {
+        try{
+            $client = $this->getClient($this->urlCatAuto);
+            $res = $client->wsListarVersiones(['arg0'=>['idSubmarca'=>$submarca_id,'modelo'=>$modelo]]);
+            if ($res->return->exito) {
+                $porc_piv = 0;
+                foreach ($res->return->versiones as $version_gs) {
+                    similar_text($version->descripcion, $version_gs->descripcion,$porcentaje);
+                    if($porcentaje>=$porc_piv){
+                        $porc_piv = $porcentaje;
+                        $version->amis_gs = $version_gs->amis;
+                    }
+                }
+                $version->save();
+                return $version_gs->amis;
+            }
+        }
+        catch(SoapFault $fault){
+            dd($fault);
+        }
+    }
+
     public function getCotizacion(Request $request){
     	$cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
     	// dd($cliente['tipoServicio']);
-    	$soapClient = $this->getClient($this->urlCotiza);
-    	// dd($soapClient->__getTypes());
-    	try{
-            // dd($cliente->tipoServicio);
-	    	$res = $soapClient->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>$cliente->cp,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>$cliente->auto->version->amis_gs,"conductorMenor30"=>$cliente->menor30,'modelo'=>$cliente->auto->submarca->anio,'tipoServicio'=>$cliente->tipoServicio,'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
-			$response = json_decode(json_encode($res),true);
-	    	// dd($response);
-			if($response['return']['exito'] && isset($response['return']['paquetes'])){
-				$paquetes = [];
-				foreach ($response['return']['paquetes'] as $paquete) {
-					$paquete['coberturas'] = $this->getCoberturas($response['return']['idCotizacion'], $paquete['id']);
-					array_push($paquetes,$paquete);
-				}
-				// dd($paquetes);
-				$cotizacion = ['id'=>$response['return']['idCotizacion'],'paquetes'=>$paquetes];
-				return response()->json(['cotizacion'=>$cotizacion]);
-				
-			}
-            elseif(!$response['return']['exito']){
-	    	
-                return response()->json(['error'=>$response['return']['mensaje']],500);
+        if(!$cliente->auto->marca->id_gs){
+            $marca = $cliente->auto->marca;
+            $marca_gs = $this->setMarca($marca);
+        }
+        else{
+            $marca_gs = $cliente->auto->marca->id_gs;
+        }
+        if(!$cliente->auto->submarca->id_gs){
+            $submarca = $cliente->auto->submarca;
+            $submarca_gs = $this->setSubMarca($marca_gs,$submarca);
+        }
+        else{
+            $submarca_gs = $cliente->auto->submarca->id_gs;
+        }
+        if($submarca_gs){
+            if(!$cliente->auto->version->amis_gs){
+                $version=$cliente->auto->version;
+                $amis_gs = $this->setVersion($submarca_gs,$cliente->auto->submarca->anio, $cliente->auto->version);
+                
             }
             else{
-                return response()->json(['error'=>"No hay paquetes"],404);
+                $amis_gs = $cliente->auto->version->amis_gs;
             }
-    		
-    	}
-    	catch(SoapFault $error){
-    		var_dump($error);
-    	}
+        }
+        if($marca_gs && $submarca_gs && $amis_gs){
+
+            $soapClient = $this->getClient($this->urlCotiza);
+            // dd($soapClient->__getTypes());
+            try{
+                // dd($cliente->tipoServicio);
+                $res = $soapClient->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>$cliente->cp,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>$cliente->auto->version->amis_gs,"conductorMenor30"=>$cliente->menor30,'modelo'=>$cliente->auto->submarca->anio,'tipoServicio'=>$cliente->tipoServicio,'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
+                $response = json_decode(json_encode($res),true);
+                // dd($response);
+                if($response['return']['exito'] && isset($response['return']['paquetes'])){
+                    $paquetes = [];
+                    foreach ($response['return']['paquetes'] as $paquete) {
+                        $paquete['coberturas'] = $this->getCoberturas($response['return']['idCotizacion'], $paquete['id']);
+                        array_push($paquetes,$paquete);
+                    }
+                    // dd($paquetes);
+                    $cotizacion = ['id'=>$response['return']['idCotizacion'],'paquetes'=>$paquetes];
+                    return response()->json(['cotizacion'=>$cotizacion]);
+                    
+                }
+                elseif(!$response['return']['exito']){
+                
+                    return response()->json(['error'=>$response['return']['mensaje']],500);
+                }
+                else{
+                    return response()->json(['error'=>"No hay paquetes"],404);
+                }
+                
+            }
+            catch(SoapFault $error){
+                var_dump($error);
+            }
+
+        }
+        else{
+            return response()->json(['error'=>"No hay paquetes"],404);
+        }
+
+
+
+    	
     }
 
     public function getCoberturas($cotizacion,$paquete)

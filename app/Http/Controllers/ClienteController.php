@@ -57,12 +57,12 @@ class ClienteController extends Controller
         $auto = new Auto();
         $cliente->auto()->save($auto);
         $marca = new Marca([
-            'id_gs'=>$request->marca_auto['id'],
+            'id_ana'=>$request->marca_auto['id'],
             'nombre'=>$request->marca_auto['descripcion']
         ]);
         $auto->marca()->save($marca);
         $submarca=new Submarca([
-            // "id_gs"=>$request->submarca_auto['id'],
+            "id_ana"=>$request->submarca_auto['id'],
             "nombre"=>$request->submarca_auto['descripcion'],
             // "id_seg_gs"=>$request->submarca_auto['idSegmento'],
             "id_seg_gs"=>"1",
@@ -70,7 +70,7 @@ class ClienteController extends Controller
         ]);
         $auto->submarca()->save($submarca);
         $version = new Version([
-            'amis_gs'=>$request->descripcion_auto['clave'],
+            'amis_ana'=>$request->descripcion_auto['clave'],
             'descripcion'=>$request->descripcion_auto['descripcion'],
         ]);
 

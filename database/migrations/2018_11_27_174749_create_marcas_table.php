@@ -18,6 +18,7 @@ class CreateMarcasTable extends Migration
             $table->integer('auto_id')->unsigned();
             $table->foreign('auto_id')->references('id')->on('autos');
             $table->string('id_ana');
+            $table->integer('id_gs')->nullable();
             $table->string('nombre');
             $table->timestamps();
         });
