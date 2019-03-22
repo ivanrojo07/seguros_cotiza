@@ -3,7 +3,7 @@
 <!--CONTENIDO-->
     <!--PASOS-->
     <div class="row justify-content-center">
-        <div class="col-10 col-sm-6 my-5 mx-0 p-0 bg-light rounded shadow-lg">
+        <div class="col-12 col-sm-11 my-5 mx-0 p-0 bg-light rounded shadow-lg">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="paso1-tab" data-toggle="tab" href="#paso1" role="tab" aria-controls="paso1" aria-selected="true">Datos</a>
@@ -51,7 +51,7 @@
 @endsection
 @section('scripts')
 <!--TRANSITIONS-->
-    <script>
+    {{-- <script>
 
         //DAUTO
         var uso, tipo, marca, modelo,descripcion;
@@ -155,7 +155,7 @@
                 //     break;
                 case "4":
                     $(".modelo").removeClass('active');
-                    cambiarL("#v-pills-Modelo-tab", "#v-pills-Descripcion-tab", e);
+                    cambiarL("#v-pills-Modelo-tab", "#v-pills-CP-tab", e);
                     // console.log(e);
                     break;
                 // case "5":
@@ -286,14 +286,14 @@
                         getDescripcion(marca,modelo);
                         break;
 
-                    case '#v-pills-Descripcion-tab':
-                        // console.log(e);
-                        $(from).text("Descripcion: "+$("#"+e.target.id).text());
-                        $('li.datos-modal#datosm_5').text("Descripcion: "+$("#"+e.target.id).text());
-                        descripcion = e.target.id.slice(2,e.target.id.length);
-                        // console.log(descripcion);
-                        // console.log(modelo);
-                        break;
+                    // case '#v-pills-Descripcion-tab':
+                    //     // console.log(e);
+                    //     $(from).text("Descripcion: "+$("#"+e.target.id).text());
+                    //     $('li.datos-modal#datosm_5').text("Descripcion: "+$("#"+e.target.id).text());
+                    //     descripcion = e.target.id.slice(2,e.target.id.length);
+                    //     // console.log(descripcion);
+                    //     // console.log(modelo);
+                    //     break;
 
                     case '#v-pills-CP-tab':
                         $(from).text("CP: "+$("#valorCP").val());
@@ -384,5 +384,5 @@
             })
         }
 
-    </script>
+    </script> --}}
 @endsection

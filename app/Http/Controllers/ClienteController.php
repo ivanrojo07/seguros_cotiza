@@ -27,7 +27,7 @@ class ClienteController extends Controller
             'marca_auto'=>'required|array',
             'submarca_auto'=>'required|array',
             'modelo_auto'=>"required|numeric",
-            'descripcion_auto'=>"required|array",
+            // 'descripcion_auto'=>"required|array",
             'cp'=>"required",
             'cestado'=>'required',
             'nombre'=>'required|string',
@@ -40,7 +40,7 @@ class ClienteController extends Controller
 
         ];
         $this->validate($request,$rules);
-        // dd($request);
+        // return $request->all();
 
         $cliente = Cliente::create([
             "uso_auto"=>$request->uso_auto,
@@ -52,29 +52,27 @@ class ClienteController extends Controller
             'telefono'=>$request->telefono,
             'email'=>$request->email,
             'sexo'=>$request->sexo,
-            'f_nac'=>$request->f_nac
+            'f_nac'=>$request->f_nac,
+            'ana'=>$request->ana,
+            'gs'=>$request->gs,
+            'qualitas'=>$request->qualitas
+
         ]);
         $auto = new Auto();
         $cliente->auto()->save($auto);
         $marca = new Marca([
             'id_ana'=>$request->marca_auto['id'],
-            'nombre'=>$request->marca_auto['descripcion']
+            'descripcion'=>$request->marca_auto['descripcion']
         ]);
         $auto->marca()->save($marca);
         $submarca=new Submarca([
             "id_ana"=>$request->submarca_auto['id'],
-            "nombre"=>$request->submarca_auto['descripcion'],
+            "descripcion"=>$request->submarca_auto['descripcion'],
             // "id_seg_gs"=>$request->submarca_auto['idSegmento'],
             "id_seg_gs"=>"1",
             "anio"=>$request->modelo_auto,
         ]);
         $auto->submarca()->save($submarca);
-        $version = new Version([
-            'amis_ana'=>$request->descripcion_auto['clave'],
-            'descripcion'=>$request->descripcion_auto['descripcion'],
-        ]);
-
-        $auto->version()->save($version);
 
         $cliente->cotizacion = $cliente->generarCotizacion();
         $cliente->save();

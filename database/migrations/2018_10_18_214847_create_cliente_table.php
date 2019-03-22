@@ -31,6 +31,9 @@ class CreateClienteTable extends Migration
             $table->string('email');
             $table->string('sexo');
             $table->date('f_nac');
+            $table->boolean('ana')->default(0);
+            $table->boolean('qualitas')->default(0);
+            $table->boolean('gs')->default(0);
             $table->timestamps();
         });
     }

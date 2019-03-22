@@ -17,8 +17,8 @@ class CreateSubmarcasTable extends Migration
             $table->increments('id');
             $table->integer('auto_id')->unsigned();
             $table->foreign('auto_id')->references('id')->on('autos');
-            $table->string('id_ana');
-            $table->string('nombre');
+            $table->string('id_ana')->nullable();
+            $table->string('descripcion');
             $table->integer('id_gs')->nullable();
             $table->integer('id_seg_gs')->nullable();
             $table->year('anio');

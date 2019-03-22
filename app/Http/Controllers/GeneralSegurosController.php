@@ -61,7 +61,7 @@ class GeneralSegurosController extends Controller
     {
 
     	// dd($this->clientAuthGS->__getTypes());
-    	$result = $this->clientAuthGS->obtenerToken(['arg0'=>["usuario"=>'ATC0','password'=>'2r2kGdeUA0']]);
+    	$result = $this->clientAuthGS->obtenerToken(['arg0'=>["usuario"=>'ATC0','password'=>'ATC003015']]);
     	$response = json_decode(json_encode($result),true);
     	if ($response['return']['exito']) {
     		return $response['return']['token'];

@@ -28,6 +28,50 @@ class QualitasController extends Controller
 		$this->clientCotizaImpresion= new SoapClient($this->urlCotizaImpresion,$this->params);
  	}
 
+ 	public function getDigVer($camis)
+ 	{
+
+ 		$sum_impar = 0;
+
+        $sum_par=0;
+       if(strlen($camis) <5){
+            $camis = str_pad($camis,5,'0',STR_PAD_LEFT);
+        }
+        for($i=0;$i<strlen($camis);$i++){
+            if (($i+1)%2 != 0) {
+              // var_dump($camis[$i]);
+                // var_dump($i);
+                $sum_impar += $camis[$i];
+            }
+            else{
+                $sum_par +=$camis[$i];
+            }
+        }
+        // var_dump($sum_impar);
+        $sum_impar = $sum_impar*3;
+        $sum_impar = (string)$sum_impar; 
+        // // $sum_par = 0;
+        // for ($i = 0; $i < strlen($camis); $i++) {
+        //   $sum_par += $sum_impar[$i];
+        // }
+        // var_dump($sum_impar);
+        // var_dump($sum_par);
+        $et4 = $sum_impar+$sum_par;
+        // var_dump($et4);
+        $et5 = $et4%10;
+        // dd($et5);
+        if($et5 != 0){
+          $digito = 10-$et5;
+        }
+        else{
+            $digito = '0';
+        }
+        return (int)$digito;
+
+        
+ 		
+ 	}
+
  	public function getMarcas()
 	{
 	  
@@ -47,11 +91,11 @@ class QualitasController extends Controller
 		dd($fault);
 	  }
 	}
-	public function getModelos($uso,$marca,$modelo,$submarca,$descripcion)
+	public function getModelos($uso,$marca,$submarca,$modelo)
 	{
 	  
 	  try {
-		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cTipo'=>$submarca,'version'=>$descripcion,'cModelo'=>$modelo]);
+		$result = $this->clientTarifa->listaTarifas(['cUsuario'=>"linea",'cTarifa'=>"linea",'cMarca'=>$marca,'cTipo'=>$submarca,'cModelo'=>$modelo]);
 		// dd($result);
 		$xml = simplexml_load_string($result->listaTarifasResult->any);
 		$results = json_decode(json_encode($xml), true);
@@ -88,22 +132,7 @@ class QualitasController extends Controller
 
 			}
 		}
-		$porcentajes=[];
-		$porcPiv = 0;
-		// dd($descripcion);
-		foreach ($descripciones as $res) {
-			// dd($res);
-			similar_text($descripcion,$res['cVersion'],$porcentaje);
-			// var_dump($porcentaje);
-			if ($porcentaje >= $porcPiv ) {
-				$porcPiv = $porcentaje;
-				$descripcionQualitas = $res;
-			} 
-			array_push($porcentajes,$porcentaje);
-		}
-		$result = ['version'=>$descripcionQualitas];
-		// dd($result);
-		return $result;
+		return response()->json(['descripciones'=>$descripciones],201);
 		
 	  } catch (SoapFault $fault) {
 	  dd($fault);         
@@ -119,63 +148,24 @@ class QualitasController extends Controller
 
 	  }
 	  else{
-	  	$marca = $cliente->auto->marca->nombre;
-		$submarca= $cliente->auto->submarca->nombre;
+	  	$marca = $cliente->auto->marca->descripcion;
+		$submarca= $cliente->auto->submarca->descripcion;
 		$modelo = $cliente->auto->submarca->anio;
-		$descripcion= $cliente->auto->version->descripcion;
+		// $descripcion= $cliente->auto->version->descripcion;
 		// dd($cliente);
-		if (!$cliente->auto->version->camis_qualitas) {
-			$result = $this->getModelos("Servicio Particular", $marca, $modelo, $submarca, $descripcion);
-			if($result){
-				$cliente->auto->version->camis_qualitas = $result['version']['CAMIS'];
-				$cliente->auto->version->save();
-			}
-			else{
-				return response()->json(['error'=>"No se encontro modelo"],404);
-			}
-			// dd($result['version']['CAMIS']);
-		}
-		$camis = $cliente->auto->version->camis_qualitas;
+		
+		$camis = $request->camis;
 		$modelo = $cliente->auto->submarca->anio;
 		$version = $cliente->auto->version;
-		$dig =(int)$cliente->auto->version->dig;
+		$dig =(int)$this->getDigVer($camis);
 		// dd($camis." ".$cliente->auto->version->dig);
 		$fecha = Carbon::now()->toDateString();
 		$fecha_t = Carbon::parse($fecha);
 		$fecha_t = $fecha_t->addYears(1)->toDateString();
-		// $dig_ver = $cliente->dig;
-		// dd($dig_ver);
-		// var_dump($camis);
-		// var_dump(strlen($camis));
-	   //  $sum_impar = 0;
-	   // if(strlen($camis) <5){
-	   //      $camis = str_pad($camis,5,'0',STR_PAD_LEFT);
-	   //  }
-	   //  for($i=0;$i<strlen($camis);$i++){
-	   //      if (($i+1)%2 != 0) {
-	   //        // var_dump($camis[$i]);
-	   //          // var_dump($i);
-	   //          $sum_impar += $camis[$i];
-	   //      }
-	   //  }
-	   //  var_dump($sum_impar);
-	   //  $sum_impar = $sum_impar*3;
-	   //  $sum_impar = (string)$sum_impar; 
-	   //  $sum_par = 0;
-	   //  for ($i = 0; $i < strlen($sum_impar); $i++) {
-	   //    $sum_par += $sum_impar[$i];
-	   //  }
-	   //  var_dump($sum_impar);
-	   //  var_dump($sum_par);
-	   //  $et4 = $sum_impar+$sum_par;
-	   //  var_dump($et4);
-	   //  $et5 = $et4%10;
-	   //  if($et5 != 0){
-	   //    $digito = 10-$et5;
-	   //  }
-	   //  dd($digito);
-
-		 $xmlA =<<<XML
+		switch ($request->poliza) {
+			case "Amplia":
+				// code...
+				$xml=<<<XML
   <Movimientos>
 	<Movimiento TipoMovimiento="2" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
 	  <DatosAsegurado NoAsegurado="">
@@ -311,7 +301,10 @@ class QualitasController extends Controller
 	</Movimiento>
   </Movimientos>
 XML;
-  		$xmlL =<<<XML
+				break;
+			case "Limitada":
+				// code...
+				$xml=<<<XML
   <Movimientos>
 	<Movimiento TipoMovimiento="2" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
 	  <DatosAsegurado NoAsegurado="">
@@ -441,7 +434,10 @@ XML;
 	</Movimiento>
   </Movimientos>
 XML;
-  		$xmlRC =<<<XML
+				break;
+			case "RC":
+				// code...
+				$xml=<<<XML
   <Movimientos>
 	<Movimiento TipoMovimiento="2" NoPoliza="" NoCotizacion="" NoEndoso="" TipoEndoso="" NoOTra="" NoNegocio="05545">
 	  <DatosAsegurado NoAsegurado="">
@@ -571,11 +567,45 @@ XML;
 	</Movimiento>
   </Movimientos>
 XML;
-		// dd($xmlA);
-		$amplia = $this->getQualitas($xmlA);
-		$limitada = $this->getQualitas($xmlL);
-		$rc = $this->getQualitas($xmlRC);
-		return response()->json(['amplia'=>$amplia,'limitada'=>$limitada,'rc'=>$rc]);
+				break;
+			
+			default:
+				// code...
+				break;
+		}
+		// $dig_ver = $cliente->dig;
+		// dd($dig_ver);
+		// var_dump($camis);
+		// var_dump(strlen($camis));
+	   //  $sum_impar = 0;
+	   // if(strlen($camis) <5){
+	   //      $camis = str_pad($camis,5,'0',STR_PAD_LEFT);
+	   //  }
+	   //  for($i=0;$i<strlen($camis);$i++){
+	   //      if (($i+1)%2 != 0) {
+	   //        // var_dump($camis[$i]);
+	   //          // var_dump($i);
+	   //          $sum_impar += $camis[$i];
+	   //      }
+	   //  }
+	   //  var_dump($sum_impar);
+	   //  $sum_impar = $sum_impar*3;
+	   //  $sum_impar = (string)$sum_impar; 
+	   //  $sum_par = 0;
+	   //  for ($i = 0; $i < strlen($sum_impar); $i++) {
+	   //    $sum_par += $sum_impar[$i];
+	   //  }
+	   //  var_dump($sum_impar);
+	   //  var_dump($sum_par);
+	   //  $et4 = $sum_impar+$sum_par;
+	   //  var_dump($et4);
+	   //  $et5 = $et4%10;
+	   //  if($et5 != 0){
+	   //    $digito = 10-$et5;
+	   //  }
+	   //  dd($digito);
+		$cotizacion = $this->getQualitas($xml);
+		return response()->json(['Qualitas'=>$cotizacion],200);
 
 		
 		
@@ -730,6 +760,13 @@ XML;
 	{
 		// dd($request->all());
 		$cliente = Cliente::where('cotizacion',$request->cotizacion)->first();
+
+		// $descripcion= $cliente->auto->version->descripcion;
+		// dd($cliente);
+		// dd($camis." ".$cliente->auto->version->dig);
+		$fecha = Carbon::now()->toDateString();
+		$fecha_t = Carbon::parse($fecha);
+		$fecha_t = $fecha_t->addYears(1)->toDateString();
 		// dd($cliente);
 		// dd($cliente);
 		$hoy = Carbon::now();
@@ -739,9 +776,10 @@ XML;
 		$nacimiento = new Carbon($request->f_nac);
 		$nacimiento = $nacimiento->format('d-m-Y');
 		// dd($nacimiento);
+		$version = $cliente->auto->version;
 		$modelo = (int)$cliente->auto->submarca->anio;
-		$camis = (int)$cliente->auto->version->camis_qualitas;
-		$dig = $cliente->auto->version->dig;
+		$camis = $request->camis;
+		$dig =(int)$this->getDigVer($camis);
 		$xmlpoliza=
 <<<XML
 <?xml version="1.0" encoding="utf-8"?>

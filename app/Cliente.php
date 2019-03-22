@@ -28,7 +28,10 @@ class Cliente extends Model
         'telefono',
         'email',
         'sexo',
-        'f_nac'
+        'f_nac',
+        'ana',
+        'gs',
+        'qualitas'
     ];
 
     protected $hidden=[

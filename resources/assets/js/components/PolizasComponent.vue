@@ -1,167 +1,29 @@
 <template>
 	<div>
-
-		<!-- Modal QUALITAS -->
-		<div id="modal-Info-Qualitas" v-if="!loaderQ" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="qualitasModal" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                            <div class="col-4 p-2">
-                                <img src="img/qua.png" class="rounded" alt="...">
-                            </div>
-                            <div class="col ml-3 p-2">
-                                <h5 class="modal-title" id="exampleModalLabel">Quálitas</h5>
-                            </div>
-                    </div>
-                    <div class="modal-body">
-                        <div v-if="cotizacion" class="row p-0">
-                            <div class="col-12 p-0">
-                                <div class="row m-1">
-                                    <div class="col-6">
-                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            <a v-for="(cobertura, index) in cotizacion.Coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#cobertura-'+index" role="tab" aria-controls="cobertura-1" aria-selected="true">{{cobertura.tipo}}</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 p-2">
-                                        <div class="tab-content" id="v-pills-tabContent">
-                                            <div v-for="(cobertura, index) in cotizacion.Coberturas" class="tab-pane fade" :id="'cobertura-'+index" role="tabpanel" aria-labelledby="cobertura-1-tab">
-												<h4>			
-                                            		Descripción {{cobertura.tipo}}
-												</h4>
-												<h5>Suma asegurada:</h5>
-												<p>${{cobertura.SumaAsegurada | int}}MXN</p>
-												<h5>Deducible:</h5>
-												<p>{{ cobertura.Deducible | int }}%</p>
-												<h5>Prima:</h5>
-												<p>${{cobertura.Prima | int}}MXN</p>
-                                        	</div>
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                   <!--  <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal ANA -->
-        <div id="modal-Info-ANA" v-if="!loaderA" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="ANAModal" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                            <div class="col-4 p-2">
-                                <img :src="anaImage" class="rounded" alt="Ana Seguros">
-                            </div>
-                            <div class="col ml-3 p-2">
-                                <h5 class="modal-title" id="exampleModalLabel">ANA Seguros</h5>
-                            </div>
-                    </div>
-                    <div class="modal-body">
-                        <div v-if="cotizacion" class="row p-0">
-                            <div class="col-12 p-0">
-                                <div class="row m-1">
-                                    <div class="col-6">
-                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            <a v-for="(cobertura, index) in cotizacion.coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#cobertura-'+index" role="tab" aria-controls="cobertura-1" aria-selected="true">{{cobertura.desc}}</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 p-2">
-                                        <div class="tab-content" id="v-pills-tabContent">
-                                            <div v-for="(cobertura, index) in cotizacion.coberturas" class="tab-pane fade" :id="'cobertura-'+index" role="tabpanel" aria-labelledby="cobertura-1-tab">
-                                                <h4>            
-                                                    Descripción {{cobertura.desc}}
-                                                </h4>
-                                                <h5 v-if="cobertura.sa">Suma asegurada:</h5>
-                                                <p v-if="cobertura.sa">{{cobertura.sa}}</p>
-                                                <h5 v-if="cobertura.ded">Deducible:</h5>
-                                                <p v-if="cobertura.ded">{{ cobertura.ded }}</p>
-                                                <h5 v-if="cobertura.pma">Prima:</h5>
-                                                <p v-if="cobertura.pma">{{cobertura.pma}}</p>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                   <!--  <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal GS -->
-        <div id="modal-Info-GS" v-if="!loaderGS && cotizacionesGS" class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="qualitasModal" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-4 p-2">
-                            <img src="img/GENERAL-DE-SEGUROS-LOGO.png" style="width: 100%!important; height: 25%!important;" class="rounded" alt="...">
-                        </div>
-                        <div class="col ml-3 p-2">
-                            <h5 class="modal-title" v-if="cotizacion" id="exampleModalLabel">General de Seguros: {{cotizacion.nombre}}</h5>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <div v-if="cotizacion" class="row p-0">
-                            <div class="col-12 p-0">
-                                <div class="row m-1">
-                                    <div class="col-6">
-                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            <a v-for="(cobertura, index) in cotizacion.coberturas" class="nav-link" :id="'cobertura-'+index+'-tab'" data-toggle="pill" :href="'#coberturaGS-'+index" role="tab" aria-controls="'coberturaGS-'+index" aria-selected="true">{{cobertura.descripcion}}</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 p-2">
-                                        <div class="tab-content" id="v-pills-tabContent">
-                                            <div v-for="(cobertura, index) in cotizacion.coberturas" class="tab-pane fade" :id="'coberturaGS-'+index" role="tabpanel" :aria-labelledby="'coberturaGS-'+index+'-tab'">
-                                                <h4>            
-                                                    Descripción {{cobertura.descripcion}}
-                                                </h4>
-                                                <h5>Monto:</h5>
-                                                <p>{{cobertura.monto}}</p>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <!-- <button type="button" id="9" class="btn btn-primary seleccionador">Seleccionar</button> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
 		<!-- polizas {{cliente}} -->
 		<div class="row p-3 m-0">
 			<div class="col">
 				<h3>{{cliente.nombre }} {{cliente.appaterno}} {{cliente.apmaterno}} </h3>
                 <div class="alert alert-info" role="alert">
                     <h5 class="alert-heading">
-                        {{cliente.marca_auto.nombre}} {{cliente.modelo_auto}} {{cliente.descripcion_auto.descripcion}}
+                        {{cliente.marca_auto.descripcion}} {{cliente.submarca_auto.descripcion}} {{cliente.modelo_auto}}
                     </h5>
                 </div>
                
 				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-	                <li class="nav-item">
-	                    <a class="nav-link active" id="pills-Amplia-tab" data-toggle="pill" href="#pills-Amplia" role="tab" aria-controls="pills-Amplia" aria-selected="true">Amplia</a>
-	                </li>
-	                <li class="nav-item">
-	                    <a class="nav-link" id="pills-Limitada-tab" data-toggle="pill" href="#pills-Limitada" role="tab" aria-controls="pills-Limitada" aria-selected="false">Limitada</a>
-	                </li>
-	                <li class="nav-item">
-	                    <a class="nav-link" id="pills-RC-tab" data-toggle="pill" href="#pills-RC" role="tab" aria-controls="pills-RC" aria-selected="false">RC</a>
-	                </li>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="Amplia" v-model="tipo_poliza" value="Amplia">
+                      <label class="form-check-label badge badge-primary" for="Amplia">Amplia</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="Limitada" v-model="tipo_poliza" value="Limitada">
+                      <label class="form-check-label badge badge-primary" for="Limitada">Limitada</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="RC" v-model="tipo_poliza" value="RC">
+                      <label class="form-check-label badge badge-primary" for="RC">RC</label>
+                    </div>
+	                
 	            </ul>
 	            <div class="tab-content" id="pills-tabContent">
 	            	<!-- AMPLIA -->
@@ -227,428 +89,256 @@
 	            			<!--ESCRITORIO-->
                             <div class="col-12 d-none d-sm-block p-2">
                                 <div class="row m-2 no-gutters">
-                                    <div v-if="!loaderQ" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizacionesQualitas">
-                                        <div class="card" v-if="!cotizacion.response.amplia.error">
-                                            <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Prima Neta:</h6>
-                                                <p>${{cotizacion.response.amplia.Primas.PrimaNeta |int}}MXN</p>
-                                                <h6 class="card-title">Gastos de expedición de poliza:</h6>
-                                                <p>${{cotizacion.response.amplia.Primas.Derecho | int}}MXN</p>
-                                                <h6 class="card-title">Impuestos:</h6>
-                                                <p>${{cotizacion.response.amplia.Primas.Impuesto | int}}MXN</p>
-                                                <h6 class="card-title">Recargo:</h6>
-                                                <p>${{cotizacion.response.amplia.Primas.Recargo|int}}MXN</p>
-                                                <h4 class="card-title">Prima Total:</h4>
-                                                <p>${{cotizacion.response.amplia.Primas.PrimaTotal|int}}MXN</p>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-Qualitas" @click="infoCotizacion(cotizacion.response.amplia)">Información</button>
+                                    <table class="table table-bordered table-striped">
+                                        <tbody>
+                                            <!-- HEADERS -->
+                                            <tr>
+                                                <th class="text-center">
+                                                    Aseguradora
+                                                </th>
+                                                <th class="text-center" v-if="cliente.ana">
+                                                    <img width="120" height="50" :src="anaImage">
+                                                </th>
+                                                <th class="text-center" v-if="cliente.qualitas">
+                                                    <img width="120" height="50" :src="quaImage">
+                                                </th>
+                                                <th class="text-center" v-if="cliente.gs">
+                                                    <img width="120" height="50" :src="gsImage">
+                                                </th>
+                                            </tr>
+                                            <!-- TODAS LAS DESCRIPCIONES DE LAS ASEGURADORAS -->
+                                            <tr>
+                                                <th class="text-center">
+                                                    Descripción
+                                                </th>
+                                                <td class="text-center">
+                                                    <select class="form-control" v-model="desc_ana">
+                                                        <option value="">Seleccionar</option>
+                                                        <option v-for="descripcion in descripciones_ana" :value="descripcion.clave">{{descripcion.descripcion}}</option>
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    <select class="form-control" v-model="desc_qualitas">
+                                                        <option value="">Seleccionar</option>
+                                                        <option v-for="descripcion in descripciones_qualitas" :value="descripcion.CAMIS">{{descripcion.cVersion}}</option>
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    <select class="form-control">
+                                                        <option value="">Seleccionar</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <!-- Primas -->
+                                            <tr>
+                                                <th class="text-center">Prima Total</th>
+                                                <td class="text-center">
+                                                    <div v-if="cotizacionesANA.length">
+                                                        <ul>Contado: ${{cotizacionesANA[0]['CONTADO']['prima']['primatotal']}}</ul>
+                                                        <ul>Semestral: ${{cotizacionesANA[1]['SEMESTRAL']['prima']['primatotal']}}</ul>
+                                                        <ul>Trimestral: ${{cotizacionesANA[2]['TRIMESTRAL']['prima']['primatotal']}}</ul>
                                                     </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirqua(cotizacion.response.amplia, 1)">Elegir</button>
+                                                    <div v-else>
+                                                        Seleccione una descripción
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="!loaderA">
-                                        <div v-if="cotizacionesANA.AMPLIA">
-                                            <div class="card">
-                                                <img class="card-img-top" :src="anaImage" alt="Ana Seguros">
-                                                <div class="card-body">
-                                                    <div class="row" v-for="pago in cotizacionesANA.AMPLIA">
-                                                        <p class="col-6" v-if="pago.CONTADO"><strong>CONTADO:</strong></p>
-                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.CONTADO">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL"><strong>SEMESTRAL:</strong></p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[0].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">SEMESTRE:</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[1].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL"><strong>TRIMESTRAL:</strong></p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[0].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">TRIMESTRES:</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[1].primatotal | int}}</p>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div v-if="cotizacionesQualitas.Primas">
+                                                        <ul>Contado: ${{cotizacionesQualitas.Primas.PrimaTotal}}</ul>
                                                     </div>
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-4">
-                                                            <!-- TODO -->
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-ANA" @click="infoAna(cotizacionesANA.AMPLIA)">Información</button>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <!-- TODO -->
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA('AMPLIA',cotizacionesANA.AMPLIA)">Elegir</button>
-                                                        </div>
+                                                    <div v-else>
+                                                        Seleccione una descripción
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6"  v-if="!loaderGS  && cotizacionesGS">
-                                        <div v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
-                                            <div class="card" v-if="cotizacionGS.nombre == 'CONFORT AMPLIA'">
-                                                <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                                <div class="card-body">
-                                                    <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                        <p class="col-6"><strong>{{pago.nombre}}:</strong></p>
-                                                        <p class="col-6">${{pago.primaTotal | int}}</p>
-                                                        <p class="col-6">PAGO INICIAL:</p>
-                                                        <p class="col-6">${{pago.reciboini | int}}</p>
-                                                        <p class="col-6" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
-                                                        <p class="col-6" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
-                                                        <p class="col-6" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
-                                                        <p class="col-6" v-if="pago.nombre != 'CONTADO'">
-                                                            ${{pago.recibosub | int}}
-                                                        </p>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div v-if="cotizacionesGS.length">
+                                                        <ul>Contado: $</ul>
                                                     </div>
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-4">
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
-                                                        </div>
+                                                    <div v-else>
+                                                        Seleccione una descripción
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div v-if="loaderA || loaderGS || loaderQ" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="card">
-                                            <!-- LOADER -->
-                                            <div class="row justify-content-center">
-                                                <div class="loader"></div>
-                                            </div>
-                                            <!-- FIN LOADER -->
-                                        </div>
-                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">Seleccionar</th>
+                                                <td class="text-center">
+                                                    <div v-if="cotizacionesANA.length">
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(tipo_poliza,cotizacionesANA)">Elegir</button>
+                                                    </div>
+                                                    <div v-else>
+                                                        Seleccione una descripción
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div v-if="cotizacionesQualitas.Primas">
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirqua(cotizacionesQualitas, 1)">Elegir</button>
+                                                    </div>
+                                                    <div v-else>
+                                                        Seleccione una descripción
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div v-if="cotizacionesGS.length">
+                                                        <ul>Contado: $</ul>
+                                                    </div>
+                                                    <div v-else>
+                                                        Seleccione una descripción
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- DAÑOS MATERIALES SI ES AMPLIA -->
+                                            <tr v-if="tipo_poliza == 'Amplia'">
+                                                <th class="text-center">
+                                                    Daños Materiales
+                                                </th>
+                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
+                                                    <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'DAÑOS MATERIALES'">
+                                                        <span>{{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
+                                                    <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Daños Materiales'">
+                                                        <span>${{cobertura['SumaAsegurada']|int}}</span>
+                                                        <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
+                                                        <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.length != 0">
+                                                    <div v-for="" v-if="">
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                            </tr>
+                                            <!-- ROBO TOTAL SI ES AMPLIA O LIMITADA -->
+                                            <tr v-if="tipo_poliza == 'Amplia' || tipo_poliza == 'Limitada'">
+                                                <th class="text-center">
+                                                    Robo Total
+                                                </th>
+                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
+                                                    <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'ROBO TOTAL'">
+                                                        <span>{{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
+                                                    <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Robo Total'">
+                                                        <span>${{cobertura['SumaAsegurada']|int}}</span>
+                                                        <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
+                                                        <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.length != 0">
+                                                    <div v-for="" v-if="">
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                            </tr>
+                                            <!-- RESPONSABILIDAD CIVIL TODOS -->
+                                            <tr>
+                                                <th class="text-center">
+                                                    Responsabilidad civil
+                                                </th>
+                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
+                                                    <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'RESPONSABILIDAD CIVIL'">
+                                                        <span>{{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
+                                                    <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Responsabilidad Civil'">
+                                                        <span>${{cobertura['SumaAsegurada']|int}}</span>
+                                                        <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
+                                                        <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.length != 0">
+                                                    <div v-for="" v-if="">
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                            </tr>
+                                            <!-- OTRAS COBERTURAS -->
+                                            <tr>
+                                                
+                                                <th class="d-flex justify-content-center text-center">
+                                                    <div class="align-self-start">
+                                                        <label>
+                                                            Otras coberturas
+                                                        </label>
+                                                    </div>
+                                                </th>
+                                                <td class="text-center" v-if="cotizacionesANA.length != 0" style="padding:0;">
+                                                    <tr v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="!(['DAÑOS MATERIALES','ROBO TOTAL','RESPONSABILIDAD CIVIL'].indexOf(cobertura.desc) != -1)">
+                                                        <td>{{cobertura.desc}}</td>
+                                                        <td>
+                                                            <div>
+                                                                <span>{{cobertura.sa}}</span>
+                                                                <span v-if="cobertura.ded"><strong>Deducible:</strong>{{cobertura.ded}}</span>
+                                                                <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="cotizacionesQualitas['Coberturas']" style="padding: 0;">
+                                                    <tr v-for="(cobertura,index) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo && !(['','Daños Materiales','Robo Total','Responsabilidad Civil'].indexOf(cobertura.tipo) != -1)">
+                                                        <td>{{cobertura.tipo}}</td>
+                                                        <td>
+                                                            <div>
+                                                                <span>${{cobertura.SumaAsegurada|int}}</span>
+                                                                <span v-if="cobertura.Deducible"><strong>Deducible:</strong> {{cobertura.Deducible|int}}%</span>
+                                                                <span v-if="cobertura.Prima"><strong>Prima:</strong> ${{cobertura.Prima|int}}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="cotizacionesGS.length" style="padding: 0;">
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
 	            		</div>
 	            	</div>
-                    <!-- LIMITADA -->
-	            	<div class="tab-pane fade" id="pills-Limitada" role="tabpanel" aria-labelledby="pills-Limitada-tab">
-                        <div class="row">
-                             <!--CELULAR-->
-                           <!--  <div class="col-12 d-block d-sm-none">
-                                <div class="coti">
-                                    <div class="coti-item" v-for="cotizacion in cotizacionesQualitas">
-                                        <div class="card" v-if="!cotizacion.response.limitada.error">
-                                            <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Prima Neta:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.PrimaNeta |int}}MXN</p>
-                                                <h6 class="card-title">Gastos de expedición de poliza:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.Derecho | int}}MXN</p>
-                                                <h6 class="card-title">Impuestos:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.Impuesto | int}}MXN</p>
-                                                <h6 class="card-title">Recargo:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.Recargo|int}}MXN</p>
-                                                <h4 class="card-title">Prima Total:</h4>
-                                                <p>${{cotizacion.response.limitada.Primas.PrimaTotal|int}}MXN</p>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.limitada)">Información</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="coti-item" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="!loaderGS  && cotizacionesGS">
-                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
-                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                            <div class="card-body">
-                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                    <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
-                                                    <p class="col-6">${{pago.primaTotal | int}}</p>
-                                                    <p class="col-6 card-title">PAGO INICIAL:</p>
-                                                    <p class="col-6">${{pago.reciboini | int}}</p>
-                                                    <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
-                                                    <p class="col-6" v-if="pago.nombre != 'CONTADO'">
-                                                        ${{pago.recibosub | int}}
-                                                    </p>
-                                                </div>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!--ESCRITORIO-->
-                            <div class="col-12 d-none d-sm-block p-2">
-                                <div class="row m-2 no-gutters">
-                                    <div v-if="!loaderQ" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizacionesQualitas">
-                                        <div class="card" v-if="!cotizacion.response.limitada.error">
-                                            <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h6 class="card-title">Prima Neta:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.PrimaNeta |int}}MXN</p>
-                                                <h6 class="card-title">Gastos de expedición de poliza:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.Derecho | int}}MXN</p>
-                                                <h6 class="card-title">Impuestos:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.Impuesto | int}}MXN</p>
-                                                <h6 class="card-title">Recargo:</h6>
-                                                <p>${{cotizacion.response.limitada.Primas.Recargo|int}}MXN</p>
-                                                <h4 class="card-title">Prima Total:</h4>
-                                                <p>${{cotizacion.response.limitada.Primas.PrimaTotal|int}}MXN</p>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-Qualitas" @click="infoCotizacion(cotizacion.response.limitada)">Información</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirqua(cotizacion.response.amplia, 3)">Elegir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="cotizacionesANA">
-                                        <div v-if="cotizacionesANA.LIMITADA">
-                                            <div class="card">
-                                                <img class="card-img-top" :src="anaImage" alt="Ana Seguros">
-                                                <div class="card-body">
-                                                    <div class="row" v-for="pago in cotizacionesANA.LIMITADA">
-                                                        <p class="col-6" v-if="pago.CONTADO"><strong>CONTADO:</strong></p>
-                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.CONTADO">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL"><strong>SEMESTRAL:</strong></p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[0].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">SEMESTRE:</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[1].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL"><strong>TRIMESTRAL:</strong></p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[0].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">TRIMESTRES:</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[1].primatotal | int}}</p>
-                                                    </div>
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-4">
-                                                            <!-- TODO -->
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-ANA" @click="infoAna(cotizacionesANA.LIMITADA)">Información</button>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <!-- TODO -->
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA('LIMITADA',cotizacionesANA.LIMITADA)">Elegir</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="!loaderGS  && cotizacionesGS">
-                                        <div v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
-                                            <div class="card" v-if="cotizacionGS.nombre == 'CONFORT LIMITADA'">
-                                                <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                                <div class="card-body">
-                                                    <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                        <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
-                                                        <p class="col-6">${{pago.primaTotal | int}}</p>
-                                                        <p class="col-6 card-title">PAGO INICIAL:</p>
-                                                        <p class="col-6">${{pago.reciboini | int}}</p>
-                                                        <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
-                                                        <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
-                                                        <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
-                                                        <p class="col-6" v-if="pago.nombre != 'CONTADO'">
-                                                            ${{pago.recibosub | int}}
-                                                        </p>
-                                                    </div>
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-4">
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  
-                    </div>
-
-	            	<div class="tab-pane fade" id="pills-RC" role="tabpanel" aria-labelledby="pills-RC-tab">
-                        <div class="row">
-                            <!--CELULAR-->
-                            <!-- <div class="col-12 d-block d-sm-none">
-                                <div class="coti">
-                                    <div class="coti-item" v-for="cotizacion in cotizacionesQualitas">
-                                        <div class="card" v-if="!cotizacion.response.rc.error">
-                                            <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
-                                            <div class="card-body" >
-                                                <h6 class="card-title">Prima Neta:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.PrimaNeta |int}}MXN</p>
-                                                <h6 class="card-title">Gastos de expedición de poliza:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.Derecho | int}}MXN</p>
-                                                <h6 class="card-title">Impuestos:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.Impuesto | int}}MXN</p>
-                                                <h6 class="card-title">Recargo:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.Recargo|int}}MXN</p>
-                                                <h4 class="card-title">Prima Total:</h4>
-                                                <p>${{cotizacion.response.rc.Primas.PrimaTotal|int}}MXN</p>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info" @click="infoCotizacion(cotizacion.response.rc)">Información</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="coti-item" v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes">
-                                        <div class="card" v-if="cotizacionGS.nombre == 'CONFORT BASICA'">
-                                            <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                            <div class="card-body">
-                                                <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                    <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
-                                                    <p class="col-6">${{pago.primaTotal | int}}</p>
-                                                    <p class="col-6 card-title">PAGO INICIAL:</p>
-                                                    <p class="col-6">${{pago.reciboini | int}}</p>
-                                                    <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
-                                                    <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
-                                                    <p class="col-6" v-if="pago.nombre != 'CONTADO'">
-                                                        ${{pago.recibosub | int}}
-                                                    </p>
-                                                </div>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador">Elegir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!--ESCRITORIO-->
-                            <div class="col-12 d-none d-sm-block p-2">
-                                <div class="row m-2 no-gutters">
-                                    <div v-if="!loaderQ" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-for="cotizacion in cotizacionesQualitas">
-                                        <div class="card" v-if="!cotizacion.response.rc.error">
-                                            <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
-                                            <div class="card-body" >
-                                                <h6 class="card-title">Prima Neta:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.PrimaNeta |int}}MXN</p>
-                                                <h6 class="card-title">Gastos de expedición de poliza:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.Derecho | int}}MXN</p>
-                                                <h6 class="card-title">Impuestos:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.Impuesto | int}}MXN</p>
-                                                <h6 class="card-title">Recargo:</h6>
-                                                <p>${{cotizacion.response.rc.Primas.Recargo|int}}MXN</p>
-                                                <h4 class="card-title">Prima Total:</h4>
-                                                <p>${{cotizacion.response.rc.Primas.PrimaTotal|int}}MXN</p>
-                                                <div class="row justify-content-between">
-                                                    <div class="col-4">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-Qualitas" @click="infoCotizacion(cotizacion.response.rc)">Información</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirqua(cotizacion.response.amplia, 4)">Elegir</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="cotizacionesANA">
-                                        <div v-if="cotizacionesANA.RC">
-                                            <div class="card">
-                                                <img class="card-img-top" :src="anaImage" alt="Ana Seguros">
-                                                <div class="card-body">
-                                                    <div class="row" v-for="pago in cotizacionesANA.RC">
-                                                        <p class="col-6" v-if="pago.CONTADO"><strong>CONTADO:</strong></p>
-                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.CONTADO">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.CONTADO">${{pago.CONTADO.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL"><strong>SEMESTRAL:</strong></p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[0].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">SEMESTRE:</p>
-                                                        <p class="col-6" v-if="pago.SEMESTRAL">${{pago.SEMESTRAL.recibos[1].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL"><strong>TRIMESTRAL:</strong></p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.prima.primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">PAGO INICIAL:</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[0].primatotal | int}}</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">TRIMESTRES:</p>
-                                                        <p class="col-6" v-if="pago.TRIMESTRAL">${{pago.TRIMESTRAL.recibos[1].primatotal | int}}</p>
-                                                    </div>
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-4">
-                                                            <!-- TODO -->
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-ANA" @click="infoAna(cotizacionesANA.RC)">Información</button>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <!-- TODO -->
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA('RC',cotizacionesANA.RC)">Elegir</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6" v-if="!loaderGS  && cotizacionesGS">
-                                        <div v-for="cotizacionGS in cotizacionesGS.cotizacion.paquetes" v-if="cotizacionGS.nombre == 'CONFORT BASICA'">
-                                            <div class="card" v-if="cotizacionGS.nombre == 'CONFORT BASICA'">
-                                                <img class="card-img-top" :src="cotizacionesGS.img" alt="Card image cap">
-                                                <div class="card-body">
-                                                    <div class="row" v-for="pago in cotizacionGS.formasPagoDTO">
-                                                        <h6 class="col-6 card-title">{{pago.nombre}}:</h6>
-                                                        <p class="col-6">${{pago.primaTotal | int}}</p>
-                                                        <p class="col-6 card-title">PAGO INICIAL:</p>
-                                                        <p class="col-6">${{pago.reciboini | int}}</p>
-                                                        <p class="col-6 card-title" v-if="pago.nombre === 'SEMESTRAL'">SEMESTRES:</p>
-                                                        <p class="col-6 card-title" v-else-if="pago.nombre === 'TRIMESTRAL'">TRIMESTRES:</p>
-                                                        <p class="col-6 card-title" v-else-if="pago.nombre === 'MENSUAL'">MENSUALIDAD:</p>
-                                                        <p class="col-6" v-if="pago.nombre != 'CONTADO'">
-                                                            ${{pago.recibosub | int}}
-                                                        </p>
-                                                    </div>
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-4">
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-Info-GS" @click="infoCotizacion(cotizacionGS)">Información</button>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.cotizacion.id,cotizacionGS)">Elegir</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>      
-                    </div>
-
 	            </div>
 			</div>
         </div>
@@ -679,48 +369,98 @@
                 anaImage:null,
                 gsImage:null,
                 quaImage:null,
+                descripciones_ana:[],
+                descripciones_gs:[],
+                descripciones_qualitas:[],
+                desc_ana:"",
+                desc_gs:"",
+                desc_qualitas:"",
+                tipo_poliza:"Amplia"
     		}
     	},
     	watch:{
     		'getcotizacion.value': function (newVal,oldVal) {
     			// body...
-                this.getCoberturasGS(this.cliente.cotizacion);
-    			this.getCoberturas(this.cliente.cotizacion);
-                this.getCoberturasAna(this.cliente.cotizacion);
-    		}
+                if (this.cliente.ana) {
+                    this.getDescripcionesANA(this.cliente.marca_auto.id_ana,this.cliente.submarca_auto.id_ana,this.cliente.submarca_auto.anio);
+                }
+                if (this.cliente.qualitas) {
+                    this.getDescripcionesQualitas(this.cliente.marca_auto.descripcion,this.cliente.submarca_auto.descripcion, this.cliente.submarca_auto.anio)
+                }
+                if(this.cliente.gs){
+                    // this.getDescripcionesGS()
+                }
+       //          this.getCoberturasGS(this.cliente.cotizacion);
+    			// this.getCoberturas(this.cliente.cotizacion);
+       //          this.getCoberturasAna(this.cliente.cotizacion);
+    		},
+            'desc_ana': function (newVal,oldVal){
+                this.sendCotizacionANA(this.desc_ana,this.tipo_poliza);
+            },
+            'desc_qualitas':function (newVal,oldVal) {
+                this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
+            },
+            'tipo_poliza':function (newVal,oldVal) {
+                this.sendCotizacionANA(this.desc_ana,this.tipo_poliza);
+                this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
+            }
     	},
     	methods:{
-            getCoberturasAna(cotizacion){
+            getDescripcionesANA(marca_id,submarca_id,modelo){
+                let url = `./api/vehiculoANA/${marca_id}/${submarca_id}/${modelo}`
+                axios.get(url).then(res=>{
+                    console.log('descripcion ana',res.data)
+                    this.descripciones_ana = res.data.vehiculos;
+                }).catch(err=>{
+                    console.log('err',err)
+                })
+            },
+            sendCotizacionANA(descripcion,poliza){
                 let url = './api/cotizacionANA';
-                let params = {cotizacion:cotizacion};
+                let params = {
+                    cotizacion : this.cliente.cotizacion,
+                    descripcion : descripcion,
+                    poliza:poliza
+                }
+                this.cotizacionesANA=[];
                 axios.post(url,params).then(res=>{
                     if(res.data.ANASeguros){
+                        console.log('cotizacion ana',res.data);
                         this.cotizacionesANA=res.data.ANASeguros;
-                        this.loaderA = false;
-                        console.log(this.cotizacionesANA);
+                        // this.loaderA = false;
+                        // console.log(this.cotizac'ionesANA);
                     }
                 }).catch(err=>{
                     this.loaderA = false;
                     console.log('coberturas ana error',err);
+                });
+
+            },
+            getDescripcionesQualitas(marca,submarca,modelo){
+                let uso = this.cliente.uso_auto
+                let url=`./api/modelos/${uso}/${marca}/${submarca}/${modelo}`;
+                axios.get(url).then(res=>{
+                    console.log("descripcion qualitas",res.data);
+                    this.descripciones_qualitas = res.data.descripciones;
+                }).catch(err=>{
+                    console.log(err);
                 })
             },
-    		getCoberturas(cotizacion){
-    			let url = './api/getCoberturasQ';
-    			let params = {cotizacion:cotizacion};
-    			axios.post(url,params).then(res=>{
-    				console.log('coberturas res',res);
-    				this.error = res.data.error;
-					// console.log(this.error.length);
+            sendCotizacionQualitas(camis,poliza){
+                let url="./api/getCoberturasQ";
+                let params = {
+                    cotizacion : this.cliente.cotizacion,
+                    camis : camis,
+                    poliza : poliza
+                };
+                this.cotizacionesQualitas=[];
+                axios.post(url,params).then(res=>{
                     console.log(res.data);
-    				if(!this.error){
-    					this.cotizacionesQualitas.push({'imagen':'./img/qua.png','response':res.data});
-                        this.loaderQ = false;
-    				}
-    			}).catch(err=>{
-    				console.log('coberturas err', err)
-                    this.loaderQ = false;
-    			});
-    		},
+                    this.cotizacionesQualitas = res.data.Qualitas;
+                }).catch(err=>{
+                    console.log(err)
+                });
+            },
             getCoberturasGS(cotizacion){
                 let url = "./api/getCotizacionGS";
                 let params = {cotizacion:cotizacion};
@@ -767,8 +507,9 @@
                 $("#paso3-tab").removeClass("disabled");
                 $("#paso3-tab").click();
             },
-            emitirqua(cotizacion,paquete){
+            emitirqua(cotizacion,paquete,camis){
                 cotizacion.paquetequa = paquete;
+                cotizacion.camis = this.desc_qualitas;
                 console.log(cotizacion);
                 this.setCotizacion = cotizacion;
                 this.$emit("emitirqua", this.setCotizacion);

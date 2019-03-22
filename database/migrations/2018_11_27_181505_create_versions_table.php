@@ -17,7 +17,7 @@ class CreateVersionsTable extends Migration
             $table->increments('id');
             $table->integer('auto_id')->unsigned();
             $table->foreign('auto_id')->references('id')->on('autos');
-            $table->string('amis_ana');
+            $table->string('amis_ana')->nullable();
             $table->integer('amis_gs')->unsigned()->nullable();
             $table->string('descripcion');
             $table->integer('camis_qualitas')->nullable();

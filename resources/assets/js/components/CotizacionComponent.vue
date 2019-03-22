@@ -9,13 +9,14 @@
 		              <a class="nav-link disabled" id="v-pills-Modelo-tab" data-toggle="pill"  href="#v-pills-Modelo" role="tab" aria-controls="v-pills-Modelo" aria-selected="false">Modelo: {{cliente.modelo_auto}}</a>
 		              <a class="nav-link disabled" id="v-pills-Marca-tab" data-toggle="pill" href="#v-pills-Marca" role="tab" aria-controls="v-pills-Marca" aria-selected="false">Marca: {{cliente.marca_auto.descripcion}}</a>
 		              <a class="nav-link disabled" id="v-pills-Submarca-tab" data-toggle="pill" href="#v-pills-Submarca" role="tab" aria-controls="v-pills-Submarca" aria-selected="false">Tipo: {{cliente.submarca_auto.descripcion}}</a>
-		              <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:  {{cliente.descripcion_auto.descripcion}}</a>
+		              <!-- <a class="nav-link disabled" id="v-pills-Descripcion-tab" data-toggle="pill" href="#v-pills-Descripcion"  role="tab" aria-controls="v-pills-Descripcion" aria-selected="false">Descripción:  {{cliente.descripcion_auto.descripcion}}</a> -->
 		              <a class="nav-link disabled" id="v-pills-CP-tab" data-toggle="pill"  href="#v-pills-CP" role="tab" aria-controls="v-pills-CP" aria-selected="false">CP: {{cliente.cp}}</a>
 		              <a class="nav-link disabled" id="v-pills-Nombre-tab" data-toggle="pill" href="#v-pills-Nombre"  role="tab" aria-controls="v-pills-Nombre" aria-selected="false">Nombre: {{cliente.nombre}} {{cliente.appaterno}} {{cliente.apmaterno}}</a>
 		              <a class="nav-link disabled" id="v-pills-Celular-tab" data-toggle="pill"  href="#v-pills-Celular" role="tab" aria-controls="v-pills-Celular" aria-selected="false">Celular: {{cliente.telefono}}</a>
 		              <a class="nav-link disabled" id="v-pills-Correo-tab" data-toggle="pill" href="#v-pills-Correo"  role="tab" aria-controls="v-pills-Correo" aria-selected="false">Correo: {{cliente.email}}</a>
 		              <a class="nav-link disabled" id="v-pills-Sexo-tab" data-toggle="pill"  href="#v-pills-Sexo" role="tab" aria-controls="v-pills-Sexo" aria-selected="false">Sexo: {{cliente.sexo}}</a>
 		              <a class="nav-link disabled" id="v-pills-Nacimiento-tab" data-toggle="pill"  href="#v-pills-Nacimiento" role="tab" aria-controls="v-pills-Nacimiento" aria-selected="false">Nacimiento: {{cliente.f_nac}}</a>
+		              <a class="nav-link" id="v-pills-Aseguradoras-tab" data-toggle="pill"  href="#v-pills-Aseguradoras" role="tab" aria-controls="v-pills-Aseguradoras" aria-selected="false">Aseguradoras:</a>
 		            </div>
     			</div>
     			<div class="col col-sm-6 p-2 my-auto" v-show="!searchOption">
@@ -89,25 +90,6 @@
 		                        </div>
 		                    </div>
 		                </div>
-						 <!--MARCA-->
-		                <!-- <div class="tab-pane fade" v-show="marca" id="v-pills-Marca" role="tabpanel" aria-albelledby="v-pills-Marca-tab">
-		                    <div class="card p-0">
-		                        <div class="card-header">
-		                            Marca
-		                        </div>
-		                        <div class="card-body">
-		                            <select v-model="cliente.marca_auto" size="3" class="list-group list-group-flush col">
-		                            	<option value="" class="list-group-item text-center text-dark seleccionador">Seleccione su marca</option>
-										<option v-for="marca in marcas" :value="marca" class="list-group-item text-center text-dark seleccionador">{{marca.nombre}}</option>
-									</select>
-									<div class="row">
-										<div class="col-12 mt-3 d-block d-sm-none">
-											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Uso-tab').click();">Atras</button>
-										</div>
-									</div>
-		                        </div>
-		                    </div>
-		                </div> -->
 		                 <!--SUBMARCA-->
 		                <div class="tab-pane fade" v-show="marca" id="v-pills-Submarca" role="tabpanel" aria-albelledby="v-pills-Submarca-tab">
 		                    <div class="card p-0">
@@ -131,31 +113,8 @@
 		                        </div>
 		                    </div>
 		                </div>
-		                 <!--MODELO-->
-		               <!--  <div class="tab-pane fade" v-show="modelo" id="v-pills-Modelo" role="tabpanel" aria-albelledby="v-pills-Modelo-tab">
-		                    <div class="card p-0">
-		                        <div class="card-header">
-		                            Modelo
-		                        </div>
-		                        <div class="card-body">
-		                        	<div v-show="loader_modelo" class="loader"></div>
-		                        	<div v-show="!loader_modelo && this.modelo.length == 0">
-		                        		<label>No se encontraron resultados</label>
-		                        	</div>
-		                            <select v-show="!loader_modelo && this.modelo.length != 0" class="list-group list-group-flush col" v-model="cliente.modelo_auto" size="3">
-		                            	<option value=""  class="list-group-item text-center text-dark seleccionador">Seleccione su modelo</option>
-		                            	<option v-for="anio in modelos" :value="anio" class="list-group-item text-center text-dark seleccionador">{{anio}}</option>
-		                            </select>
-		                            <div class="row">
-										<div class="col-12 mt-3 d-block d-sm-none">
-											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Marca-tab').click();">Atras</button>
-										</div>
-									</div>
-		                        </div>
-		                    </div>
-		                </div> -->
 		                  <!--Descripcion-->
-		                <div class="tab-pane fade" v-show="descripcion" id="v-pills-Descripcion" role="tabpanel" aria-albelledby="v-pills-Descripcion-tab" >
+		               <!--  <div class="tab-pane fade" v-show="descripcion" id="v-pills-Descripcion" role="tabpanel" aria-albelledby="v-pills-Descripcion-tab" >
 		                    <div class="card p-0">
 		                        <div class="card-header">
 		                            Descripcion
@@ -176,7 +135,7 @@
 									</div>
 		                        </div>
 		                    </div>
-		                </div>
+		                </div> -->
 		                <!--CP-->
 		                <div class="tab-pane fade" v-show="cp" id="v-pills-CP" role="tabpanel" aria-albelledby="v-pills-CP-tab">
 		                    <div class="card p-0">
@@ -311,6 +270,49 @@
 											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Sexo-tab').click();">Atras</button>
 										</div>
 										<div class="col mt-3 d-flex justify-content-end">
+		                                    <button type="button" id="8_1" @click="nextPill('aseguradoras')" class="btn btn-primary seleccionador">Siguiente</button>
+		                                </div>
+									</div>
+		                        </div>
+		                    </div>
+		                </div
+		                ><!--Nacimiento-->
+		                <div class="tab-pane fade" v-show="nac"  id="v-pills-Aseguradoras" role="tabpanel" aria-albelledby="v-pills-Aseguradoras-tab">
+		                    <div class="card p-0">
+		                        <div class="card-header">
+		                        	<div class="row">
+		                        		<label>
+		                            		Aseguradoras
+		                        		</label>
+		                        		<div class="col mt-3 d-flex justify-content-end">
+										  	
+										  	<label class="form-check-label" for="checkbox-todos"><input class="form-check-input" type="checkbox" id="checkbox-todos" v-model="checkall" @click="selectAll()">Todos</label>
+		                        		</div>
+		                        	</div>
+		                        </div>
+		                        <div class="card-body">
+		                            <!-- TODO -->
+		                            <div class="form-group">
+		                            	<div class="form-check form-check-inline">
+										  <input class="form-check-input" type="checkbox" id="checkbox-qualitas" v-model="cliente.qualitas" true-value="1" false-value="0">
+										  <label class="form-check-label" for="checkbox-qualitas"><img :src="quaImage" width="120" height="50"></label>
+										</div>
+		                            	<div class="form-check form-check-inline">
+										  <input class="form-check-input" type="checkbox" id="checkbox-ana" v-model="cliente.ana" true-value="1" false-value="0">
+										  <label class="form-check-label" for="checkbox-ana"><img :src="anaImage" width="120" height="50"></label>
+										</div>
+		                            	<div class="form-check form-check-inline">
+										  <input class="form-check-input" type="checkbox" id="checkbox-gs" v-model="cliente.gs" true-value="1" false-value="0">
+										  <label class="form-check-label" for="checkbox-gs"><img :src="gsImage" width="120" height="50"></label>
+										</div>
+		                                <!-- <input type="date" v-model="cliente.f_nac" id="valorEdad" onchange="cambiarEdad(this.value)" class="form-control col"> -->
+		                            </div>
+
+		                            <div class="row">
+										<div class="col mt-3 d-block d-sm-none">
+											<button class="btn btn-primary" type="button" onclick="$('#v-pills-Sexo-tab').click();">Atras</button>
+										</div>
+										<div class="col mt-3 d-flex justify-content-end">
 		                                    <button type="button" id="8_1" @click="sendCotizacion(cliente)" class="btn btn-primary seleccionador">Siguiente</button>
 		                                </div>
 									</div>
@@ -329,7 +331,7 @@
 </template>
 
 <script>
-function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefono,email,sexo,f_nac}){
+function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefono,email,sexo,f_nac, qualitas, ana,}){
 	this.cotizacion = cotizacion;
 	this.uso_auto = uso_auto;
 	this.auto = auto;
@@ -357,7 +359,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			marcas: [],
     			submarcas:[],
     			modelos:[],
-    			pills:['v-pills-Uso','v-pills-Marca','v-pills-Submarca','v-pills-Modelo','v-pills-Descripcion','v-pills-CP','v-pills-Nombre','v-pills-Celular','v-pills-Correo','v-pills-Sexo','v-pills-Nacimiento'],
+    			pills:['v-pills-Uso','v-pills-Marca','v-pills-Submarca','v-pills-Modelo','v-pills-CP','v-pills-Nombre','v-pills-Celular','v-pills-Correo','v-pills-Sexo','v-pills-Nacimiento','v-pills-Aseguradoras'],
     			alert_cp:"",
     			uso: true,
     			marca: false,
@@ -375,6 +377,7 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			sexo:false,
     			nac: false,
     			searchOption:false,
+    			checkall:false,
 
     		}
     	},
@@ -422,23 +425,10 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     		},
     		'cliente.submarca_auto':function(newV,oldV){
     			if (newV != "") {
-    				this.descripcion = true;
-    				// this.showPill('v-pills-Marca');
-    				if(this.searchOption == false){
-    					this.cliente.descripcion_auto="";
-    				}
-    				$('#v-pills-Descripcion-tab').removeClass('disabled');
-    				// $('#v-pills-Descripcion-tab').addClass('disabled');
-    				this.getDescripciones(this.cliente.submarca_auto.id,this.cliente.modelo_auto,this.cliente.marca_auto.id);
-    				$('#v-pills-Descripcion-tab').click();
-    			}
-    		},
-    		'cliente.descripcion_auto':function(newV,oldV){
-    			if (newV != "") {
     				this.cp = true;
-    				// this.showPill('v-pills-Marca');
     				$('#v-pills-CP-tab').removeClass('disabled');
-    				// $('#v-pills-CP-tab').addClass('disabled');
+    				// $('#v-pills-Descripcion-tab').addClass('disabled');
+    				// this.getDescripciones(this.cliente.submarca_auto.id,this.cliente.modelo_auto,this.cliente.marca_auto.id);
     				$('#v-pills-CP-tab').click();
     			}
     		},
@@ -485,6 +475,9 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
 						this.cliente.email =res.data.cotizacion.email;
 						this.cliente.sexo =res.data.cotizacion.sexo;
 						this.cliente.f_nac =res.data.cotizacion.f_nac;
+						this.cliente.ana = res.data.cotizacion.ana;
+						this.cliente.gs=res.data.cotizacion.gs;
+						this.cliente.qualitas = res.data.cotizacion.qualitas
 					 	$("#paso2-tab").removeClass("disabled");
         				$("#paso2-tab").click();
         				this.getcotizacion.value = !this.getcotizacion.value;
@@ -499,6 +492,18 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     			});
 
 
+    		},
+    		selectAll(){
+    			if (!this.checkall) {
+    				this.cliente.ana = 1,
+    				this.cliente.qualitas = 1;
+    				this.cliente.gs = 1
+    			}
+    			else{
+    				this.cliente.ana = 0,
+    				this.cliente.qualitas = 0;
+    				this.cliente.gs = 0
+    			}
     		},
     // 		getMarcas(){
     // 			let url = './api/getMarcas';
@@ -670,6 +675,13 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     				// $('#v-pills-Nacimiento-tab').addClass('disabled');
     				$('#v-pills-Nacimiento-tab').click();
     			}
+    			if (input == "aseguradoras" ) {
+    				this.aseguradoras = true;
+    				$('#v-pills-Aseguradoras-tab').removeClass('disabled');
+    				// $('#v-pills-Aseguradoras-tab').addClass('disabled');
+    				$('#v-pills-Aseguradoras-tab').click();
+
+    			}
     		},
     		
     		// getModelos(){
@@ -689,10 +701,29 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
 				this.alert.class = '';
     			axios.post(url,cliente).then(res=>{
     				console.log('res',res);
-    				this.cliente.cotizacion = res.data.cotizacion.cotizacion;
+    				this.cliente.cotizacion =res.data.cotizacion.cotizacion;
+					this.cliente.uso_auto =res.data.cotizacion.uso_auto;
+					this.cliente.descripcion_auto = res.data.cotizacion.auto.version;
+					this.cliente.marca_auto = res.data.cotizacion.auto.marca;
+					this.cliente.modelo_auto = res.data.cotizacion.auto.submarca.anio;
+					this.cliente.submarca_auto = res.data.cotizacion.auto.submarca;
+					// this.cliente.auto = res.data.cotizacion.auto;
+					this.cliente.cp =res.data.cotizacion.cp;
+					this.cliente.nombre=res.data.cotizacion.nombre;
+					this.cliente.appaterno =res.data.cotizacion.appaterno;
+					this.cliente.apmaterno =res.data.cotizacion.apmaterno;
+					this.cliente.telefono =res.data.cotizacion.telefono;
+					this.cliente.email =res.data.cotizacion.email;
+					this.cliente.sexo =res.data.cotizacion.sexo;
+					this.cliente.f_nac =res.data.cotizacion.f_nac;
+					this.cliente.ana = res.data.cotizacion.ana;
+					this.cliente.gs=res.data.cotizacion.gs;
+					this.cliente.qualitas = res.data.cotizacion.qualitas;
     				this.getcotizacion.value = !this.getcotizacion.value;
     				this.alert.message = `${this.cliente.nombre} ${this.cliente.appaterno} ${this.cliente.apmaterno} su cotización se guardo con el folio ${this.cliente.cotizacion}`;
     				this.alert.class = "alert alert-success alert-dismissible fade show";
+    				$("#paso2-tab").removeClass("disabled");
+        			$("#paso2-tab").click();
     				// $('#cotizar').modal('show');
     			}).catch(err=>{
     				console.log('err',err);
@@ -701,6 +732,9 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     	},
         mounted() {
             console.log('Component mounted.');
+            this.anaImage="./img/ana1.png";
+			this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+			this.quaImage = "./img/qua.png";
             let uri = window.location.href.split('?');
             if (uri.length == 2)
 		    {

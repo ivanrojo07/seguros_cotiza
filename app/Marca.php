@@ -11,7 +11,7 @@ class Marca extends Model
     protected $fillable=[
         'id_ana',
         'id_gs',
-    	'nombre',
+    	'descripcion',
     ];
 
     protected $hidden=[

@@ -42,7 +42,10 @@ const app = new Vue({
 	    	'telefono':"",
 	    	'email':"",
 	    	'sexo':"",
-	    	'f_nac':""
+	    	'f_nac':"",
+            'ana': "",
+            'qualitas': "",
+            'gs': "",
     	},
     	getcotizacion:{
     		type: Boolean,

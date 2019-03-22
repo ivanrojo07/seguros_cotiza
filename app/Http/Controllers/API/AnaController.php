@@ -169,7 +169,7 @@ XML;
         // dd($fecha_hoy);
         $fecha_t = Carbon::parse($fecha);
         $fecha_t = $fecha_t->addYears(1)->format('d/m/Y');
-        if($request->plan == "AMPLIA"){
+        if($request->plan == "Amplia"){
             $xml=
 <<<XML
 <transacciones xmlns="">
@@ -214,7 +214,7 @@ XML;
 XML;
         // dd($xml);
         }
-        elseif($request->plan == "LIMITADA"){
+        elseif($request->plan == "Limitada"){
             $xml =<<<XML
 <transacciones xmlns="">
   <transaccion version="1" tipotransaccion="E" cotizacion="" negocio="1195" tiponegocio="">
@@ -345,7 +345,7 @@ XML;
                 return response()->json(['bancos'=>$bancos],201);
             }
             else{
-                return response()->json(['error'=>"Bancos no encontrados",404]);
+                return response()->json(['error'=>"Bancos no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -363,7 +363,7 @@ XML;
             //     return response()->json(['categorias'=>$categorias],201);
             // }
             // else{
-            //     return response()->json(['error'=>"Categorias no encontradas",404]);
+            //     return response()->json(['error'=>"Categorias no encontradas"],404);
             // }
         }catch(SoapFault $fault){
             dd($fault);
@@ -380,7 +380,7 @@ XML;
                 return response()->json(['Codigo Postal'=>$codigoPostal],201);
             }
             else{
-                return response()->json(['error'=>"Codigo Postales no encontrados",404]);
+                return response()->json(['error'=>"Codigo Postales no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -397,7 +397,7 @@ XML;
                 return response()->json(['colonias'=>$colonias],201);
             }
             else{
-                return response()->json(['error'=>"Colonias no encontradas",404]);
+                return response()->json(['error'=>"Colonias no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -414,7 +414,7 @@ XML;
                 return response()->json(['colores'=>$colores],201);
             }
             else{
-                return response()->json(['error'=>"Colores no encontrados",404]);
+                return response()->json(['error'=>"Colores no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -431,7 +431,7 @@ XML;
                 return response()->json(['municipios'=>$municipios],201);
             }
             else{
-                return response()->json(['error'=>"Municipios no encontrados",404]);
+                return response()->json(['error'=>"Municipios no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -447,7 +447,7 @@ XML;
                 return response()->json(['estados'=>$estados],201);
             }
             else{
-                return response()->json(['error'=>"Estados no encontrados",404]);
+                return response()->json(['error'=>"Estados no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -463,7 +463,7 @@ XML;
                 return response()->json(['formapagos'=>$formapagos],201);
             }
             else{
-                return response()->json(['error'=>"Forma de pagos no encontrados",404]);
+                return response()->json(['error'=>"Forma de pagos no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -479,7 +479,7 @@ XML;
                 return response()->json(['giros'=>$giros],201);
             }
             else{
-                return response()->json(['error'=>"Giros no encontrados",404]);
+                return response()->json(['error'=>"Giros no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -495,7 +495,7 @@ XML;
                 return response()->json(['identificaciones'=>$identificaciones],201);
             }
             else{
-                return response()->json(['error'=>"Identificaciones no encontradas",404]);
+                return response()->json(['error'=>"Identificaciones no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -511,7 +511,7 @@ XML;
                 return response()->json(['marcas'=>$marcas],201);
             }
             else{
-                return response()->json(['error'=>"Marcas no encontradas",404]);
+                return response()->json(['error'=>"Marcas no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -523,12 +523,13 @@ XML;
             $client = new SoapClient($this->url,$this->params);
             $modelosXML = $client->Modelo(["Negocio"=>"1195","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
             $modelosResp = json_decode(json_encode(simplexml_load_string($modelosXML->ModeloResult)),true);
+            // dd($modelosXML);
             if (isset($modelosResp['modelo'])) {
                 $modelos = $modelosResp['modelo'];
                 return response()->json(['modelos'=>$modelos],201);
             }
             else{
-                return response()->json(['error'=>"Modelos no encontrados",404]);
+                return response()->json(['error'=>"Modelos no encontrados"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -546,7 +547,7 @@ XML;
                 return response()->json(['nacionalidades'=>$nacionalidades],201);
             }
             else{
-                return response()->json(['error'=>"Nacionalidades no encontradas",404]);
+                return response()->json(['error'=>"Nacionalidades no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -564,7 +565,7 @@ XML;
                 return response()->json(['ocupaciones'=>$ocupaciones],201);
             }
             else{
-                return response()->json(['error'=>"Ocupaciones no encontradas",404]);
+                return response()->json(['error'=>"Ocupaciones no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -585,7 +586,7 @@ XML;
                 return response()->json(['submarcas'=>$submarcas],201);
             }
             else{
-                return response()->json(['error'=>"Sub-Marcas no encontradas",404]);
+                return response()->json(['error'=>"Sub-Marcas no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -660,42 +661,34 @@ XML;
 
         }
         else{
-            $marca = $cliente->auto->marca->nombre;
-            $submarca= $cliente->auto->submarca->nombre;
+            $marca = $cliente->auto->marca->id_ana;
+            $submarca= $cliente->auto->submarca->id_ana;
             $modelo = $cliente->auto->submarca->anio;
-            $descripcion= $cliente->auto->version->descripcion;
-            $marcaANA = $this->searchMarca($marca,$modelo);
-            if($marcaANA){
-                $submarcaANA = $this->searchSubmarca($submarca,$marcaANA->id,$modelo);
-                // dd($submarca);
-                if ($submarcaANA) {
-                    $descripcionANA=$this->searchVehiculo($descripcion,$marcaANA->id,$submarcaANA->id,$modelo);
-                    // dd($descripcionANA);
-                }
-            }
-            if($descripcionANA){
-                $planes=['1','3','4'];
-                $clave_amis=$descripcionANA->clave;
-                // dd($clave_amis);
-                $pagosJSON=$this->formaPagos();
-                $pagos = json_decode(json_encode($pagosJSON))->original->formapagos;
-                $estadoANA=$cliente->cestado."001";
-                $poblacion = CP::where('cestado',$cliente->cestado)->first()->estado;
-                $fecha = Carbon::now();
-                $fecha_hoy=$fecha->format('d/m/Y');
-                // dd($fecha_hoy);
-                $fecha_t = Carbon::parse($fecha);
-                $fecha_t = $fecha_t->addYears(1)->format('d/m/Y');
-                // dd($fecha_t);
-                // dd($poblacion);
-                $respuestasAmplia=[];
-                $respuestasLimitada=[];
-                $respuestasRC=[];
-                foreach ($pagos as $pago) {                        
-$xmlAMPLIA = <<<XML
+            $descripcion= $request->descripcion;
+            $poliza = $request->poliza;
+            
+            $planes=['1','3','4'];
+            // dd($clave_amis);
+            $pagosJSON=$this->formaPagos();
+            $pagos = json_decode(json_encode($pagosJSON))->original->formapagos;
+            $estadoANA=$cliente->cestado."001";
+            $poblacion = CP::where('cestado',$cliente->cestado)->first()->estado;
+            $fecha = Carbon::now();
+            $fecha_hoy=$fecha->format('d/m/Y');
+            // dd($fecha_hoy);
+            $fecha_t = Carbon::parse($fecha);
+            $fecha_t = $fecha_t->addYears(1)->format('d/m/Y');
+            // dd($fecha_t);
+            // dd($poblacion);
+            $respuestas=[];
+            foreach ($pagos as $pago) {
+                switch ($poliza) {
+                    case "Amplia":
+                        // code...
+                        $xml = <<<XML
 <transacciones xmlns="">
     <transaccion version="1" tipotransaccion="$pago->id" cotizacion="" negocio="1195" tiponegocio="">
-        <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="1" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
+        <vehiculo id="1" amis="$descripcion" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="1" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
             <cobertura id="02" desc="" sa="" tipo="3" ded="5" pma=""/>
             <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
             <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
@@ -718,10 +711,13 @@ $xmlAMPLIA = <<<XML
     </transaccion>
 </transacciones>
 XML;
-$xmlLIMITADA=<<<XML
+                            break;
+                        
+                        case 'Limitada':
+                            $xml = <<<XML
 <transacciones xmlns="">
     <transaccion version="1" tipotransaccion="$pago->id" cotizacion="" negocio="1195" tiponegocio="">
-        <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="3" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
+        <vehiculo id="1" amis="$descripcion" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="3" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
             <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
       <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
             <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
@@ -739,10 +735,12 @@ $xmlLIMITADA=<<<XML
     </transaccion>
 </transacciones>
 XML;
-$xmlRC=<<<XML
+                            break;
+                        case "RC":
+                            $xml= <<<XML
 <transacciones xmlns="">
     <transaccion version="1" tipotransaccion="$pago->id" cotizacion="" negocio="1195" tiponegocio="">
-        <vehiculo id="1" amis="$clave_amis" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="4" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
+        <vehiculo id="1" amis="$descripcion" modelo="$modelo" descripcion="" uso="1" servicio="1" plan="4" motor="" serie="" repuve="" placas="" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="$estadoANA" poblacion="$poblacion" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
       <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
             <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
             <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
@@ -760,106 +758,46 @@ $xmlRC=<<<XML
 </transacciones>
 
 XML;
-            // var_dump($xmlAMPLIA);
-                    try{
-                        $client = new SoapClient($this->urlPHP,$this->params);
-                        // $transaccionXML = ;
-                        $respTextAmplia=$client->TransaccionText(["XML"=>$xmlAMPLIA,"Tipo"=>"Cotizacion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-                        $respTextLimitada=$client->TransaccionText(["XML"=>$xmlLIMITADA,"Tipo"=>"Cotizacion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-                        $respTextRC=$client->TransaccionText(["XML"=>$xmlRC,"Tipo"=>"Cotizacion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
+                            break;
+                        default:
+                            return response()->json(['error'=>"Tipo de poliza incorrecta"],501);
+                            break;
+                    }
+                try{
+                    $client = new SoapClient($this->urlPHP,$this->params);
+                    // $transaccionXML = ;
+                    $respText=$client->TransaccionText(["XML"=>$xml,"Tipo"=>"Cotizacion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
                     // TODO
-                    $arrayRespLimitada=json_decode(json_encode(simplexml_load_string($respTextLimitada->TransaccionTextResult)),true);
-                    $arrayRespAmplia = json_decode(json_encode(simplexml_load_string($respTextAmplia->TransaccionTextResult)),true);
-                    $arrayRespRC=json_decode(json_encode(simplexml_load_string($respTextRC->TransaccionTextResult)),true);
-                    $coberturasAmplia=[];
-                    foreach ($arrayRespAmplia['transaccion']['vehiculo']['cobertura'] as $cobertura) {
+                    $arrayResp = json_decode(json_encode(simplexml_load_string($respText->TransaccionTextResult)),true);
+                    $coberturas=[];
+                    foreach ($arrayResp['transaccion']['vehiculo']['cobertura'] as $cobertura) {
                         // dd($cobertura);
-                        array_push($coberturasAmplia,$cobertura['@attributes']);
+                        array_push($coberturas,$cobertura['@attributes']);
                     }
-                    $recibosAmplia=[];
-                    foreach ($arrayRespAmplia['transaccion']['recibo'] as $recibo) {
+                    $recibos=[];
+                    foreach ($arrayResp['transaccion']['recibo'] as $recibo) {
                         if ($pago->descripcion == "CONTADO") {
-                            array_push($recibosAmplia,$recibo);
+                            array_push($recibos,$recibo);
                         } else {
-                            array_push($recibosAmplia,$recibo["@attributes"]);
+                            array_push($recibos,$recibo["@attributes"]);
                         }
                     }
-                    array_push($respuestasAmplia,
+                    array_push($respuestas,
                         [
                             $pago->descripcion=>[
-                                "vehiculo"=>$arrayRespAmplia['transaccion']['vehiculo']['@attributes'],
-                                "coberturas"=>$coberturasAmplia,
-                                "prima"=>$arrayRespAmplia['transaccion']['prima']['@attributes'],
-                                "recibos"=>$recibosAmplia
+                                "vehiculo"=>$arrayResp['transaccion']['vehiculo']['@attributes'],
+                                "coberturas"=>$coberturas,
+                                "prima"=>$arrayResp['transaccion']['prima']['@attributes'],
+                                "recibos"=>$recibos
                             ]
                         ]
                     );
-                    $coberturasLimitada=[];
-                    foreach ($arrayRespLimitada['transaccion']['vehiculo']['cobertura'] as $cobertura) {
-                        // dd($cobertura);
-                        array_push($coberturasLimitada,$cobertura['@attributes']);
-                    }
-                    $recibosLimitada=[];
-                    foreach ($arrayRespLimitada['transaccion']['recibo'] as $recibo) {
-                        if ($pago->descripcion == "CONTADO") {
-                            array_push($recibosLimitada,$recibo);
-                        } else {
-                            array_push($recibosLimitada,$recibo["@attributes"]);
-                        }
-                    }
-                    array_push($respuestasLimitada,
-                        [
-                            $pago->descripcion=>[
-                                "vehiculo"=>$arrayRespLimitada['transaccion']['vehiculo']['@attributes'],
-                                "coberturas"=>$coberturasLimitada,
-                                "prima"=>$arrayRespLimitada['transaccion']['prima']['@attributes'],
-                                "recibos"=>$recibosLimitada
-                            ]
-                        ]
-                    );
-                    $coberturasRC=[];
-                    foreach ($arrayRespRC['transaccion']['vehiculo']['cobertura'] as $cobertura) {
-                        // dd($cobertura);
-                        array_push($coberturasRC,$cobertura['@attributes']);
-                    }
-                    $recibosRC=[];
-                    foreach ($arrayRespRC['transaccion']['recibo'] as $recibo) {
-                        //NO SE PUEDE ACCEDER AL ATTRIBUTOS
-                        if ($pago->descripcion == "CONTADO") {
-                            array_push($recibosRC,$recibo);
-                        } else {
-                            array_push($recibosRC,$recibo["@attributes"]);
-                        }
-                    }
-                    array_push($respuestasRC,
-                        [
-                            $pago->descripcion=>[
-                                "vehiculo"=>$arrayRespRC['transaccion']['vehiculo']['@attributes'],
-                                "coberturas"=>$coberturasRC,
-                                "prima"=>$arrayRespRC['transaccion']['prima']['@attributes'],
-                                "recibos"=>$recibosRC
-                            ]
-                        ]
-                    );
-                    // if (isset($submarcasResp['submarca'])) {
-                    //     $submarcas = $submarcasResp['submarca'];
-                    //     return response()->json(['submarcas'=>$submarcas],201);
-                    // }
-                    // else{
-                    //     return response()->json(['error'=>"Sub-Marcas no encontradas",404]);
-                    // }
-                    }catch(SoapFault $fault){
-                        dd($fault);
-                    }
+                }catch(SoapFault $fault){
+                    dd($fault);
                 }
-                // dd($respuestasAmplia);
-                $respuestas=[
-                    'AMPLIA'=>$respuestasAmplia,
-                    'LIMITADA'=>$respuestasLimitada,
-                    'RC'=>$respuestasRC
-                ];
-                return response()->json(['ANASeguros'=>$respuestas]);
             }
+            // dd($respuestasAmplia);
+            return response()->json(['ANASeguros'=>$respuestas],201);
         }
        
     }
@@ -878,7 +816,7 @@ XML;
                 return response()->json(['vehiculos'=>$vehiculos],201);
             }
             else{
-                return response()->json(['error'=>"Descripciones no encontradas",404]);
+                return response()->json(['error'=>"Descripciones no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);
@@ -899,7 +837,7 @@ XML;
                 return response()->json(['catalogos'=>$catalogos],201);
             }
             else{
-                return response()->json(['error'=>"Descripciones no encontradas",404]);
+                return response()->json(['error'=>"Descripciones no encontradas"],404);
             }
         }catch(SoapFault $fault){
             dd($fault);

@@ -19,9 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/marcas',"QualitasController@getMarcas");
-// Route::get('/submarca/{uso}/{marca}/{submarca}/{modelo}',"QualitasController@getSubmarcas");
+Route::get('/submarca/{uso}/{marca}/{submarca}/{modelo}',"QualitasController@getSubmarcas");
 
-Route::get('/modelos/{uso}/{marca}/{modelo}',"QualitasController@getModelos");
+Route::get('/modelos/{uso}/{marca}/{submarca}/{modelo}',"QualitasController@getModelos");
 Route::get('/tarifas','WebServiceController@getTarifas');
 // Route::get('/emitir','WebServiceController@emitirPoliza');
 // Route::get('/emitirGS','GeneralSegurosController@emitir');

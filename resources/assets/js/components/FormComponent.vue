@@ -279,6 +279,7 @@
 					<input type="hidden" name="cotizacion" :value="qualitas.cotizacion">
 					<input type="hidden" name="paquete_id" :value="qualitas.vehiculo.paquete">
 					<input type="hidden" name="poblacion" :value="qualitas.cliente.poblacion">
+					<input type="hiden" name="camis" :value="qualitas.vehiculo.camis">
 					<input type="hidden" name="municipio" :value="qualitas.cliente.municipio">
 					<input type="hidden" name="estado" :value="qualitas.cliente.estado">
 					<input type="hidden" name="ciudad" :value="qualitas.cliente.ciudad">
@@ -856,7 +857,8 @@
 					vehiculo:{
 						num_motor:"",
 						serie:"",
-						paquete:""
+						paquete:"",
+						camis:""
 					}
 				},
 				generalseguro:{
@@ -943,6 +945,10 @@
 			'cotizacion.paquetequa':function(new_value,old_value){
 				console.log(new_value);
 				this.qualitas.vehiculo.paquete = new_value;
+			},
+			'cotizacion.camis':function(new_value,old_value){
+				console.log(new_value);
+				this.qualitas.vehiculo.camis = new_value;
 			},
 			'cliente.cotizacion':function(new_value,old_value){
 				console.log(new_value);
