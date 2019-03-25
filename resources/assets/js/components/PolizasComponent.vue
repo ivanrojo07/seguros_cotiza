@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<!-- polizas {{cliente}} -->
+        <div class="loading" v-show="loader">Loading&#8230;</div>
 		<div class="row p-3 m-0">
 			<div class="col">
 				<h3>{{cliente.nombre }} {{cliente.appaterno}} {{cliente.apmaterno}} </h3>
@@ -357,6 +358,7 @@
     	],
     	data(){
     		return{
+                loader:false,
                 loaderQ: true,
                 loaderA:true,
                 loaderGS:true,
@@ -395,12 +397,15 @@
        //          this.getCoberturasAna(this.cliente.cotizacion);
     		},
             'desc_ana': function (newVal,oldVal){
+                this.loader = true;
                 this.sendCotizacionANA(this.desc_ana,this.tipo_poliza);
             },
             'desc_qualitas':function (newVal,oldVal) {
+                this.loader = true;
                 this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
             },
             'tipo_poliza':function (newVal,oldVal) {
+                this.loader=true;
                 this.sendCotizacionANA(this.desc_ana,this.tipo_poliza);
                 this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
             }
@@ -423,15 +428,17 @@
                     poliza:poliza
                 }
                 this.cotizacionesANA=[];
+                // this.loader = true;
                 axios.post(url,params).then(res=>{
                     if(res.data.ANASeguros){
+                        this.loader=false;
                         console.log('cotizacion ana',res.data);
                         this.cotizacionesANA=res.data.ANASeguros;
                         // this.loaderA = false;
                         // console.log(this.cotizac'ionesANA);
                     }
                 }).catch(err=>{
-                    this.loaderA = false;
+                    // this.loader = false;
                     console.log('coberturas ana error',err);
                 });
 
@@ -454,10 +461,13 @@
                     poliza : poliza
                 };
                 this.cotizacionesQualitas=[];
+                // this.loader = true;
                 axios.post(url,params).then(res=>{
+                    this.loader=false;
                     console.log(res.data);
                     this.cotizacionesQualitas = res.data.Qualitas;
                 }).catch(err=>{
+                    // this.loader=false;
                     console.log(err)
                 });
             },
@@ -468,7 +478,7 @@
                     console.log("general res",res.data)
                     if (res.data.cotizacion) {
                         this.cotizacionesGS={"img": './img/GENERAL-DE-SEGUROS-LOGO.png','cotizacion':res.data.cotizacion};
-                        this.loaderGS = false;
+                        this.loader = false;
 
                     }
                 }).catch(error=>{

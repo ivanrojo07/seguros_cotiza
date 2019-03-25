@@ -4327,10 +4327,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cliente', 'getcotizacion', 'alert', 'gs'],
   data: function data() {
     return {
+      loader: false,
       loaderQ: true,
       loaderA: true,
       loaderGS: true,
@@ -4370,12 +4372,15 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     'desc_ana': function desc_ana(newVal, oldVal) {
+      this.loader = true;
       this.sendCotizacionANA(this.desc_ana, this.tipo_poliza);
     },
     'desc_qualitas': function desc_qualitas(newVal, oldVal) {
+      this.loader = true;
       this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
     },
     'tipo_poliza': function tipo_poliza(newVal, oldVal) {
+      this.loader = true;
       this.sendCotizacionANA(this.desc_ana, this.tipo_poliza);
       this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
     }
@@ -4401,15 +4406,17 @@ __webpack_require__.r(__webpack_exports__);
         descripcion: descripcion,
         poliza: poliza
       };
-      this.cotizacionesANA = [];
+      this.cotizacionesANA = []; // this.loader = true;
+
       axios.post(url, params).then(function (res) {
         if (res.data.ANASeguros) {
+          _this2.loader = false;
           console.log('cotizacion ana', res.data);
           _this2.cotizacionesANA = res.data.ANASeguros; // this.loaderA = false;
           // console.log(this.cotizac'ionesANA);
         }
       }).catch(function (err) {
-        _this2.loaderA = false;
+        // this.loader = false;
         console.log('coberturas ana error', err);
       });
     },
@@ -4434,11 +4441,14 @@ __webpack_require__.r(__webpack_exports__);
         camis: camis,
         poliza: poliza
       };
-      this.cotizacionesQualitas = [];
+      this.cotizacionesQualitas = []; // this.loader = true;
+
       axios.post(url, params).then(function (res) {
+        _this4.loader = false;
         console.log(res.data);
         _this4.cotizacionesQualitas = res.data.Qualitas;
       }).catch(function (err) {
+        // this.loader=false;
         console.log(err);
       });
     },
@@ -4457,7 +4467,7 @@ __webpack_require__.r(__webpack_exports__);
             "img": './img/GENERAL-DE-SEGUROS-LOGO.png',
             'cotizacion': res.data.cotizacion
           };
-          _this5.loaderGS = false;
+          _this5.loader = false;
         }
       }).catch(function (error) {
         _this5.loaderGS = false;
@@ -49161,6 +49171,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loader,
+            expression: "loader"
+          }
+        ],
+        staticClass: "loading"
+      },
+      [_vm._v("Loading…")]
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "row p-3 m-0" }, [
       _c("div", { staticClass: "col" }, [
         _c("h3", [
@@ -61850,15 +61876,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./resources/assets/js/components/FormComponent.vue ***!
   \**********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FormComponent_vue_vue_type_template_id_70be8f72___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormComponent.vue?vue&type=template&id=70be8f72& */ "./resources/assets/js/components/FormComponent.vue?vue&type=template&id=70be8f72&");
 /* harmony import */ var _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/FormComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -61888,7 +61913,7 @@ component.options.__file = "resources/assets/js/components/FormComponent.vue"
 /*!***********************************************************************************!*\
   !*** ./resources/assets/js/components/FormComponent.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
