@@ -94,22 +94,22 @@
                                         <tbody>
                                             <!-- HEADERS -->
                                             <tr>
-                                                <th class="text-center">
+                                                <th scope="rowgroup" class="text-center">
                                                     Aseguradora
                                                 </th>
-                                                <th class="text-center" v-if="cliente.ana">
-                                                    <img width="120" height="50" :src="anaImage">
+                                                <th scope="rowgroup" class="text-center" v-if="cliente.ana">
+                                                    <img width="120" height="50" :src="img.anaImage">
                                                 </th>
-                                                <th class="text-center" v-if="cliente.qualitas">
-                                                    <img width="120" height="50" :src="quaImage">
+                                                <th scope="rowgroup" class="text-center" v-if="cliente.qualitas">
+                                                    <img width="120" height="50" :src="img.quaImage">
                                                 </th>
-                                                <th class="text-center" v-if="cliente.gs">
-                                                    <img width="120" height="50" :src="gsImage">
+                                                <th scope="rowgroup" class="text-center" v-if="cliente.gs">
+                                                    <img width="120" height="50" :src="img.gsImage">
                                                 </th>
                                             </tr>
                                             <!-- TODAS LAS DESCRIPCIONES DE LAS ASEGURADORAS -->
                                             <tr>
-                                                <th class="text-center">
+                                                <th scope="rowgroup" class="text-center">
                                                     Descripción
                                                 </th>
                                                 <td class="text-center">
@@ -125,8 +125,9 @@
                                                     </select>
                                                 </td>
                                                 <td class="text-center">
-                                                    <select class="form-control">
+                                                    <select class="form-control" v-model="desc_gs">
                                                         <option value="">Seleccionar</option>
+                                                        <option v-for="version in descripciones_gs" :value="version">{{version.descripcion}}</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -134,10 +135,10 @@
                                             <tr>
                                                 <th class="text-center">Prima Total</th>
                                                 <td class="text-center">
-                                                    <div v-if="cotizacionesANA.length">
-                                                        <ul>Contado: ${{cotizacionesANA[0]['CONTADO']['prima']['primatotal']}}</ul>
-                                                        <ul>Semestral: ${{cotizacionesANA[1]['SEMESTRAL']['prima']['primatotal']}}</ul>
-                                                        <ul>Trimestral: ${{cotizacionesANA[2]['TRIMESTRAL']['prima']['primatotal']}}</ul>
+                                                    <div v-if="cotizacionesANA.length" style="padding">
+                                                        <div class="border">Contado: ${{cotizacionesANA[0]['CONTADO']['prima']['primatotal']}}</div>
+                                                        <div class="border">Semestral: ${{cotizacionesANA[1]['SEMESTRAL']['prima']['primatotal']}}</div>
+                                                        <div class="border">Trimestral: ${{cotizacionesANA[2]['TRIMESTRAL']['prima']['primatotal']}}</div>
                                                     </div>
                                                     <div v-else>
                                                         Seleccione una descripción
@@ -145,15 +146,17 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <div v-if="cotizacionesQualitas.Primas">
-                                                        <ul>Contado: ${{cotizacionesQualitas.Primas.PrimaTotal}}</ul>
+                                                        <div class="border">Contado: ${{cotizacionesQualitas.Primas.PrimaTotal}}</div>
                                                     </div>
                                                     <div v-else>
                                                         Seleccione una descripción
                                                     </div>
                                                 </td>
                                                 <td class="text-center">
-                                                    <div v-if="cotizacionesGS.length">
-                                                        <ul>Contado: $</ul>
+                                                    <div v-if="cotizacionesGS.id" style="padding:0">
+                                                        <div class="border" v-for="pago in cotizacionesGS.paquete[0].formasPagoDTO">
+                                                            {{pago.nombre}}:  ${{pago.primaTotal | int}}
+                                                        </div>
                                                     </div>
                                                     <div v-else>
                                                         Seleccione una descripción
@@ -179,8 +182,8 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-center">
-                                                    <div v-if="cotizacionesGS.length">
-                                                        <ul>Contado: $</ul>
+                                                    <div v-if="cotizacionesGS.id">
+                                                        <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirgs(cotizacionesGS.id, cotizacionesGS.paquete[0])">Elegir</button>
                                                     </div>
                                                     <div v-else>
                                                         Seleccione una descripción
@@ -194,7 +197,7 @@
                                                 </th>
                                                 <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
                                                     <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'DAÑOS MATERIALES'">
-                                                        <span>{{cobertura.sa}}</span>
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
                                                         <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
                                                         <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
                                                     </div>
@@ -203,8 +206,8 @@
                                                     Seleccione una descripción
                                                 </td>
                                                 <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
-                                                    <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Daños Materiales'">
-                                                        <span>${{cobertura['SumaAsegurada']|int}}</span>
+                                                    <div v-for="(cobertura,index) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Daños Materiales'">
+                                                        <span><strong>{{cobertura.tipo}}:</strong> ${{cobertura['SumaAsegurada']|int}}</span>
                                                         <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
                                                         <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
                                                     </div>
@@ -212,8 +215,12 @@
                                                 <td v-else class="text-center">
                                                     Seleccione una descripción
                                                 </td>
-                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.length != 0">
-                                                    <div v-for="" v-if="">
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.id" style="padding:0">
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Daños Materiales Pérdida Parcial'">
+                                                        <div class="border"><strong>{{cobertura.descripcion}}:</strong> {{cobertura.monto}}</div>
+                                                    </div>
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Daños Materiales Pérdida Total'">
+                                                        <div class="border"><strong>{{cobertura.descripcion}}:</strong> {{cobertura.monto}}</div>
                                                     </div>
                                                 </td>
                                                 <td v-else class="text-center">
@@ -227,7 +234,7 @@
                                                 </th>
                                                 <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
                                                     <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'ROBO TOTAL'">
-                                                        <span>{{cobertura.sa}}</span>
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
                                                         <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
                                                         <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
                                                     </div>
@@ -237,7 +244,7 @@
                                                 </td>
                                                 <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
                                                     <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Robo Total'">
-                                                        <span>${{cobertura['SumaAsegurada']|int}}</span>
+                                                        <span><strong>{{cobertura.tipo}}:</strong> ${{cobertura['SumaAsegurada']|int}}</span>
                                                         <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
                                                         <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
                                                     </div>
@@ -245,8 +252,11 @@
                                                 <td v-else class="text-center">
                                                     Seleccione una descripción
                                                 </td>
-                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.length != 0">
-                                                    <div v-for="" v-if="">
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.id">
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Robo Total'">
+                                                        <span>
+                                                            <strong>{{cobertura.descripcion}}:</strong> {{cobertura.monto}}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td v-else class="text-center">
@@ -256,11 +266,41 @@
                                             <!-- RESPONSABILIDAD CIVIL TODOS -->
                                             <tr>
                                                 <th class="text-center">
-                                                    Responsabilidad civil
+                                                    Responsabilidad Civil
                                                 </th>
-                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
-                                                    <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'RESPONSABILIDAD CIVIL'">
-                                                        <span>{{cobertura.sa}}</span>
+                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0" style="padding:0">
+                                                    <div class="border" v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'RESPONSABILIDAD CIVIL'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                    <div class="border" v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == '  RC BIENES'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                    <div class="border" v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == '  RC PERSONAS'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                    <div class="border" v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == '  EXTENSION RC'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                    <div class="border" v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == '  RC DEL HIJO MENOR'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                    <div class="border" v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == '  RC POR REMOLQUES'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
+                                                        <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
+                                                        <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                    </div>
+                                                    <div class="border" v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'RC CATASTROFICA POR MUERTE'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
                                                         <span v-if="cobertura.ded"><strong>Deducible por daños:</strong>{{cobertura.ded}}</span>
                                                         <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
                                                     </div>
@@ -270,7 +310,7 @@
                                                 </td>
                                                 <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
                                                     <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Responsabilidad Civil'">
-                                                        <span>${{cobertura['SumaAsegurada']|int}}</span>
+                                                        <span><strong>{{cobertura.tipo}}:</strong> ${{cobertura['SumaAsegurada']|int}}</span>
                                                         <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
                                                         <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
                                                     </div>
@@ -278,8 +318,115 @@
                                                 <td v-else class="text-center">
                                                     Seleccione una descripción
                                                 </td>
-                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.length != 0">
-                                                    <div v-for="" v-if="">
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.id" style="padding:0">
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Responsabilidad Civil por Daños a Terceros (LUC)'">
+                                                        <div class="border"><strong>{{cobertura.descripcion}}:</strong> ${{cobertura.monto}}</div>
+                                                    </div>
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Responsabilidad Civil por Fallecimiento'">
+                                                        <div class="border"><strong>{{cobertura.descripcion}}:</strong> ${{cobertura.monto}}</div>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                            </tr>
+                                            <!-- GASTOS MEDICOS -->
+                                            <tr>
+                                                <th scope="row" class="text-center">
+                                                    Gastos Médicos
+                                                </th>
+                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
+                                                    <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'GASTOS MEDICOS'">
+                                                        <span><strong>{{cobertura.desc}}</strong> ${{cobertura.sa}} <strong>Prima:</strong> {{cobertura.pma}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
+                                                    <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Gastos Médicos'">
+                                                        <span><strong>{{cobertura.tipo}}:</strong> ${{cobertura['SumaAsegurada']|int}} </span>
+                                                        <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
+                                                        <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.id" >
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Gastos Médicos'">
+                                                         <span><strong>{{cobertura.descripcion}}:</strong> ${{cobertura.monto}} </span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                            </tr>
+                                            <!-- ASISTENCIA JURIDICA -->
+                                            <tr>
+                                                <th scope="row" class="text-center">
+                                                    Legal
+                                                </th>
+                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
+                                                    <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'DEF. JUD. Y ASIS. LEGAL'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}} <strong>Prima:</strong> {{cobertura.pma}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
+                                                    <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Gastos Legales'">
+                                                        <span><strong>{{cobertura.tipo}}:</strong> ${{cobertura['SumaAsegurada']|int}} </span>
+                                                        <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
+                                                        <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.id" >
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Asistencia Jurídica GS'">
+                                                         <span><strong>{{cobertura.descripcion}}:</strong> {{cobertura.monto}} </span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+
+                                            </tr>
+                                            <!-- VIAL -->
+                                            <tr>
+                                                <th class="text-center" scope="row">
+                                                    Vial
+                                                </th>
+                                                <td class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
+                                                    <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'ANA ASISTENCIA'">
+                                                        <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}} <strong>Prima:</strong> {{cobertura.pma}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
+                                                    <div v-for="(cobertura,indez) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Asistencia Vial'">
+                                                        <span><strong>{{cobertura.tipo}}:</strong> ${{cobertura['SumaAsegurada']|int}} </span>
+                                                        <span v-if="cobertura['Deducible']"><strong>Deducible por daños:</strong> {{cobertura['Deducible']|int}}%</span>
+                                                        <span v-if="cobertura.Prima"><strong>Prima:</strong>${{cobertura.Prima|int}}</span>
+                                                    </div>
+                                                </td>
+                                                <td v-else class="text-center">
+                                                    Seleccione una descripción
+                                                </td>
+                                                <td class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.id" >
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Asistencia Vial y en Viajes GS'">
+                                                         <span>
+                                                            <strong>
+                                                                {{cobertura.descripcion}}: 
+
+                                                            </strong>
+                                                            {{cobertura.monto}} 
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td v-else class="text-center">
@@ -297,38 +444,39 @@
                                                     </div>
                                                 </th>
                                                 <td class="text-center" v-if="cotizacionesANA.length != 0" style="padding:0;">
-                                                    <tr v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="!(['DAÑOS MATERIALES','ROBO TOTAL','RESPONSABILIDAD CIVIL'].indexOf(cobertura.desc) != -1)">
-                                                        <td>{{cobertura.desc}}</td>
-                                                        <td>
-                                                            <div>
-                                                                <span>{{cobertura.sa}}</span>
-                                                                <span v-if="cobertura.ded"><strong>Deducible:</strong>{{cobertura.ded}}</span>
-                                                                <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
-                                                            </div>
-                                                        </td>
+                                                    <tr v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="!(['DAÑOS MATERIALES','ROBO TOTAL','RESPONSABILIDAD CIVIL','  RC BIENES','  RC PERSONAS','  EXTENSION RC','  RC DEL HIJO MENOR','  RC POR REMOLQUES','RC CATASTROFICA POR MUERTE','GASTOS MEDICOS','DEF. JUD. Y ASIS. LEGAL','ANA ASISTENCIA'].indexOf(cobertura.desc) != -1)">
+                                                        
+                                                        <div>
+                                                            <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
+                                                            <span v-if="cobertura.ded"><strong>Deducible:</strong>{{cobertura.ded}}</span>
+                                                            <span v-if="cobertura.pma"><strong>Prima:</strong>${{cobertura.pma}}</span>
+                                                        </div>
                                                     </tr>
                                                 </td>
                                                 <td v-else class="text-center">
                                                     Seleccione una descripción
                                                 </td>
                                                 <td class="text-center" v-if="cotizacionesQualitas['Coberturas']" style="padding: 0;">
-                                                    <tr v-for="(cobertura,index) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo && !(['','Daños Materiales','Robo Total','Responsabilidad Civil'].indexOf(cobertura.tipo) != -1)">
-                                                        <td>{{cobertura.tipo}}</td>
-                                                        <td>
-                                                            <div>
-                                                                <span>${{cobertura.SumaAsegurada|int}}</span>
-                                                                <span v-if="cobertura.Deducible"><strong>Deducible:</strong> {{cobertura.Deducible|int}}%</span>
-                                                                <span v-if="cobertura.Prima"><strong>Prima:</strong> ${{cobertura.Prima|int}}</span>
-                                                            </div>
-                                                        </td>
+                                                    <tr v-for="(cobertura,index) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo && !(['','Daños Materiales','Gastos Médicos','Gastos Legales','Asistencia Vial','Robo Total','Responsabilidad Civil'].indexOf(cobertura.tipo) != -1)">
+                                                        <div>
+                                                            <span><strong>{{cobertura.tipo}}:</strong>${{cobertura.SumaAsegurada|int}}</span>
+                                                            <span v-if="cobertura.Deducible"><strong>Deducible:</strong> {{cobertura.Deducible|int}}%</span>
+                                                            <span v-if="cobertura.Prima"><strong>Prima:</strong> ${{cobertura.Prima|int}}</span>
+                                                        </div>
                                                     </tr>
                                                 </td>
                                                 <td v-else class="text-center">
                                                     Seleccione una descripción
                                                 </td>
-                                                <td class="text-center" v-if="cotizacionesGS.length" style="padding: 0;">
-                                                    <tr></tr>
-                                                    <tr></tr>
+                                                <td class="text-center" v-if="cotizacionesGS.id" style="padding:0">
+                                                    <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="(['Daños Materiales Pérdida Parcial','Daños Materiales Pérdida Total','Robo Total','Responsabilidad Civil por Daños a Terceros (LUC)','Responsabilidad Civil por Fallecimiento','Gastos Médicos','Asistencia Jurídica GS','Asistencia Vial y en Viajes GS'].indexOf(cobertura.tipo) != -1)">
+                                                        <span class="border">
+                                                            <strong>
+                                                                {{cobertura.descripcion}}:
+                                                            </strong> 
+                                                            ${{cobertura.monto}}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 <td v-else class="text-center">
                                                     Seleccione una descripción
@@ -354,7 +502,7 @@
     		'cliente',
     		'getcotizacion',
             'alert',
-            'gs'
+            'img'
     	],
     	data(){
     		return{
@@ -390,7 +538,7 @@
                     this.getDescripcionesQualitas(this.cliente.marca_auto.descripcion,this.cliente.submarca_auto.descripcion, this.cliente.submarca_auto.anio)
                 }
                 if(this.cliente.gs){
-                    // this.getDescripcionesGS()
+                    this.getDescripcionesGS(this.cliente.marca_auto.descripcion,this.cliente.submarca_auto.descripcion, this.cliente.submarca_auto.anio);
                 }
        //          this.getCoberturasGS(this.cliente.cotizacion);
     			// this.getCoberturas(this.cliente.cotizacion);
@@ -404,17 +552,22 @@
                 this.loader = true;
                 this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
             },
+            'desc_gs': function(newVal,oldVal) {
+                this.loader = true;
+                this.sendCotizacionGS(this.desc_gs,this.tipo_poliza);
+            },
             'tipo_poliza':function (newVal,oldVal) {
                 this.loader=true;
                 this.sendCotizacionANA(this.desc_ana,this.tipo_poliza);
                 this.sendCotizacionQualitas(this.desc_qualitas, this.tipo_poliza);
+                this.sendCotizacionGS(this.desc_gs,this.tipo_poliza);
             }
     	},
     	methods:{
             getDescripcionesANA(marca_id,submarca_id,modelo){
                 let url = `./api/vehiculoANA/${marca_id}/${submarca_id}/${modelo}`
                 axios.get(url).then(res=>{
-                    console.log('descripcion ana',res.data)
+                    // console.log('descripcion ana',res.data)
                     this.descripciones_ana = res.data.vehiculos;
                 }).catch(err=>{
                     console.log('err',err)
@@ -432,13 +585,13 @@
                 axios.post(url,params).then(res=>{
                     if(res.data.ANASeguros){
                         this.loader=false;
-                        console.log('cotizacion ana',res.data);
+                        // console.log('cotizacion ana',res.data);
                         this.cotizacionesANA=res.data.ANASeguros;
                         // this.loaderA = false;
                         // console.log(this.cotizac'ionesANA);
                     }
                 }).catch(err=>{
-                    // this.loader = false;
+                    this.loader = false;
                     console.log('coberturas ana error',err);
                 });
 
@@ -447,7 +600,7 @@
                 let uso = this.cliente.uso_auto
                 let url=`./api/modelos/${uso}/${marca}/${submarca}/${modelo}`;
                 axios.get(url).then(res=>{
-                    console.log("descripcion qualitas",res.data);
+                    // console.log("descripcion qualitas",res.data);
                     this.descripciones_qualitas = res.data.descripciones;
                 }).catch(err=>{
                     console.log(err);
@@ -464,18 +617,44 @@
                 // this.loader = true;
                 axios.post(url,params).then(res=>{
                     this.loader=false;
-                    console.log(res.data);
+                    // console.log(res.data);
                     this.cotizacionesQualitas = res.data.Qualitas;
                 }).catch(err=>{
-                    // this.loader=false;
+                    this.loader=false;
                     console.log(err)
                 });
+            },
+            getDescripcionesGS(marca,submarca,modelo){
+                let url=`./api/versionesGS/${marca}/${submarca}/${modelo}`;
+                axios.get(url).then(res=>{
+                    console.log(res);
+                    this.descripciones_gs = res.data.versiones_gs;
+                }).catch(err=>{
+                    console.log(err);
+                })
+            },
+            sendCotizacionGS(descripcion,poliza){
+                let url = "./api/getCotizacionGS";
+                let params = {
+                    cotizacion:this.cliente.cotizacion,
+                    descripcion_gs:descripcion,
+                    poliza:poliza
+                }
+                this.cotizacionesGS = [];
+                axios.post(url,params).then(res=>{
+                    console.log(res);
+                    this.loader=false;
+                    this.cotizacionesGS=res.data.cotizacion;
+                }).catch(err=>{
+                    this.loader=false;
+                    console.log(err);
+                })
             },
             getCoberturasGS(cotizacion){
                 let url = "./api/getCotizacionGS";
                 let params = {cotizacion:cotizacion};
                 axios.post(url,params).then(res=>{
-                    console.log("general res",res.data)
+                    // console.log("general res",res.data)
                     if (res.data.cotizacion) {
                         this.cotizacionesGS={"img": './img/GENERAL-DE-SEGUROS-LOGO.png','cotizacion':res.data.cotizacion};
                         this.loader = false;
@@ -509,7 +688,7 @@
                 console.log(cotizacion);
             },
             emitirgs(cotizacion_id,paquete){
-                console.log(this.cotizacionesGS.cotizacion.id,paquete);
+                console.log(cotizacion_id,paquete);
 
                 this.setCotizacion = {nombre: "GS",id: cotizacion_id,paquete:paquete};
                 this.$emit("emitirgs", this.setCotizacion);
@@ -538,9 +717,9 @@
     	created(){
     	},
     	mounted(){
-            this.anaImage="./img/ana1.png";
-            this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
-            this.quaImage = "./img/qua.png";
+            // this.anaImage="./img/ana1.png";
+            // this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+            // this.quaImage = "./img/qua.png";
     	}
 	}
 </script>

@@ -31,13 +31,13 @@
                     </div>
                 </div>
                 <div class="tab-pane fade show active" id="paso1" role="tabpanel" aria-labelledby="paso1-tab">
-                    <cotizacion v-bind:cliente="cliente" :getcotizacion="getcotizacion" :alert="alert"></cotizacion>
+                    <cotizacion v-bind:cliente="cliente" :img="img" :getcotizacion="getcotizacion" :alert="alert"></cotizacion>
                 </div>
                 <div class="tab-pane fade" id="paso2" role="tabpanel" aria-labelledby="paso2-tab">
-                    <polizas v-bind:cliente="cliente" :getcotizacion="getcotizacion" :cotizacion="cotizacion" @emitirgs="cotizacion=$event" @emitirqua="cotizacion=$event" @emitirana="cotizacion=$event" :alert="alert"></polizas>
+                    <polizas v-bind:cliente="cliente" :img="img" :getcotizacion="getcotizacion" :cotizacion="cotizacion" @emitirgs="cotizacion=$event" @emitirqua="cotizacion=$event" @emitirana="cotizacion=$event" :alert="alert"></polizas>
                 </div>
                 <div class="tab-pane fade {{-- show active --}}" id="paso3" role="tabpanel" aria-labelledby="paso3-tab">
-                    <formulario :cotizacion="cotizacion" :cliente="cliente" :alert="alert"></formulario>
+                    <formulario :cotizacion="cotizacion" :img="img" :cliente="cliente" :alert="alert"></formulario>
                 </div>
                 
                 

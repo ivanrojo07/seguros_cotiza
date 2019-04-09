@@ -8,7 +8,7 @@
 					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="col-6">
-							<img :src="gsImage" class="col">
+							<img :src="img.gsImage" class="col">
 						</div>
 						<div class="col-6">
 							<h5 class="mt-3 ml-3">General de Seguros</h5>
@@ -279,7 +279,7 @@
 					<input type="hidden" name="cotizacion" :value="qualitas.cotizacion">
 					<input type="hidden" name="paquete_id" :value="qualitas.vehiculo.paquete">
 					<input type="hidden" name="poblacion" :value="qualitas.cliente.poblacion">
-					<input type="hiden" name="camis" :value="qualitas.vehiculo.camis">
+					<input type="hidden" name="camis" :value="qualitas.vehiculo.camis">
 					<input type="hidden" name="municipio" :value="qualitas.cliente.municipio">
 					<input type="hidden" name="estado" :value="qualitas.cliente.estado">
 					<input type="hidden" name="ciudad" :value="qualitas.cliente.ciudad">
@@ -295,7 +295,7 @@
 					</div>
 					<div class="row">
 						<div class="col-6">
-							<img :src="quaImage" class="col">
+							<img :src="img.quaImage" class="col">
 						</div>
 						<div class="col-6">
 							<h5 class="mt-3 ml-3">Qualitas</h5>
@@ -519,7 +519,7 @@
 					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="offset-1 col-3">
-							<img :src="anaImage" class="col">
+							<img :src="img.anaImage" class="col">
 						</div>
 						<div class="offset-1 col-6">
 							<h5 class="mt-3 ml-3">ANA Seguros</h5>
@@ -766,13 +766,12 @@
 		props:[
 			'cliente',
 			'alert',
-			'cotizacion'
+			'cotizacion',
+			'img'
 		],
 		data(){
 			return{
-				gsImage:null,
-				quaImage:null,
-				anaImage:null,
+				
 				csrf: null,
 				ana:{
 					cliente:{
@@ -1241,9 +1240,9 @@
 			this.getOcupacionANA();
 			this.getColorANA();
 			this.getPagosANA();
-			this.anaImage="./img/ana1.png";
-			this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
-			this.quaImage = "./img/qua.png";
+			// this.anaImage="./img/ana1.png";
+			// this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+			// this.quaImage = "./img/qua.png";
 			this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
 			this.qualitasGiros=[
 				{ codigo: '0010', descripcion: 'Industrial'},

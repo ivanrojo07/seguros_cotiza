@@ -295,15 +295,15 @@
 		                            <div class="form-group">
 		                            	<div class="form-check form-check-inline">
 										  <input class="form-check-input" type="checkbox" id="checkbox-qualitas" v-model="cliente.qualitas" true-value="1" false-value="0">
-										  <label class="form-check-label" for="checkbox-qualitas"><img :src="quaImage" width="120" height="50"></label>
+										  <label class="form-check-label" for="checkbox-qualitas"><img :src="img.quaImage" width="120" height="50"></label>
 										</div>
 		                            	<div class="form-check form-check-inline">
 										  <input class="form-check-input" type="checkbox" id="checkbox-ana" v-model="cliente.ana" true-value="1" false-value="0">
-										  <label class="form-check-label" for="checkbox-ana"><img :src="anaImage" width="120" height="50"></label>
+										  <label class="form-check-label" for="checkbox-ana"><img :src="img.anaImage" width="120" height="50"></label>
 										</div>
 		                            	<div class="form-check form-check-inline">
 										  <input class="form-check-input" type="checkbox" id="checkbox-gs" v-model="cliente.gs" true-value="1" false-value="0">
-										  <label class="form-check-label" for="checkbox-gs"><img :src="gsImage" width="120" height="50"></label>
+										  <label class="form-check-label" for="checkbox-gs"><img :src="img.gsImage" width="120" height="50"></label>
 										</div>
 		                                <!-- <input type="date" v-model="cliente.f_nac" id="valorEdad" onchange="cambiarEdad(this.value)" class="form-control col"> -->
 		                            </div>
@@ -349,7 +349,8 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     	props:[
     		'cliente',
     		'getcotizacion',
-    		'alert'
+    		'alert',
+    		'img'
     	],
     	data(){
     		return{
@@ -732,9 +733,9 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     	},
         mounted() {
             console.log('Component mounted.');
-            this.anaImage="./img/ana1.png";
-			this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
-			this.quaImage = "./img/qua.png";
+   //          this.anaImage="./img/ana1.png";
+			// this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
+			// this.quaImage = "./img/qua.png";
             let uri = window.location.href.split('?');
             if (uri.length == 2)
 		    {

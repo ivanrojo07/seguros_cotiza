@@ -47,6 +47,11 @@ const app = new Vue({
             'qualitas': "",
             'gs': "",
     	},
+        img:{
+            anaImage:"./img/ana1.png",
+            gsImage : "./img/GENERAL-DE-SEGUROS-LOGO.png",
+            quaImage : "./img/qua.png",
+        },
     	getcotizacion:{
     		type: Boolean,
     		value:false
@@ -57,7 +62,6 @@ const app = new Vue({
         },
         
         cotizacion: {},
-       
 
     },
     

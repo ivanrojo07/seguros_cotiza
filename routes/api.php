@@ -30,7 +30,7 @@ Route::post('/searchCliente','ClienteController@search');
 Route::post('/getCoberturasQ','QualitasController@getCobertura');
 
 
-
+Route::get('/versionesGS/{marca}/{submarca}/{modelo}','GeneralSegurosController@versiones');
 Route::get('/getMarcas','GeneralSegurosController@getMarcas');
 Route::get('/getSubmarcas/{marca_id}','GeneralSegurosController@getSubmarcas');
 Route::get('/getModelos/{submarca_id}','GeneralSegurosController@getModelos');
