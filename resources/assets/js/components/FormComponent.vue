@@ -8,7 +8,7 @@
 					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="col-6">
-							<img :src="img.gsImage" class="col">
+							<img width="50%" height="50%" :src="img.gsImage">
 						</div>
 						<div class="col-6">
 							<h5 class="mt-3 ml-3">General de Seguros</h5>
@@ -295,7 +295,7 @@
 					</div>
 					<div class="row">
 						<div class="col-6">
-							<img :src="img.quaImage" class="col">
+							<img width="50%" height="50%" :src="img.quaImage">
 						</div>
 						<div class="col-6">
 							<h5 class="mt-3 ml-3">Qualitas</h5>
@@ -519,7 +519,7 @@
 					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="offset-1 col-3">
-							<img :src="img.anaImage" class="col">
+							<img width="50%" height="50%" :src="img.anaImage">
 						</div>
 						<div class="offset-1 col-6">
 							<h5 class="mt-3 ml-3">ANA Seguros</h5>

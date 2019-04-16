@@ -44034,8 +44034,11 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-6" }, [
                     _c("img", {
-                      staticClass: "col",
-                      attrs: { src: _vm.img.gsImage }
+                      attrs: {
+                        width: "50%",
+                        height: "50%",
+                        src: _vm.img.gsImage
+                      }
                     })
                   ]),
                   _vm._v(" "),
@@ -46227,8 +46230,11 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-6" }, [
                     _c("img", {
-                      staticClass: "col",
-                      attrs: { src: _vm.img.quaImage }
+                      attrs: {
+                        width: "50%",
+                        height: "50%",
+                        src: _vm.img.quaImage
+                      }
                     })
                   ]),
                   _vm._v(" "),
@@ -47570,8 +47576,11 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "offset-1 col-3" }, [
                     _c("img", {
-                      staticClass: "col",
-                      attrs: { src: _vm.img.anaImage }
+                      attrs: {
+                        width: "50%",
+                        height: "50%",
+                        src: _vm.img.anaImage
+                      }
                     })
                   ]),
                   _vm._v(" "),
