@@ -4473,6 +4473,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cliente', 'getcotizacion', 'alert', 'img'],
   data: function data() {
@@ -42418,6 +42455,16 @@ var render = function() {
                                       attrs: { value: "Servicio Particular" }
                                     },
                                     [_vm._v("Servicio Particular")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    {
+                                      staticClass:
+                                        "list-group-item text-center text-dark seleccionador",
+                                      attrs: { value: "Servicio Público" }
+                                    },
+                                    [_vm._v("Servicio Público")]
                                   )
                                 ]
                               )
@@ -43582,157 +43629,161 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "form-check form-check-inline" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.cliente.ana,
-                                    expression: "cliente.ana"
-                                  }
-                                ],
-                                staticClass: "form-check-input",
-                                attrs: {
-                                  type: "checkbox",
-                                  id: "checkbox-ana",
-                                  "true-value": "1",
-                                  "false-value": "0"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.cliente.ana)
-                                    ? _vm._i(_vm.cliente.ana, null) > -1
-                                    : _vm._q(_vm.cliente.ana, "1")
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.cliente.ana,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? "1" : "0"
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          _vm.$set(
-                                            _vm.cliente,
-                                            "ana",
-                                            $$a.concat([$$v])
-                                          )
-                                      } else {
-                                        $$i > -1 &&
-                                          _vm.$set(
-                                            _vm.cliente,
-                                            "ana",
-                                            $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1))
-                                          )
-                                      }
-                                    } else {
-                                      _vm.$set(_vm.cliente, "ana", $$c)
-                                    }
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "label",
-                                {
-                                  staticClass: "form-check-label",
-                                  attrs: { for: "checkbox-ana" }
-                                },
+                          _vm.cliente.uso_auto == "Servicio Particular"
+                            ? _c(
+                                "div",
+                                { staticClass: "form-check form-check-inline" },
                                 [
-                                  _c("img", {
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.cliente.ana,
+                                        expression: "cliente.ana"
+                                      }
+                                    ],
+                                    staticClass: "form-check-input",
                                     attrs: {
-                                      src: _vm.img.anaImage,
-                                      width: "120",
-                                      height: "50"
+                                      type: "checkbox",
+                                      id: "checkbox-ana",
+                                      "true-value": "1",
+                                      "false-value": "0"
+                                    },
+                                    domProps: {
+                                      checked: Array.isArray(_vm.cliente.ana)
+                                        ? _vm._i(_vm.cliente.ana, null) > -1
+                                        : _vm._q(_vm.cliente.ana, "1")
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        var $$a = _vm.cliente.ana,
+                                          $$el = $event.target,
+                                          $$c = $$el.checked ? "1" : "0"
+                                        if (Array.isArray($$a)) {
+                                          var $$v = null,
+                                            $$i = _vm._i($$a, $$v)
+                                          if ($$el.checked) {
+                                            $$i < 0 &&
+                                              _vm.$set(
+                                                _vm.cliente,
+                                                "ana",
+                                                $$a.concat([$$v])
+                                              )
+                                          } else {
+                                            $$i > -1 &&
+                                              _vm.$set(
+                                                _vm.cliente,
+                                                "ana",
+                                                $$a
+                                                  .slice(0, $$i)
+                                                  .concat($$a.slice($$i + 1))
+                                              )
+                                          }
+                                        } else {
+                                          _vm.$set(_vm.cliente, "ana", $$c)
+                                        }
+                                      }
                                     }
-                                  })
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "form-check-label",
+                                      attrs: { for: "checkbox-ana" }
+                                    },
+                                    [
+                                      _c("img", {
+                                        attrs: {
+                                          src: _vm.img.anaImage,
+                                          width: "120",
+                                          height: "50"
+                                        }
+                                      })
+                                    ]
+                                  )
                                 ]
                               )
-                            ]
-                          ),
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "form-check form-check-inline" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.cliente.gs,
-                                    expression: "cliente.gs"
-                                  }
-                                ],
-                                staticClass: "form-check-input",
-                                attrs: {
-                                  type: "checkbox",
-                                  id: "checkbox-gs",
-                                  "true-value": "1",
-                                  "false-value": "0"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.cliente.gs)
-                                    ? _vm._i(_vm.cliente.gs, null) > -1
-                                    : _vm._q(_vm.cliente.gs, "1")
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.cliente.gs,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? "1" : "0"
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          _vm.$set(
-                                            _vm.cliente,
-                                            "gs",
-                                            $$a.concat([$$v])
-                                          )
-                                      } else {
-                                        $$i > -1 &&
-                                          _vm.$set(
-                                            _vm.cliente,
-                                            "gs",
-                                            $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1))
-                                          )
-                                      }
-                                    } else {
-                                      _vm.$set(_vm.cliente, "gs", $$c)
-                                    }
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "label",
-                                {
-                                  staticClass: "form-check-label",
-                                  attrs: { for: "checkbox-gs" }
-                                },
+                          _vm.cliente.uso_auto == "Servicio Particular"
+                            ? _c(
+                                "div",
+                                { staticClass: "form-check form-check-inline" },
                                 [
-                                  _c("img", {
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.cliente.gs,
+                                        expression: "cliente.gs"
+                                      }
+                                    ],
+                                    staticClass: "form-check-input",
                                     attrs: {
-                                      src: _vm.img.gsImage,
-                                      width: "120",
-                                      height: "50"
+                                      type: "checkbox",
+                                      id: "checkbox-gs",
+                                      "true-value": "1",
+                                      "false-value": "0"
+                                    },
+                                    domProps: {
+                                      checked: Array.isArray(_vm.cliente.gs)
+                                        ? _vm._i(_vm.cliente.gs, null) > -1
+                                        : _vm._q(_vm.cliente.gs, "1")
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        var $$a = _vm.cliente.gs,
+                                          $$el = $event.target,
+                                          $$c = $$el.checked ? "1" : "0"
+                                        if (Array.isArray($$a)) {
+                                          var $$v = null,
+                                            $$i = _vm._i($$a, $$v)
+                                          if ($$el.checked) {
+                                            $$i < 0 &&
+                                              _vm.$set(
+                                                _vm.cliente,
+                                                "gs",
+                                                $$a.concat([$$v])
+                                              )
+                                          } else {
+                                            $$i > -1 &&
+                                              _vm.$set(
+                                                _vm.cliente,
+                                                "gs",
+                                                $$a
+                                                  .slice(0, $$i)
+                                                  .concat($$a.slice($$i + 1))
+                                              )
+                                          }
+                                        } else {
+                                          _vm.$set(_vm.cliente, "gs", $$c)
+                                        }
+                                      }
                                     }
-                                  })
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "form-check-label",
+                                      attrs: { for: "checkbox-gs" }
+                                    },
+                                    [
+                                      _c("img", {
+                                        attrs: {
+                                          src: _vm.img.gsImage,
+                                          width: "120",
+                                          height: "50"
+                                        }
+                                      })
+                                    ]
+                                  )
                                 ]
                               )
-                            ]
-                          )
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
@@ -49443,65 +49494,69 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-check form-check-inline" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.tipo_poliza,
-                    expression: "tipo_poliza"
-                  }
-                ],
-                staticClass: "form-check-input",
-                attrs: { type: "radio", id: "Limitada", value: "Limitada" },
-                domProps: { checked: _vm._q(_vm.tipo_poliza, "Limitada") },
-                on: {
-                  change: function($event) {
-                    _vm.tipo_poliza = "Limitada"
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass: "form-check-label badge badge-primary",
-                  attrs: { for: "Limitada" }
-                },
-                [_vm._v("Limitada")]
-              )
-            ]),
+            _vm.cliente.uso_auto == "Servicio Particular"
+              ? _c("div", { staticClass: "form-check form-check-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.tipo_poliza,
+                        expression: "tipo_poliza"
+                      }
+                    ],
+                    staticClass: "form-check-input",
+                    attrs: { type: "radio", id: "Limitada", value: "Limitada" },
+                    domProps: { checked: _vm._q(_vm.tipo_poliza, "Limitada") },
+                    on: {
+                      change: function($event) {
+                        _vm.tipo_poliza = "Limitada"
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "form-check-label badge badge-primary",
+                      attrs: { for: "Limitada" }
+                    },
+                    [_vm._v("Limitada")]
+                  )
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "form-check form-check-inline" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.tipo_poliza,
-                    expression: "tipo_poliza"
-                  }
-                ],
-                staticClass: "form-check-input",
-                attrs: { type: "radio", id: "RC", value: "RC" },
-                domProps: { checked: _vm._q(_vm.tipo_poliza, "RC") },
-                on: {
-                  change: function($event) {
-                    _vm.tipo_poliza = "RC"
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass: "form-check-label badge badge-primary",
-                  attrs: { for: "RC" }
-                },
-                [_vm._v("RC")]
-              )
-            ])
+            _vm.cliente.uso_auto == "Servicio Particular"
+              ? _c("div", { staticClass: "form-check form-check-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.tipo_poliza,
+                        expression: "tipo_poliza"
+                      }
+                    ],
+                    staticClass: "form-check-input",
+                    attrs: { type: "radio", id: "RC", value: "RC" },
+                    domProps: { checked: _vm._q(_vm.tipo_poliza, "RC") },
+                    on: {
+                      change: function($event) {
+                        _vm.tipo_poliza = "RC"
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "form-check-label badge badge-primary",
+                      attrs: { for: "RC" }
+                    },
+                    [_vm._v("RC")]
+                  )
+                ])
+              : _vm._e()
           ]
         ),
         _vm._v(" "),
@@ -49616,167 +49671,196 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _c(
+                                      "select",
                                       {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.desc_ana,
-                                        expression: "desc_ana"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    on: {
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.desc_ana = $event.target.multiple
-                                          ? $$selectedVal
-                                          : $$selectedVal[0]
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("option", { attrs: { value: "" } }, [
-                                      _vm._v("Seleccionar")
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm._l(_vm.descripciones_ana, function(
-                                      descripcion
-                                    ) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          domProps: { value: descripcion.clave }
-                                        },
-                                        [
-                                          _vm._v(
-                                            _vm._s(descripcion.descripcion)
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.desc_ana,
+                                            expression: "desc_ana"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        on: {
+                                          change: function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.desc_ana = $event.target
+                                              .multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("option", { attrs: { value: "" } }, [
+                                          _vm._v("Seleccionar")
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._l(_vm.descripciones_ana, function(
+                                          descripcion
+                                        ) {
+                                          return _c(
+                                            "option",
+                                            {
+                                              domProps: {
+                                                value: descripcion.clave
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(descripcion.descripcion)
+                                              )
+                                            ]
                                           )
-                                        ]
-                                      )
-                                    })
-                                  ],
-                                  2
-                                )
-                              ]),
+                                        })
+                                      ],
+                                      2
+                                    )
+                                  ])
+                                : _vm._e(),
                               _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _c(
+                                      "select",
                                       {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.desc_qualitas,
-                                        expression: "desc_qualitas"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    on: {
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.desc_qualitas = $event.target
-                                          .multiple
-                                          ? $$selectedVal
-                                          : $$selectedVal[0]
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("option", { attrs: { value: "" } }, [
-                                      _vm._v("Seleccionar")
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm._l(_vm.descripciones_qualitas, function(
-                                      descripcion
-                                    ) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          domProps: { value: descripcion.CAMIS }
-                                        },
-                                        [_vm._v(_vm._s(descripcion.cVersion))]
-                                      )
-                                    })
-                                  ],
-                                  2
-                                )
-                              ]),
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.desc_qualitas,
+                                            expression: "desc_qualitas"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        on: {
+                                          change: function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.desc_qualitas = $event.target
+                                              .multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("option", { attrs: { value: "" } }, [
+                                          _vm._v("Seleccionar")
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._l(
+                                          _vm.descripciones_qualitas,
+                                          function(descripcion) {
+                                            return _c(
+                                              "option",
+                                              {
+                                                domProps: {
+                                                  value: descripcion.CAMIS
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(descripcion.cVersion)
+                                                )
+                                              ]
+                                            )
+                                          }
+                                        )
+                                      ],
+                                      2
+                                    )
+                                  ])
+                                : _vm._e(),
                               _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _c(
+                                      "select",
                                       {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.desc_gs,
-                                        expression: "desc_gs"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    on: {
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.desc_gs = $event.target.multiple
-                                          ? $$selectedVal
-                                          : $$selectedVal[0]
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("option", { attrs: { value: "" } }, [
-                                      _vm._v("Seleccionar")
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm._l(_vm.descripciones_gs, function(
-                                      version
-                                    ) {
-                                      return _c(
-                                        "option",
-                                        { domProps: { value: version } },
-                                        [_vm._v(_vm._s(version.descripcion))]
-                                      )
-                                    })
-                                  ],
-                                  2
-                                )
-                              ])
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.desc_gs,
+                                            expression: "desc_gs"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        on: {
+                                          change: function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.desc_gs = $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("option", { attrs: { value: "" } }, [
+                                          _vm._v("Seleccionar")
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._l(_vm.descripciones_gs, function(
+                                          version
+                                        ) {
+                                          return _c(
+                                            "option",
+                                            { domProps: { value: version } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(version.descripcion)
+                                              )
+                                            ]
+                                          )
+                                        })
+                                      ],
+                                      2
+                                    )
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("tr", [
@@ -49784,105 +49868,111 @@ var render = function() {
                                 _vm._v("Prima Total")
                               ]),
                               _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _vm.cotizacionesANA.length
-                                  ? _c("div", { staticStyle: {} }, [
-                                      _c("div", { staticClass: "border" }, [
-                                        _vm._v(
-                                          "Contado: $" +
-                                            _vm._s(
-                                              _vm.cotizacionesANA[0]["CONTADO"][
-                                                "prima"
-                                              ]["primatotal"]
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesANA.length
+                                      ? _c("div", { staticStyle: {} }, [
+                                          _c("div", { staticClass: "border" }, [
+                                            _vm._v(
+                                              "Contado: $" +
+                                                _vm._s(
+                                                  _vm.cotizacionesANA[0][
+                                                    "CONTADO"
+                                                  ]["prima"]["primatotal"]
+                                                )
                                             )
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "border" }, [
-                                        _vm._v(
-                                          "Semestral: $" +
-                                            _vm._s(
-                                              _vm.cotizacionesANA[1][
-                                                "SEMESTRAL"
-                                              ]["prima"]["primatotal"]
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "border" }, [
+                                            _vm._v(
+                                              "Semestral: $" +
+                                                _vm._s(
+                                                  _vm.cotizacionesANA[1][
+                                                    "SEMESTRAL"
+                                                  ]["prima"]["primatotal"]
+                                                )
                                             )
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "border" }, [
-                                        _vm._v(
-                                          "Trimestral: $" +
-                                            _vm._s(
-                                              _vm.cotizacionesANA[2][
-                                                "TRIMESTRAL"
-                                              ]["prima"]["primatotal"]
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "border" }, [
+                                            _vm._v(
+                                              "Trimestral: $" +
+                                                _vm._s(
+                                                  _vm.cotizacionesANA[2][
+                                                    "TRIMESTRAL"
+                                                  ]["prima"]["primatotal"]
+                                                )
                                             )
-                                        )
-                                      ])
-                                    ])
-                                  : _c("div", [
-                                      _vm._v(
-                                        "\n                                                        Seleccione una descripción\n                                                    "
-                                      )
-                                    ])
-                              ]),
-                              _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _vm.cotizacionesQualitas.Primas
-                                  ? _c("div", [
-                                      _c("div", { staticClass: "border" }, [
-                                        _vm._v(
-                                          "Contado: $" +
-                                            _vm._s(
-                                              _vm.cotizacionesQualitas.Primas
-                                                .PrimaTotal
-                                            )
-                                        )
-                                      ])
-                                    ])
-                                  : _c("div", [
-                                      _vm._v(
-                                        "\n                                                        Seleccione una descripción\n                                                    "
-                                      )
-                                    ])
-                              ]),
-                              _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _vm.cotizacionesGS.id
-                                  ? _c(
-                                      "div",
-                                      { staticStyle: { padding: "0" } },
-                                      _vm._l(
-                                        _vm.cotizacionesGS.paquete[0]
-                                          .formasPagoDTO,
-                                        function(pago) {
-                                          return _c(
-                                            "div",
-                                            { staticClass: "border" },
-                                            [
-                                              _vm._v(
-                                                "\n                                                            " +
-                                                  _vm._s(pago.nombre) +
-                                                  ":  $" +
-                                                  _vm._s(
-                                                    _vm._f("int")(
-                                                      pago.primaTotal
-                                                    )
-                                                  ) +
-                                                  "\n                                                        "
-                                              )
-                                            ]
+                                          ])
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n                                                        Seleccione una descripción\n                                                    "
                                           )
-                                        }
-                                      ),
-                                      0
-                                    )
-                                  : _c("div", [
-                                      _vm._v(
-                                        "\n                                                        Seleccione una descripción\n                                                    "
-                                      )
-                                    ])
-                              ])
+                                        ])
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesQualitas.Primas
+                                      ? _c("div", [
+                                          _c("div", { staticClass: "border" }, [
+                                            _vm._v(
+                                              "Contado: $" +
+                                                _vm._s(
+                                                  _vm.cotizacionesQualitas
+                                                    .Primas.PrimaTotal
+                                                )
+                                            )
+                                          ])
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n                                                        Seleccione una descripción\n                                                    "
+                                          )
+                                        ])
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesGS.id
+                                      ? _c(
+                                          "div",
+                                          { staticStyle: { padding: "0" } },
+                                          _vm._l(
+                                            _vm.cotizacionesGS.paquete[0]
+                                              .formasPagoDTO,
+                                            function(pago) {
+                                              return _c(
+                                                "div",
+                                                { staticClass: "border" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                            " +
+                                                      _vm._s(pago.nombre) +
+                                                      ":  $" +
+                                                      _vm._s(
+                                                        _vm._f("int")(
+                                                          pago.primaTotal
+                                                        )
+                                                      ) +
+                                                      "\n                                                        "
+                                                  )
+                                                ]
+                                              )
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n                                                        Seleccione una descripción\n                                                    "
+                                          )
+                                        ])
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("tr", [
@@ -49890,89 +49980,105 @@ var render = function() {
                                 _vm._v("Seleccionar")
                               ]),
                               _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _vm.cotizacionesANA.length
-                                  ? _c("div", [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-primary seleccionador",
-                                          attrs: { type: "button", id: "9_1" },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.emitirANA(
-                                                _vm.tipo_poliza,
-                                                _vm.cotizacionesANA
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [_vm._v("Elegir")]
-                                      )
-                                    ])
-                                  : _c("div", [
-                                      _vm._v(
-                                        "\n                                                        Seleccione una descripción\n                                                    "
-                                      )
-                                    ])
-                              ]),
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesANA.length
+                                      ? _c("div", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-primary seleccionador",
+                                              attrs: {
+                                                type: "button",
+                                                id: "9_1"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.emitirANA(
+                                                    _vm.tipo_poliza,
+                                                    _vm.cotizacionesANA
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Elegir")]
+                                          )
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n                                                        Seleccione una descripción\n                                                    "
+                                          )
+                                        ])
+                                  ])
+                                : _vm._e(),
                               _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _vm.cotizacionesQualitas.Primas
-                                  ? _c("div", [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-primary seleccionador",
-                                          attrs: { type: "button", id: "9_1" },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.emitirqua(
-                                                _vm.cotizacionesQualitas,
-                                                1
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [_vm._v("Elegir")]
-                                      )
-                                    ])
-                                  : _c("div", [
-                                      _vm._v(
-                                        "\n                                                        Seleccione una descripción\n                                                    "
-                                      )
-                                    ])
-                              ]),
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesQualitas.Primas
+                                      ? _c("div", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-primary seleccionador",
+                                              attrs: {
+                                                type: "button",
+                                                id: "9_1"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.emitirqua(
+                                                    _vm.cotizacionesQualitas,
+                                                    1
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Elegir")]
+                                          )
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n                                                        Seleccione una descripción\n                                                    "
+                                          )
+                                        ])
+                                  ])
+                                : _vm._e(),
                               _vm._v(" "),
-                              _c("td", { staticClass: "text-center" }, [
-                                _vm.cotizacionesGS.id
-                                  ? _c("div", [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-primary seleccionador",
-                                          attrs: { type: "button", id: "9_1" },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.emitirgs(
-                                                _vm.cotizacionesGS.id,
-                                                _vm.cotizacionesGS.paquete[0]
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [_vm._v("Elegir")]
-                                      )
-                                    ])
-                                  : _c("div", [
-                                      _vm._v(
-                                        "\n                                                        Seleccione una descripción\n                                                    "
-                                      )
-                                    ])
-                              ])
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesGS.id
+                                      ? _c("div", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-primary seleccionador",
+                                              attrs: {
+                                                type: "button",
+                                                id: "9_1"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.emitirgs(
+                                                    _vm.cotizacionesGS.id,
+                                                    _vm.cotizacionesGS
+                                                      .paquete[0]
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Elegir")]
+                                          )
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n                                                        Seleccione una descripción\n                                                    "
+                                          )
+                                        ])
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _vm.tipo_poliza == "Amplia"
@@ -49983,230 +50089,296 @@ var render = function() {
                                     )
                                   ]),
                                   _vm._v(" "),
-                                  _vm.desc_ana &&
-                                  _vm.tipo_poliza &&
-                                  _vm.cotizacionesANA.length != 0
-                                    ? _c(
-                                        "td",
-                                        { staticClass: "text-center" },
-                                        _vm._l(
-                                          _vm.cotizacionesANA[0]["CONTADO"][
-                                            "coberturas"
-                                          ],
-                                          function(cobertura, index) {
-                                            return cobertura.desc ==
-                                              "DAÑOS MATERIALES"
-                                              ? _c("div", [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v(
-                                                            "Deducible por daños:"
-                                                          )
-                                                        ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ])
-                                              : _vm._e()
-                                          }
-                                        ),
-                                        0
-                                      )
-                                    : _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                                    Seleccione una descripción\n                                                "
-                                        )
-                                      ]),
-                                  _vm._v(" "),
-                                  _vm.desc_qualitas &&
-                                  _vm.tipo_poliza &&
-                                  _vm.cotizacionesQualitas["Coberturas"]
-                                    ? _c(
-                                        "td",
-                                        { staticClass: "text-center" },
-                                        _vm._l(
-                                          _vm.cotizacionesQualitas[
-                                            "Coberturas"
-                                          ],
-                                          function(cobertura, index) {
-                                            return cobertura.tipo ==
-                                              "Daños Materiales"
-                                              ? _c("div", [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.tipo) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " $" +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura[
-                                                              "SumaAsegurada"
-                                                            ]
-                                                          )
-                                                        )
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura["Deducible"]
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v(
-                                                            "Deducible por daños:"
-                                                          )
-                                                        ]),
-                                                        _vm._v(
-                                                          " " +
-                                                            _vm._s(
-                                                              _vm._f("int")(
-                                                                cobertura[
-                                                                  "Deducible"
-                                                                ]
-                                                              )
-                                                            ) +
-                                                            "%"
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.Prima
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              _vm._f("int")(
-                                                                cobertura.Prima
-                                                              )
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ])
-                                              : _vm._e()
-                                          }
-                                        ),
-                                        0
-                                      )
-                                    : _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                                    Seleccione una descripción\n                                                "
-                                        )
-                                      ]),
-                                  _vm._v(" "),
-                                  _vm.desc_gs &&
-                                  _vm.tipo_poliza &&
-                                  _vm.cotizacionesGS.id
+                                  _vm.cliente.ana
                                     ? _c(
                                         "td",
                                         {
                                           staticClass: "text-center",
-                                          staticStyle: { padding: "0" }
+                                          attrs: { scope: "row" }
                                         },
                                         [
-                                          _vm._l(
-                                            _vm.cotizacionesGS.paquete[0]
-                                              .coberturas,
-                                            function(cobertura, index) {
-                                              return cobertura.descripcion ==
-                                                "Daños Materiales Pérdida Parcial"
-                                                ? _c("div", [
-                                                    _c(
-                                                      "div",
-                                                      { staticClass: "border" },
-                                                      [
-                                                        _c("strong", [
-                                                          _vm._v(
-                                                            _vm._s(
-                                                              cobertura.descripcion
-                                                            ) + ":"
-                                                          )
-                                                        ]),
-                                                        _vm._v(
-                                                          " " +
-                                                            _vm._s(
-                                                              cobertura.monto
+                                          _vm.desc_ana &&
+                                          _vm.tipo_poliza &&
+                                          _vm.cotizacionesANA.length != 0
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "text-center" },
+                                                _vm._l(
+                                                  _vm.cotizacionesANA[0][
+                                                    "CONTADO"
+                                                  ]["coberturas"],
+                                                  function(cobertura, index) {
+                                                    return cobertura.desc ==
+                                                      "DAÑOS MATERIALES"
+                                                      ? _c("div", [
+                                                          _c("span", [
+                                                            _c("strong", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.desc
+                                                                ) + ":"
+                                                              )
+                                                            ]),
+                                                            _vm._v(
+                                                              " " +
+                                                                _vm._s(
+                                                                  cobertura.sa
+                                                                )
                                                             )
-                                                        )
-                                                      ]
-                                                    )
-                                                  ])
-                                                : _vm._e()
-                                            }
-                                          ),
-                                          _vm._v(" "),
-                                          _vm._l(
-                                            _vm.cotizacionesGS.paquete[0]
-                                              .coberturas,
-                                            function(cobertura, index) {
-                                              return cobertura.descripcion ==
-                                                "Daños Materiales Pérdida Total"
-                                                ? _c("div", [
-                                                    _c(
-                                                      "div",
-                                                      { staticClass: "border" },
-                                                      [
-                                                        _c("strong", [
-                                                          _vm._v(
-                                                            _vm._s(
-                                                              cobertura.descripcion
-                                                            ) + ":"
-                                                          )
-                                                        ]),
-                                                        _vm._v(
-                                                          " " +
-                                                            _vm._s(
-                                                              cobertura.monto
-                                                            )
-                                                        )
-                                                      ]
-                                                    )
-                                                  ])
-                                                : _vm._e()
-                                            }
-                                          )
-                                        ],
-                                        2
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          cobertura.ded
+                                                            ? _c("span", [
+                                                                _c("strong", [
+                                                                  _vm._v(
+                                                                    "Deducible por daños:"
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    cobertura.ded
+                                                                  )
+                                                                )
+                                                              ])
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          cobertura.pma
+                                                            ? _c("span", [
+                                                                _c("strong", [
+                                                                  _vm._v(
+                                                                    "Prima:"
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  "$" +
+                                                                    _vm._s(
+                                                                      cobertura.pma
+                                                                    )
+                                                                )
+                                                              ])
+                                                            : _vm._e()
+                                                        ])
+                                                      : _vm._e()
+                                                  }
+                                                ),
+                                                0
+                                              )
+                                            : _c(
+                                                "div",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                        Seleccione una descripción\n                                                    "
+                                                  )
+                                                ]
+                                              )
+                                        ]
                                       )
-                                    : _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                                    Seleccione una descripción\n                                                "
-                                        )
-                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.cliente.qualitas
+                                    ? _c(
+                                        "td",
+                                        {
+                                          staticClass: "text-center",
+                                          attrs: { scope: "col" }
+                                        },
+                                        [
+                                          _vm.desc_qualitas &&
+                                          _vm.tipo_poliza &&
+                                          _vm.cotizacionesQualitas["Coberturas"]
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "text-center" },
+                                                _vm._l(
+                                                  _vm.cotizacionesQualitas[
+                                                    "Coberturas"
+                                                  ],
+                                                  function(cobertura, index) {
+                                                    return cobertura.tipo ==
+                                                      "Daños Materiales"
+                                                      ? _c("div", [
+                                                          _c("span", [
+                                                            _c("strong", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.tipo
+                                                                ) + ":"
+                                                              )
+                                                            ]),
+                                                            _vm._v(
+                                                              " $" +
+                                                                _vm._s(
+                                                                  _vm._f("int")(
+                                                                    cobertura[
+                                                                      "SumaAsegurada"
+                                                                    ]
+                                                                  )
+                                                                )
+                                                            )
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          cobertura["Deducible"]
+                                                            ? _c("span", [
+                                                                _c("strong", [
+                                                                  _vm._v(
+                                                                    "Deducible por daños:"
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  " " +
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "int"
+                                                                      )(
+                                                                        cobertura[
+                                                                          "Deducible"
+                                                                        ]
+                                                                      )
+                                                                    ) +
+                                                                    "%"
+                                                                )
+                                                              ])
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          cobertura.Prima
+                                                            ? _c("span", [
+                                                                _c("strong", [
+                                                                  _vm._v(
+                                                                    "Prima:"
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  "$" +
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "int"
+                                                                      )(
+                                                                        cobertura.Prima
+                                                                      )
+                                                                    )
+                                                                )
+                                                              ])
+                                                            : _vm._e()
+                                                        ])
+                                                      : _vm._e()
+                                                  }
+                                                ),
+                                                0
+                                              )
+                                            : _c(
+                                                "div",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                        Seleccione una descripción\n                                                    "
+                                                  )
+                                                ]
+                                              )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.cliente.gs
+                                    ? _c(
+                                        "td",
+                                        {
+                                          staticClass: "text-center",
+                                          attrs: { scope: "col" }
+                                        },
+                                        [
+                                          _vm.desc_gs &&
+                                          _vm.tipo_poliza &&
+                                          _vm.cotizacionesGS.id
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticClass: "text-center",
+                                                  staticStyle: { padding: "0" }
+                                                },
+                                                [
+                                                  _vm._l(
+                                                    _vm.cotizacionesGS
+                                                      .paquete[0].coberturas,
+                                                    function(cobertura, index) {
+                                                      return cobertura.descripcion ==
+                                                        "Daños Materiales Pérdida Parcial"
+                                                        ? _c("div", [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "border"
+                                                              },
+                                                              [
+                                                                _c("strong", [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      cobertura.descripcion
+                                                                    ) + ":"
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  " " +
+                                                                    _vm._s(
+                                                                      cobertura.monto
+                                                                    )
+                                                                )
+                                                              ]
+                                                            )
+                                                          ])
+                                                        : _vm._e()
+                                                    }
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._l(
+                                                    _vm.cotizacionesGS
+                                                      .paquete[0].coberturas,
+                                                    function(cobertura, index) {
+                                                      return cobertura.descripcion ==
+                                                        "Daños Materiales Pérdida Total"
+                                                        ? _c("div", [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "border"
+                                                              },
+                                                              [
+                                                                _c("strong", [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      cobertura.descripcion
+                                                                    ) + ":"
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  " " +
+                                                                    _vm._s(
+                                                                      cobertura.monto
+                                                                    )
+                                                                )
+                                                              ]
+                                                            )
+                                                          ])
+                                                        : _vm._e()
+                                                    }
+                                                  )
+                                                ],
+                                                2
+                                              )
+                                            : _c(
+                                                "div",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                        Seleccione una descripción\n                                                    "
+                                                  )
+                                                ]
+                                              )
+                                        ]
+                                      )
+                                    : _vm._e()
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
@@ -50219,191 +50391,226 @@ var render = function() {
                                     )
                                   ]),
                                   _vm._v(" "),
-                                  _vm.desc_ana &&
-                                  _vm.tipo_poliza &&
-                                  _vm.cotizacionesANA.length != 0
-                                    ? _c(
-                                        "td",
-                                        { staticClass: "text-center" },
-                                        _vm._l(
-                                          _vm.cotizacionesANA[0]["CONTADO"][
-                                            "coberturas"
-                                          ],
-                                          function(cobertura, index) {
-                                            return cobertura.desc ==
-                                              "ROBO TOTAL"
-                                              ? _c("div", [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                                  _vm.cliente.ana
+                                    ? _c("td", { staticClass: "text-center" }, [
+                                        _vm.desc_ana &&
+                                        _vm.tipo_poliza &&
+                                        _vm.cotizacionesANA.length != 0
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "text-center" },
+                                              _vm._l(
+                                                _vm.cotizacionesANA[0][
+                                                  "CONTADO"
+                                                ]["coberturas"],
+                                                function(cobertura, index) {
+                                                  return cobertura.desc ==
+                                                    "ROBO TOTAL"
+                                                    ? _c("div", [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
                                                       ])
                                                     : _vm._e()
-                                                ])
-                                              : _vm._e()
-                                          }
-                                        ),
-                                        0
-                                      )
-                                    : _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                                    Seleccione una descripción\n                                                "
-                                        )
-                                      ]),
-                                  _vm._v(" "),
-                                  _vm.desc_qualitas &&
-                                  _vm.tipo_poliza &&
-                                  _vm.cotizacionesQualitas["Coberturas"]
-                                    ? _c(
-                                        "td",
-                                        { staticClass: "text-center" },
-                                        _vm._l(
-                                          _vm.cotizacionesQualitas[
-                                            "Coberturas"
-                                          ],
-                                          function(cobertura, indez) {
-                                            return cobertura.tipo ==
-                                              "Robo Total"
-                                              ? _c("div", [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.tipo) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " $" +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura[
-                                                              "SumaAsegurada"
-                                                            ]
-                                                          )
-                                                        )
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura["Deducible"]
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v(
-                                                            "Deducible por daños:"
-                                                          )
-                                                        ]),
-                                                        _vm._v(
-                                                          " " +
-                                                            _vm._s(
-                                                              _vm._f("int")(
-                                                                cobertura[
-                                                                  "Deducible"
-                                                                ]
-                                                              )
-                                                            ) +
-                                                            "%"
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.Prima
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              _vm._f("int")(
-                                                                cobertura.Prima
-                                                              )
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ])
-                                              : _vm._e()
-                                          }
-                                        ),
-                                        0
-                                      )
-                                    : _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                                    Seleccione una descripción\n                                                "
-                                        )
-                                      ]),
-                                  _vm._v(" "),
-                                  _vm.desc_gs &&
-                                  _vm.tipo_poliza &&
-                                  _vm.cotizacionesGS.id
-                                    ? _c(
-                                        "td",
-                                        { staticClass: "text-center" },
-                                        _vm._l(
-                                          _vm.cotizacionesGS.paquete[0]
-                                            .coberturas,
-                                          function(cobertura, index) {
-                                            return cobertura.descripcion ==
-                                              "Robo Total"
-                                              ? _c("div", [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          cobertura.descripcion
-                                                        ) + ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(
-                                                          cobertura.monto
-                                                        ) +
-                                                        "\n                                                        "
-                                                    )
-                                                  ])
-                                                ])
-                                              : _vm._e()
-                                          }
-                                        ),
-                                        0
-                                      )
-                                    : _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                                    Seleccione una descripción\n                                                "
-                                        )
+                                                }
+                                              ),
+                                              0
+                                            )
+                                          : _c(
+                                              "div",
+                                              { staticClass: "text-center" },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                        Seleccione una descripción\n                                                    "
+                                                )
+                                              ]
+                                            )
                                       ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.cliente.qualitas
+                                    ? _c("td", { staticClass: "text-center" }, [
+                                        _vm.desc_qualitas &&
+                                        _vm.tipo_poliza &&
+                                        _vm.cotizacionesQualitas["Coberturas"]
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "text-center" },
+                                              _vm._l(
+                                                _vm.cotizacionesQualitas[
+                                                  "Coberturas"
+                                                ],
+                                                function(cobertura, indez) {
+                                                  return cobertura.tipo ==
+                                                    "Robo Total"
+                                                    ? _c("div", [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.tipo
+                                                              ) + ":"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " $" +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura[
+                                                                    "SumaAsegurada"
+                                                                  ]
+                                                                )
+                                                              )
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        cobertura["Deducible"]
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                " " +
+                                                                  _vm._s(
+                                                                    _vm._f(
+                                                                      "int"
+                                                                    )(
+                                                                      cobertura[
+                                                                        "Deducible"
+                                                                      ]
+                                                                    )
+                                                                  ) +
+                                                                  "%"
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.Prima
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    _vm._f(
+                                                                      "int"
+                                                                    )(
+                                                                      cobertura.Prima
+                                                                    )
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ])
+                                                    : _vm._e()
+                                                }
+                                              ),
+                                              0
+                                            )
+                                          : _c(
+                                              "div",
+                                              { staticClass: "text-center" },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                        Seleccione una descripción\n                                                    "
+                                                )
+                                              ]
+                                            )
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.cliente.gs
+                                    ? _c("td", { staticClass: "text-center" }, [
+                                        _vm.desc_gs &&
+                                        _vm.tipo_poliza &&
+                                        _vm.cotizacionesGS.id
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "text-center" },
+                                              _vm._l(
+                                                _vm.cotizacionesGS.paquete[0]
+                                                  .coberturas,
+                                                function(cobertura, index) {
+                                                  return cobertura.descripcion ==
+                                                    "Robo Total"
+                                                    ? _c("div", [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.descripcion
+                                                              ) + ":"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.monto
+                                                              ) +
+                                                              "\n                                                            "
+                                                          )
+                                                        ])
+                                                      ])
+                                                    : _vm._e()
+                                                }
+                                              ),
+                                              0
+                                            )
+                                          : _c(
+                                              "div",
+                                              { staticClass: "text-center" },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                        Seleccione una descripción\n                                                    "
+                                                )
+                                              ]
+                                            )
+                                      ])
+                                    : _vm._e()
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
@@ -50414,561 +50621,640 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _vm.desc_ana &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesANA.length != 0
-                                ? _c(
-                                    "td",
-                                    {
-                                      staticClass: "text-center",
-                                      staticStyle: { padding: "0" }
-                                    },
-                                    [
-                                      _vm._l(
-                                        _vm.cotizacionesANA[0]["CONTADO"][
-                                          "coberturas"
-                                        ],
-                                        function(cobertura, index) {
-                                          return cobertura.desc ==
-                                            "RESPONSABILIDAD CIVIL"
-                                            ? _c(
-                                                "div",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_ana &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesANA.length != 0
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-center",
+                                            staticStyle: { padding: "0" }
+                                          },
+                                          [
+                                            _vm._l(
+                                              _vm.cotizacionesANA[0]["CONTADO"][
+                                                "coberturas"
+                                              ],
+                                              function(cobertura, index) {
+                                                return cobertura.desc ==
+                                                  "RESPONSABILIDAD CIVIL"
+                                                  ? _c(
+                                                      "div",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.cotizacionesANA[0]["CONTADO"][
-                                          "coberturas"
-                                        ],
-                                        function(cobertura, index) {
-                                          return cobertura.desc == "  RC BIENES"
-                                            ? _c(
-                                                "div",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ]
                                                     )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                                                  : _vm._e()
+                                              }
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.cotizacionesANA[0]["CONTADO"][
+                                                "coberturas"
+                                              ],
+                                              function(cobertura, index) {
+                                                return cobertura.desc ==
+                                                  "  RC BIENES"
+                                                  ? _c(
+                                                      "div",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.cotizacionesANA[0]["CONTADO"][
-                                          "coberturas"
-                                        ],
-                                        function(cobertura, index) {
-                                          return cobertura.desc ==
-                                            "  RC PERSONAS"
-                                            ? _c(
-                                                "div",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ]
                                                     )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                                                  : _vm._e()
+                                              }
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.cotizacionesANA[0]["CONTADO"][
+                                                "coberturas"
+                                              ],
+                                              function(cobertura, index) {
+                                                return cobertura.desc ==
+                                                  "  RC PERSONAS"
+                                                  ? _c(
+                                                      "div",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.cotizacionesANA[0]["CONTADO"][
-                                          "coberturas"
-                                        ],
-                                        function(cobertura, index) {
-                                          return cobertura.desc ==
-                                            "  EXTENSION RC"
-                                            ? _c(
-                                                "div",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ]
                                                     )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                                                  : _vm._e()
+                                              }
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.cotizacionesANA[0]["CONTADO"][
+                                                "coberturas"
+                                              ],
+                                              function(cobertura, index) {
+                                                return cobertura.desc ==
+                                                  "  EXTENSION RC"
+                                                  ? _c(
+                                                      "div",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.cotizacionesANA[0]["CONTADO"][
-                                          "coberturas"
-                                        ],
-                                        function(cobertura, index) {
-                                          return cobertura.desc ==
-                                            "  RC DEL HIJO MENOR"
-                                            ? _c(
-                                                "div",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ]
                                                     )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                                                  : _vm._e()
+                                              }
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.cotizacionesANA[0]["CONTADO"][
+                                                "coberturas"
+                                              ],
+                                              function(cobertura, index) {
+                                                return cobertura.desc ==
+                                                  "  RC DEL HIJO MENOR"
+                                                  ? _c(
+                                                      "div",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.cotizacionesANA[0]["CONTADO"][
-                                          "coberturas"
-                                        ],
-                                        function(cobertura, index) {
-                                          return cobertura.desc ==
-                                            "  RC POR REMOLQUES"
-                                            ? _c(
-                                                "div",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ]
                                                     )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                                                  : _vm._e()
+                                              }
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.cotizacionesANA[0]["CONTADO"][
+                                                "coberturas"
+                                              ],
+                                              function(cobertura, index) {
+                                                return cobertura.desc ==
+                                                  "  RC POR REMOLQUES"
+                                                  ? _c(
+                                                      "div",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.cotizacionesANA[0]["CONTADO"][
-                                          "coberturas"
-                                        ],
-                                        function(cobertura, index) {
-                                          return cobertura.desc ==
-                                            "RC CATASTROFICA POR MUERTE"
-                                            ? _c(
-                                                "div",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(cobertura.desc) +
-                                                          ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " + _vm._s(cobertura.sa)
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ]
                                                     )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  cobertura.ded
-                                                    ? _c("span", [
-                                                        _c("strong", [
+                                                  : _vm._e()
+                                              }
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.cotizacionesANA[0]["CONTADO"][
+                                                "coberturas"
+                                              ],
+                                              function(cobertura, index) {
+                                                return cobertura.desc ==
+                                                  "RC CATASTROFICA POR MUERTE"
+                                                  ? _c(
+                                                      "div",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.desc
+                                                              ) + ":"
+                                                            )
+                                                          ]),
                                                           _vm._v(
-                                                            "Deducible por daños:"
+                                                            " " +
+                                                              _vm._s(
+                                                                cobertura.sa
+                                                              )
                                                           )
                                                         ]),
-                                                        _vm._v(
-                                                          _vm._s(cobertura.ded)
-                                                        )
-                                                      ])
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  cobertura.pma
-                                                    ? _c("span", [
-                                                        _c("strong", [
-                                                          _vm._v("Prima:")
-                                                        ]),
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              cobertura.pma
-                                                            )
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      )
-                                    ],
-                                    2
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
+                                                        _vm._v(" "),
+                                                        cobertura.ded
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v(
+                                                                  "Deducible por daños:"
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  cobertura.ded
+                                                                )
+                                                              )
+                                                            ])
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        cobertura.pma
+                                                          ? _c("span", [
+                                                              _c("strong", [
+                                                                _vm._v("Prima:")
+                                                              ]),
+                                                              _vm._v(
+                                                                "$" +
+                                                                  _vm._s(
+                                                                    cobertura.pma
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              }
+                                            )
+                                          ],
+                                          2
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e(),
                               _vm._v(" "),
-                              _vm.desc_qualitas &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesQualitas["Coberturas"]
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesQualitas["Coberturas"],
-                                      function(cobertura, indez) {
-                                        return cobertura.tipo ==
-                                          "Responsabilidad Civil"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(cobertura.tipo) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " $" +
-                                                    _vm._s(
-                                                      _vm._f("int")(
-                                                        cobertura[
-                                                          "SumaAsegurada"
-                                                        ]
-                                                      )
-                                                    )
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              cobertura["Deducible"]
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        "Deducible por daños:"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura[
-                                                              "Deducible"
-                                                            ]
-                                                          )
-                                                        ) +
-                                                        "%"
-                                                    )
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              cobertura.Prima
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v("Prima:")
-                                                    ]),
-                                                    _vm._v(
-                                                      "$" +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura.Prima
-                                                          )
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_qualitas &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesQualitas["Coberturas"]
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesQualitas[
+                                              "Coberturas"
+                                            ],
+                                            function(cobertura, indez) {
+                                              return cobertura.tipo ==
+                                                "Responsabilidad Civil"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.tipo
+                                                          ) + ":"
                                                         )
-                                                    )
+                                                      ]),
+                                                      _vm._v(
+                                                        " $" +
+                                                          _vm._s(
+                                                            _vm._f("int")(
+                                                              cobertura[
+                                                                "SumaAsegurada"
+                                                              ]
+                                                            )
+                                                          )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    cobertura["Deducible"]
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              "Deducible por daños:"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura[
+                                                                    "Deducible"
+                                                                  ]
+                                                                )
+                                                              ) +
+                                                              "%"
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    cobertura.Prima
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v("Prima:")
+                                                          ]),
+                                                          _vm._v(
+                                                            "$" +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura.Prima
+                                                                )
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e()
                                                   ])
                                                 : _vm._e()
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.desc_gs &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesGS.id
-                                ? _c(
-                                    "td",
-                                    {
-                                      staticClass: "text-center",
-                                      staticStyle: { padding: "0" }
-                                    },
-                                    [
-                                      _vm._l(
-                                        _vm.cotizacionesGS.paquete[0]
-                                          .coberturas,
-                                        function(cobertura, index) {
-                                          return cobertura.descripcion ==
-                                            "Responsabilidad Civil por Daños a Terceros (LUC)"
-                                            ? _c("div", [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "border" },
-                                                  [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          cobertura.descripcion
-                                                        ) + ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " $" +
-                                                        _vm._s(cobertura.monto)
-                                                    )
-                                                  ]
-                                                )
-                                              ])
-                                            : _vm._e()
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.cotizacionesGS.paquete[0]
-                                          .coberturas,
-                                        function(cobertura, index) {
-                                          return cobertura.descripcion ==
-                                            "Responsabilidad Civil por Fallecimiento"
-                                            ? _c("div", [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "border" },
-                                                  [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          cobertura.descripcion
-                                                        ) + ":"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " $" +
-                                                        _vm._s(cobertura.monto)
-                                                    )
-                                                  ]
-                                                )
-                                              ])
-                                            : _vm._e()
-                                        }
-                                      )
-                                    ],
-                                    2
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
                                   ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_gs &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesGS.id
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-center",
+                                            staticStyle: { padding: "0" }
+                                          },
+                                          [
+                                            _vm._l(
+                                              _vm.cotizacionesGS.paquete[0]
+                                                .coberturas,
+                                              function(cobertura, index) {
+                                                return cobertura.descripcion ==
+                                                  "Responsabilidad Civil por Daños a Terceros (LUC)"
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass: "border"
+                                                        },
+                                                        [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.descripcion
+                                                              ) + ":"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " $" +
+                                                              _vm._s(
+                                                                cobertura.monto
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ])
+                                                  : _vm._e()
+                                              }
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.cotizacionesGS.paquete[0]
+                                                .coberturas,
+                                              function(cobertura, index) {
+                                                return cobertura.descripcion ==
+                                                  "Responsabilidad Civil por Fallecimiento"
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass: "border"
+                                                        },
+                                                        [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.descripcion
+                                                              ) + ":"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " $" +
+                                                              _vm._s(
+                                                                cobertura.monto
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ])
+                                                  : _vm._e()
+                                              }
+                                            )
+                                          ],
+                                          2
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("tr", [
@@ -50985,164 +51271,198 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm.desc_ana &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesANA.length != 0
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesANA[0]["CONTADO"][
-                                        "coberturas"
-                                      ],
-                                      function(cobertura, index) {
-                                        return cobertura.desc ==
-                                          "GASTOS MEDICOS"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(_vm._s(cobertura.desc))
-                                                ]),
-                                                _vm._v(
-                                                  " $" +
-                                                    _vm._s(cobertura.sa) +
-                                                    " "
-                                                ),
-                                                _c("strong", [
-                                                  _vm._v("Prima:")
-                                                ]),
-                                                _vm._v(
-                                                  " " + _vm._s(cobertura.pma)
-                                                )
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.desc_qualitas &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesQualitas["Coberturas"]
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesQualitas["Coberturas"],
-                                      function(cobertura, indez) {
-                                        return cobertura.tipo ==
-                                          "Gastos Médicos"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(cobertura.tipo) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " $" +
-                                                    _vm._s(
-                                                      _vm._f("int")(
-                                                        cobertura[
-                                                          "SumaAsegurada"
-                                                        ]
-                                                      )
-                                                    ) +
-                                                    " "
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              cobertura["Deducible"]
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        "Deducible por daños:"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura[
-                                                              "Deducible"
-                                                            ]
-                                                          )
-                                                        ) +
-                                                        "%"
-                                                    )
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              cobertura.Prima
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v("Prima:")
-                                                    ]),
-                                                    _vm._v(
-                                                      "$" +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura.Prima
-                                                          )
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_ana &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesANA.length != 0
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesANA[0]["CONTADO"][
+                                              "coberturas"
+                                            ],
+                                            function(cobertura, index) {
+                                              return cobertura.desc ==
+                                                "GASTOS MEDICOS"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(cobertura.desc)
                                                         )
-                                                    )
+                                                      ]),
+                                                      _vm._v(
+                                                        " $" +
+                                                          _vm._s(cobertura.sa) +
+                                                          " "
+                                                      ),
+                                                      _c("strong", [
+                                                        _vm._v("Prima:")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(cobertura.pma)
+                                                      )
+                                                    ])
                                                   ])
                                                 : _vm._e()
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.desc_gs &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesGS.id
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesGS.paquete[0].coberturas,
-                                      function(cobertura, index) {
-                                        return cobertura.descripcion ==
-                                          "Gastos Médicos"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      cobertura.descripcion
-                                                    ) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " $" +
-                                                    _vm._s(cobertura.monto) +
-                                                    " "
-                                                )
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
                                   ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_qualitas &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesQualitas["Coberturas"]
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesQualitas[
+                                              "Coberturas"
+                                            ],
+                                            function(cobertura, indez) {
+                                              return cobertura.tipo ==
+                                                "Gastos Médicos"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.tipo
+                                                          ) + ":"
+                                                        )
+                                                      ]),
+                                                      _vm._v(
+                                                        " $" +
+                                                          _vm._s(
+                                                            _vm._f("int")(
+                                                              cobertura[
+                                                                "SumaAsegurada"
+                                                              ]
+                                                            )
+                                                          ) +
+                                                          " "
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    cobertura["Deducible"]
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              "Deducible por daños:"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura[
+                                                                    "Deducible"
+                                                                  ]
+                                                                )
+                                                              ) +
+                                                              "%"
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    cobertura.Prima
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v("Prima:")
+                                                          ]),
+                                                          _vm._v(
+                                                            "$" +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura.Prima
+                                                                )
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e()
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_gs &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesGS.id
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesGS.paquete[0]
+                                              .coberturas,
+                                            function(cobertura, index) {
+                                              return cobertura.descripcion ==
+                                                "Gastos Médicos"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.descripcion
+                                                          ) + ":"
+                                                        )
+                                                      ]),
+                                                      _vm._v(
+                                                        " $" +
+                                                          _vm._s(
+                                                            cobertura.monto
+                                                          ) +
+                                                          " "
+                                                      )
+                                                    ])
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("tr", [
@@ -51159,166 +51479,200 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm.desc_ana &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesANA.length != 0
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesANA[0]["CONTADO"][
-                                        "coberturas"
-                                      ],
-                                      function(cobertura, index) {
-                                        return cobertura.desc ==
-                                          "DEF. JUD. Y ASIS. LEGAL"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(cobertura.desc) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " " +
-                                                    _vm._s(cobertura.sa) +
-                                                    " "
-                                                ),
-                                                _c("strong", [
-                                                  _vm._v("Prima:")
-                                                ]),
-                                                _vm._v(
-                                                  " " + _vm._s(cobertura.pma)
-                                                )
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.desc_qualitas &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesQualitas["Coberturas"]
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesQualitas["Coberturas"],
-                                      function(cobertura, indez) {
-                                        return cobertura.tipo ==
-                                          "Gastos Legales"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(cobertura.tipo) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " $" +
-                                                    _vm._s(
-                                                      _vm._f("int")(
-                                                        cobertura[
-                                                          "SumaAsegurada"
-                                                        ]
-                                                      )
-                                                    ) +
-                                                    " "
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              cobertura["Deducible"]
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        "Deducible por daños:"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura[
-                                                              "Deducible"
-                                                            ]
-                                                          )
-                                                        ) +
-                                                        "%"
-                                                    )
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              cobertura.Prima
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v("Prima:")
-                                                    ]),
-                                                    _vm._v(
-                                                      "$" +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura.Prima
-                                                          )
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_ana &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesANA.length != 0
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesANA[0]["CONTADO"][
+                                              "coberturas"
+                                            ],
+                                            function(cobertura, index) {
+                                              return cobertura.desc ==
+                                                "DEF. JUD. Y ASIS. LEGAL"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.desc
+                                                          ) + ":"
                                                         )
-                                                    )
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(cobertura.sa) +
+                                                          " "
+                                                      ),
+                                                      _c("strong", [
+                                                        _vm._v("Prima:")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(cobertura.pma)
+                                                      )
+                                                    ])
                                                   ])
                                                 : _vm._e()
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.desc_gs &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesGS.id
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesGS.paquete[0].coberturas,
-                                      function(cobertura, index) {
-                                        return cobertura.descripcion ==
-                                          "Asistencia Jurídica GS"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      cobertura.descripcion
-                                                    ) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " " +
-                                                    _vm._s(cobertura.monto) +
-                                                    " "
-                                                )
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
                                   ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_qualitas &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesQualitas["Coberturas"]
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesQualitas[
+                                              "Coberturas"
+                                            ],
+                                            function(cobertura, indez) {
+                                              return cobertura.tipo ==
+                                                "Gastos Legales"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.tipo
+                                                          ) + ":"
+                                                        )
+                                                      ]),
+                                                      _vm._v(
+                                                        " $" +
+                                                          _vm._s(
+                                                            _vm._f("int")(
+                                                              cobertura[
+                                                                "SumaAsegurada"
+                                                              ]
+                                                            )
+                                                          ) +
+                                                          " "
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    cobertura["Deducible"]
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              "Deducible por daños:"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura[
+                                                                    "Deducible"
+                                                                  ]
+                                                                )
+                                                              ) +
+                                                              "%"
+                                                          )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    cobertura.Prima
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v("Prima:")
+                                                          ]),
+                                                          _vm._v(
+                                                            "$" +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura.Prima
+                                                                )
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e()
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_gs &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesGS.id
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesGS.paquete[0]
+                                              .coberturas,
+                                            function(cobertura, index) {
+                                              return cobertura.descripcion ==
+                                                "Asistencia Jurídica GS"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.descripcion
+                                                          ) + ":"
+                                                        )
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(
+                                                            cobertura.monto
+                                                          ) +
+                                                          " "
+                                                      )
+                                                    ])
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("tr", [
@@ -51335,388 +51689,474 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm.desc_ana &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesANA.length != 0
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesANA[0]["CONTADO"][
-                                        "coberturas"
-                                      ],
-                                      function(cobertura, index) {
-                                        return cobertura.desc ==
-                                          "ANA ASISTENCIA"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(cobertura.desc) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " " +
-                                                    _vm._s(cobertura.sa) +
-                                                    " "
-                                                ),
-                                                _c("strong", [
-                                                  _vm._v("Prima:")
-                                                ]),
-                                                _vm._v(
-                                                  " " + _vm._s(cobertura.pma)
-                                                )
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.desc_qualitas &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesQualitas["Coberturas"]
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesQualitas["Coberturas"],
-                                      function(cobertura, indez) {
-                                        return cobertura.tipo ==
-                                          "Asistencia Vial"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    _vm._s(cobertura.tipo) + ":"
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  " $" +
-                                                    _vm._s(
-                                                      _vm._f("int")(
-                                                        cobertura[
-                                                          "SumaAsegurada"
-                                                        ]
-                                                      )
-                                                    ) +
-                                                    " "
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              cobertura["Deducible"]
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        "Deducible por daños:"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura[
-                                                              "Deducible"
-                                                            ]
-                                                          )
-                                                        ) +
-                                                        "%"
-                                                    )
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              cobertura.Prima
-                                                ? _c("span", [
-                                                    _c("strong", [
-                                                      _vm._v("Prima:")
-                                                    ]),
-                                                    _vm._v(
-                                                      "$" +
-                                                        _vm._s(
-                                                          _vm._f("int")(
-                                                            cobertura.Prima
-                                                          )
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_ana &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesANA.length != 0
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesANA[0]["CONTADO"][
+                                              "coberturas"
+                                            ],
+                                            function(cobertura, index) {
+                                              return cobertura.desc ==
+                                                "ANA ASISTENCIA"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.desc
+                                                          ) + ":"
                                                         )
-                                                    )
-                                                  ])
-                                                : _vm._e()
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.desc_gs &&
-                              _vm.tipo_poliza &&
-                              _vm.cotizacionesGS.id
-                                ? _c(
-                                    "td",
-                                    { staticClass: "text-center" },
-                                    _vm._l(
-                                      _vm.cotizacionesGS.paquete[0].coberturas,
-                                      function(cobertura, index) {
-                                        return cobertura.descripcion ==
-                                          "Asistencia Vial y en Viajes GS"
-                                          ? _c("div", [
-                                              _c("span", [
-                                                _c("strong", [
-                                                  _vm._v(
-                                                    "\n                                                                " +
-                                                      _vm._s(
-                                                        cobertura.descripcion
-                                                      ) +
-                                                      ": \n\n                                                            "
-                                                  )
-                                                ]),
-                                                _vm._v(
-                                                  "\n                                                            " +
-                                                    _vm._s(cobertura.monto) +
-                                                    " \n                                                        "
-                                                )
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ])
-                            ]),
-                            _vm._v(" "),
-                            _c("tr", [
-                              _vm._m(1),
-                              _vm._v(" "),
-                              _vm.cotizacionesANA.length != 0
-                                ? _c(
-                                    "td",
-                                    {
-                                      staticClass: "text-center",
-                                      staticStyle: { padding: "0" }
-                                    },
-                                    _vm._l(
-                                      _vm.cotizacionesANA[0]["CONTADO"][
-                                        "coberturas"
-                                      ],
-                                      function(cobertura, index) {
-                                        return !(
-                                          [
-                                            "DAÑOS MATERIALES",
-                                            "ROBO TOTAL",
-                                            "RESPONSABILIDAD CIVIL",
-                                            "  RC BIENES",
-                                            "  RC PERSONAS",
-                                            "  EXTENSION RC",
-                                            "  RC DEL HIJO MENOR",
-                                            "  RC POR REMOLQUES",
-                                            "RC CATASTROFICA POR MUERTE",
-                                            "GASTOS MEDICOS",
-                                            "DEF. JUD. Y ASIS. LEGAL",
-                                            "ANA ASISTENCIA"
-                                          ].indexOf(cobertura.desc) != -1
-                                        )
-                                          ? _c("tr", [
-                                              _c("div", [
-                                                _c("span", [
-                                                  _c("strong", [
-                                                    _vm._v(
-                                                      _vm._s(cobertura.desc) +
-                                                        ":"
-                                                    )
-                                                  ]),
-                                                  _vm._v(
-                                                    " " + _vm._s(cobertura.sa)
-                                                  )
-                                                ]),
-                                                _vm._v(" "),
-                                                cobertura.ded
-                                                  ? _c("span", [
-                                                      _c("strong", [
-                                                        _vm._v("Deducible:")
-                                                      ]),
-                                                      _vm._v(
-                                                        _vm._s(cobertura.ded)
-                                                      )
-                                                    ])
-                                                  : _vm._e(),
-                                                _vm._v(" "),
-                                                cobertura.pma
-                                                  ? _c("span", [
-                                                      _c("strong", [
-                                                        _vm._v("Prima:")
-                                                      ]),
-                                                      _vm._v(
-                                                        "$" +
-                                                          _vm._s(cobertura.pma)
-                                                      )
-                                                    ])
-                                                  : _vm._e()
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.cotizacionesQualitas["Coberturas"]
-                                ? _c(
-                                    "td",
-                                    {
-                                      staticClass: "text-center",
-                                      staticStyle: { padding: "0" }
-                                    },
-                                    _vm._l(
-                                      _vm.cotizacionesQualitas["Coberturas"],
-                                      function(cobertura, index) {
-                                        return cobertura.tipo &&
-                                          !(
-                                            [
-                                              "",
-                                              "Daños Materiales",
-                                              "Gastos Médicos",
-                                              "Gastos Legales",
-                                              "Asistencia Vial",
-                                              "Robo Total",
-                                              "Responsabilidad Civil"
-                                            ].indexOf(cobertura.tipo) != -1
-                                          )
-                                          ? _c("tr", [
-                                              _c("div", [
-                                                _c("span", [
-                                                  _c("strong", [
-                                                    _vm._v(
-                                                      _vm._s(cobertura.tipo) +
-                                                        ":"
-                                                    )
-                                                  ]),
-                                                  _vm._v(
-                                                    "$" +
-                                                      _vm._s(
-                                                        _vm._f("int")(
-                                                          cobertura.SumaAsegurada
-                                                        )
-                                                      )
-                                                  )
-                                                ]),
-                                                _vm._v(" "),
-                                                cobertura.Deducible
-                                                  ? _c("span", [
-                                                      _c("strong", [
-                                                        _vm._v("Deducible:")
                                                       ]),
                                                       _vm._v(
                                                         " " +
-                                                          _vm._s(
-                                                            _vm._f("int")(
-                                                              cobertura.Deducible
-                                                            )
-                                                          ) +
-                                                          "%"
-                                                      )
-                                                    ])
-                                                  : _vm._e(),
-                                                _vm._v(" "),
-                                                cobertura.Prima
-                                                  ? _c("span", [
+                                                          _vm._s(cobertura.sa) +
+                                                          " "
+                                                      ),
                                                       _c("strong", [
                                                         _vm._v("Prima:")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(cobertura.pma)
+                                                      )
+                                                    ])
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_qualitas &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesQualitas["Coberturas"]
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesQualitas[
+                                              "Coberturas"
+                                            ],
+                                            function(cobertura, indez) {
+                                              return cobertura.tipo ==
+                                                "Asistencia Vial"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            cobertura.tipo
+                                                          ) + ":"
+                                                        )
                                                       ]),
                                                       _vm._v(
                                                         " $" +
                                                           _vm._s(
                                                             _vm._f("int")(
-                                                              cobertura.Prima
+                                                              cobertura[
+                                                                "SumaAsegurada"
+                                                              ]
                                                             )
+                                                          ) +
+                                                          " "
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    cobertura["Deducible"]
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v(
+                                                              "Deducible por daños:"
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura[
+                                                                    "Deducible"
+                                                                  ]
+                                                                )
+                                                              ) +
+                                                              "%"
                                                           )
+                                                        ])
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    cobertura.Prima
+                                                      ? _c("span", [
+                                                          _c("strong", [
+                                                            _vm._v("Prima:")
+                                                          ]),
+                                                          _vm._v(
+                                                            "$" +
+                                                              _vm._s(
+                                                                _vm._f("int")(
+                                                                  cobertura.Prima
+                                                                )
+                                                              )
+                                                          )
+                                                        ])
+                                                      : _vm._e()
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.desc_gs &&
+                                    _vm.tipo_poliza &&
+                                    _vm.cotizacionesGS.id
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          _vm._l(
+                                            _vm.cotizacionesGS.paquete[0]
+                                              .coberturas,
+                                            function(cobertura, index) {
+                                              return cobertura.descripcion ==
+                                                "Asistencia Vial y en Viajes GS"
+                                                ? _c("div", [
+                                                    _c("span", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          "\n                                                                    " +
+                                                            _vm._s(
+                                                              cobertura.descripcion
+                                                            ) +
+                                                            ": \n\n                                                                "
+                                                        )
+                                                      ]),
+                                                      _vm._v(
+                                                        "\n                                                                " +
+                                                          _vm._s(
+                                                            cobertura.monto
+                                                          ) +
+                                                          " \n                                                            "
                                                       )
                                                     ])
-                                                  : _vm._e()
-                                              ])
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
-                                  ]),
-                              _vm._v(" "),
-                              _vm.cotizacionesGS.id
-                                ? _c(
-                                    "td",
-                                    {
-                                      staticClass: "text-center",
-                                      staticStyle: { padding: "0" }
-                                    },
-                                    _vm._l(
-                                      _vm.cotizacionesGS.paquete[0].coberturas,
-                                      function(cobertura, index) {
-                                        return [
-                                          "Daños Materiales Pérdida Parcial",
-                                          "Daños Materiales Pérdida Total",
-                                          "Robo Total",
-                                          "Responsabilidad Civil por Daños a Terceros (LUC)",
-                                          "Responsabilidad Civil por Fallecimiento",
-                                          "Gastos Médicos",
-                                          "Asistencia Jurídica GS",
-                                          "Asistencia Vial y en Viajes GS"
-                                        ].indexOf(cobertura.tipo) != -1
-                                          ? _c("div", [
-                                              _c(
-                                                "span",
-                                                { staticClass: "border" },
-                                                [
-                                                  _c("strong", [
-                                                    _vm._v(
-                                                      "\n                                                                " +
-                                                        _vm._s(
-                                                          cobertura.descripcion
-                                                        ) +
-                                                        ":\n                                                            "
-                                                    )
-                                                  ]),
-                                                  _vm._v(
-                                                    " \n                                                            $" +
-                                                      _vm._s(cobertura.monto) +
-                                                      "\n                                                        "
-                                                  )
-                                                ]
-                                              )
-                                            ])
-                                          : _vm._e()
-                                      }
-                                    ),
-                                    0
-                                  )
-                                : _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                    Seleccione una descripción\n                                                "
-                                    )
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
                                   ])
+                                : _vm._e()
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c(
+                                "th",
+                                {
+                                  staticClass: "text-center",
+                                  attrs: { scope: "row" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                                    Otras Coberturas\n                                                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm.cliente.ana
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesANA.length != 0
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-center",
+                                            staticStyle: { padding: "0" }
+                                          },
+                                          _vm._l(
+                                            _vm.cotizacionesANA[0]["CONTADO"][
+                                              "coberturas"
+                                            ],
+                                            function(cobertura, index) {
+                                              return !(
+                                                [
+                                                  "DAÑOS MATERIALES",
+                                                  "ROBO TOTAL",
+                                                  "RESPONSABILIDAD CIVIL",
+                                                  "  RC BIENES",
+                                                  "  RC PERSONAS",
+                                                  "  EXTENSION RC",
+                                                  "  RC DEL HIJO MENOR",
+                                                  "  RC POR REMOLQUES",
+                                                  "RC CATASTROFICA POR MUERTE",
+                                                  "GASTOS MEDICOS",
+                                                  "DEF. JUD. Y ASIS. LEGAL",
+                                                  "ANA ASISTENCIA"
+                                                ].indexOf(cobertura.desc) != -1
+                                              )
+                                                ? _c("div", [
+                                                    _c("div", [
+                                                      _c("span", [
+                                                        _c("strong", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              cobertura.desc
+                                                            ) + ":"
+                                                          )
+                                                        ]),
+                                                        _vm._v(
+                                                          " " +
+                                                            _vm._s(cobertura.sa)
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      cobertura.ded
+                                                        ? _c("span", [
+                                                            _c("strong", [
+                                                              _vm._v(
+                                                                "Deducible:"
+                                                              )
+                                                            ]),
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                cobertura.ded
+                                                              )
+                                                            )
+                                                          ])
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      cobertura.pma
+                                                        ? _c("span", [
+                                                            _c("strong", [
+                                                              _vm._v("Prima:")
+                                                            ]),
+                                                            _vm._v(
+                                                              "$" +
+                                                                _vm._s(
+                                                                  cobertura.pma
+                                                                )
+                                                            )
+                                                          ])
+                                                        : _vm._e()
+                                                    ])
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.qualitas
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesQualitas["Coberturas"]
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-center",
+                                            staticStyle: { padding: "0" }
+                                          },
+                                          _vm._l(
+                                            _vm.cotizacionesQualitas[
+                                              "Coberturas"
+                                            ],
+                                            function(cobertura, index) {
+                                              return cobertura.tipo &&
+                                                !(
+                                                  [
+                                                    "",
+                                                    "Daños Materiales",
+                                                    "Gastos Médicos",
+                                                    "Gastos Legales",
+                                                    "Asistencia Vial",
+                                                    "Robo Total",
+                                                    "Responsabilidad Civil"
+                                                  ].indexOf(cobertura.tipo) !=
+                                                  -1
+                                                )
+                                                ? _c("div", [
+                                                    _c("div", [
+                                                      _c("span", [
+                                                        _c("strong", [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              cobertura.tipo
+                                                            ) + ":"
+                                                          )
+                                                        ]),
+                                                        _vm._v(
+                                                          "$" +
+                                                            _vm._s(
+                                                              _vm._f("int")(
+                                                                cobertura.SumaAsegurada
+                                                              )
+                                                            )
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      cobertura.Deducible
+                                                        ? _c("span", [
+                                                            _c("strong", [
+                                                              _vm._v(
+                                                                "Deducible:"
+                                                              )
+                                                            ]),
+                                                            _vm._v(
+                                                              " " +
+                                                                _vm._s(
+                                                                  _vm._f("int")(
+                                                                    cobertura.Deducible
+                                                                  )
+                                                                ) +
+                                                                "%"
+                                                            )
+                                                          ])
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      cobertura.Prima
+                                                        ? _c("span", [
+                                                            _c("strong", [
+                                                              _vm._v("Prima:")
+                                                            ]),
+                                                            _vm._v(
+                                                              " $" +
+                                                                _vm._s(
+                                                                  _vm._f("int")(
+                                                                    cobertura.Prima
+                                                                  )
+                                                                )
+                                                            )
+                                                          ])
+                                                        : _vm._e()
+                                                    ])
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.cliente.gs
+                                ? _c("td", { staticClass: "text-center" }, [
+                                    _vm.cotizacionesGS.id
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-center",
+                                            staticStyle: { padding: "0" }
+                                          },
+                                          _vm._l(
+                                            _vm.cotizacionesGS.paquete[0]
+                                              .coberturas,
+                                            function(cobertura, index) {
+                                              return [
+                                                "Daños Materiales Pérdida Parcial",
+                                                "Daños Materiales Pérdida Total",
+                                                "Robo Total",
+                                                "Responsabilidad Civil por Daños a Terceros (LUC)",
+                                                "Responsabilidad Civil por Fallecimiento",
+                                                "Gastos Médicos",
+                                                "Asistencia Jurídica GS",
+                                                "Asistencia Vial y en Viajes GS"
+                                              ].indexOf(cobertura.tipo) != -1
+                                                ? _c("div", [
+                                                    _c(
+                                                      "span",
+                                                      { staticClass: "border" },
+                                                      [
+                                                        _c("strong", [
+                                                          _vm._v(
+                                                            "\n                                                                    " +
+                                                              _vm._s(
+                                                                cobertura.descripcion
+                                                              ) +
+                                                              ":\n                                                                "
+                                                          )
+                                                        ]),
+                                                        _vm._v(
+                                                          " \n                                                                $" +
+                                                            _vm._s(
+                                                              cobertura.monto
+                                                            ) +
+                                                            "\n                                                            "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ])
+                                                : _vm._e()
+                                            }
+                                          ),
+                                          0
+                                        )
+                                      : _c(
+                                          "div",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _vm._v(
+                                              "\n                                                        Seleccione una descripción\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                  ])
+                                : _vm._e()
                             ])
                           ])
                         ]
@@ -51740,24 +52180,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-12 d-block d-sm-none" }, [
       _c("div", { staticClass: "coti" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "th",
-      { staticClass: "d-flex justify-content-center text-center" },
-      [
-        _c("div", { staticClass: "align-self-start" }, [
-          _c("label", [
-            _vm._v(
-              "\n                                                            Otras coberturas\n                                                        "
-            )
-          ])
-        ])
-      ]
-    )
   }
 ]
 render._withStripped = true

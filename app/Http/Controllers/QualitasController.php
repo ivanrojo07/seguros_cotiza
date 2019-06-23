@@ -286,7 +286,7 @@ class QualitasController extends Controller
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>1</ValorRegla>
+		  <ValorRegla>0</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 	  </DatosGenerales>
 	  <Primas>
@@ -419,7 +419,7 @@ XML;
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>1</ValorRegla>
+		  <ValorRegla>0</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 	  </DatosGenerales>
 	  <Primas>
@@ -552,7 +552,7 @@ XML;
 		</ConsideracionesAdicionalesDG>
 		<ConsideracionesAdicionalesDG NoConsideracion="4">
 		  <TipoRegla>1</TipoRegla>
-		  <ValorRegla>1</ValorRegla>
+		  <ValorRegla>0</ValorRegla>
 		</ConsideracionesAdicionalesDG>
 	  </DatosGenerales>
 	  <Primas>
@@ -916,9 +916,9 @@ XML;
 			  <TipoRegla>1</TipoRegla>
 			  <ValorRegla>$dig</ValorRegla>
 			</ConsideracionesAdicionalesDG>
-			<ConsideracionesAdicionalesDG NoConsideracion="04">
+			<ConsideracionesAdicionalesDG NoConsideracion="4">
 			  <TipoRegla>1</TipoRegla>
-			  <ValorRegla>1</ValorRegla>
+			  <ValorRegla>0</ValorRegla>
 			</ConsideracionesAdicionalesDG>
 		</DatosGenerales>
 		<Primas>
@@ -938,15 +938,19 @@ XML;
 			$client = $this->clientCotiza->obtenerNuevaEmision(array('xmlEmision'=>$xmlpoliza));
 			$xml = simplexml_load_string($client->obtenerNuevaEmisionResult);
 			$response = json_decode(json_encode($xml), true);
-			// dd($response['Movimiento']);
+			// dd($response);
 			if($response['Movimiento']['CodigoError']){
 				if (substr($response['Movimiento']['CodigoError'],0,4) == "0041") {
 					// dd($response['Movimiento']['CodigoError']);
 					// "0003433914"
 					$noPoliza = substr( $response['Movimiento']['CodigoError'],-16,10);
+					// dd($noPoliza);
 					$noEndoso = substr( $response['Movimiento']['CodigoError'],-6,6);
+					// dd($noEndoso);
 					$ramo = substr( $response['Movimiento']['CodigoError'],-18,2);
+					// dd($ramo);
 					$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>"0001",'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>$ramo,'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>"5545",'Agente'=>"74285",'Usuario'=>"Hola",'Password'=>"102030"]);
+					dd($impresion);
 					$urlString = $impresion->RecuperaImpresionPruebaResult;
 
 				}

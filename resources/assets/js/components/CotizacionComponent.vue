@@ -40,7 +40,7 @@
     											<select v-model="cliente.uso_auto" size="3" class="list-group list-group-flush col mr-0 ml-0"  style="overflow-y: hidden;">
     												<option value="" class="list-group-item text-center text-dark seleccionador" style="white-space: normal;">Seleccione el uso que se da al vehiculo</option>
     												<option value="Servicio Particular" class="list-group-item text-center text-dark seleccionador">Servicio Particular</option>
-                                    				<!-- <option value="Servicio Público" class="list-group-item text-center text-dark seleccionador">Servicio Público</option> -->
+                                    				<option value="Servicio Público" class="list-group-item text-center text-dark seleccionador">Servicio Público</option>
     											</select>
     										</div>
     									</div>
@@ -297,11 +297,11 @@
 										  <input class="form-check-input" type="checkbox" id="checkbox-qualitas" v-model="cliente.qualitas" true-value="1" false-value="0">
 										  <label class="form-check-label" for="checkbox-qualitas"><img :src="img.quaImage" width="120" height="50"></label>
 										</div>
-		                            	<div class="form-check form-check-inline">
+		                            	<div class="form-check form-check-inline" v-if="cliente.uso_auto == 'Servicio Particular'">
 										  <input class="form-check-input" type="checkbox" id="checkbox-ana" v-model="cliente.ana" true-value="1" false-value="0">
 										  <label class="form-check-label" for="checkbox-ana"><img :src="img.anaImage" width="120" height="50"></label>
 										</div>
-		                            	<div class="form-check form-check-inline">
+		                            	<div class="form-check form-check-inline" v-if="cliente.uso_auto == 'Servicio Particular'">
 										  <input class="form-check-input" type="checkbox" id="checkbox-gs" v-model="cliente.gs" true-value="1" false-value="0">
 										  <label class="form-check-label" for="checkbox-gs"><img :src="img.gsImage" width="120" height="50"></label>
 										</div>
