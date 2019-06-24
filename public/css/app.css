@@ -10505,6 +10505,15 @@ a.text-dark:focus {
   right: 0;
 }
 
+th:first-child,
+td:first-child {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0px;
+  background: #00496C;
+  color: white;
+}
+
 /* Transparent Overlay */
 
 .loading:before {

@@ -31,9 +31,9 @@
 	            	<div class="tab-pane fade show active" id="pills-Amplia" role="tabpanel" aria-labelledby="pills-Amplia-tab">
 	            		<div class="row">
                             <!--CELULAR-->
-                            <div class="col-12 d-block d-sm-none">
+                           <!--  <div class="col-12 d-block d-sm-none">
                                 <div class="coti">
-                                   <!--  <div class="coti-item" v-for="cotizacion in cotizacionesQualitas">
+                                    <div class="coti-item" v-for="cotizacion in cotizacionesQualitas">
                                         <div class="card" v-if="!cotizacion.response.amplia.error">
                                             <img class="card-img-top" :src="cotizacion.imagen" alt="Card image cap">
                                             <div class="card-body">
@@ -84,32 +84,32 @@
                                             </div>
                                         </div>
                                     </div>
-                                    </div> -->
+                                    </div>
                                 </div>
-                            </div>
+                            </div> -->
 	            			<!--ESCRITORIO-->
-                            <div class="col-12 d-none d-sm-block p-2">
+                            <div class="col-12 p-2">
                                 <div class="row m-2 no-gutters">
-                                    <table class="table table-bordered table-striped">
+                                    <table class="table table-bordered table-striped table-responsive">
                                         <tbody>
                                             <!-- HEADERS -->
                                             <tr>
-                                                <th scope="rowgroup" class="text-center">
+                                                <th scope="row" class="text-center w-auto">
                                                     Aseguradora
                                                 </th>
-                                                <th scope="rowgroup" class="text-center" v-if="cliente.ana">
-                                                    <img width="120" height="50" :src="img.anaImage">
+                                                <th scope="row" class="text-center" v-if="cliente.ana">
+                                                    <img width="150" height="50" :src="img.anaImage">
                                                 </th>
-                                                <th scope="rowgroup" class="text-center" v-if="cliente.qualitas">
-                                                    <img width="120" height="50" :src="img.quaImage">
+                                                <th scope="row" class="text-center" v-if="cliente.qualitas">
+                                                    <img width="150" height="50" :src="img.quaImage">
                                                 </th>
-                                                <th scope="rowgroup" class="text-center" v-if="cliente.gs">
-                                                    <img width="120" height="50" :src="img.gsImage">
+                                                <th scope="row" class="text-center" v-if="cliente.gs">
+                                                    <img width="150" height="50" :src="img.gsImage">
                                                 </th>
                                             </tr>
                                             <!-- TODAS LAS DESCRIPCIONES DE LAS ASEGURADORAS -->
                                             <tr>
-                                                <th scope="rowgroup" class="text-center">
+                                                <th scope="row" class="text-center">
                                                     Descripción
                                                 </th>
                                                 <td class="text-center" v-if="cliente.ana">
@@ -133,7 +133,7 @@
                                             </tr>
                                             <!-- Primas -->
                                             <tr>
-                                                <th class="text-center">Prima Total</th>
+                                                <th scope="row" class="text-center">Prima Total</th>
                                                 <td class="text-center" v-if="cliente.ana">
                                                     <div v-if="cotizacionesANA.length" style="padding">
                                                         <div class="border">Contado: ${{cotizacionesANA[0]['CONTADO']['prima']['primatotal']}}</div>
@@ -164,7 +164,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th class="text-center">Seleccionar</th>
+                                                <th scope="row" class="text-center">Seleccionar</th>
                                                 <td class="text-center" v-if="cliente.ana">
                                                     <div v-if="cotizacionesANA.length">
                                                         <button type="button" id="9_1" class="btn btn-primary seleccionador" @click="emitirANA(tipo_poliza,cotizacionesANA)">Elegir</button>
@@ -192,10 +192,10 @@
                                             </tr>
                                             <!-- DAÑOS MATERIALES SI ES AMPLIA -->
                                             <tr v-if="tipo_poliza == 'Amplia'">
-                                                <th class="text-center">
+                                                <th scope="row" class="text-center">
                                                     Daños Materiales
                                                 </th>
-                                                <td scope="row" class="text-center" v-if="cliente.ana">
+                                                <td class="text-center" v-if="cliente.ana">
                                                     <div class="text-center" v-if="desc_ana && tipo_poliza && cotizacionesANA.length != 0">
                                                         <div v-for="(cobertura,index) in cotizacionesANA[0]['CONTADO']['coberturas']" v-if="cobertura.desc == 'DAÑOS MATERIALES'">
                                                             <span><strong>{{cobertura.desc}}:</strong> {{cobertura.sa}}</span>
@@ -207,7 +207,7 @@
                                                         Seleccione una descripción
                                                     </div>
                                                 </td>
-                                                <td scope="col" class="text-center" v-if="cliente.qualitas"> 
+                                                <td class="text-center" v-if="cliente.qualitas"> 
                                                     <div class="text-center" v-if="desc_qualitas && tipo_poliza && cotizacionesQualitas['Coberturas']">
                                                         <div v-for="(cobertura,index) in cotizacionesQualitas['Coberturas']" v-if="cobertura.tipo == 'Daños Materiales'">
                                                             <span><strong>{{cobertura.tipo}}:</strong> ${{cobertura['SumaAsegurada']|int}}</span>
@@ -219,7 +219,7 @@
                                                         Seleccione una descripción
                                                     </div>
                                                 </td>
-                                                <td scope="col" class="text-center" v-if="cliente.gs">
+                                                <td class="text-center" v-if="cliente.gs">
                                                     <div class="text-center" v-if="desc_gs && tipo_poliza && cotizacionesGS.id" style="padding:0">
                                                         <div v-for="(cobertura,index) in cotizacionesGS.paquete[0].coberturas" v-if="cobertura.descripcion == 'Daños Materiales Pérdida Parcial'">
                                                             <div class="border"><strong>{{cobertura.descripcion}}:</strong> {{cobertura.monto}}</div>
@@ -235,7 +235,7 @@
                                             </tr>
                                             <!-- ROBO TOTAL SI ES AMPLIA O LIMITADA -->
                                             <tr v-if="tipo_poliza == 'Amplia' || tipo_poliza == 'Limitada'">
-                                                <th class="text-center">
+                                                <th scope="row" class="text-center">
                                                     Robo Total
                                                 </th>
                                                 <td class="text-center" v-if="cliente.ana">
@@ -277,7 +277,7 @@
                                             </tr>
                                             <!-- RESPONSABILIDAD CIVIL TODOS -->
                                             <tr>
-                                                <th class="text-center">
+                                                <th scope="row" class="text-center">
                                                     Responsabilidad Civil
                                                 </th>
                                                 <td class="text-center" v-if="cliente.ana">

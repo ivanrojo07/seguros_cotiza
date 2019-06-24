@@ -20,6 +20,25 @@ $theme-colors: (
   bottom: 0;
   right: 0;
 }
+// .table-responsive>.fixed-column {
+//     position: absolute;
+//     display: inline-block;
+//     width: auto;
+//     border-right: 1px solid #ddd;
+// }
+// @media(min-width:768px) {
+//     .table-responsive>.fixed-column {
+//         display: none;
+//     }
+// }
+th:first-child, td:first-child
+{
+  position:sticky;
+  left:0px;
+  background:#00496C;
+  color: white;
+ 
+}
 
 /* Transparent Overlay */
 .loading:before {

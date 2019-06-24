@@ -31,7 +31,7 @@
     </head>
     <body>
         <!--HEADER-->
-        <div class="row p-1 m-0">
+        {{-- <div class="row p-1 m-0">
             <div class="col-11 m-0 p-0">
                 <div class="row ">
                     <div class="col-12 col-sm-6">
@@ -48,14 +48,24 @@
                 <i class="fa fa-facebook-official" style="font-size:24px;color:#3B569D"></i>
                 <i class="fa fa-twitter" style="font-size:24px;color:#1DA1F2"></i>
             </div>
-        </div>
+        </div> --}}
 
         <!--NAV-->
         <div class="row">
             <div class="col">
                 <nav class="navbar navbar-expand-lg bg-info pl-3 p-0">
                     <a class="navbar-brand" href="#"  style="color: white;">
-                        <img src="{{ asset('img/logo2.jpg') }}" alt="">
+                        <h5 class="d-flex justify-content-around">
+                            <img src="{{ asset('img/logo2.jpg') }}" class="no-borders" alt="">
+                            <p class="mt-3">
+                                AutoSeguroDirecto.com
+                            </p>
+                            <span class="d-none d-sm-block text-secondary ml-2 mt-3 p-auto">
+                                <small>
+                                    "A un click de tu Seguro"
+                                </small>
+                            </span>
+                        </h5>
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-align-justify text-white"></i>
@@ -81,6 +91,14 @@
                                 <a class="nav-link" style="color: white;" href="#">Noticias</a>
                             </li>
                         </ul>
+                    </div>
+                    <div class="col-sm-1 col-md-1 text-right m-auto p-auto d-flex justify-content-around">
+                        <a href="https://www.facebook.com/autosegurodirecto" target="_blank">
+                            <i class="fa fa-facebook-official" style="font-size:24px;color:white"></i>
+                        </a>
+                        <a href="https://twitter.com/autosegurodirecto" target="_blank">
+                            <i class="fa fa-twitter" style="font-size:24px;color:#1DA1F2"></i>
+                        </a>
                     </div>
                 </nav>
             </div>

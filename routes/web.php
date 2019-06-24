@@ -13,7 +13,7 @@
 Route::get('/', function () {
 	
     return view('index');
-});
+})->name('index');
 Route::post('sendGS','GeneralSegurosController@sendGS');
 Route::post('sendQua','QualitasController@emitirPoliza');
 Route::post('sendANA','API\AnaController@emitirPoliza');

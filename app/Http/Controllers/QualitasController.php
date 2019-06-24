@@ -949,9 +949,9 @@ XML;
 					// dd($noEndoso);
 					$ramo = substr( $response['Movimiento']['CodigoError'],-18,2);
 					// dd($ramo);
-					$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>"0001",'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>$ramo,'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>"5545",'Agente'=>"74285",'Usuario'=>"Hola",'Password'=>"102030"]);
-					dd($impresion);
-					$urlString = $impresion->RecuperaImpresionPruebaResult;
+					$impresion = $this->clientCotizaImpresion->RecuperaImpresionM15(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>"0001",'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>$ramo,'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>"5545",'Agente'=>"74285",'Usuario'=>"Hola",'Password'=>"102030"]);
+					// dd($impresion);
+					$urlString = $impresion->RecuperaImpresionM15Result;
 
 				}
 				else{
@@ -969,8 +969,8 @@ XML;
 				// var_dump($noPoliza);
 				// var_dump($noEndoso);
 				// var_dump($ramo);
-				$impresion = $this->clientCotizaImpresion->RecuperaImpresionPrueba(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>$noInciso,'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>$ramo,'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>$noNegocio,'Agente'=>$agente,'Usuario'=>"Hola",'Password'=>"102030"]);
-				$urlString = $impresion->RecuperaImpresionPruebaResult;
+				$impresion = $this->clientCotizaImpresion->RecuperaImpresionM15(['nPoliza'=>$noPoliza,'URLPoliza'=>"",'URLRecibo'=>"",'URLTextos'=>"",'Inciso'=>$noInciso,'ImpPol'=>0,'ImpRec'=>0,'ImpAnexo'=>0,'Ramo'=>$ramo,'formaPol'=>"polizaf1_logoQ_pdf",'formaRec'=>"recibo_logoQ_pdf",'formaAnexo'=>"polizaf2_logoQ_pdf",'Endoso'=>$noEndoso,'NoNegocio'=>$noNegocio,'Agente'=>$agente,'Usuario'=>"Hola",'Password'=>"102030"]);
+				$urlString = $impresion->RecuperaImpresionM15Result;
 			}
 			$urls=[];
 			foreach (explode('|',$urlString) as $url) {
