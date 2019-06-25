@@ -22,7 +22,7 @@
                 padding: 0px;
                 margin: 0px;
                background-image: url({{ asset('img/fondo_1.jpg') }});
-               height: 100%;
+               height: 110%;
                background-position: center;
                background-repeat: no-repeat;
                background-size: cover;
@@ -51,12 +51,12 @@
         </div> --}}
 
         <!--NAV-->
-        <div class="row">
-            <div class="col">
-                <nav class="navbar navbar-expand-lg bg-info pl-3 p-0">
-                    <a class="navbar-brand" href="#"  style="color: white;">
+        <div class="row bg-info">
+            <div class="col-12">
+                <nav class="nav navbar navbar-expand-lg bg-info p-0 m-0">
+                    <a class="navbar-brand m-0 p-0" href="#"  style="color: white;">
                         <h5 class="d-flex justify-content-around">
-                            <img src="{{ asset('img/logo2.jpg') }}" class="no-borders" alt="">
+                            <img src="{{ asset('img/logo2.jpg') }}" alt="">
                             <p class="mt-3">
                                 AutoSeguroDirecto.com
                             </p>

@@ -171,13 +171,14 @@ class GeneralSegurosController extends Controller
 
     	// dd($cliente['tipoServicio']);
             $soapClient = $this->getClient($this->urlCotiza);
-            // dd($soapClient->__getTypes());
+            // return $soapClient->__getTypes();
         try{
             // dd($cliente->tipoServicio);
+            dd($modelo);
             ini_set('default_socket_timeout', 600); 
             $res = $soapClient->generarCotizacion(['arg0'=>['token'=>$this->token,'configuracionProducto'=>"RESIDENTE_INDIVIDUAL",'cp'=>$cliente->cp,'descuento'=>0,'vigencia'=>"ANUAL",'inciso'=>['claveGs'=>$claveGs,"conductorMenor30"=>$cliente->menor30,'modelo'=>$modelo,'tipoServicio'=>$cliente->tipoServicio,'tipoValor'=>"VALOR_COMERCIAL","tipoVehiculo"=>"AUTO_PICKUP","valorVehiculo"=>""]]]);
-
             $response = json_decode(json_encode($res),true);
+            return $response;
             // dd($response);
             if($response['return']['exito'] && isset($response['return']['paquetes'])){
                 $paquete_gs = [];
