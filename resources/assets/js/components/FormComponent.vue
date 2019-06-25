@@ -22,7 +22,7 @@
 						<div class="form-group col-12">
 							<label class="control-label">Tipo de persona:</label>
 	                        <div class="form-check col-12">
-	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="generalseguro.cliente.tipo_persona" value="F" checked>
+	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="generalseguro.cliente.tipo_persona" value="F" required="" checked>
 	                            <label class="form-check-label" for="radioF">
 	                             Fisica
 	                            </label>
@@ -36,19 +36,19 @@
 						</div>
 					</div>
 					<div class="row" v-if="generalseguro.cliente.tipo_persona == 'F'">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
 								Nombre(s)
 							</label>
-							<input class="form-control" type="text" name="nombre" v-model="generalseguro.cliente.nombre" required>
+							<input class="form-control" type="text" name="nombre" v-model="generalseguro.cliente.nombre" required="">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
 								Apellido Paterno
 							</label>
-							<input type="text" name="apepat" class="form-control" v-model="generalseguro.cliente.apepat" required>
+							<input type="text" name="apepat" class="form-control" v-model="generalseguro.cliente.apepat" required="">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
 								Apellido Materno
 							</label>
@@ -64,21 +64,21 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
 								RFC
 							</label>
-							<input type="text" name="rfc" class="form-control" v-model="generalseguro.cliente.rfc" required>
+							<input type="text" name="rfc" class="form-control" v-model="generalseguro.cliente.rfc" required="">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="elector" class="control-label">Clave de credencial de Elector</label>
 							<input type="text" name="elector" class="form-control" v-model="generalseguro.cliente.elector">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="curp" class="control-label">CURP</label>
 							<input type="text" name="curp" class="form-control" v-model="generalseguro.cliente.curp">
 						</div>
-						<div class="form-group col-4" v-if="generalseguro.cliente.tipo_persona == 'F'">
+						<div class="form-group col-12 col-md-4" v-if="generalseguro.cliente.tipo_persona == 'F'">
 							<label for="sexo" class="control-label">Sexo</label>
 							<select name="sexo" class="form-control" v-model="generalseguro.cliente.sexo" required>
 								<option value="">Seleccione su sexo</option>
@@ -86,42 +86,42 @@
 								<option value="2">Femenino</option>
 							</select>
 						</div>
-						<div class="form-group col-4" v-if="generalseguro.cliente.tipo_persona == 'F'">
+						<div class="form-group col-12 col-md-4" v-if="generalseguro.cliente.tipo_persona == 'F'">
 							<label class="control-label" for="edoCivil">Estado Civil</label>
 							<select name="edoCivil" class="form-control" v-model="generalseguro.cliente.edoCivil" required="">
 								<option value="">Seleccione su estado civil</option>
 								<option v-for="edocivil in estadosCiviles" :value="edocivil.id">{{edocivil.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label" for="calle">Calle</label>
 							<input type="text" name="calle" class="form-control" v-model="generalseguro.cliente.calle" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="num" class="control-label">Número exterior</label>
 							<input type="text" name="num" class="form-control" v-model="generalseguro.cliente.num" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label" for="cp">Código Postal</label>
 							<input type="text" name="cp" class="form-control" v-model="generalseguro.cliente.cp" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label" for="colonia">Colonia</label>
 							<input type="text" name="colonia" class="form-control" v-model="generalseguro.cliente.colonia" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label" for="municip">Delegación o Municipio</label>
 							<input type="text" name="municip" class="form-control" v-model="generalseguro.cliente.municip" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label" for="poblaci">Delegación o Población</label>
 							<input type="text" name="poblaci" class="form-control" v-model="generalseguro.cliente.poblaci" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="fnac" class="control-label" v-text="generalseguro.cliente.tipo_persona == 'F' ? 'Fecha de nacimiento' : 'Fecha de constitución'"></label>
 							<input type="date" name="fnac" class="form-control" v-model="generalseguro.cliente.fnac" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="nacionalidad" class="control-label">Nacionalidad</label>
 							<select name="nacionalidad" id="nacionalidad" class="form-control" v-model="generalseguro.cliente.nacionalidad" required>
 								<option value="">Seleccione su nacionalidad</option>
@@ -133,52 +133,52 @@
 							<label for="domicilio_original" class="control-label">Domicilio original (extranjeros)</label>
 							<input type="text" name="domicilio_original" class="form-control" v-model="generalseguro.cliente.domicilio_original" required>
 						</div>
-						<div class="form-group col-4"  v-if="generalseguro.cliente.tipo_persona == 'F'">
-							<label for="ocupacion" class="control-label">Ocupación</label>
+						<div class="form-group col-12 col-md-4"  v-if="generalseguro.cliente.tipo_persona == 'F'">
+							<label for="ocupacion" class="control-label"> Ocupación</label>
 							<select name="ocupacion" id="ocupacion" class="form-control" v-model="generalseguro.cliente.ocupacion" required>
 								<option value="">Seleccione su ocupacion</option>
 								<option v-for="ocupacion in ocupaciones" :value="ocupacion.cveTit">{{ocupacion.desTit}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="giro" class="control-label">Actividad o Giro</label>
 							<select name="giro" id="giro" class="form-control" v-model="generalseguro.cliente.giro" required>
 								<option value="">Seleccione el giro o actividad</option>
 								<option v-for="giro in giros" :value="giro.id.cveGir">{{giro.id.descGir}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="telefono1" class="control-label">Telefono</label>
 							<input type="tel" name="telefono1" id="telefono" class="form-control" v-model="generalseguro.cliente.telefono1" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="telefono2" class="control-label">Telefono</label>
 							<input type="tel" name="telefono2" id="telefono" class="form-control" v-model="generalseguro.cliente.telefono2">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="telefono3" class="control-label">Telefono</label>
 							<input type="tel" name="telefono3" id="telefono" class="form-control" v-model="generalseguro.cliente.telefono3">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="email" class="control-label">Correo electronico</label>
 							<input type="email" name="email" class="form-control" v-model="generalseguro.cliente.email" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="web" class="control-label">Pagina web</label>
 							<input type="url" name="web" class="form-control" v-model="generalseguro.cliente.web">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="contacto" class="control-label">Forma en que se entero de la pagina</label>
 							<select name="contacto" id="contacto" class="form-control" v-model="generalseguro.cliente.contacto" required>
 								<option value="">Seleccione el medío por el que se entero</option>
 								<option v-for="contacto in tipocontactos" :value="contacto.id.cveCco">{{contacto.id.desCco}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="ingresos" class="control-label">Fuente de ingresos</label>
 							<input type="text" name="ingresos" class="form-control" v-model="generalseguro.cliente.ingresos" required>
 						</div>
-						<div class="form-group col-4" v-if="generalseguro.cliente.tipo_persona == 'M'">
+						<div class="form-group col-12 col-md-4" v-if="generalseguro.cliente.tipo_persona == 'M'">
 							<label for="administrador" class="control-label">Tipo de administrador de la empresa</label>
 							<select name="administrador" id="administrador" class="form-control" v-model="generalseguro.cliente.administrador" required>
 								<option value="">Seleccione el tipo de administrador</option>
@@ -186,7 +186,7 @@
 								<option value="c">Consejo</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="cargo_pub" class="control-label">¿Ocupo algun cargo público?</label>
 							<div class="form-check col-12">
 	                            <input class="form-check-input" type="radio" name="cargo_pub" id="radioSCargo" v-model="generalseguro.cliente.cargo_pub" value="S">
@@ -201,15 +201,15 @@
 	                            </label>
 	                        </div>
 						</div>
-						<div class="form-group col-4" v-if="generalseguro.cliente.cargo_pub == 'S'">
+						<div class="form-group col-12 col-md-4" v-if="generalseguro.cliente.cargo_pub == 'S'">
 							<label for="nombre_cargo" class="control-label">Nombre del cargo público ejercido</label>
 							<input type="text" name="nombre_cargo" class="form-control" v-model="generalseguro.cliente.nombre_cargo" required>
 						</div>
-						<div class="form-group col-4" v-if="generalseguro.cliente.cargo_pub == 'S'">
+						<div class="form-group col-12 col-md-4" v-if="generalseguro.cliente.cargo_pub == 'S'">
 							<label for="periodo_cargo" class="control-label">Periodo en donde ejercio el cargo</label>
 							<input type="text" name="periodo_cargo" class="form-control" v-model="generalseguro.cliente.periodo_cargo" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="apoderado" class="control-label">¿Tiene apoderado legal?</label>
 							<div class="form-check col">
 	                            <input class="form-check-input" type="radio" name="apoderado" id="radioAS" v-model="generalseguro.cliente.apoderado" value="S">
@@ -224,7 +224,7 @@
 	                            </label>
 	                        </div>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="pasaporte" class="control-label">Número de pasaporte</label>
 							<input type="number" name="pasaporte" class="form-control" min="0" v-model="generalseguro.cliente.pasaporte">
 						</div>
@@ -233,15 +233,15 @@
 						<div class="col-12 mt-3">
 							<h6>Datos del automovil:</h6>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="num_motor" class="control-label">Número de motor</label>
 							<input type="text" name="num_motor" class="form-control" v-model="generalseguro.auto.num_motor" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="num_placas" class="control-label">Placas</label>
 							<input type="text" name="num_placas" class="form-control" v-model="generalseguro.auto.num_placas" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="num_serie" class="control-label">Número de serie</label>
 							<input type="text" name="num_serie" class="form-control" v-model="generalseguro.auto.num_serie" required>
 						</div>
@@ -251,7 +251,7 @@
 							<h6>Seguro a contratar: {{cotizacion.paquete.nombre}}</h6>
 						</div>
 						<input type="hidden" name="idpaquete" v-model="generalseguro.cotizacion.idpaquete">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="id_pago" class="control-label">Forma de pago</label>
 							<select name="id_pago" id="id_pago" class="form-control" v-model="generalseguro.cotizacion.id_pago" required @change="formaPago()">
 								<option value="">Seleccione su forma de pago</option>
@@ -306,9 +306,9 @@
 							<h6>Datos del asegurado:</h6>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">Tipo de persona:</label>
+							<label class="control-label"><i class="fas fa-asterisk"></i> Tipo de persona:</label>
 	                        <div class="form-check col-12">
-	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="qualitas.cliente.tipo_persona" value="1" checked>
+	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="qualitas.cliente.tipo_persona" value="1" required="" checked>
 	                            <label class="form-check-label" for="radioF">
 	                             Fisica
 	                            </label>
@@ -321,9 +321,9 @@
 	                        </div>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">El asegurado y el contratante son la misma persona:</label>
+							<label class="control-label"><i class="fas fa-asterisk"></i> El asegurado y el contratante son la misma persona:</label>
 	                        <div class="form-check col-12">
-	                            <input class="form-check-input" type="radio" id="radioCS" v-model="qualitas.cliente.contratante" value="1" checked>
+	                            <input class="form-check-input" type="radio" id="radioCS" v-model="qualitas.cliente.contratante" value="1" required="" checked>
 	                            <label class="form-check-label" for="radioCS">
 	                             Si
 	                            </label>
@@ -337,19 +337,19 @@
 						</div>
 					</div>
 					<div class="row" v-if="qualitas.cliente.tipo_persona == '1'">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
-								Nombre(s)
+								<i class="fas fa-asterisk"></i> Nombre(s)
 							</label>
 							<input class="form-control" type="text" name="nombre" v-model="qualitas.cliente.nombre" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
-								Apellido Paterno
+								<i class="fas fa-asterisk"></i> Apellido Paterno
 							</label>
 							<input type="text" name="apepat" class="form-control" v-model="qualitas.cliente.appaterno" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
 								Apellido Materno
 							</label>
@@ -359,80 +359,80 @@
 					<div class="row" v-if="qualitas.cliente.tipo_persona == '2'">
 						<div class="form-group col-12">
 							<label class="control-label">
-								Razón Social
+								<i class="fas fa-asterisk"></i> Razón Social
 							</label>
 							<input type="text" name="razsoc" class="form-control" v-model="qualitas.cliente.razsoc" required>
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="curp" class="control-label">C.U.R.P.</label>
 							<input class="form-control" type="text" name="curp" v-model="qualitas.cliente.curp">
 						</div>
-						<div class="form-group col-4">
-							<label for="rfc" class="control-label">R.F.C.</label>
-							<input class="form-control" type="text" name="rfc" v-model="qualitas.cliente.rfc">
+						<div class="form-group col-12 col-md-4">
+							<label for="rfc" class="control-label"><i class="fas fa-asterisk"></i> R.F.C.</label>
+							<input class="form-control" type="text" name="rfc" v-model="qualitas.cliente.rfc" required="">
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Fecha de nacimiento</label>
-							<input class="form-control" type="date" name="f_nac" v-model="qualitas.cliente.f_nac">
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Fecha de nacimiento</label>
+							<input class="form-control" type="date" name="f_nac" v-model="qualitas.cliente.f_nac" required="">
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Email</label>
-							<input class="form-control" type="email" name="email" v-model="qualitas.cliente.email">
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Email</label>
+							<input class="form-control" type="email" name="email" v-model="qualitas.cliente.email" required="">
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Número telefonico</label>
-							<input class="form-control" type="text" name="telefono" v-model="qualitas.cliente.telefono">
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Número telefonico</label>
+							<input class="form-control" type="text" name="telefono" v-model="qualitas.cliente.telefono" required="">
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Calle</label>
-							<input class="form-control" type="text" name="calle" v-model="qualitas.cliente.calle">
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Calle</label>
+							<input class="form-control" type="text" name="calle" v-model="qualitas.cliente.calle" required="">
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Número Exterior</label>
-							<input class="form-control" type="text" name="ext" v-model="qualitas.cliente.ext">
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Número Exterior</label>
+							<input class="form-control" type="text" name="ext" v-model="qualitas.cliente.ext" required="">
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">Número Interior</label>
 							<input class="form-control" type="text" name="int" v-model="qualitas.cliente.int">
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">C.P.</label>
-							<input class="form-control" type="text" name="cp" v-model="qualitas.cliente.cp">
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> C.P.</label>
+							<input class="form-control" type="text" name="cp" v-model="qualitas.cliente.cp" required="">
 						</div>
 						<div class="form-group col-8">
-							<label class="control-label">Población</label>
+							<label class="control-label"><i class="fas fa-asterisk"></i> Población</label>
 							<select class="form-control" v-model="selectPobla" required="">
 								<option value="">Seleccione su Población</option>
 								<option v-for="poblacion in qualitasPobla" :value="poblacion">{{poblacion.poblacion}}, {{poblacion.municipio}}, {{poblacion.estado}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Nacionalidad</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Nacionalidad</label>
 							<select class="form-control" name="nacionalidad" v-model="qualitas.cliente.nacionalidad" required="">
 								<option value="">Seleccione su nacionalidad</option>
 								<option value="1">Mexicana</option>
 								<option value="2">Extranjera</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Ocupación</label>
-							<select class="form-control" name="ocupacion" v-model="qualitas.cliente.ocupacion" required>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Ocupación</label>
+							<select class="form-control" name="ocupacion" v-model="qualitas.cliente.ocupacion" required="">
 								<option value="">Seleccione su ocupación</option>
 								<option v-for="ocupacion in qualitasOcupaciones" :value="ocupacion.codigo">{{ocupacion.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Giro comercial</label>
-							<select class="form-control" name="giro" v-model="qualitas.cliente.giro" required>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Giro comercial</label>
+							<select class="form-control" name="giro" v-model="qualitas.cliente.giro" required="">
 								<option value="">Seleccione su giro comercial</option>
 								<option v-for="giro in qualitasGiros" :value="giro.codigo">{{giro.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Profesión</label>
-							<select class="form-control" name="profesion" v-model="qualitas.cliente.profesion" required>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Profesión</label>
+							<select class="form-control" name="profesion" v-model="qualitas.cliente.profesion" required="">
 								<option value="">Seleccione su profesión</option>
 								<option v-for="profesion in qualitasProfesiones" :value="profesion.codigo">{{profesion.descripcion}}</option>
 							</select>
@@ -443,9 +443,9 @@
 							<h6>Datos del contratante:</h6>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">Tipo de persona:</label>
+							<label class="control-label"><i class="fas fa-asterisk"></i> Tipo de persona:</label>
 	                        <div class="form-check col-12">
-	                            <input class="form-check-input" type="radio" name="tipo_persona_cont" id="radioF_cont" v-model="qualitas.cliente.tipo_persona_cont" value="1" checked>
+	                            <input class="form-check-input" type="radio" name="tipo_persona_cont" id="radioF_cont" v-model="qualitas.cliente.tipo_persona_cont" value="1" required="" checked>
 	                            <label class="form-check-label" for="radioF_cont">
 	                             Fisica
 	                            </label>
@@ -459,19 +459,19 @@
 						</div>
 					</div>
 					<div class="row" v-if="qualitas.cliente.contratante == 0 && qualitas.cliente.tipo_persona_cont == '1'">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
-								Nombre(s)
+								<i class="fas fa-asterisk"></i> Nombre(s)
 							</label>
 							<input class="form-control" type="text" name="nombre_cont" v-model="qualitas.cliente.nombre_cont" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
-								Apellido Paterno
+								<i class="fas fa-asterisk"></i> Apellido Paterno
 							</label>
 							<input type="text" name="apepat_cont" class="form-control" v-model="qualitas.cliente.appaterno_cont" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
 								Apellido Materno
 							</label>
@@ -481,19 +481,19 @@
 					<div class="row" v-if="qualitas.cliente.tipo_persona_cont == '2'">
 						<div class="form-group col-12">
 							<label class="control-label">
-								Razón Social
+								<i class="fas fa-asterisk"></i> Razón Social
 							</label>
 							<input type="text" name="razsoc_cont" class="form-control" v-model="qualitas.cliente.razsoc_cont" required>
 						</div>
 					</div>
 					<div class="row" v-if="qualitas.cliente.contratante == 0">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label for="curp_cont" class="control-label">C.U.R.P.</label>
 							<input class="form-control" type="text" name="curp_cont" v-model="qualitas.cliente.curp_cont">
 						</div>
-						<div class="form-group col-4">
-							<label for="rfc_cont" class="control-label">R.F.C.</label>
-							<input class="form-control" type="text" name="rfc_cont" v-model="qualitas.cliente.rfc_cont">
+						<div class="form-group col-12 col-md-4">
+							<label for="rfc_cont" class="control-label"><i class="fas fa-asterisk"></i> R.F.C.</label>
+							<input class="form-control" type="text" name="rfc_cont" v-model="qualitas.cliente.rfc_cont" required="">
 						</div>
 					</div>
 					<div class="row">
@@ -501,17 +501,20 @@
 							<h6>Datos del automovil:</h6>
 						</div>
 						<div class="col-6">
-							<label for="serie" class="control-label">Número de serie</label>
-							<input type="text" class="form-control" name="serie" v-model="qualitas.vehiculo.serie">
+							<label for="serie" class="control-label"><i class="fas fa-asterisk"></i> Número de serie</label>
+							<input type="text" class="form-control" name="serie" v-model="qualitas.vehiculo.serie" required="">
 						</div>
 						<div class="col-6">
-							<label class="control-label">Número de motor</label>
-							<input type="text" class="form-control" name="num_motor" v-model="qualitas.vehiculo.num_motor">
+							<label class="control-label"><i class="fas fa-asterisk"></i> Número de motor</label>
+							<input type="text" class="form-control" name="num_motor" v-model="qualitas.vehiculo.num_motor" required="">
 						</div>
 					</div>
 					<div class="row">
 						<div class="mt-3 col d-flex justify-content-center">
 							<button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+						</div>
+						<div class="m-2 ml-2 flex-shrink-1 d-flex justify-content-right">
+							<i class="fa fa-asterisk" aria-hidden="true"></i> Campos Obligatorios
 						</div>
 					</div>
 				</form>
@@ -519,7 +522,7 @@
 					<input type="hidden" name="_token" :value="csrf" />
 					<div class="row">
 						<div class="offset-1 col-3">
-							<img width="50%" height="50%" :src="img.anaImage">
+							<img width="125" height="50%" :src="img.anaImage">
 						</div>
 						<div class="offset-1 col-6">
 							<h5 class="mt-3 ml-3">ANA Seguros</h5>
@@ -530,9 +533,9 @@
 							<h6>Datos del asegurado:</h6>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">Tipo de persona:</label>
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Tipo de persona:</label>
 	                        <div class="form-check col-12">
-	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="ana.cliente.tipo_persona" value="1" checked>
+	                            <input class="form-check-input" type="radio" name="tipo_persona" id="radioF" v-model="ana.cliente.tipo_persona" value="1" required="" checked>
 	                            <label class="form-check-label" for="radioF">
 	                             Fisica
 	                            </label>
@@ -546,19 +549,19 @@
 						</div>
 					</div>
 					<div class="row" v-if="ana.cliente.tipo_persona == '1'">
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
-								Nombre(s)
+								<i class="fa fa-asterisk" aria-hidden="true"></i> Nombre(s)
 							</label>
 							<input class="form-control" type="text" name="nombre" v-model="ana.cliente.nombre" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
-								Apellido Paterno
+								<i class="fa fa-asterisk" aria-hidden="true"></i> Apellido Paterno
 							</label>
 							<input type="text" name="apepat" class="form-control" v-model="ana.cliente.apepat" required>
 						</div>
-						<div class="form-group col-4">
+						<div class="form-group col-12 col-md-4">
 							<label class="control-label">
 								Apellido Materno
 							</label>
@@ -568,121 +571,121 @@
 					<div class="row" v-if="ana.cliente.tipo_persona == '2'">
 						<div class="form-group col-12">
 							<label class="control-label">
-								Razón Social
+								<i class="fa fa-asterisk" aria-hidden="true"></i> Razón Social
 							</label>
 							<input class="form-control" type="text" name="nombre" v-model="ana.cliente.nombre" required>
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-4">
-							<label class="control-label">Correo electrónico:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Correo electrónico:</label>
 							<input class="form-control" type="email" name="correo" v-model="ana.cliente.correo" required>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Telefono</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Telefono</label>
 							<input class="form-control" type="text" name="telefono" v-model="ana.cliente.telefono" required>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">R.F.C.:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> R.F.C.:</label>
 							<input class="form-control" type="text" name="rfc" v-model="ana.cliente.rfc" required>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '1'">
 							<label class="control-label">C.U.R.P.:</label>
-							<input class="form-control" type="text" name="curp" v-model="ana.cliente.curp" required>
+							<input class="form-control" type="text" name="curp" v-model="ana.cliente.curp">
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
-							<label class="control-label">Nacionalidad:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Nacionalidad:</label>
 							<select class="form-control" name="nacionalidad" v-model="ana.cliente.nacionalidad" required>
 								<option value="">Seleccione su nacionalidad</option>
 								<option v-for="nacion in nacionalidadANA" :value="nacion.id">{{nacion.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Estado:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Estado:</label>
 							<select class="form-control" name="estado" v-model="ana.cliente.estado" required>
 								<option value="">Seleccione el estado en donde vive</option>
 								<option v-for="estado in anaestados" :value="estado.id">{{estado.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Municipio:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Alcaldía o Municipio:</label>
 							<select class="form-control" name="municipio_id" v-model="ana.cliente.municipio_id" required>
 								<option value="">Seleccione la alcaldía o municipio en donde vive</option>
 								<option v-for="municipio in anamunicipios" :value="municipio.id" @click="ana.cliente.municipio = municipio.descripcion">{{municipio.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Código Postal:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Código Postal:</label>
 							<select class="form-control" name="codigo_postal" v-model="ana.cliente.codigo_postal" required>
 								<option value="">Seleccione el código postal en donde vive</option>
 								<option v-for="cp in anacp" :value="cp.id">{{cp.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Población:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Población:</label>
 							<select class="form-control" name="poblacion" v-model="ana.cliente.poblacion" required>
 								<option value="">Seleccione la población en donde vive</option>
 								<option v-for="poblacion in anacolonias" :value="poblacion.descripcion">{{poblacion.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Calle:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Calle:</label>
 							<input type="text" name="calle" v-model="ana.cliente.calle" class="form-control" required>
 						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Número interior:</label>
-							<input type="text" name="num_int" v-model="ana.cliente.num_int" class="form-control" required>
-						</div>
-						<div class="form-group col-4">
-							<label class="control-label">Número exterior:</label>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Número exterior:</label>
 							<input type="text" name="num_ext" v-model="ana.cliente.num_ext" class="form-control" required>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
-							<label class="control-label">Tipo de Identificación:</label>
-							<select class="form-control" name="identificacion" v-model="ana.cliente.identificacion" required>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label">Número interior:</label>
+							<input type="text" name="num_int" v-model="ana.cliente.num_int" class="form-control">
+						</div>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label"> Tipo de Identificación:</label>
+							<select class="form-control" name="identificacion" v-model="ana.cliente.identificacion" >
 								<option value="">Seleccione su identificacion</option>
 								<option v-for="identificacion in anaidentificaciones" :value="identificacion.id">{{identificacion.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '1'">
 							<label class="control-label">Número de identificacion:</label>
-							<input class="form-control" type="text" name="num_identif" v-model="ana.cliente.num_identif" required>
+							<input class="form-control" type="text" name="num_identif" v-model="ana.cliente.num_identif" >
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
-							<label class="control-label">Ocupación:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Ocupación:</label>
 							<select class="form-control" name="ocupacion" v-model="ana.cliente.ocupacion" required>
 								<option value="">Seleccione su ocupación</option>
 								<option v-for="ocupacion in anaocupaciones" :value="ocupacion.id">{{ocupacion.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '1'">
-							<label class="control-label">Fecha de nacimiento:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '1'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Fecha de nacimiento:</label>
 							<input class="form-control" type="date" name="f_nac" v-model="ana.cliente.f_nac" required>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
-							<label class="control-label">Giro de la empresa:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Giro de la empresa:</label>
 							<select class="form-control" name="giro" v-model="ana.cliente.giro" required>
 								<option value="">Seleccione su ocupación</option>
 								<option v-for="giro in anagiros" :value="giro.id">{{giro.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
-							<label class="control-label">Nombre completo del administrador:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Nombre completo del administrador:</label>
 							<input class="form-control" type="text" name="administrador" v-model="ana.cliente.administrador" required>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
-							<label class="control-label">Nacionalidad del administrador:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Nacionalidad del administrador:</label>
 							<select class="form-control" name="nacionalidad_adm" v-model="ana.cliente.nacionalidad_adm" required>
-								<option value="">Seleccione la nacionalidad de su administrador</option>
+								<option value=""><i class="fa fa-asterisk" aria-hidden="true"></i> Seleccione la nacionalidad de su administrador</option>
 								<option v-for="nacion in nacionalidadANA" :value="nacion.id">{{nacion.descripcion}}</option>
 							</select>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
-							<label class="control-label">Nombre completo del representante legal:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Nombre completo del representante legal:</label>
 							<input class="form-control" type="text" name="representante" v-model="ana.cliente.representante" required>
 						</div>
-						<div class="form-group col-4" v-if="ana.cliente.tipo_persona == '2'">
-							<label class="control-label">Nacionalidad del representante legal:</label>
+						<div class="form-group col-12 col-md-4" v-if="ana.cliente.tipo_persona == '2'">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Nacionalidad del representante legal:</label>
 							<select class="form-control" name="nacionalidad_representante" v-model="ana.cliente.nacionalidad_representante" required>
 								<option value="">Seleccione la nacionalidad de su representante legal</option>
 								<option v-for="nacion in nacionalidadANA" :value="nacion.id">{{nacion.descripcion}}</option>
@@ -694,22 +697,22 @@
 							<h6>Datos del vehiculo:</h6>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">Color</label>
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Color</label>
 							<select class="form-control" name="color" v-model="ana.vehiculo.color" required>
 								<option value="">Seleccione el color de su vehiculo</option>
 								<option v-for="color in anacolores" :value="color.id">{{color.descripcion}}</option>
 							</select>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">Motor</label>
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Motor</label>
 							<input class="form-control" type="text" name="motor" v-model="ana.vehiculo.motor" required>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">Número de serie</label>
-							<input class="form-control" type="text" name="serie" pattern="[A-Z0-9]{17,17}" v-model="ana.vehiculo.serie" required>
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Número de serie</label>
+							<input class="form-control" type="text" name="serie" pattern="[A-Z0-9]{17,17}" title="El número de serie debe ser de 17 caracteres" v-model="ana.vehiculo.serie" required>
 						</div>
 						<div class="form-group col-6">
-							<label class="control-label">Placas</label>
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Placas</label>
 							<input class="form-control" type="text" name="placas" v-model="ana.vehiculo.placas" required>
 						</div>
 						<input type="hidden" name="amis" :value="cotizacion.cotizacion.info[0].CONTADO.vehiculo.amis">
@@ -720,8 +723,8 @@
 							<h6>Seguro a contratar: ANA Seguros {{cotizacion.cotizacion.tipo}}</h6>
 						</div>
 						<input type="hidden" name="plan" :value="cotizacion.cotizacion.tipo">
-						<div class="form-group col-4">
-							<label for="pago" class="control-label">Forma de pago</label>
+						<div class="form-group col-12 col-md-4">
+							<label for="pago" class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Forma de pago</label>
 							<select name="pago" id="pago" class="form-control" v-model="ana.cotizacion.pago" required @change="formaPagoAna()">
 								<option value="">Seleccione su forma de pago</option>
 								<option v-for="pago in anapagos" :value="pago.descripcion">{{pago.descripcion}}</option>
@@ -751,6 +754,9 @@
 					<div class="row">
 						<div class="col d-flex justify-content-center">
 							<button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+						</div>
+						<div class="m-2 ml-2 flex-shrink-1 d-flex justify-content-right">
+							<i class="fa fa-asterisk" aria-hidden="true"></i> Campos Obligatorios
 						</div>
 					</div>
 				</form>

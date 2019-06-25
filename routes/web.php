@@ -18,3 +18,6 @@ Route::post('sendGS','GeneralSegurosController@sendGS');
 Route::post('sendQua','QualitasController@emitirPoliza');
 Route::post('sendANA','API\AnaController@emitirPoliza');
 Route::get('pago','GeneralSegurosController@vista');
+Route::get('acerca_nosotros',function(){
+	return view('static.acerca');
+});

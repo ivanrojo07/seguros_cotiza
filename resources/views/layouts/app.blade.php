@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         
         <!--FONT-AWESOME.CSS-->
-        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/f7878fc8d0.js"></script>
         <!--STYLE-->
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <style>
@@ -54,7 +54,7 @@
         <div class="row bg-info">
             <div class="col-12">
                 <nav class="nav navbar navbar-expand-lg bg-info p-0 m-0">
-                    <a class="navbar-brand m-0 p-0" href="#"  style="color: white;">
+                    <a class="navbar-brand m-0 p-0" href="{{ route('index') }}"  style="color: white;">
                         <h5 class="d-flex justify-content-around">
                             <img src="{{ asset('img/logo2.jpg') }}" alt="">
                             <p class="mt-3">
@@ -73,13 +73,13 @@
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
-                                <a class="nav-link" style="color: white;" href="#">Cotiza</a>
+                                <a class="nav-link" style="color: white;" href="{{ url('/') }}">Cotiza</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: white;" href="#">Inicio</a>
+                                <a class="nav-link" style="color: white;" href="{{ url('/') }}">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: white;" href="#">Acerca de Nosotros</a>
+                                <a class="nav-link" style="color: white;" href="{{ url('/acerca_nosotros') }}">Acerca de Nosotros</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" style="color: white;" href="#">Preguntas Frecuentes</a>
@@ -94,10 +94,10 @@
                     </div>
                     <div class="col-sm-1 col-md-1 text-right m-auto p-auto d-flex justify-content-around">
                         <a href="https://www.facebook.com/autosegurodirecto" target="_blank">
-                            <i class="fa fa-facebook-official" style="font-size:24px;color:white"></i>
+                            <i class="fab fa-facebook-square" style="font-size:24px;color:white"></i>
                         </a>
                         <a href="https://twitter.com/autosegurodirecto" target="_blank">
-                            <i class="fa fa-twitter" style="font-size:24px;color:#1DA1F2"></i>
+                            <i class="fab fa-twitter-square" style="font-size:24px;color:#1DA1F2"></i>
                         </a>
                     </div>
                 </nav>
@@ -129,8 +129,10 @@
                     TEL DF: 6275-8686
                 </p>
                 <p class="text-center">
-                    <i class="fa fa-whatsapp" style="font-size:36px"></i>
-                    WHATSAPP: 55-2316-8496
+                    <a class="text-white" href="https://wa.me/525523168496?text=Estoy%20interesado%20en%20contratar%20un%20seguro%20con%20ustedes.">
+                        <i class="fab fa-whatsapp" style="font-size:36px"></i>
+                        WHATSAPP: 55-2316-8496
+                    </a>
                 </p>
             </div>
         </div>

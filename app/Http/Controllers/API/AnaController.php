@@ -369,6 +369,7 @@ XML;
                 // dd($array["transaccion"]["error"]);
             }
             else{
+                dd($array);
                 dd("ninguno");
             }
             // dd($array);
