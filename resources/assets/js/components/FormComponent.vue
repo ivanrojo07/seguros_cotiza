@@ -752,6 +752,147 @@
 						</div>
 					</div>
 					<div class="row">
+						<div class="col-12 mt-3">
+							<h6>Pago:</h6>
+						</div>
+						<div class="form-group col-6">
+							<label class="control-label"><i class="fa fa-asterisk" aria-hidden="true"></i> Tipo de pago:</label>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_pago" id="radioReferenciado" v-model="ana.cliente.tipo_pago" value="Referenciado" required="" checked="">
+	                            <label class="form-check-label" for="radioReferenciado">
+	                             Referenciado
+	                            </label>
+	                        </div>
+	                        <div class="form-check col-12">
+	                            <input class="form-check-input" type="radio" name="tipo_pago" id="radioTarjeta" v-model="ana.cliente.tipo_pago" value="Tarjeta">
+	                            <label class="form-check-label" for="radioTarjeta">
+	                             Tarjeta Crédito/Débito
+	                            </label>
+	                        </div>
+						</div>
+					</div>
+					<div class="row" v-if="ana.cliente.tipo_pago == 'Tarjeta'">
+						<div class="col-12 mt-3 mb-3">
+							<h6>Datos de la tarjeta:</h6>
+							<span class="badge badge-secondary">AutoSeguroDirecto acepta la mayoría de tarjetas de crédito y débito.</span>
+						</div>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label">
+								<i class="fa fa-asterisk" aria-hidden="true"></i> Nombre de la tarjeta
+							</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="nombre-addon">
+										<i class="fas fa-user-circle"></i>
+									</span>
+								</div>
+								<input class="form-control" type="text" name="tarjeta_nombre" v-model="ana.cliente.tarjeta.nombre" required>
+							</div>
+						</div>
+						<div class="form-group col-12 col-md-3">
+							<label class="control-label">
+								<i class="fa fa-asterisk" aria-hidden="true"></i> Número de tarjeta
+							</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="numerotarjeta-addon">
+										<i class="fas fa-credit-card"></i>
+									</span>
+								</div>
+								<input class="form-control" type="text" name="numero" pattern="[0-9]{13,16}" v-model="ana.cliente.tarjeta.numero" required>
+							</div>
+						</div>
+						<div class="form-group col-6 col-md-3">
+							<label class="control-label">
+								<i class="fa fa-asterisk" aria-hidden="true"></i> Fecha de expiración:
+							</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="numerotarjeta-addon">
+										<i class="fas fa-credit-card"></i>
+									</span>
+								</div>
+								<select name="expiracionMM" id="expiraciónMM" class="form-control" v-model="ana.cliente.tarjeta.vencimientoMM" required="">
+									<option value=''>Mes</option>
+									<option value='01'>01/Enero</option>
+									<option value='02'>02/February</option>
+									<option value='03'>03/Marzo</option>
+									<option value='04'>04/Abril</option>
+									<option value='05'>05/Mayo</option>
+									<option value='06'>06/Junio</option>
+									<option value='07'>07/Julio</option>
+									<option value='08'>08/Agosto</option>
+									<option value='09'>09/Septiembre</option>
+									<option value='10'>10/Octubre</option>
+									<option value='11'>11/Noviembre</option>
+									<option value='12'>12/Diciembre</option>
+								</select>
+								<select name="expiracionYY" id="expiraciónYY" class="form-control" v-model="ana.cliente.tarjeta.vencimientoYY" required="">
+									<option value=''>Año</option>
+									<option v-for="anio in anios" :value="anio">{{anio}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-6 col-md-2">
+							<label class="control-label">
+								<i class="fa fa-asterisk" aria-hidden="true"></i> Código de seguridad
+							</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="cvv-addon">
+										<i class="fas fa-credit-card"></i>
+									</span>
+								</div>
+								<input class="form-control" type="text" name="codigo_seguridad" pattern="[0-9]{3,4}" v-model="ana.cliente.tarjeta.codigo_seguridad" required>
+							</div>
+						</div>
+						<div class="col-12 mt-3 mb-3">
+							<h6>Datos de domiciliación:</h6>
+						</div>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label">
+								Banco
+							</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="banco-addon">
+										<i class="fas fa-university"></i>
+									</span>
+								</div>
+								<select name="banco" id="banco" class="form-control" v-model="ana.cliente.tarjeta.banco">
+									<option value="">Banco</option>
+									<option v-for="banco in anabancos" :value="banco.id">{{banco.descripcion}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label">
+								Dirección
+							</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="direccion_tarjeta-addon">
+										<i class="fas fa-home"></i>
+									</span>
+								</div>
+								<textarea name="direccion_tarjeta" id="direccion_tarjeta" class="form-control" v-model="ana.cliente.tarjeta.direccion"></textarea>
+							</div>
+						</div>
+						<div class="form-group col-12 col-md-4">
+							<label class="control-label">
+								RFC
+							</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="rfc_tarjeta-addon">
+										<i class="fas fa-address-card"></i>
+									</span>
+								</div>
+								<input type="text" name="rfc_tarjeta" id="rfc_tarjeta" class="form-control" v-model="ana.cliente.tarjeta.rfc">
+							</div>
+						</div>
+					</div>
+					<div class="row">
 						<div class="col d-flex justify-content-center">
 							<button type="submit" class="btn btn-primary btn-lg">Enviar</button>
 						</div>
@@ -806,7 +947,18 @@
 						administrador:"",
 						nacionalidad_adm:"",
 						representante:"",
-						nacionalidad_representante:""
+						nacionalidad_representante:"",
+						tipo_pago:'Referenciado',
+						tarjeta:{
+							nombre:'',
+							numero:'',
+							vencimientoMM:'',
+							vencimientoYY:'',
+							codigo_seguridad:'',
+							banco:'',
+							direccion:'',
+							rfc:''
+						}
 					},
 					vehiculo:{
 						amis:"",
@@ -930,6 +1082,7 @@
 				anacolores:[],
 				anapagos:[],
 				anapagosinfo:{},
+				anabancos:[],
 				ocupaciones:[],
 				giros:[],
 				tipocontactos:[],
@@ -1099,6 +1252,14 @@
 				}
 				// this.anapagosinfo= 
 			},
+			'getBancosANA':function () {
+				let url="./api/bancosANA";
+				axios.get(url).then(res=>{
+					this.anabancos = res.data.bancos;
+				}).catch(err=>{
+					console.log(err);
+				})
+			},
 			'searchCP':function (cp) {
 				// body...
 				let url= `./api/cp/${cp}`;
@@ -1246,6 +1407,7 @@
 			this.getOcupacionANA();
 			this.getColorANA();
 			this.getPagosANA();
+			this.getBancosANA();
 			// this.anaImage="./img/ana1.png";
 			// this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
 			// this.quaImage = "./img/qua.png";
@@ -1291,6 +1453,13 @@
 				{codigo:'0016',descripcion:'Otro'},
 				{codigo:'0017',descripcion:'Ninguna'}
 			];
+		},
+		computed:{
+			'anios':function(){
+				const year = new Date().getFullYear();
+				return Array.from({length: year+10 - year}, (value, index) => year+1 + index);
+
+			}
 		}
 	}
 </script>

@@ -2269,8 +2269,13 @@ function Cliente(_ref) {
     },
     selectAll: function selectAll() {
       if (!this.checkall) {
-        this.cliente.ana = 1, this.cliente.qualitas = 1;
-        this.cliente.gs = 1;
+        this.cliente.qualitas = 1;
+
+        if (this.cliente.uso_auto == 'Servicio Particular') {
+          this.cliente.ana = 1, this.cliente.gs = 1;
+        } else {
+          this.cliente.ana = 0, this.cliente.gs = 0;
+        }
       } else {
         this.cliente.ana = 0, this.cliente.qualitas = 0;
         this.cliente.gs = 0;
@@ -3347,6 +3352,147 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cliente', 'alert', 'cotizacion', 'img'],
   data: function data() {
@@ -3379,7 +3525,18 @@ __webpack_require__.r(__webpack_exports__);
           administrador: "",
           nacionalidad_adm: "",
           representante: "",
-          nacionalidad_representante: ""
+          nacionalidad_representante: "",
+          tipo_pago: 'Referenciado',
+          tarjeta: {
+            nombre: '',
+            numero: '',
+            vencimientoMM: '',
+            vencimientoYY: '',
+            codigo_seguridad: '',
+            banco: '',
+            direccion: '',
+            rfc: ''
+          }
         },
         vehiculo: {
           amis: "",
@@ -3503,6 +3660,7 @@ __webpack_require__.r(__webpack_exports__);
       anacolores: [],
       anapagos: [],
       anapagosinfo: {},
+      anabancos: [],
       ocupaciones: [],
       giros: [],
       tipocontactos: [],
@@ -3684,8 +3842,18 @@ __webpack_require__.r(__webpack_exports__);
       } // this.anapagosinfo= 
 
     },
-    'searchCP': function searchCP(cp) {
+    'getBancosANA': function getBancosANA() {
       var _this7 = this;
+
+      var url = "./api/bancosANA";
+      axios.get(url).then(function (res) {
+        _this7.anabancos = res.data.bancos;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    'searchCP': function searchCP(cp) {
+      var _this8 = this;
 
       // body...
       var url = "./api/cp/".concat(cp);
@@ -3693,7 +3861,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res.data);
 
         if (res.data.response) {
-          _this7.qualitasPobla = res.data.response;
+          _this8.qualitasPobla = res.data.response;
         }
       }).catch(function (err) {
         console.log(err);
@@ -3707,7 +3875,7 @@ __webpack_require__.r(__webpack_exports__);
     'sendANA': function sendANA() {// TODO
     },
     'formaPago': function formaPago() {
-      var _this8 = this;
+      var _this9 = this;
 
       if (this.generalseguro.cotizacion.id_pago == "") {
         this.detallePago = {};
@@ -3715,7 +3883,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         var result = this.cotizacion.paquete.formasPagoDTO.find(function (obj) {
           // console.log(obj);
-          if (obj.idFormaPago === _this8.generalseguro.cotizacion.id_pago) {
+          if (obj.idFormaPago === _this9.generalseguro.cotizacion.id_pago) {
             return obj;
           } // var obj.id === this.generalseguro.cotizacion.id_pago;
 
@@ -3726,27 +3894,27 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.detallePago);
     },
     'getEstados': function getEstados() {
-      var _this9 = this;
+      var _this10 = this;
 
       var url = "./api/estadosANA";
       axios.get(url).then(function (res) {
         // console.log(res.data);
         if (res.data.estados) {
-          _this9.anaestados = res.data.estados;
+          _this10.anaestados = res.data.estados;
         }
       }).catch(function (err) {
         console.log(err);
       });
     },
     'getMunicipios': function getMunicipios(estado_id) {
-      var _this10 = this;
+      var _this11 = this;
 
       var url = "./api/municipiosANA/".concat(estado_id);
       axios.get(url).then(function (res) {
         console.log(res.data);
 
         if (res.data.municipios) {
-          _this10.anamunicipios = res.data.municipios;
+          _this11.anamunicipios = res.data.municipios;
         } // 
 
       }).catch(function (err) {
@@ -3754,83 +3922,83 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     'getCP': function getCP(estado_id, municipio_id) {
-      var _this11 = this;
+      var _this12 = this;
 
       var url = "./api/cpANA/".concat(estado_id, "/").concat(municipio_id);
       axios.get(url).then(function (res) {
         // console.log(res.data);
         if (res.data['Codigo Postal']) {
-          _this11.anacp = res.data['Codigo Postal'];
+          _this12.anacp = res.data['Codigo Postal'];
         }
       }).catch(function (err) {
         console.log(err);
       });
     },
     'getColonias': function getColonias(estado_id, municipio_id, cp_id) {
-      var _this12 = this;
+      var _this13 = this;
 
       var url = "./api/coloniaANA/".concat(estado_id, "/").concat(municipio_id, "/").concat(cp_id);
       axios.get(url).then(function (res) {
         console.log(res.data);
 
         if (res.data.colonias) {
-          _this12.anacolonias = res.data.colonias;
+          _this13.anacolonias = res.data.colonias;
         }
       }).catch(function (err) {
         console.log(err);
       });
     },
     'getEdoCivil': function getEdoCivil() {
-      var _this13 = this;
+      var _this14 = this;
 
       var url = "./api/getEstadoCivil";
       axios.get(url).then(function (res) {
         console.log(res);
 
         if (res.data.estadosCivil) {
-          _this13.estadosCiviles = res.data.estadosCivil.sort();
+          _this14.estadosCiviles = res.data.estadosCivil.sort();
         }
       }).catch(function (err) {
         console.log(err);
       });
     },
     'getOcupaciones': function getOcupaciones() {
-      var _this14 = this;
+      var _this15 = this;
 
       var url = "./api/getTitulos";
       axios.get(url).then(function (res) {
         console.log(res);
 
         if (res.data.titulos) {
-          _this14.ocupaciones = res.data.titulos.sort();
+          _this15.ocupaciones = res.data.titulos.sort();
         }
       }).catch(function (err) {
         console.log(err);
       });
     },
     'getGiros': function getGiros() {
-      var _this15 = this;
+      var _this16 = this;
 
       var url = "./api/getGiros";
       axios.get(url).then(function (res) {
         console.log(res);
 
         if (res.data.giros) {
-          _this15.giros = res.data.giros.sort();
+          _this16.giros = res.data.giros.sort();
         }
       }).catch(function (err) {
         console.log(err);
       });
     },
     'getContactos': function getContactos() {
-      var _this16 = this;
+      var _this17 = this;
 
       var url = "./api/getContactos";
       axios.get(url).then(function (res) {
         console.log(res.data);
 
         if (res.data.tiposContacto) {
-          _this16.tipocontactos = res.data.tiposContacto.sort();
+          _this17.tipocontactos = res.data.tiposContacto.sort();
         }
       }).catch(function (err) {
         console.log(err);
@@ -3854,7 +4022,8 @@ __webpack_require__.r(__webpack_exports__);
     this.getIdentificacionesANA();
     this.getOcupacionANA();
     this.getColorANA();
-    this.getPagosANA(); // this.anaImage="./img/ana1.png";
+    this.getPagosANA();
+    this.getBancosANA(); // this.anaImage="./img/ana1.png";
     // this.gsImage = "./img/GENERAL-DE-SEGUROS-LOGO.png";
     // this.quaImage = "./img/qua.png";
 
@@ -3967,6 +4136,16 @@ __webpack_require__.r(__webpack_exports__);
       codigo: '0017',
       descripcion: 'Ninguna'
     }];
+  },
+  computed: {
+    'anios': function anios() {
+      var year = new Date().getFullYear();
+      return Array.from({
+        length: year + 10 - year
+      }, function (value, index) {
+        return year + 1 + index;
+      });
+    }
   }
 });
 
@@ -49139,7 +49318,531 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(63)
+                _c("div", { staticClass: "row" }, [
+                  _vm._m(63),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-6" }, [
+                    _vm._m(64),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ana.cliente.tipo_pago,
+                            expression: "ana.cliente.tipo_pago"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "tipo_pago",
+                          id: "radioReferenciado",
+                          value: "Referenciado",
+                          required: "",
+                          checked: ""
+                        },
+                        domProps: {
+                          checked: _vm._q(
+                            _vm.ana.cliente.tipo_pago,
+                            "Referenciado"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(
+                              _vm.ana.cliente,
+                              "tipo_pago",
+                              "Referenciado"
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioReferenciado" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Referenciado\n\t                            "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-check col-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.ana.cliente.tipo_pago,
+                            expression: "ana.cliente.tipo_pago"
+                          }
+                        ],
+                        staticClass: "form-check-input",
+                        attrs: {
+                          type: "radio",
+                          name: "tipo_pago",
+                          id: "radioTarjeta",
+                          value: "Tarjeta"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.ana.cliente.tipo_pago, "Tarjeta")
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.$set(_vm.ana.cliente, "tipo_pago", "Tarjeta")
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: "radioTarjeta" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t                             Tarjeta Crédito/Débito\n\t                            "
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.ana.cliente.tipo_pago == "Tarjeta"
+                  ? _c("div", { staticClass: "row" }, [
+                      _vm._m(65),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-12 col-md-4" }, [
+                        _vm._m(66),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(67),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ana.cliente.tarjeta.nombre,
+                                expression: "ana.cliente.tarjeta.nombre"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "tarjeta_nombre",
+                              required: ""
+                            },
+                            domProps: { value: _vm.ana.cliente.tarjeta.nombre },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.ana.cliente.tarjeta,
+                                  "nombre",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-12 col-md-3" }, [
+                        _vm._m(68),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(69),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ana.cliente.tarjeta.numero,
+                                expression: "ana.cliente.tarjeta.numero"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "numero",
+                              pattern: "[0-9]{13,16}",
+                              required: ""
+                            },
+                            domProps: { value: _vm.ana.cliente.tarjeta.numero },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.ana.cliente.tarjeta,
+                                  "numero",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-6 col-md-3" }, [
+                        _vm._m(70),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(71),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.ana.cliente.tarjeta.vencimientoMM,
+                                  expression:
+                                    "ana.cliente.tarjeta.vencimientoMM"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                name: "expiracionMM",
+                                id: "expiraciónMM",
+                                required: ""
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.ana.cliente.tarjeta,
+                                    "vencimientoMM",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Mes")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "01" } }, [
+                                _vm._v("01/Enero")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "02" } }, [
+                                _vm._v("02/February")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "03" } }, [
+                                _vm._v("03/Marzo")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "04" } }, [
+                                _vm._v("04/Abril")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "05" } }, [
+                                _vm._v("05/Mayo")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "06" } }, [
+                                _vm._v("06/Junio")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "07" } }, [
+                                _vm._v("07/Julio")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "08" } }, [
+                                _vm._v("08/Agosto")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "09" } }, [
+                                _vm._v("09/Septiembre")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "10" } }, [
+                                _vm._v("10/Octubre")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "11" } }, [
+                                _vm._v("11/Noviembre")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "12" } }, [
+                                _vm._v("12/Diciembre")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.ana.cliente.tarjeta.vencimientoYY,
+                                  expression:
+                                    "ana.cliente.tarjeta.vencimientoYY"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                name: "expiracionYY",
+                                id: "expiraciónYY",
+                                required: ""
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.ana.cliente.tarjeta,
+                                    "vencimientoYY",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Año")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.anios, function(anio) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: anio } },
+                                  [_vm._v(_vm._s(anio))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-6 col-md-2" }, [
+                        _vm._m(72),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(73),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ana.cliente.tarjeta.codigo_seguridad,
+                                expression:
+                                  "ana.cliente.tarjeta.codigo_seguridad"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "codigo_seguridad",
+                              pattern: "[0-9]{3,4}",
+                              required: ""
+                            },
+                            domProps: {
+                              value: _vm.ana.cliente.tarjeta.codigo_seguridad
+                            },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.ana.cliente.tarjeta,
+                                  "codigo_seguridad",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(74),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-12 col-md-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("\n\t\t\t\t\t\t\t\tBanco\n\t\t\t\t\t\t\t")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(75),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.ana.cliente.tarjeta.banco,
+                                  expression: "ana.cliente.tarjeta.banco"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { name: "banco", id: "banco" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.ana.cliente.tarjeta,
+                                    "banco",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Banco")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.anabancos, function(banco) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: banco.id } },
+                                  [_vm._v(_vm._s(banco.descripcion))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-12 col-md-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("\n\t\t\t\t\t\t\t\tDirección\n\t\t\t\t\t\t\t")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(76),
+                          _vm._v(" "),
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ana.cliente.tarjeta.direccion,
+                                expression: "ana.cliente.tarjeta.direccion"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              name: "direccion_tarjeta",
+                              id: "direccion_tarjeta"
+                            },
+                            domProps: {
+                              value: _vm.ana.cliente.tarjeta.direccion
+                            },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.ana.cliente.tarjeta,
+                                  "direccion",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-12 col-md-4" }, [
+                        _c("label", { staticClass: "control-label" }, [
+                          _vm._v("\n\t\t\t\t\t\t\t\tRFC\n\t\t\t\t\t\t\t")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(77),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ana.cliente.tarjeta.rfc,
+                                expression: "ana.cliente.tarjeta.rfc"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "rfc_tarjeta",
+                              id: "rfc_tarjeta"
+                            },
+                            domProps: { value: _vm.ana.cliente.tarjeta.rfc },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.ana.cliente.tarjeta,
+                                  "rfc",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(78)
               ]
             )
           : _vm._e()
@@ -49814,6 +50517,189 @@ var staticRenderFns = [
         _vm._v(" Forma de pago")
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 mt-3" }, [
+      _c("h6", [_vm._v("Pago:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("i", {
+        staticClass: "fa fa-asterisk",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Tipo de pago:")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 mt-3 mb-3" }, [
+      _c("h6", [_vm._v("Datos de la tarjeta:")]),
+      _vm._v(" "),
+      _c("span", { staticClass: "badge badge-secondary" }, [
+        _vm._v(
+          "AutoSeguroDirecto acepta la mayoría de tarjetas de crédito y débito."
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("i", {
+        staticClass: "fa fa-asterisk",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Nombre de la tarjeta\n\t\t\t\t\t\t\t")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "nombre-addon" } },
+        [_c("i", { staticClass: "fas fa-user-circle" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("i", {
+        staticClass: "fa fa-asterisk",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Número de tarjeta\n\t\t\t\t\t\t\t")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        {
+          staticClass: "input-group-text",
+          attrs: { id: "numerotarjeta-addon" }
+        },
+        [_c("i", { staticClass: "fas fa-credit-card" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("i", {
+        staticClass: "fa fa-asterisk",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Fecha de expiración:\n\t\t\t\t\t\t\t")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        {
+          staticClass: "input-group-text",
+          attrs: { id: "numerotarjeta-addon" }
+        },
+        [_c("i", { staticClass: "fas fa-credit-card" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("i", {
+        staticClass: "fa fa-asterisk",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Código de seguridad\n\t\t\t\t\t\t\t")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "cvv-addon" } },
+        [_c("i", { staticClass: "fas fa-credit-card" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 mt-3 mb-3" }, [
+      _c("h6", [_vm._v("Datos de domiciliación:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "banco-addon" } },
+        [_c("i", { staticClass: "fas fa-university" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        {
+          staticClass: "input-group-text",
+          attrs: { id: "direccion_tarjeta-addon" }
+        },
+        [_c("i", { staticClass: "fas fa-home" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "rfc_tarjeta-addon" } },
+        [_c("i", { staticClass: "fas fa-address-card" })]
+      )
+    ])
   },
   function() {
     var _vm = this

@@ -496,9 +496,15 @@ function Cliente({cotizacion,auto,uso_auto,cp,nombre,appaterno,apmaterno,telefon
     		},
     		selectAll(){
     			if (!this.checkall) {
-    				this.cliente.ana = 1,
     				this.cliente.qualitas = 1;
-    				this.cliente.gs = 1
+    				if (this.cliente.uso_auto == 'Servicio Particular') {
+	    				this.cliente.ana = 1,
+	    				this.cliente.gs = 1
+    				}
+    				else{
+    					this.cliente.ana = 0,
+	    				this.cliente.gs = 0
+    				}
     			}
     			else{
     				this.cliente.ana = 0,
