@@ -7,7 +7,7 @@
                 <div class="card card-default">
                     <div class="card-header">
                         <h3 class="text-center">
-                            ACERCA DE NOSOSTROS
+                            ACERCA DE NOSOTROS
                         </h3>
                     </div>
                     <div class="card-body">
