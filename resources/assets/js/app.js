@@ -48,9 +48,13 @@ const app = new Vue({
             'gs': "",
     	},
         img:{
-            anaImage:"./img/ana1.png",
+            anaImage:"./img/ana_logo.png",
+            anaImageForm:"./img/ana_logo_alta.jpg",
             gsImage : "./img/GENERAL-DE-SEGUROS-LOGO.png",
+            gsImageForm: "./img/general_seguros_form.png",
             quaImage : "./img/qua.png",
+            quaImageForm: "./img/Imagotipo_Banner_SitioWebQuálitas.svg",
+            quaImageBG: "./img/qualitas_form.png"
         },
     	getcotizacion:{
     		type: Boolean,

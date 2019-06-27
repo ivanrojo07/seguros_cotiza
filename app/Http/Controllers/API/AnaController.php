@@ -46,136 +46,6 @@ class AnaController extends Controller
         return $array;
     }
 
-    public function prueba()
-    {
-       // dd($request->all());
-        // $cliente = Cliente::where('cotizacion',"8290fea1f0")->first();
-        // // dd($cliente);
-        // $marca = $cliente->auto->marca->nombre;
-        //     $submarca= $cliente->auto->submarca->nombre;
-        //     $modelo = $cliente->auto->submarca->anio;
-        //     $descripcion= $cliente->auto->version->descripcion;
-        //     $marcaANA = $this->searchMarca($marca,$modelo);
-        //     if($marcaANA){
-        //         $submarcaANA = $this->searchSubmarca($submarca,$marcaANA->id,$modelo);
-        //         // dd($submarca);
-        //         if ($submarcaANA) {
-        //             $descripcionANA=$this->searchVehiculo($descripcion,$marcaANA->id,$submarcaANA->id,$modelo);
-        //             // dd($descripcionANA);
-        //         }
-        //     }
-        //     if($descripcionANA){
-        //         // dd($descripcionANA);
-        //         $clave_amis=$descripcionANA->clave;
-        //         $fecha = Carbon::now();
-        //         $fecha_hoy=$fecha->format('d/m/Y');
-        //         // dd($fecha_hoy);
-        //         $fecha_t = Carbon::parse($fecha);
-        //         $fecha_t = $fecha_t->addYears(1)->format('d/m/Y');
-//                 $xmlAmplia=
-// <<<XML
-// <transacciones xmlns="">
-//   <transaccion version="1" tipotransaccion="E" cotizacion="" negocio="1195" tiponegocio="">
-//     <vehiculo id="1" amis="B0230036" modelo="2013" descripcion="" uso="1" servicio="1" plan="1" motor="HECHO EN MEXICO" serie="S342342332ASD34234" repuve="" placas="PLACAS" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="31041" poblacion="KANASIN" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
-//             <cobertura id="02" desc="" sa="" tipo="3" ded="5" pma=""/>
-//             <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
-//             <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
-//             <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
-//             <cobertura id="09" desc="" sa="Auto Sustituto" tipo="" ded="" pma=""/>
-//             <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
-//             <cobertura id="13" desc="" sa="2" tipo="" ded="" pma=""/>
-//             <cobertura id="25" desc="" sa="1000000" tipo="" ded="" pma=""/>
-//             <cobertura id="26" desc="" sa="1000000" tipo="" ded="" pma=""/>
-//             <cobertura id="27" desc="" sa="" tipo="" ded="" pma=""/>
-//             <cobertura id="34" desc="" sa="2000000" tipo="" ded="" pma=""/>
-//             <cobertura id="35" desc="" sa="" tipo="" ded="" pma=""/>
-//             <cobertura id="40" desc="" sa="" tipo="" ded="50" pma=""/>
-//         </vehiculo>
-//         <asegurado id="" nombre="MARIO" paterno="VARGAS" materno="LLOSAS" calle="63 X 2  LOC SAN PEDRO NOHPAT" numerointerior="" numeroexterior="123" colonia="GRANJAS" poblacion="41" estado="31041" cp="97370" pais="MEXICO" tipopersona="1">
-//             <argumento id="2" tipo="" campo="" valor="correo@correo.com"/>
-//             <argumento id="3" tipo="" campo="" valor="12345678"/>
-//             <argumento id="4" tipo="" campo="" valor=""/>
-//             <argumento id="5" tipo="" campo="" valor=""/>
-//             <argumento id="6" tipo="" campo="" valor="M1"/>
-//             <argumento id="7" tipo="" campo="" valor="C3"/>
-//             <argumento id="8" tipo="" campo="" valor="123456789012"/>
-//             <argumento id="9" tipo="" campo="" valor="O1"/>
-//         </asegurado>
-//         <poliza id="" tipo="A" endoso="" fecemision="" feciniciovig="22/05/2019" fecterminovig="22/05/2020" moneda="0" bonificacion="0" formapago="C" agente="14275" tarifacuotas="1804" tarifavalores="1804" tarifaderechos="1804" beneficiario="" politicacancelacion="1"/>
-//         <prima primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision=""/>
-//         <recibo id="" feciniciovig="" fecterminovig="" primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision="" cadenaoriginal="" sellodigital="" fecemision="" serie="" folio="" horaemision="" numeroaprobacion="" anoaprobacion="" numseriecertificado=""/>
-//         # <tarjetacredito cliente="MARIO VARGAS LLOSAS" numero="5346295133310936" vencimiento="1120" codigoseguridad="919"/>
-//         # <domiciliacion banco="0013" direcciontarjetahabiente="63 X 2  LOC SAN PEDRO NOHPAT" envio="N" rfc="" fiscal="N"/>
-//         <error/>
-//     </transaccion>
-// </transacciones>
-
-// XML;
-$xmlAmplia=
-<<<XML
-<transacciones xmlns="">
-  <transaccion version="1" tipotransaccion="E" cotizacion="" negocio="1196" tiponegocio="">
-    <vehiculo id="1" amis="B0230036" modelo="2013" descripcion="" uso="1" servicio="1" plan="1" motor="HECHO EN MEXICO" serie="S342342332ASD34234" repuve="" placas="PLACAS" conductor="" conductorliciencia="" conductorfecnac="" conductorocupacion="" estado="31041" poblacion="KANASIN" color="01" dispositivo="" fecdispositivo="" tipocarga="" tipocargadescripcion="">
-            <cobertura id="02" desc="" sa="" tipo="3" ded="5" pma=""/>
-            <cobertura id="04" desc="" sa="" tipo="3" ded="10" pma=""/>
-            <cobertura id="06" desc="" sa="200000" tipo="" ded="" pma=""/>
-            <cobertura id="07" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="09" desc="" sa="Auto Sustituto" tipo="" ded="" pma=""/>
-            <cobertura id="10" desc="" sa="" tipo="B" ded="" pma=""/>
-            <cobertura id="13" desc="" sa="2" tipo="" ded="" pma=""/>
-            <cobertura id="25" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="26" desc="" sa="1000000" tipo="" ded="" pma=""/>
-            <cobertura id="27" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="34" desc="" sa="2000000" tipo="" ded="" pma=""/>
-            <cobertura id="35" desc="" sa="" tipo="" ded="" pma=""/>
-            <cobertura id="40" desc="" sa="" tipo="" ded="50" pma=""/>
-        </vehiculo>
-        <asegurado id="" nombre="MARIO" paterno="VARGAS" materno="LLOSAS" calle="63 X 2  LOC SAN PEDRO NOHPAT" numerointerior="" numeroexterior="123" colonia="GRANJAS" poblacion="41" estado="31041" cp="97370" pais="MEXICO" tipopersona="1">
-            <argumento id="2" tipo="" campo="" valor="correo@correo.com"/>
-            <argumento id="3" tipo="" campo="" valor="12345678"/>
-            <argumento id="4" tipo="" campo="" valor=""/>
-            <argumento id="5" tipo="" campo="" valor=""/>
-            <argumento id="6" tipo="" campo="" valor="M1"/>
-            <argumento id="7" tipo="" campo="" valor="C3"/>
-            <argumento id="8" tipo="" campo="" valor="123456789012"/>
-            <argumento id="9" tipo="" campo="" valor="O1"/>
-        </asegurado>
-        <poliza id="" tipo="A" endoso="" fecemision="" feciniciovig="26/06/2019" fecterminovig="26/06/2020" moneda="0" bonificacion="0" formapago="C" agente="14275" tarifacuotas="1804" tarifavalores="1804" tarifaderechos="1804" beneficiario="" politicacancelacion="1"/>
-        <prima primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision=""/>
-        <recibo id="" feciniciovig="" fecterminovig="" primaneta="" derecho="" recargo="" impuesto="" primatotal="" comision="" cadenaoriginal="" sellodigital="" fecemision="" serie="" folio="" horaemision="" numeroaprobacion="" anoaprobacion="" numseriecertificado=""/>
-        <error/>
-    </transaccion>
-</transacciones>
-
-XML;
-            try{
-                $client = new SoapClient($this->urlPHP,$this->params);
-                ini_set('default_socket_timeout', 600);
-                $res =$client->TransaccionText(["XML"=>$xmlAmplia,"Tipo"=>"Emision","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-                // dd($res);
-                $array= json_decode(json_encode(simplexml_load_string($res->TransaccionTextResult)),true);
-                // dd($array);
-                $xmlImpr=<<<XML
-<transacciones xmlns="">
-    <transaccion version="1" tipotransaccion="I" negocio="1196">
-        <poliza id="04011935011" endoso="000000" inciso="1" link=""/>
-        <error/>
-    </transaccion>
-</transacciones>
-XML;
-                $resImp =$client->TransaccionText(["XML"=>$xmlImpr,"Tipo"=>"Impresion","Usuario"=>"14275","Clave"=>"kdEDyC9F"]);
-                // dd($res);
-
-                $array= json_decode(json_encode(simplexml_load_string($resImp->TransaccionTextResult)),true);
-                dd($array);
-            }
-            catch(SoapFault $fault){
-                dd($fault);
-            }
-            
-
-    }
-
     public function imprimirPoliza($poliza,$endoso,$tipo_pago){
         if ($tipo_pago == "Tarjeta") {
             $xmlImpr=<<<XML
@@ -196,7 +66,7 @@ XML;
     </transaccion>
 </transacciones>
 XML;
-            
+
         }
         try{
             $client = new SoapClient($this->urlPHP,$this->params);

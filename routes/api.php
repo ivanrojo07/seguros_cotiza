@@ -47,7 +47,6 @@ Route::get('/getCoberturasGS/{cotizacion}/{paquete}','GeneralSegurosController@g
 Route::get('/cp/{cp}','CPController@get');
 
 // ANA SEGUROS
-Route::get('/pruebaANA','API\AnaController@prueba');
 Route::get('/bancosANA','API\AnaController@bancos');
 Route::get('/categoriasANA','API\AnaController@categorias');
 Route::get('/colorANA','API\AnaController@colores');

@@ -94,17 +94,17 @@
                                         <tbody>
                                             <!-- HEADERS -->
                                             <tr>
-                                                <th scope="row" class="text-center w-auto">
-                                                    Aseguradora
+                                                <th scope="row" class="text-center w-150">
+                                                    Aseguradora    
                                                 </th>
                                                 <th scope="row" class="text-center" v-if="cliente.ana">
-                                                    <img width="150" height="50" :src="img.anaImage">
+                                                    <img width="150" height="70" :src="img.anaImage">
                                                 </th>
                                                 <th scope="row" class="text-center" v-if="cliente.qualitas">
-                                                    <img width="150" height="50" :src="img.quaImage">
+                                                    <img width="150" height="70" :src="img.quaImage">
                                                 </th>
                                                 <th scope="row" class="text-center" v-if="cliente.gs">
-                                                    <img width="150" height="50" :src="img.gsImage">
+                                                    <img width="150" height="70" :src="img.gsImage">
                                                 </th>
                                             </tr>
                                             <!-- TODAS LAS DESCRIPCIONES DE LAS ASEGURADORAS -->

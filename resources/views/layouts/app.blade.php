@@ -129,9 +129,9 @@
                     TEL DF: 6275-8686
                 </p>
                 <p class="text-center">
-                    <a class="text-white" href="https://wa.me/525523168496?text=Estoy%20interesado%20en%20contratar%20un%20seguro%20con%20ustedes.">
+                    <a class="text-white" href="https://wa.me/525611763726?text=Hola%20AutoSeguroDirecto.com.%20Estoy%20interesado%20en%20contratar%20un%20seguro%20con%20ustedes.">
                         <i class="fab fa-whatsapp" style="font-size:36px"></i>
-                        WHATSAPP: 55-2316-8496
+                        WHATSAPP: 56-1176-3726
                     </a>
                 </p>
             </div>

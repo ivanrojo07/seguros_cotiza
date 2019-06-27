@@ -382,8 +382,6 @@ class GeneralSegurosController extends Controller
     public function sendGS(Request $request)
     {
         
-        // dd($request->all());
-        // dd($request->rfc);
         ini_set('default_socket_timeout', 600);
         $clientSOAP = $this->getClient($this->urlCotiza);
         $emitir = $clientSOAP->emitirCotizacion([
@@ -449,6 +447,7 @@ class GeneralSegurosController extends Controller
                     'porcenComisionAgente2'=>""
                 ]
             ]);
+        
         $arr = json_decode(json_encode($emitir),true);
         // dd($arr);
 
