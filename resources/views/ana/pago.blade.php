@@ -19,9 +19,12 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="paso4" role="tabpane4" aria-labelledby="paso4-tab">
             	<div class="row m-3">
-            		<div class="col-12 m-2 p-2">
+            		<div class="col-11 col-md-5 m-2 mt-4 p-2 d-none d-sm-block">
             			<h3 class="mt-3 ml-3">Gracias por utilizar ANA Seguros</h3>
             		</div>
+                    <div class="col-12 col-md-5 m-2 p-2">
+                        <img src="{{ asset('./img/ana_logo_alta.jpg') }}" height="100%" width="100%">
+                    </div>
 					<div class="col-6">
 						<h5>Su cotización se guardo con la siguiente información:</h5>
 					</div>

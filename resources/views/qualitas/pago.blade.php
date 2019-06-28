@@ -39,9 +39,12 @@
             </div>
             <div class="tab-pane fade show active" id="paso4" role="tabpane4" aria-labelledby="paso4-tab">
             	<div class="row m-3">
-            		<div class="col-12 m-2 p-2">
+            		<div class="col-11 col-md-6 m-2 p-2 d-none d-sm-block">
             			<h3 class="mt-3 ml-3">Gracias por utilizar Qualitas</h3>
             		</div>
+                    <div class="col-12 col-md-5 m-2 p-2">
+                        <img src="{{ asset('./img/qualitas_form.png') }}" height="100%" width="100%">
+                    </div>
 					<div class="col-6">
 						<h5>Su cotización se guardo con la siguiente información:</h5>
 					</div>
@@ -51,7 +54,6 @@
 					</div>
 					<div class="col-12">
 						@foreach ($urls as $key=>$url)
-							{{-- expr --}}
 							<div class="d-flex justify-content-center mt-4">
 								<a class="btn btn-primary btn-lg" href="{{$url}}" target="_blank" role="button">
                                 @if ($key == 0)
